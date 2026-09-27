@@ -1,0 +1,1495 @@
+{% extends "spa/base.html" %}
+{% load static %}
+
+{% block title %}
+Contact | Sukoon Wellness & Spa
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   SUKOON CONTACT PAGE
+========================================================= */
+
+.contact-page {
+    background: #090909;
+    color: #f5efe4;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.contact-hero {
+    min-height: 58vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.48),
+            rgba(0, 0, 0, 0.68)
+        ),
+        url("{% static 'images/gallery-1.jpg' %}")
+        center / cover no-repeat;
+}
+
+.contact-hero-content {
+    width: min(850px, 90%);
+    padding: 120px 0 80px;
+}
+
+.contact-eyebrow {
+    color: #c9a96e;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 5px;
+
+    margin-bottom: 22px;
+}
+
+.contact-hero h1 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(48px, 7vw, 80px);
+    font-weight: 500;
+
+    line-height: 1.05;
+
+    margin: 0 0 25px;
+}
+
+.contact-hero h1 span {
+    color: #c9a96e;
+}
+
+.contact-line {
+    width: 70px;
+    height: 1px;
+
+    background: #c9a96e;
+
+    margin: 0 auto 22px;
+}
+
+.contact-hero p {
+    color: #d0c8bb;
+
+    max-width: 650px;
+
+    margin: auto;
+
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   CONTACT SECTION
+========================================================= */
+
+.contact-section {
+    padding: 100px 20px 110px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(201,169,110,.05),
+            transparent 45%
+        ),
+        #090909;
+}
+
+.contact-container {
+    width: min(1200px, 94%);
+    margin: auto;
+}
+
+.contact-grid {
+    display: grid;
+
+    grid-template-columns: 0.9fr 1.1fr;
+
+    gap: 45px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   LEFT INFORMATION
+========================================================= */
+
+.contact-info {
+    position: relative;
+
+    padding: 55px 45px;
+
+    overflow: hidden;
+
+    /*
+       LIGHTER OVERLAY
+       Background image clearly visible
+    */
+
+    background:
+        linear-gradient(
+            rgba(5, 5, 5, 0.48),
+            rgba(5, 5, 5, 0.62)
+        ),
+        url("{% static 'images/gallery-4.jpg' %}")
+        center / cover no-repeat;
+
+    border: 1px solid rgba(201,169,110,.38);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.35);
+}
+
+
+/*
+   Subtle image enhancement
+*/
+
+.contact-info::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(201,169,110,.06),
+            transparent 45%,
+            rgba(0,0,0,.15)
+        );
+
+    pointer-events: none;
+}
+
+
+/*
+   Keep content above image
+*/
+
+.contact-info > * {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   LEFT HEADING
+========================================================= */
+
+.contact-info-label {
+    color: #d6b66f;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,.8);
+}
+
+.contact-info h2 {
+    font-family: Georgia, serif;
+
+    font-size: 42px;
+    font-weight: 500;
+
+    line-height: 1.15;
+
+    margin-bottom: 22px;
+
+    text-shadow:
+        0 3px 15px rgba(0,0,0,.85);
+}
+
+.contact-info h2 span {
+    color: #d1ad62;
+}
+
+.contact-info > p {
+    color: #e0d8cc;
+
+    font-size: 14px;
+    line-height: 1.85;
+
+    margin-bottom: 35px;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,.8);
+}
+
+
+/* =========================================================
+   CONTACT DETAILS
+========================================================= */
+
+.contact-details {
+    border-top:
+        1px solid rgba(201,169,110,.35);
+}
+
+.contact-item {
+    display: flex;
+
+    gap: 18px;
+
+    padding: 22px 0;
+
+    border-bottom:
+        1px solid rgba(201,169,110,.25);
+}
+
+.contact-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid rgba(201,169,110,.55);
+
+    color: #d5b56b;
+
+    background:
+        rgba(0,0,0,.22);
+
+    font-size: 17px;
+}
+
+.contact-item-content small {
+    display: block;
+
+    color: #d0b57d;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    font-size: 9px;
+
+    margin-bottom: 6px;
+}
+
+.contact-item-content a,
+.contact-item-content span {
+    color: #f4eee4;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,.9);
+}
+
+.contact-item-content a:hover {
+    color: #d7b66c;
+}
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+.whatsapp-contact {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 30px;
+
+    padding: 13px 20px;
+
+    border:
+        1px solid rgba(201,169,110,.65);
+
+    background:
+        rgba(0,0,0,.25);
+
+    color: #d5b56b;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.5px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    transition: .3s;
+}
+
+.whatsapp-contact:hover {
+    background: #c9a96e;
+    color: #090909;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   GET IN TOUCH CARD
+========================================================= */
+
+.contact-card {
+    background:
+        linear-gradient(
+            145deg,
+            #f9f5ed,
+            #f2ece1
+        );
+
+    color: #29251f;
+
+    padding: 50px;
+
+    border:
+        1px solid rgba(201,169,110,.35);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.18);
+}
+
+.contact-card-label {
+    color: #9e7941;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+.contact-card h2 {
+    font-family: Georgia, serif;
+
+    color: #27231e;
+
+    font-size: 40px;
+
+    font-weight: 500;
+
+    margin: 0 0 15px;
+}
+
+.contact-card > p {
+    color: #777067;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.contact-form {
+    width: 100%;
+
+    display: block;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.contact-form-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap: 18px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+
+    min-width: 0;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #4f4941;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 14px 15px;
+
+    border:
+        1px solid #d7cdbd;
+
+    background: #fffdf9;
+
+    color: #29251f;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+}
+
+.form-group input {
+    height: 50px;
+}
+
+.form-group textarea {
+    min-height: 140px;
+
+    resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #aaa39a;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #b28d51;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(201,169,110,.12);
+}
+
+
+/* =========================================================
+   SEND BUTTON
+   IMPORTANT: BELOW MESSAGE FIELD
+========================================================= */
+
+.contact-submit-wrapper {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: flex-start;
+
+    margin-top: 5px;
+}
+
+.contact-submit {
+    position: static !important;
+
+    width: auto !important;
+
+    min-width: 210px;
+
+    height: 54px !important;
+
+    min-height: 54px !important;
+
+    padding: 0 30px !important;
+
+    display: inline-flex !important;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 18px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid #b28d51 !important;
+
+    background: #111 !important;
+
+    color: #c9a96e !important;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    transition:
+        background .3s ease,
+        color .3s ease,
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.contact-submit::after {
+    content: "→";
+
+    font-size: 18px;
+
+    transition:
+        transform .3s ease;
+}
+
+.contact-submit:hover {
+    background: #c9a96e !important;
+
+    color: #090909 !important;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.18);
+}
+
+.contact-submit:hover::after {
+    transform: translateX(5px);
+}
+
+
+/* =========================================================
+   DJANGO MESSAGES
+========================================================= */
+
+.contact-success,
+.contact-error {
+    padding: 14px 16px;
+
+    margin-bottom: 20px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+.contact-success {
+    border:
+        1px solid #c9a96e;
+
+    background:
+        rgba(201,169,110,.10);
+
+    color: #80622e;
+}
+
+.contact-error {
+    border:
+        1px solid #a75b5b;
+
+    background:
+        rgba(167,91,91,.08);
+
+    color: #8d3e3e;
+}
+
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+.location-section {
+    padding: 0 20px 110px;
+
+    background: #090909;
+}
+
+.location-container {
+    width: min(1200px, 94%);
+
+    margin: auto;
+}
+
+.location-card {
+    padding: 45px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            rgba(15,15,15,.96),
+            rgba(15,15,15,.96)
+        );
+
+    border:
+        1px solid rgba(201,169,110,.20);
+}
+
+.location-card-label {
+    color: #c9a96e;
+
+    text-transform: uppercase;
+
+    letter-spacing: 3px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    margin-bottom: 14px;
+}
+
+.location-card h2 {
+    font-family: Georgia, serif;
+
+    font-size: 38px;
+
+    font-weight: 500;
+
+    margin-bottom: 18px;
+}
+
+.location-card h2 span {
+    color: #c9a96e;
+}
+
+.location-card p {
+    max-width: 700px;
+
+    margin: auto;
+
+    color: #aaa39a;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+.location-address {
+    margin-top: 25px !important;
+
+    color: #eee8dc !important;
+}
+
+
+/* =========================================================
+   GOOGLE MAP
+========================================================= */
+
+.map-wrapper {
+    width: 100%;
+
+    margin-top: 35px;
+
+    overflow: hidden;
+
+    background: #111;
+
+    border:
+        1px solid rgba(201,169,110,.35);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.25);
+}
+
+.map-wrapper iframe {
+    display: block;
+
+    width: 100%;
+
+    height: 450px;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   GET DIRECTIONS
+========================================================= */
+
+.map-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-top: 25px;
+
+    padding: 15px 30px;
+
+    border:
+        1px solid #c9a96e;
+
+    color: #c9a96e;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    transition: .3s;
+}
+
+.map-button:hover {
+    background: #c9a96e;
+
+    color: #090909;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.contact-cta {
+    padding: 100px 20px;
+
+    text-align: center;
+
+    border-top:
+        1px solid rgba(201,169,110,.15);
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(201,169,110,.06),
+            transparent 55%
+        );
+}
+
+.contact-cta h2 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(36px, 5vw, 55px);
+
+    font-weight: 500;
+
+    margin-bottom: 18px;
+}
+
+.contact-cta h2 span {
+    color: #c9a96e;
+}
+
+.contact-cta p {
+    max-width: 650px;
+
+    margin: 0 auto 32px;
+
+    color: #999;
+
+    line-height: 1.8;
+}
+
+.contact-book-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 16px 38px;
+
+    border:
+        1px solid #c9a96e;
+
+    color: #c9a96e;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    transition: .3s;
+}
+
+.contact-book-btn:hover {
+    background: #c9a96e;
+
+    color: #090909;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info {
+        min-height: auto;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .contact-hero {
+        min-height: 52vh;
+    }
+
+    .contact-hero-content {
+        padding: 100px 0 65px;
+    }
+
+    .contact-section {
+        padding: 70px 15px 80px;
+    }
+
+    .contact-container {
+        width: 96%;
+    }
+
+    .contact-info {
+        padding: 35px 25px;
+    }
+
+    .contact-info h2 {
+        font-size: 34px;
+    }
+
+    .contact-card {
+        padding: 30px 20px;
+    }
+
+    .contact-card h2 {
+        font-size: 32px;
+    }
+
+    .contact-form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .contact-submit-wrapper {
+        width: 100%;
+    }
+
+    .contact-submit {
+        width: 100% !important;
+    }
+
+    .location-section {
+        padding: 0 15px 80px;
+    }
+
+    .location-card {
+        padding: 35px 20px;
+    }
+
+    .location-card h2 {
+        font-size: 31px;
+    }
+
+    .map-wrapper iframe {
+        height: 350px;
+    }
+
+    .map-button {
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+
+    .contact-cta {
+        padding: 75px 20px;
+    }
+
+}
+
+
+@media (max-width: 400px) {
+
+    .contact-info {
+        padding: 30px 20px;
+    }
+
+    .contact-info h2 {
+        font-size: 31px;
+    }
+
+    .contact-card {
+        padding: 25px 16px;
+    }
+
+    .contact-card h2 {
+        font-size: 29px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .contact-submit,
+    .whatsapp-contact,
+    .map-button,
+    .contact-book-btn {
+        transition: none;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="contact-page">
+
+
+    <!-- =====================================================
+         HERO
+    ===================================================== -->
+
+    <section class="contact-hero">
+
+        <div class="contact-hero-content">
+
+            <div class="contact-eyebrow">
+                Sukoon Wellness & Spa
+            </div>
+
+            <h1>
+                Get In <span>Touch</span>
+            </h1>
+
+            <div class="contact-line"></div>
+
+            <p>
+                Have a question, need assistance or want to
+                plan your next wellness experience?
+                We are here for you.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CONTACT + FORM
+    ===================================================== -->
+
+    <section class="contact-section">
+
+        <div class="contact-container">
+
+            <div class="contact-grid">
+
+
+                <!-- =================================================
+                     LEFT INFORMATION
+                ================================================= -->
+
+                <div class="contact-info">
+
+                    <div class="contact-info-label">
+                        Where Peace Meets Luxury
+                    </div>
+
+                    <h2>
+                        Let's create your
+                        <span>Sukoon.</span>
+                    </h2>
+
+                    <p>
+                        Whether you're looking for a relaxing
+                        massage, wellness therapy or simply a
+                        peaceful escape, our team is ready to
+                        assist you.
+                    </p>
+
+
+                    <div class="contact-details">
+
+
+                        <!-- PHONE -->
+
+                        <div class="contact-item">
+
+                            <div class="contact-icon">
+                                ☎
+                            </div>
+
+                            <div class="contact-item-content">
+
+                                <small>
+                                    Call Us
+                                </small>
+
+                                <a href="tel:+919031640551">
+                                    +91 90316 40551
+                                </a>
+
+                                <br>
+
+                                <a href="tel:+919031640552">
+                                    +91 90316 40552
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- WHATSAPP -->
+
+                        <div class="contact-item">
+
+                            <div class="contact-icon">
+                                ✆
+                            </div>
+
+                            <div class="contact-item-content">
+
+                                <small>
+                                    WhatsApp
+                                </small>
+
+                                <a
+                                    href="https://wa.me/919031640551"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    Chat with us
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- HOURS -->
+
+                        <div class="contact-item">
+
+                            <div class="contact-icon">
+                                ◷
+                            </div>
+
+                            <div class="contact-item-content">
+
+                                <small>
+                                    Opening Hours
+                                </small>
+
+                                <span>
+                                    10:00 AM – 10:00 PM
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ADDRESS -->
+
+                        <div class="contact-item">
+
+                            <div class="contact-icon">
+                                ⌖
+                            </div>
+
+                            <div class="contact-item-content">
+
+                                <small>
+                                    Address
+                                </small>
+
+                                <span>
+                                    Dwarka City Center Mall,
+                                    2nd Floor,
+                                    Majhaulia Road,
+                                    Gobarsahi,
+                                    Muzaffarpur, Bihar 842002
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- WHATSAPP BUTTON -->
+
+                    <a
+                        href="https://wa.me/919031640551"
+                        target="_blank"
+                        rel="noopener"
+                        class="whatsapp-contact"
+                    >
+                        WhatsApp Us
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RIGHT FORM
+                ================================================= -->
+
+                <div class="contact-card">
+
+                    <div class="contact-card-label">
+                        Get In Touch
+                    </div>
+
+                    <h2>
+                        Send us a message.
+                    </h2>
+
+                    <p>
+                        Have a question about our therapies or want
+                        to schedule your visit? Fill out the form and
+                        our team will get back to you.
+                    </p>
+
+
+                    <!-- DJANGO MESSAGES -->
+
+                    {% if messages %}
+
+                        {% for message in messages %}
+
+                            <div class="contact-success">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+
+                    <!-- FORM -->
+
+                    <form
+                        method="POST"
+                        action="{% url 'contact' %}"
+                        class="contact-form"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <div class="contact-form-grid">
+
+
+                            <!-- NAME -->
+
+                            <div class="form-group">
+
+                                <label for="contact_name">
+                                    Full Name *
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="contact_name"
+                                    name="name"
+                                    placeholder="Enter your name"
+                                    autocomplete="name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- PHONE -->
+
+                            <div class="form-group">
+
+                                <label for="contact_phone">
+                                    Phone Number *
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="contact_phone"
+                                    name="phone"
+                                    placeholder="Enter your phone number"
+                                    autocomplete="tel"
+                                    maxlength="15"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+
+                            <div class="form-group">
+
+                                <label for="contact_email">
+                                    Email Address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="contact_email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    autocomplete="email"
+                                >
+
+                            </div>
+
+
+                            <!-- SUBJECT -->
+
+                            <div class="form-group">
+
+                                <label for="contact_subject">
+                                    Subject *
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="contact_subject"
+                                    name="subject"
+                                    placeholder="How can we help?"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- MESSAGE -->
+
+                            <div class="form-group full">
+
+                                <label for="contact_message">
+                                    Message *
+                                </label>
+
+                                <textarea
+                                    id="contact_message"
+                                    name="message"
+                                    placeholder="Write your message..."
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =================================================
+                             SEND BUTTON BELOW MESSAGE
+                        ================================================= -->
+
+                        <div class="contact-submit-wrapper">
+
+                            <button
+                                type="submit"
+                                class="contact-submit"
+                            >
+                                Send Message
+                            </button>
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         LOCATION
+    ===================================================== -->
+
+    <section class="location-section">
+
+        <div class="location-container">
+
+            <div class="location-card">
+
+                <div class="location-card-label">
+                    Our Location
+                </div>
+
+                <h2>
+                    Find Us at <span>Sukoon</span>
+                </h2>
+
+                <p>
+                    Visit Sukoon Wellness & Spa and experience
+                    a peaceful environment designed for your
+                    complete relaxation and wellness.
+                </p>
+
+                <p class="location-address">
+
+                    <strong>
+                        Sukoon Wellness & Spa
+                    </strong>
+
+                    <br>
+
+                    Dwarka City Center Mall, 2nd Floor,
+                    Majhaulia Road, Gobarsahi,
+                    Muzaffarpur, Bihar 842002
+
+                </p>
+
+
+                <!-- GOOGLE MAP -->
+
+                <div class="map-wrapper">
+
+                    <iframe
+                        src="https://www.google.com/maps?q=Sukoon%20Wellness%20%26%20Spa%2C%20Dwarka%20City%20Center%20Mall%2C%20Muzaffarpur%2C%20Bihar&output=embed"
+                        title="Sukoon Wellness & Spa Location"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+
+                </div>
+
+
+                <!-- GET DIRECTIONS -->
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=Sukoon+Wellness+%26+Spa+Dwarka+City+Center+Mall+Muzaffarpur+Bihar"
+                    target="_blank"
+                    rel="noopener"
+                    class="map-button"
+                >
+                    Get Directions
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CTA
+    ===================================================== -->
+
+    <section class="contact-cta">
+
+        <h2>
+            Ready for your
+            <span>Sukoon?</span>
+        </h2>
+
+        <p>
+            Choose your preferred therapy and reserve your
+            appointment today.
+        </p>
+
+        <a
+            href="{% url 'booking' %}"
+            class="contact-book-btn"
+        >
+            Book Appointment
+        </a>
+
+    </section>
+
+
+</div>
+
+{% endblock %}

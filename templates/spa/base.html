@@ -1,0 +1,1868 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ===================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b0b0a"
+    >
+
+    <meta
+        name="format-detection"
+        content="telephone=yes"
+    >
+
+
+    <!-- =====================================================
+         SEO
+    ===================================================== -->
+
+    <title>
+        {% block title %}
+            Sukoon Wellness & Spa | Muzaffarpur
+        {% endblock %}
+    </title>
+
+
+    <meta
+        name="description"
+        content="{% block meta_description %}Sukoon Wellness & Spa in Muzaffarpur. Explore wellness treatments and book an appointment in a calm and comfortable environment.{% endblock %}"
+    >
+
+
+    <meta
+        name="robots"
+        content="{% block meta_robots %}index, follow{% endblock %}"
+    >
+
+
+    <meta
+        name="author"
+        content="Sukoon Wellness & Spa"
+    >
+
+
+    <!-- =====================================================
+         CANONICAL
+    ===================================================== -->
+
+    {% block canonical %}
+    {% endblock %}
+
+
+    <!-- =====================================================
+         OPEN GRAPH
+    ===================================================== -->
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:title"
+        content="{% block og_title %}Sukoon Wellness & Spa | Muzaffarpur{% endblock %}"
+    >
+
+    <meta
+        property="og:description"
+        content="{% block og_description %}Relax, rejuvenate and make time for yourself at Sukoon Wellness & Spa in Muzaffarpur.{% endblock %}"
+    >
+
+    <meta
+        property="og:image"
+        content="{% static 'images/Hero.png' %}"
+    >
+
+
+    <!-- =====================================================
+         TWITTER / SOCIAL SHARING
+    ===================================================== -->
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="{% block twitter_title %}Sukoon Wellness & Spa{% endblock %}"
+    >
+
+    <meta
+        name="twitter:description"
+        content="{% block twitter_description %}Wellness treatments and relaxation experiences in Muzaffarpur.{% endblock %}"
+    >
+
+    <meta
+        name="twitter:image"
+        content="{% static 'images/Hero.png' %}"
+    >
+
+
+    <!-- =====================================================
+         FAVICON
+    ===================================================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{% static 'images/logo.png' %}"
+    >
+
+
+    <!-- =====================================================
+         PRECONNECT
+    ===================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ===================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         GLOBAL CSS
+    ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC CSS
+    ===================================================== -->
+
+    {% block extra_css %}
+    {% endblock %}
+
+
+    <!-- =====================================================
+         STRUCTURED DATA
+    ===================================================== -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BeautySalon",
+        "name": "Sukoon Wellness & Spa",
+        "description": "Wellness treatments and relaxation experiences at Sukoon Wellness & Spa in Muzaffarpur.",
+        "image": "{% static 'images/Hero.png' %}",
+        "telephone": "+91 90316 40551",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Dwarka City Center Mall, 2nd Floor, Majhaulia Road, Gobarsahi",
+            "addressLocality": "Muzaffarpur",
+            "addressRegion": "Bihar",
+            "postalCode": "842002",
+            "addressCountry": "IN"
+        },
+        "openingHours": "Mo-Su 10:00-22:00"
+    }
+    </script>
+
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SKIP LINK
+===================================================== -->
+
+<a
+    class="skip-link"
+    href="#main-content"
+>
+    Skip to main content
+</a>
+
+
+
+<!-- =====================================================
+     HEADER / NAVBAR
+===================================================== -->
+
+<header
+    class="site-header"
+    id="site-header"
+>
+
+    <div class="nav-container">
+
+
+        <!-- =================================================
+             LOGO
+        ================================================= -->
+
+        <a
+            href="{% url 'home' %}"
+            class="site-logo"
+            aria-label="Sukoon Wellness & Spa - Home"
+        >
+
+            <img
+                src="{% static 'images/logo.png' %}"
+                alt="Sukoon Wellness & Spa"
+            >
+
+        </a>
+
+
+
+        <!-- =================================================
+             DESKTOP NAVIGATION
+        ================================================= -->
+
+        <nav
+            class="desktop-nav"
+            aria-label="Main navigation"
+        >
+
+            <a
+                href="{% url 'home' %}"
+                class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+            >
+                Home
+            </a>
+
+
+            <a
+                href="{% url 'about' %}"
+                class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+            >
+                About
+            </a>
+
+
+            <a
+                href="{% url 'services' %}"
+                class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}"
+            >
+                Treatments
+            </a>
+
+
+            <a
+                href="{% url 'gallery' %}"
+                class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
+            >
+                Gallery
+            </a>
+
+
+            <a
+                href="{% url 'booking' %}"
+                class="{% if request.resolver_match.url_name == 'booking' %}active{% endif %}"
+            >
+                Booking
+            </a>
+	 <a
+                href="{% url 'contact' %}"
+                class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+            >
+                contact
+            </a>
+
+
+
+        </nav>
+
+
+
+        <!-- =================================================
+             DESKTOP CTA
+        ================================================= -->
+
+        <div class="nav-actions">
+
+            <a
+                href="tel:+919031640551"
+                class="nav-call"
+                aria-label="Call Sukoon Wellness and Spa"
+            >
+                Call Us
+            </a>
+
+
+            <a
+                href="{% url 'booking' %}"
+                class="nav-book"
+            >
+                Book Appointment
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MOBILE MENU BUTTON
+        ================================================= -->
+
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            id="mobile-menu-btn"
+            aria-label="Open navigation menu"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+        >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MOBILE NAVIGATION
+    ===================================================== -->
+
+    <div
+        class="mobile-menu"
+        id="mobile-menu"
+        aria-hidden="true"
+    >
+
+        <nav
+            class="mobile-nav"
+            aria-label="Mobile navigation"
+        >
+
+            <a
+                href="{% url 'home' %}"
+            >
+                Home
+            </a>
+
+
+            <a
+                href="{% url 'about' %}"
+            >
+                About
+            </a>
+
+
+            <a
+                href="{% url 'services' %}"
+            >
+                Treatments
+            </a>
+
+
+            <a
+                href="{% url 'gallery' %}"
+            >
+                Gallery
+            </a>
+
+
+            <a
+                href="{% url 'booking' %}"
+            >
+                Booking
+            </a>
+
+
+            <div class="mobile-menu-divider"></div>
+
+
+            <a
+                href="tel:+919031640551"
+                class="mobile-call"
+            >
+                Call 9031640551
+            </a>
+
+
+            <a
+                href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mobile-whatsapp"
+            >
+                Chat on WhatsApp
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main id="main-content">
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="site-footer">
+
+
+    <div class="footer-container">
+
+
+        <!-- =================================================
+             BRAND
+        ================================================= -->
+
+        <div class="footer-brand">
+
+            <a
+                href="{% url 'home' %}"
+                class="footer-logo"
+            >
+
+                <img
+                    src="{% static 'images/logo.png' %}"
+                    alt="Sukoon Wellness & Spa"
+                    loading="lazy"
+                >
+
+            </a>
+
+
+            <p>
+
+                A calm and welcoming space for
+                relaxation, wellness and personal care
+                in Muzaffarpur.
+
+            </p>
+
+
+            <a
+                href="{% url 'booking' %}"
+                class="footer-cta"
+            >
+                Book an Appointment →
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             EXPLORE
+        ================================================= -->
+
+        <div class="footer-column">
+
+            <h3>
+                Explore
+            </h3>
+
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+
+            <a href="{% url 'about' %}">
+                About
+            </a>
+
+
+            <a href="{% url 'services' %}">
+                Treatments
+            </a>
+
+
+            <a href="{% url 'gallery' %}">
+                Gallery
+            </a>
+
+
+            <a href="{% url 'booking' %}">
+                Book Appointment
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CONTACT
+        ================================================= -->
+
+        <div class="footer-column">
+
+            <h3>
+                Contact
+            </h3>
+
+
+            <a
+                href="tel:+919031640551"
+            >
+                +91 90316 40551
+            </a>
+
+
+            <a
+                href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                WhatsApp
+            </a>
+
+
+            <p>
+
+                Dwarka City Center Mall,<br>
+                2nd Floor, Majhaulia Road,<br>
+                Gobarsahi, Muzaffarpur,<br>
+                Bihar 842002
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             HOURS
+        ================================================= -->
+
+        <div class="footer-column">
+
+            <h3>
+                Opening Hours
+            </h3>
+
+
+            <p>
+
+                Monday – Sunday<br>
+
+                <strong>
+                    10:00 AM – 10:00 PM
+                </strong>
+
+            </p>
+
+
+            <p class="footer-note">
+
+                Appointment requests are subject
+                to confirmation.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         FOOTER BOTTOM
+    ===================================================== -->
+
+    <div class="footer-bottom">
+
+        <div class="footer-bottom-container">
+
+
+            <p>
+
+                © {% now "Y" %}
+                Sukoon Wellness & Spa.
+                All rights reserved.
+
+            </p>
+
+
+            <div class="footer-bottom-links">
+
+                <a href="{% url 'home' %}">
+                    Privacy
+                </a>
+
+                <span>•</span>
+
+                <a href="{% url 'home' %}">
+                    Terms
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</footer>
+
+
+
+<!-- =====================================================
+     FLOATING WHATSAPP
+===================================================== -->
+
+<a
+    href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+    class="floating-whatsapp"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat with Sukoon Wellness and Spa on WhatsApp"
+>
+
+    <span>
+        WhatsApp
+    </span>
+
+</a>
+
+
+
+<!-- =====================================================
+     BACK TO TOP
+===================================================== -->
+
+<button
+    type="button"
+    class="back-to-top"
+    id="back-to-top"
+    aria-label="Back to top"
+>
+    ↑
+</button>
+
+
+
+<!-- =====================================================
+     BASE PAGE CSS
+===================================================== -->
+
+<style>
+
+:root {
+
+    --gold: #c9a45c;
+    --gold-light: #e2c987;
+
+    --bg: #0b0b0a;
+    --bg-soft: #11110f;
+
+    --white: #ffffff;
+    --text: #eeeeea;
+    --muted: #a8a8a0;
+
+    --border:
+        rgba(201, 164, 92, 0.20);
+
+}
+
+
+/* =====================================================
+   ACCESSIBILITY
+===================================================== */
+
+.skip-link {
+
+    position: fixed;
+
+    top: -100px;
+    left: 20px;
+
+    z-index: 9999;
+
+    padding: 12px 18px;
+
+    background: var(--gold);
+
+    color: #000;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+}
+
+
+.skip-link:focus {
+
+    top: 20px;
+
+}
+
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.site-header {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1000;
+
+    width: 100%;
+
+    background:
+        rgba(7, 7, 6, 0.94);
+
+    border-bottom:
+        1px solid
+        rgba(201, 164, 92, .14);
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+}
+
+
+.nav-container {
+
+    width:
+        min(
+            100% - 40px,
+            1320px
+        );
+
+    min-height: 76px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+}
+
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.site-logo {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    flex-shrink: 0;
+
+}
+
+
+.site-logo img {
+
+    display: block;
+
+    width: auto;
+
+    max-width: 155px;
+
+    max-height: 54px;
+
+    object-fit: contain;
+
+}
+
+
+
+/* =====================================================
+   DESKTOP NAV
+===================================================== */
+
+.desktop-nav {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 30px;
+
+    margin-left: auto;
+
+}
+
+
+.desktop-nav a {
+
+    position: relative;
+
+    padding: 28px 0;
+
+    color:
+        rgba(255,255,255,.78);
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    letter-spacing: .7px;
+
+    transition:
+        color .25s ease;
+
+}
+
+
+.desktop-nav a::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 20px;
+
+    width: 0;
+    height: 1px;
+
+    background:
+        var(--gold);
+
+    transition:
+        width .25s ease;
+
+}
+
+
+.desktop-nav a:hover,
+.desktop-nav a.active {
+
+    color:
+        var(--gold-light);
+
+}
+
+
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after {
+
+    width: 100%;
+
+}
+
+
+
+/* =====================================================
+   NAV ACTIONS
+===================================================== */
+
+.nav-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.nav-call {
+
+    color:
+        var(--gold-light);
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    padding: 11px 15px;
+
+}
+
+
+.nav-book {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding: 0 18px;
+
+    background:
+        var(--gold);
+
+    color: #090909;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+
+    transition:
+        background .25s ease,
+        transform .25s ease;
+
+}
+
+
+.nav-book:hover {
+
+    background:
+        var(--gold-light);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+
+/* =====================================================
+   MOBILE MENU BUTTON
+===================================================== */
+
+.mobile-menu-btn {
+
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    padding: 10px;
+
+    border: 1px solid
+        rgba(201,164,92,.30);
+
+    background:
+        transparent;
+
+    cursor: pointer;
+
+}
+
+
+.mobile-menu-btn span {
+
+    display: block;
+
+    width: 22px;
+    height: 1px;
+
+    margin: 5px auto;
+
+    background:
+        var(--gold-light);
+
+    transition:
+        transform .25s ease;
+
+}
+
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+.mobile-menu {
+
+    display: none;
+
+    width: 100%;
+
+    background:
+        rgba(7,7,6,.98);
+
+    border-top:
+        1px solid
+        rgba(201,164,92,.12);
+
+}
+
+
+.mobile-nav {
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 15px 20px 25px;
+
+}
+
+
+.mobile-nav a {
+
+    padding: 15px 5px;
+
+    color:
+        rgba(255,255,255,.85);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+
+}
+
+
+.mobile-nav a:hover {
+
+    color:
+        var(--gold-light);
+
+}
+
+
+.mobile-menu-divider {
+
+    height: 15px;
+
+}
+
+
+.mobile-call {
+
+    color:
+        var(--gold-light) !important;
+
+}
+
+
+.mobile-whatsapp {
+
+    margin-top: 10px;
+
+    padding:
+        13px 18px !important;
+
+    text-align: center;
+
+    background:
+        var(--gold);
+
+    color:
+        #090909 !important;
+
+    border: none !important;
+
+    font-weight: 800;
+
+}
+
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.site-footer {
+
+    background:
+        #070706;
+
+    color:
+        var(--text);
+
+    border-top:
+        1px solid
+        rgba(201,164,92,.14);
+
+}
+
+
+.footer-container {
+
+    width:
+        min(
+            calc(100% - 40px),
+            1180px
+        );
+
+    margin: 0 auto;
+
+    padding: 75px 0 60px;
+
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        1fr
+        1.2fr
+        1fr;
+
+    gap: 55px;
+
+}
+
+
+.footer-brand img {
+
+    display: block;
+
+    width: auto;
+
+    max-width: 160px;
+
+    max-height: 60px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.footer-brand p {
+
+    max-width: 340px;
+
+    margin-bottom: 20px;
+
+    color:
+        var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+}
+
+
+.footer-cta {
+
+    color:
+        var(--gold-light);
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+}
+
+
+.footer-column h3 {
+
+    margin:
+        0 0 20px;
+
+    color:
+        #ffffff;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 20px;
+
+    font-weight: 500;
+
+}
+
+
+.footer-column a {
+
+    display: block;
+
+    width: fit-content;
+
+    margin-bottom: 11px;
+
+    color:
+        var(--muted);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition:
+        color .25s ease;
+
+}
+
+
+.footer-column a:hover {
+
+    color:
+        var(--gold-light);
+
+}
+
+
+.footer-column p {
+
+    margin:
+        5px 0 15px;
+
+    color:
+        var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+}
+
+
+.footer-column strong {
+
+    color:
+        #ddd7cd;
+
+    font-weight: 600;
+
+}
+
+
+.footer-note {
+
+    color:
+        #77736b !important;
+
+    font-size:
+        11px !important;
+
+}
+
+
+
+/* =====================================================
+   FOOTER BOTTOM
+===================================================== */
+
+.footer-bottom {
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.07);
+
+}
+
+
+.footer-bottom-container {
+
+    width:
+        min(
+            calc(100% - 40px),
+            1180px
+        );
+
+    min-height: 70px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+}
+
+
+.footer-bottom p {
+
+    margin: 0;
+
+    color:
+        #68655f;
+
+    font-size: 11px;
+
+}
+
+
+.footer-bottom-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.footer-bottom-links a {
+
+    color:
+        #77736b;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+}
+
+
+.footer-bottom-links a:hover {
+
+    color:
+        var(--gold-light);
+
+}
+
+
+.footer-bottom-links span {
+
+    color:
+        #4d4a45;
+
+}
+
+
+
+/* =====================================================
+   FLOATING WHATSAPP
+===================================================== */
+
+.floating-whatsapp {
+
+    position: fixed;
+
+    right: 22px;
+    bottom: 22px;
+
+    z-index: 900;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 54px;
+    height: 54px;
+
+    padding: 0 17px;
+
+    border:
+        1px solid
+        rgba(201,164,92,.55);
+
+    border-radius: 30px;
+
+    background:
+        #10100e;
+
+    color:
+        var(--gold-light);
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.35);
+
+    transition:
+        transform .25s ease,
+        background .25s ease;
+
+}
+
+
+.floating-whatsapp:hover {
+
+    transform:
+        translateY(-3px);
+
+    background:
+        #191914;
+
+}
+
+
+
+/* =====================================================
+   BACK TO TOP
+===================================================== */
+
+.back-to-top {
+
+    position: fixed;
+
+    right: 22px;
+    bottom: 90px;
+
+    z-index: 899;
+
+    width: 42px;
+    height: 42px;
+
+    border:
+        1px solid
+        rgba(201,164,92,.25);
+
+    background:
+        rgba(10,10,9,.92);
+
+    color:
+        var(--gold-light);
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        translateY(10px);
+
+    transition:
+        opacity .25s ease,
+        visibility .25s ease,
+        transform .25s ease;
+
+}
+
+
+.back-to-top.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translateY(0);
+
+}
+
+
+.back-to-top:hover {
+
+    background:
+        rgba(201,164,92,.10);
+
+}
+
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1050px) {
+
+    .desktop-nav {
+
+        gap: 20px;
+
+    }
+
+
+    .nav-actions {
+
+        display: none;
+
+    }
+
+}
+
+
+
+@media (max-width: 850px) {
+
+    .desktop-nav {
+
+        display: none;
+
+    }
+
+
+    .mobile-menu-btn {
+
+        display: block;
+
+    }
+
+
+    .mobile-menu.open {
+
+        display: block;
+
+    }
+
+
+    .nav-container {
+
+        min-height: 68px;
+
+    }
+
+
+    .footer-container {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 40px;
+
+    }
+
+}
+
+
+
+@media (max-width: 600px) {
+
+    .nav-container {
+
+        width:
+            calc(100% - 30px);
+
+    }
+
+
+    .site-logo img {
+
+        max-width: 135px;
+
+        max-height: 48px;
+
+    }
+
+
+    .footer-container {
+
+        width:
+            calc(100% - 30px);
+
+        grid-template-columns:
+            1fr;
+
+        padding:
+            55px 0 40px;
+
+        gap: 35px;
+
+    }
+
+
+    .footer-bottom-container {
+
+        width:
+            calc(100% - 30px);
+
+        padding:
+            18px 0;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .floating-whatsapp {
+
+        right: 15px;
+
+        bottom: 15px;
+
+    }
+
+
+    .back-to-top {
+
+        right: 15px;
+
+        bottom: 82px;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+
+        scroll-behavior: auto;
+
+    }
+
+
+    *,
+    *::before,
+    *::after {
+
+        transition-duration: .01ms !important;
+
+        animation-duration: .01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+    }
+
+}
+
+</style>
+
+
+
+<!-- =====================================================
+     GLOBAL JAVASCRIPT
+===================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
+
+    const menuButton =
+        document.getElementById("mobile-menu-btn");
+
+    const mobileMenu =
+        document.getElementById("mobile-menu");
+
+
+    if (menuButton && mobileMenu) {
+
+        menuButton.addEventListener("click", function () {
+
+            const isOpen =
+                mobileMenu.classList.toggle("open");
+
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+
+
+            mobileMenu.setAttribute(
+                "aria-hidden",
+                isOpen ? "false" : "true"
+            );
+
+        });
+
+
+        /* Close menu after clicking link */
+
+        const mobileLinks =
+            mobileMenu.querySelectorAll("a");
+
+
+        mobileLinks.forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                mobileMenu.classList.remove("open");
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                mobileMenu.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+            });
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       BACK TO TOP
+    ===================================================== */
+
+    const backToTop =
+        document.getElementById("back-to-top");
+
+
+    if (backToTop) {
+
+        window.addEventListener(
+            "scroll",
+            function () {
+
+                if (window.scrollY > 500) {
+
+                    backToTop.classList.add("show");
+
+                } else {
+
+                    backToTop.classList.remove("show");
+
+                }
+
+            },
+            { passive: true }
+        );
+
+
+        backToTop.addEventListener(
+            "click",
+            function () {
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior: "smooth"
+
+                });
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MOBILE MENU ON ESCAPE
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                if (
+                    mobileMenu &&
+                    mobileMenu.classList.contains("open")
+                ) {
+
+                    mobileMenu.classList.remove("open");
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    mobileMenu.setAttribute(
+                        "aria-hidden",
+                        "true"
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+
+});
+
+</script>
+
+
+
+<!-- =====================================================
+     PAGE-SPECIFIC JAVASCRIPT
+===================================================== -->
+
+{% block extra_js %}
+{% endblock %}
+
+
+</body>
+
+</html>

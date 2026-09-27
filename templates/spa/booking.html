@@ -1,0 +1,2887 @@
+{% extends "spa/base.html" %}
+{% load static %}
+
+{% block title %}
+Book Your Session | Sukoon Wellness & Spa
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   SUKOON BOOKING PAGE
+========================================================= */
+
+.booking-page {
+    min-height: 100vh;
+    background: #080808;
+    color: #f5efe4;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.booking-hero {
+    min-height: 52vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.48),
+            rgba(0,0,0,.82)
+        ),
+        url("{% static 'images/Balinese-Therapy.jpg' %}")
+        center / cover no-repeat;
+}
+
+.booking-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(201,169,110,.12),
+            transparent 48%
+        );
+
+    pointer-events: none;
+}
+
+.booking-hero-content {
+    position: relative;
+    z-index: 1;
+
+    width: min(900px, 90%);
+    padding: 120px 0 80px;
+}
+
+.booking-eyebrow {
+    color: #c9a96e;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin-bottom: 22px;
+}
+
+.booking-hero h1 {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(48px, 7vw, 82px);
+    font-weight: 500;
+    line-height: 1.05;
+
+    margin: 0 0 25px;
+    color: #ffffff;
+}
+
+.booking-hero h1 span {
+    color: #c9a96e;
+}
+
+.booking-line {
+    width: 75px;
+    height: 1px;
+    background: #c9a96e;
+    margin: 0 auto 24px;
+}
+
+.booking-hero p {
+    max-width: 680px;
+    margin: auto;
+
+    color: #d2cbc0;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.booking-section {
+    padding: 100px 20px 120px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(201,169,110,.07),
+            transparent 40%
+        ),
+        #090909;
+}
+
+.booking-container {
+    width: min(1500px, 96%);
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.booking-grid {
+    display: grid;
+
+    grid-template-columns:
+        .82fr 1.18fr;
+
+    gap: 42px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   LEFT INFORMATION
+========================================================= */
+
+.booking-info {
+    position: relative;
+    overflow: hidden;
+
+    padding: 50px 42px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.28);
+
+    background:
+        linear-gradient(
+            rgba(7,7,7,.80),
+            rgba(7,7,7,.93)
+        ),
+        url("{% static 'images/service.jpg' %}")
+        center / cover no-repeat;
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.35);
+}
+
+.booking-info::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 85% 10%,
+            rgba(201,169,110,.14),
+            transparent 32%
+        );
+
+    pointer-events: none;
+}
+
+.booking-info > * {
+    position: relative;
+    z-index: 1;
+}
+
+.booking-info-label {
+    color: #c9a96e;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 3px;
+
+    margin-bottom: 18px;
+}
+
+.booking-info h2 {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(36px, 4vw, 52px);
+
+    font-weight: 500;
+    line-height: 1.12;
+
+    margin: 0 0 22px;
+
+    color: #ffffff;
+}
+
+.booking-info h2 span {
+    color: #c9a96e;
+}
+
+.booking-info > p {
+    color: #bdb5aa;
+
+    font-size: 14px;
+    line-height: 1.9;
+
+    margin: 0 0 32px;
+}
+
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.booking-benefits {
+    border-top:
+        1px solid
+        rgba(201,169,110,.18);
+}
+
+.booking-benefit {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 19px 0;
+
+    border-bottom:
+        1px solid
+        rgba(201,169,110,.14);
+}
+
+.booking-benefit-icon {
+    width: 34px;
+    height: 34px;
+
+    flex: 0 0 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        rgba(201,169,110,.45);
+
+    color: #c9a96e;
+
+    font-size: 14px;
+}
+
+.booking-benefit span {
+    color: #e8e1d6;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ASSISTANCE
+========================================================= */
+
+.booking-assistance {
+    margin-top: 35px;
+
+    padding: 22px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.25);
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.booking-assistance small {
+    display: block;
+
+    color: #8f887e;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+}
+
+.booking-assistance a {
+    display: block;
+
+    color: #c9a96e;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.booking-assistance a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.form-card {
+    position: relative;
+    overflow: hidden;
+
+    padding: 48px;
+
+    color: #f5efe4;
+
+    border:
+        1px solid
+        rgba(201,169,110,.38);
+
+    background:
+        linear-gradient(
+            rgba(8,8,8,.68),
+            rgba(8,8,8,.90)
+        ),
+        url("{% static 'images/gallery-10.jpg' %}")
+        center / cover no-repeat;
+
+    box-shadow:
+        0 25px 75px
+        rgba(0,0,0,.45);
+}
+
+.form-card::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 85% 8%,
+            rgba(201,169,110,.16),
+            transparent 35%
+        );
+
+    pointer-events: none;
+}
+
+.form-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.form-heading {
+    margin-bottom: 32px;
+}
+
+.form-heading-label {
+    color: #c9a96e;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+.form-heading h2 {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(32px, 4vw, 44px);
+
+    font-weight: 500;
+
+    line-height: 1.15;
+
+    margin: 0 0 14px;
+}
+
+.form-heading p {
+    color: #d3ccc1;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    margin: 0;
+}
+
+
+/* =========================================================
+   DJANGO MESSAGE
+========================================================= */
+
+.booking-message {
+    padding: 13px 15px;
+
+    margin-bottom: 20px;
+
+    border:
+        1px solid
+        #c9a96e;
+
+    background:
+        rgba(201,169,110,.09);
+
+    color: #ead8b7;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   DJANGO ERRORS
+========================================================= */
+
+.form-errors {
+    margin-bottom: 22px;
+
+    padding: 15px 17px;
+
+    border:
+        1px solid
+        rgba(210,80,80,.65);
+
+    background:
+        rgba(150,30,30,.12);
+
+    color: #f0b7b7;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+.field-error {
+    margin-top: 7px;
+
+    color: #e7a4a4;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.booking-form {
+    width: 100% !important;
+    display: block !important;
+    margin: 0 !important;
+}
+
+.form-grid {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+.form-group {
+    width: 100% !important;
+
+    min-width: 0;
+
+    margin-bottom: 4px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1 !important;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #eadfcf;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 1.7px;
+}
+
+.form-group label .required {
+    color: #c9a96e;
+}
+
+
+/* =========================================================
+   INPUT / SELECT / TEXTAREA
+========================================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    display: block !important;
+
+    width: 100% !important;
+
+    max-width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding: 14px 15px;
+
+    border:
+        1px solid
+        #d8cfc0 !important;
+
+    outline: none;
+
+    background:
+        #fffdf9 !important;
+
+    color:
+        #29241d !important;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    border-radius: 0;
+
+    transition:
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+}
+
+
+/* =========================================================
+   INPUT HEIGHT
+========================================================= */
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group select {
+
+    height: 52px !important;
+    min-height: 52px !important;
+}
+
+
+/* =========================================================
+   DISABLED SELECT
+========================================================= */
+
+.form-group select:disabled {
+    cursor: not-allowed;
+
+    opacity: .65;
+
+    background: #e9e5de !important;
+
+    color: #6f695f !important;
+}
+
+
+/* =========================================================
+   DATE / TIME
+========================================================= */
+
+.form-group input[type="date"],
+.form-group input[type="time"] {
+    cursor: pointer;
+
+    color: #29241d !important;
+
+    background: #fffdf9 !important;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.form-group select {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.form-group textarea {
+    min-height: 135px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #8f887f;
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+
+    border-color:
+        #c9a96e !important;
+
+    background:
+        #ffffff !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(201,169,110,.13);
+}
+
+
+/* =========================================================
+   BOOKING OPTIONS
+========================================================= */
+
+.booking-options {
+    grid-column: 1 / -1;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   PRICE BOX
+========================================================= */
+
+.booking-price-box {
+    min-height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 15px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid
+        rgba(201,169,110,.45);
+
+    background:
+        rgba(201,169,110,.07);
+}
+
+.booking-price-label {
+    color: #a9a095;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.5px;
+}
+
+.booking-price {
+    color: #c9a96e;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   AVAILABILITY
+========================================================= */
+
+.availability-section {
+    grid-column: 1 / -1;
+
+    margin-top: 3px;
+
+    padding-top: 25px;
+
+    border-top:
+        1px solid
+        rgba(201,169,110,.18);
+}
+
+.availability-heading {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 15px;
+}
+
+.availability-title {
+    color: #ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 22px;
+}
+
+.availability-status {
+    color: #9e968b;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   SLOT CONTAINER
+========================================================= */
+
+.slot-container {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+
+    max-height: 280px;
+
+    overflow-y: auto;
+
+    padding-right: 4px;
+}
+
+
+/* =========================================================
+   SLOT BUTTON
+========================================================= */
+
+.slot-button {
+    min-height: 60px;
+
+    padding: 10px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.30);
+
+    background:
+        rgba(255,255,255,.035);
+
+    color: #e8dfd2;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    transition:
+        .25s ease;
+}
+
+.slot-button:hover {
+    border-color:
+        #c9a96e;
+
+    background:
+        rgba(201,169,110,.08);
+
+    color:
+        #ffffff;
+}
+
+.slot-button.selected {
+    border-color:
+        #c9a96e;
+
+    background:
+        #c9a96e;
+
+    color:
+        #090909;
+
+    box-shadow:
+        0 8px 25px
+        rgba(201,169,110,.12);
+}
+
+.slot-time {
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.slot-status {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 9px;
+
+    opacity: .72;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   HIDDEN TIME INPUT
+========================================================= */
+
+.hidden-time-input {
+    position: absolute;
+
+    width: 1px !important;
+    height: 1px !important;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   AVAILABILITY EMPTY
+========================================================= */
+
+.availability-empty {
+    grid-column: 1 / -1;
+
+    padding: 25px 15px;
+
+    border:
+        1px dashed
+        rgba(201,169,110,.25);
+
+    color: #969087;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.availability-loading {
+    display: none;
+
+    padding: 20px;
+
+    color: #c9a96e;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    letter-spacing: 1px;
+}
+
+.availability-loading.active {
+    display: block;
+}
+
+
+/* =========================================================
+   PRIVACY
+========================================================= */
+
+.privacy-note {
+    grid-column: 1 / -1 !important;
+
+    width: 100%;
+
+    margin-top: 4px;
+
+    color: #aaa39a;
+
+    font-size: 11px;
+
+    line-height: 1.7;
+}
+
+.privacy-note strong {
+    color: #c9a96e;
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.booking-submit {
+    grid-column: 1 / -1 !important;
+
+    width: 100% !important;
+
+    min-height: 56px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 4px;
+
+    border:
+        1px solid
+        #c9a96e;
+
+    background:
+        #c9a96e;
+
+    color:
+        #0a0a0a;
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    transition: .3s ease;
+}
+
+.booking-submit:hover {
+    background: transparent;
+
+    color: #c9a96e;
+
+    box-shadow:
+        0 0 25px
+        rgba(201,169,110,.12);
+}
+
+.booking-submit:disabled {
+    opacity: .45;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   BOTTOM CTA
+========================================================= */
+
+.booking-bottom {
+    margin-top: 60px;
+
+    text-align: center;
+
+    padding: 55px 20px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.18);
+
+    background:
+        linear-gradient(
+            rgba(201,169,110,.04),
+            transparent
+        );
+}
+
+.booking-bottom-label {
+    color: #c9a96e;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 14px;
+}
+
+.booking-bottom h2 {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(32px, 5vw, 50px);
+
+    font-weight: 500;
+
+    margin: 0 0 15px;
+}
+
+.booking-bottom h2 span {
+    color: #c9a96e;
+}
+
+.booking-bottom p {
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    color: #9f988d;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .booking-grid {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+    .booking-info {
+        padding: 45px 38px;
+    }
+
+    .form-card {
+        padding: 40px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .booking-hero {
+        min-height: 48vh;
+    }
+
+    .booking-hero-content {
+        padding: 100px 0 65px;
+    }
+
+    .booking-hero h1 {
+        font-size: 44px;
+    }
+
+    .booking-hero p {
+        font-size: 13px;
+    }
+
+    .booking-section {
+        padding: 65px 15px 80px;
+    }
+
+    .booking-container {
+        width: 96%;
+    }
+
+    .booking-info {
+        padding: 35px 25px;
+    }
+
+    .booking-info h2 {
+        font-size: 35px;
+    }
+
+    .form-card {
+        padding: 30px 20px;
+    }
+
+    .form-heading h2 {
+        font-size: 32px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+    }
+
+    .form-group,
+    .form-group.full,
+    .privacy-note,
+    .booking-submit,
+    .availability-section,
+    .booking-options {
+        grid-column: auto !important;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .booking-options {
+        display: block;
+    }
+
+    .booking-price-box {
+        margin-bottom: 18px;
+    }
+
+    .slot-container {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .availability-heading {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .booking-submit {
+        width: 100% !important;
+    }
+
+    .booking-bottom {
+        margin-top: 35px;
+
+        padding: 40px 20px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .booking-hero h1 {
+        font-size: 38px;
+    }
+
+    .booking-info {
+        padding: 30px 20px;
+    }
+
+    .form-card {
+        padding: 25px 16px;
+    }
+
+    .slot-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="booking-page">
+
+    <!-- =====================================================
+         HERO
+    ===================================================== -->
+
+    <section class="booking-hero">
+
+        <div class="booking-hero-content">
+
+            <div class="booking-eyebrow">
+                Sukoon Wellness & Spa
+            </div>
+
+            <h1>
+                Reserve Your <span>Sukoon</span>
+            </h1>
+
+            <div class="booking-line"></div>
+
+            <p>
+                Choose your wellness experience, select your preferred
+                duration and date, and view available appointment times
+                before sending your request.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MAIN BOOKING
+    ===================================================== -->
+
+    <section class="booking-section">
+
+        <div class="booking-container">
+
+            <div class="booking-grid">
+
+
+                <!-- =================================================
+                     LEFT INFORMATION
+                ================================================= -->
+
+                <div class="booking-info">
+
+                    <div class="booking-info-label">
+                        A Moment Made For You
+                    </div>
+
+                    <h2>
+                        Make Time
+                        <br>
+                        For <span>Wellness</span>
+                    </h2>
+
+                    <p>
+                        Your time at Sukoon begins with a simple choice —
+                        making time for yourself. Choose your therapy,
+                        duration and preferred schedule, and let our team
+                        prepare a peaceful experience for your visit.
+                    </p>
+
+
+                    <div class="booking-benefits">
+
+                        <div class="booking-benefit">
+                            <div class="booking-benefit-icon">✦</div>
+
+                            <span>
+                                Carefully selected wellness therapies
+                            </span>
+                        </div>
+
+                        <div class="booking-benefit">
+                            <div class="booking-benefit-icon">✦</div>
+
+                            <span>
+                                Calm, comfortable and thoughtfully designed surroundings
+                            </span>
+                        </div>
+
+                        <div class="booking-benefit">
+                            <div class="booking-benefit-icon">✦</div>
+
+                            <span>
+                                Appointments available from 10 AM – 10 PM
+                            </span>
+                        </div>
+
+                        <div class="booking-benefit">
+                            <div class="booking-benefit-icon">✦</div>
+
+                            <span>
+                                Live appointment availability
+                            </span>
+                        </div>
+
+                        <div class="booking-benefit">
+                            <div class="booking-benefit-icon">✦</div>
+
+                            <span>
+                                Personal confirmation from our team
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="booking-assistance">
+
+                        <small>
+                            Need Help With Your Booking?
+                        </small>
+
+                        <a href="tel:+919031640551">
+                            +91 90316 40551
+                        </a>
+
+                        <a href="tel:+919031640552">
+                            +91 90316 40552
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     FORM CARD
+                ================================================= -->
+
+                <div class="form-card">
+
+                    <div class="form-heading">
+
+                        <div class="form-heading-label">
+                            Appointment Request
+                        </div>
+
+                        <h2>
+                            Plan Your Visit
+                        </h2>
+
+                        <p>
+                            Select your therapy and duration first.
+                            Available appointment slots will then be
+                            calculated automatically.
+                        </p>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         DJANGO MESSAGES
+                    ================================================= -->
+
+                    {% if messages %}
+
+                        {% for message in messages %}
+
+                            <div class="booking-message">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         FORM ERRORS
+                    ================================================= -->
+
+                    {% if booking_form.non_field_errors %}
+
+                        <div class="form-errors">
+
+                            {% for error in booking_form.non_field_errors %}
+
+                                <div>
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <form
+                        method="POST"
+                        action="{% url 'booking' %}"
+                        class="booking-form"
+                        id="bookingForm"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <div class="form-grid">
+
+
+                            <!-- =================================================
+                                 NAME
+                            ================================================= -->
+
+                            <div class="form-group">
+
+                                <label for="id_name">
+                                    Full Name
+                                    <span class="required">*</span>
+                                </label>
+
+                                {{ booking_form.name }}
+
+                                {% if booking_form.name.errors %}
+                                    {% for error in booking_form.name.errors %}
+                                        <div class="field-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 PHONE
+                            ================================================= -->
+
+                            <div class="form-group">
+
+                                <label for="id_phone">
+                                    Phone Number
+                                    <span class="required">*</span>
+                                </label>
+
+                                {{ booking_form.phone }}
+
+                                {% if booking_form.phone.errors %}
+                                    {% for error in booking_form.phone.errors %}
+                                        <div class="field-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 EMAIL
+                            ================================================= -->
+
+                            <div class="form-group">
+
+                                <label for="id_email">
+                                    Email Address
+                                </label>
+
+                                {{ booking_form.email }}
+
+                                {% if booking_form.email.errors %}
+                                    {% for error in booking_form.email.errors %}
+                                        <div class="field-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 SERVICE
+                            ================================================= -->
+
+                            <div class="form-group">
+
+                                <label for="id_service">
+
+                                    Select Therapy
+
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                {{ booking_form.service }}
+
+                                {% if booking_form.service.errors %}
+                                    {% for error in booking_form.service.errors %}
+                                        <div class="field-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 DURATION
+                            ================================================= -->
+
+                            <div class="form-group">
+
+                                <label for="id_duration">
+
+                                    Duration
+
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                {{ booking_form.duration }}
+
+                                {% if booking_form.duration.errors %}
+                                    {% for error in booking_form.duration.errors %}
+                                        <div class="field-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 PRICE
+                            ================================================= -->
+
+                            <div class="form-group">
+
+                                <label>
+                                    Session Price
+                                </label>
+
+                                <div class="booking-price-box">
+
+                                    <span class="booking-price-label">
+                                        Selected Rate
+                                    </span>
+
+                                    <span
+                                        class="booking-price"
+                                        id="bookingPrice"
+                                    >
+                                        ₹0
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 DATE
+                            ================================================= -->
+
+                            <div class="form-group">
+
+                                <label for="id_appointment_date">
+
+                                    Appointment Date
+
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                {{ booking_form.appointment_date }}
+
+                                {% if booking_form.appointment_date.errors %}
+                                    {% for error in booking_form.appointment_date.errors %}
+                                        <div class="field-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 SELECTED TIME
+                            ================================================= -->
+
+                            <div class="form-group">
+
+                                <label for="id_appointment_time">
+
+                                    Selected Time
+
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                {{ booking_form.appointment_time }}
+
+                                {% if booking_form.appointment_time.errors %}
+                                    {% for error in booking_form.appointment_time.errors %}
+                                        <div class="field-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 AVAILABLE SLOTS
+                            ================================================= -->
+
+                            <div class="availability-section">
+
+                                <div class="availability-heading">
+
+                                    <div class="availability-title">
+                                        Available Times
+                                    </div>
+
+                                    <div
+                                        class="availability-status"
+                                        id="availabilityStatus"
+                                    >
+                                        Select service, duration and date
+                                    </div>
+
+                                </div>
+
+
+                                <div
+                                    class="availability-loading"
+                                    id="availabilityLoading"
+                                >
+                                    Checking available appointments...
+                                </div>
+
+
+                                <div
+                                    class="slot-container"
+                                    id="slotContainer"
+                                >
+
+                                    <div class="availability-empty">
+
+                                        Select a service, duration and
+                                        appointment date to view available
+                                        time slots.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 MESSAGE
+                            ================================================= -->
+
+                            <div class="form-group full">
+
+                                <label for="id_message">
+                                    Special Request / Message
+                                </label>
+
+                                {{ booking_form.message }}
+
+                                {% if booking_form.message.errors %}
+                                    {% for error in booking_form.message.errors %}
+                                        <div class="field-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 PRIVACY
+                            ================================================= -->
+
+                            <div class="privacy-note">
+
+                                By submitting this form, your appointment
+                                request will be created as
+                                <strong>Pending</strong>.
+                                Availability will be checked again on the
+                                server before your appointment is created.
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 SUBMIT
+                            ================================================= -->
+
+                            <button
+                                type="submit"
+                                class="booking-submit"
+                                id="bookingSubmit"
+                                disabled
+                            >
+                                Request My Appointment
+                            </button>
+
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 BOTTOM CTA
+            ===================================================== -->
+
+            <div class="booking-bottom">
+
+                <div class="booking-bottom-label">
+                    Your Time. Your Wellness.
+                </div>
+
+                <h2>
+                    Make Space For
+                    <span>Sukoon.</span>
+                </h2>
+
+                <p>
+                    Step away from the everyday and give yourself time
+                    to slow down, relax and enjoy a thoughtfully prepared
+                    wellness experience at Sukoon Wellness & Spa.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const form =
+            document.getElementById("bookingForm");
+
+        const serviceSelect =
+            document.getElementById("id_service");
+
+        const durationSelect =
+            document.getElementById("id_duration");
+
+        const dateInput =
+            document.getElementById("id_appointment_date");
+
+        const timeInput =
+            document.getElementById("id_appointment_time");
+
+        const priceElement =
+            document.getElementById("bookingPrice");
+
+        const slotContainer =
+            document.getElementById("slotContainer");
+
+        const availabilityStatus =
+            document.getElementById("availabilityStatus");
+
+        const loadingElement =
+            document.getElementById("availabilityLoading");
+
+        const submitButton =
+            document.getElementById("bookingSubmit");
+
+
+        /* =====================================================
+           SAFETY CHECK
+        ===================================================== */
+
+        if (
+            !form ||
+            !serviceSelect ||
+            !durationSelect ||
+            !dateInput ||
+            !timeInput
+        ) {
+            console.error(
+                "Booking form elements not found."
+            );
+
+            return;
+        }
+
+
+        /* =====================================================
+           TODAY
+        ===================================================== */
+
+        function getTodayString() {
+
+            const now = new Date();
+
+            const year =
+                now.getFullYear();
+
+            const month =
+                String(
+                    now.getMonth() + 1
+                ).padStart(2, "0");
+
+            const day =
+                String(
+                    now.getDate()
+                ).padStart(2, "0");
+
+            return `${year}-${month}-${day}`;
+        }
+
+
+        const todayString =
+            getTodayString();
+
+
+        dateInput.min =
+            todayString;
+
+
+        /* =====================================================
+           SERVICE DATA
+        ===================================================== */
+
+        const serviceData = {
+
+            {% for service in services %}
+
+                "{{ service.id }}": {
+
+                    name:
+                        "{{ service.name|escapejs }}",
+
+                    default_duration:
+                        {{ service.duration|default:0 }},
+
+                    default_price:
+                        "{{ service.price }}",
+
+                    options: {
+
+                        {% for option in service.options.all %}
+
+                            {% if option.is_active %}
+
+                                "{{ option.duration }}":
+                                    "{{ option.price }}",
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    }
+
+                },
+
+            {% endfor %}
+
+        };
+
+
+        /* =====================================================
+           URL SERVICE
+        ===================================================== */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const urlService =
+            params.get("service");
+
+
+        if (
+            urlService &&
+            serviceData[urlService]
+        ) {
+
+            serviceSelect.value =
+                urlService;
+
+        }
+
+
+        /* =====================================================
+           CLEAR SELECTION
+        ===================================================== */
+
+        function clearAvailability() {
+
+            timeInput.value = "";
+
+            submitButton.disabled = true;
+
+            slotContainer.innerHTML = `
+                <div class="availability-empty">
+                    Select a service, duration and
+                    appointment date to view available
+                    time slots.
+                </div>
+            `;
+
+            availabilityStatus.textContent =
+                "Select service, duration and date";
+
+        }
+
+
+        /* =====================================================
+           LOAD DURATIONS
+        ===================================================== */
+
+        function loadDurations(
+            preserveValue = false
+        ) {
+
+            const oldValue =
+                durationSelect.value;
+
+
+            durationSelect.innerHTML = "";
+
+
+            const serviceId =
+                serviceSelect.value;
+
+
+            if (!serviceId) {
+
+                durationSelect.disabled =
+                    true;
+
+                durationSelect.innerHTML = `
+                    <option value="">
+                        Select service first
+                    </option>
+                `;
+
+                priceElement.textContent =
+                    "₹0";
+
+                clearAvailability();
+
+                return;
+
+            }
+
+
+            const service =
+                serviceData[serviceId];
+
+
+            if (!service) {
+
+                durationSelect.disabled =
+                    false;
+
+                durationSelect.innerHTML = `
+                    <option value="">
+                        Service unavailable
+                    </option>
+                `;
+
+                priceElement.textContent =
+                    "₹0";
+
+                clearAvailability();
+
+                return;
+
+            }
+
+
+            const options =
+                service.options || {};
+
+
+            const durationValues =
+                Object.keys(options);
+
+
+            durationSelect.disabled =
+                false;
+
+
+            durationSelect.innerHTML = `
+                <option value="">
+                    Select duration
+                </option>
+            `;
+
+
+            /* =================================================
+               SERVICE OPTIONS EXIST
+            ================================================= */
+
+            if (
+                durationValues.length > 0
+            ) {
+
+                durationValues
+                    .sort(
+                        (a, b) =>
+                            Number(a) - Number(b)
+                    )
+                    .forEach(
+                        function (duration) {
+
+                            const option =
+                                document.createElement(
+                                    "option"
+                                );
+
+                            option.value =
+                                duration;
+
+                            option.textContent =
+                                `${duration} minutes — ₹${Number(
+                                    options[duration]
+                                ).toLocaleString("en-IN")}`;
+
+                            durationSelect.appendChild(
+                                option
+                            );
+
+                        }
+                    );
+
+            }
+
+
+            /* =================================================
+               FALLBACK SERVICE DURATION
+            ================================================= */
+
+            else if (
+                service.default_duration
+            ) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    service.default_duration;
+
+                option.textContent =
+                    `${service.default_duration} minutes — ₹${Number(
+                        service.default_price
+                    ).toLocaleString("en-IN")}`;
+
+                durationSelect.appendChild(
+                    option
+                );
+
+            }
+
+
+            /* =================================================
+               RESTORE VALUE
+            ================================================= */
+
+            if (
+                preserveValue &&
+                oldValue
+            ) {
+
+                const exists =
+                    Array.from(
+                        durationSelect.options
+                    ).some(
+                        option =>
+                            option.value === oldValue
+                    );
+
+                if (exists) {
+
+                    durationSelect.value =
+                        oldValue;
+
+                }
+
+            }
+
+        }
+
+
+        /* =====================================================
+           UPDATE PRICE
+        ===================================================== */
+
+        function updatePrice() {
+
+            const serviceId =
+                serviceSelect.value;
+
+            const duration =
+                durationSelect.value;
+
+
+            if (
+                !serviceId ||
+                !duration
+            ) {
+
+                priceElement.textContent =
+                    "₹0";
+
+                return;
+
+            }
+
+
+            const service =
+                serviceData[serviceId];
+
+
+            if (!service) {
+
+                priceElement.textContent =
+                    "₹0";
+
+                return;
+
+            }
+
+
+            let price = null;
+
+
+            if (
+                service.options &&
+                service.options[duration]
+            ) {
+
+                price =
+                    service.options[duration];
+
+            }
+
+            else {
+
+                price =
+                    service.default_price;
+
+            }
+
+
+            if (price) {
+
+                priceElement.textContent =
+                    `₹${Number(
+                        price
+                    ).toLocaleString("en-IN")}`;
+
+            }
+
+            else {
+
+                priceElement.textContent =
+                    "₹0";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LOAD AVAILABLE SLOTS
+        ===================================================== */
+
+        async function loadAvailableSlots() {
+
+            const serviceId =
+                serviceSelect.value;
+
+            const duration =
+                durationSelect.value;
+
+            const selectedDate =
+                dateInput.value;
+
+
+            timeInput.value = "";
+
+            submitButton.disabled =
+                true;
+
+
+            if (
+                !serviceId ||
+                !duration ||
+                !selectedDate
+            ) {
+
+                clearAvailability();
+
+                return;
+
+            }
+
+
+            /* =================================================
+               PAST DATE
+            ================================================= */
+
+            if (
+                selectedDate < todayString
+            ) {
+
+                dateInput.value = "";
+
+                slotContainer.innerHTML = `
+                    <div class="availability-empty">
+                        Please select today or a future date.
+                    </div>
+                `;
+
+                availabilityStatus.textContent =
+                    "Invalid date";
+
+                return;
+
+            }
+
+
+            /* =================================================
+               LOADING
+            ================================================= */
+
+            loadingElement.classList.add(
+                "active"
+            );
+
+
+            slotContainer.innerHTML =
+                "";
+
+
+            availabilityStatus.textContent =
+                "Checking availability...";
+
+
+            try {
+
+                const url =
+                    `{% url 'available_slots' %}` +
+                    `?service=${encodeURIComponent(
+                        serviceId
+                    )}` +
+                    `&duration=${encodeURIComponent(
+                        duration
+                    )}` +
+                    `&date=${encodeURIComponent(
+                        selectedDate
+                    )}`;
+
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "X-Requested-With":
+                                    "XMLHttpRequest"
+                            },
+
+                            cache: "no-store"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Availability request failed."
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to load availability."
+                    );
+
+                }
+
+
+                renderSlots(
+                    data.slots || []
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Availability error:",
+                    error
+                );
+
+
+                slotContainer.innerHTML = `
+                    <div class="availability-empty">
+                        Unable to check availability right now.
+                        Please try again.
+                    </div>
+                `;
+
+                availabilityStatus.textContent =
+                    "Availability check failed";
+
+            }
+
+            finally {
+
+                loadingElement.classList.remove(
+                    "active"
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           RENDER SLOTS
+        ===================================================== */
+
+        function renderSlots(
+            slots
+        ) {
+
+            slotContainer.innerHTML =
+                "";
+
+
+            if (
+                !slots ||
+                slots.length === 0
+            ) {
+
+                slotContainer.innerHTML = `
+                    <div class="availability-empty">
+                        No appointment times are currently
+                        available for this date and duration.
+                        Please try another date.
+                    </div>
+                `;
+
+                availabilityStatus.textContent =
+                    "No slots available";
+
+                return;
+
+            }
+
+
+            availabilityStatus.textContent =
+                `${slots.length} available time${
+                    slots.length === 1
+                        ? ""
+                        : "s"
+                }`;
+
+
+            slots.forEach(
+                function (slot) {
+
+                    const button =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    button.type =
+                        "button";
+
+                    button.className =
+                        "slot-button";
+
+                    button.dataset.time =
+                        slot.start;
+
+
+                    button.innerHTML = `
+                        <span class="slot-time">
+                            ${slot.display}
+                        </span>
+
+                        <span class="slot-status">
+                            Available
+                        </span>
+                    `;
+
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            document
+                                .querySelectorAll(
+                                    ".slot-button"
+                                )
+                                .forEach(
+                                    function (
+                                        item
+                                    ) {
+
+                                        item.classList.remove(
+                                            "selected"
+                                        );
+
+                                    }
+                                );
+
+
+                            this.classList.add(
+                                "selected"
+                            );
+
+
+                            timeInput.value =
+                                slot.start;
+
+
+                            submitButton.disabled =
+                                false;
+
+                        }
+                    );
+
+
+                    slotContainer.appendChild(
+                        button
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           SERVICE CHANGE
+        ===================================================== */
+
+        serviceSelect.addEventListener(
+            "change",
+            function () {
+
+                loadDurations();
+
+                updatePrice();
+
+            }
+        );
+
+
+        /* =====================================================
+           DURATION CHANGE
+        ===================================================== */
+
+        durationSelect.addEventListener(
+            "change",
+            function () {
+
+                updatePrice();
+
+                loadAvailableSlots();
+
+            }
+        );
+
+
+        /* =====================================================
+           DATE CHANGE
+        ===================================================== */
+
+        dateInput.addEventListener(
+            "change",
+            function () {
+
+                if (
+                    this.value &&
+                    this.value < todayString
+                ) {
+
+                    this.value = "";
+
+                    alert(
+                        "Please select today or a future date."
+                    );
+
+                    clearAvailability();
+
+                    return;
+
+                }
+
+
+                loadAvailableSlots();
+
+            }
+        );
+
+
+        /* =====================================================
+           TIME INPUT MANUAL CHANGE
+        ===================================================== */
+
+        timeInput.addEventListener(
+            "change",
+            function () {
+
+                const selectedTime =
+                    this.value;
+
+
+                if (!selectedTime) {
+
+                    submitButton.disabled =
+                        true;
+
+                    return;
+
+                }
+
+
+                const matchingSlot =
+                    Array.from(
+                        document.querySelectorAll(
+                            ".slot-button"
+                        )
+                    ).find(
+                        button =>
+                            button.dataset.time ===
+                            selectedTime
+                    );
+
+
+                document
+                    .querySelectorAll(
+                        ".slot-button"
+                    )
+                    .forEach(
+                        function (button) {
+
+                            button.classList.remove(
+                                "selected"
+                            );
+
+                        }
+                    );
+
+
+                if (matchingSlot) {
+
+                    matchingSlot.classList.add(
+                        "selected"
+                    );
+
+                    submitButton.disabled =
+                        false;
+
+                }
+
+                else {
+
+                    /*
+                     * Do not allow a manually entered time
+                     * that is not one of the currently available
+                     * slots.
+                     */
+
+                    this.value = "";
+
+                    submitButton.disabled =
+                        true;
+
+                    alert(
+                        "Please select one of the available appointment slots."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           FORM SUBMIT
+        ===================================================== */
+
+        form.addEventListener(
+            "submit",
+            function (event) {
+
+                if (
+                    !serviceSelect.value
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select a service."
+                    );
+
+                    serviceSelect.focus();
+
+                    return;
+
+                }
+
+
+                if (
+                    !durationSelect.value
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select a duration."
+                    );
+
+                    durationSelect.focus();
+
+                    return;
+
+                }
+
+
+                if (
+                    !dateInput.value
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select an appointment date."
+                    );
+
+                    dateInput.focus();
+
+                    return;
+
+                }
+
+
+                if (
+                    dateInput.value < todayString
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select today or a future date."
+                    );
+
+                    dateInput.focus();
+
+                    return;
+
+                }
+
+
+                if (
+                    !timeInput.value
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select an available appointment time."
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                 * Make sure selected time is one of
+                 * the slots currently shown.
+                 */
+
+                const selectedSlot =
+                    Array.from(
+                        document.querySelectorAll(
+                            ".slot-button"
+                        )
+                    ).find(
+                        button =>
+                            button.dataset.time ===
+                            timeInput.value
+                    );
+
+
+                if (!selectedSlot) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "The selected appointment time is no longer available. Please choose another slot."
+                    );
+
+                    loadAvailableSlots();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Prevent double submission.
+                 */
+
+                submitButton.disabled =
+                    true;
+
+                submitButton.textContent =
+                    "Submitting Request...";
+
+            }
+        );
+
+
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        const existingDuration =
+            durationSelect.value;
+
+
+        loadDurations(
+            false
+        );
+
+
+        /*
+         * Restore duration if Django returned
+         * the form after a validation error.
+         */
+
+        if (
+            existingDuration
+        ) {
+
+            const exists =
+                Array.from(
+                    durationSelect.options
+                ).some(
+                    option =>
+                        option.value ===
+                        existingDuration
+                );
+
+
+            if (exists) {
+
+                durationSelect.value =
+                    existingDuration;
+
+            }
+
+        }
+
+
+        updatePrice();
+
+
+        /*
+         * If service/date/duration already exist,
+         * automatically check availability.
+         */
+
+        if (
+            serviceSelect.value &&
+            durationSelect.value &&
+            dateInput.value
+        ) {
+
+            loadAvailableSlots();
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}

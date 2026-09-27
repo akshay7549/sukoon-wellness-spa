@@ -1,0 +1,3703 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}
+Sukoon Wellness & Spa — Admin Panel
+{% endblock %}
+
+
+{% block extrastyle %}
+
+<style>
+
+/* =========================================================
+   SUKOON CRM
+   PREMIUM BLACK + GOLD LUXURY THEME
+========================================================= */
+
+:root {
+
+    --crm-black: #080807;
+    --crm-black-2: #0e0e0c;
+    --crm-black-3: #151512;
+    --crm-card: #11110f;
+    --crm-card-hover: #171714;
+
+    --crm-gold: #c9a96e;
+    --crm-gold-light: #e0c58e;
+    --crm-gold-dark: #9b793f;
+
+    --crm-cream: #f5efe3;
+    --crm-text: #eee8dc;
+    --crm-muted: #9c978c;
+
+    --crm-border: rgba(201,169,110,.18);
+    --crm-border-light: rgba(255,255,255,.07);
+
+    --crm-green: #58b77b;
+    --crm-orange: #d9a34d;
+    --crm-red: #d96a6a;
+    --crm-blue: #7f9fe8;
+
+    --crm-shadow:
+        0 10px 35px rgba(0,0,0,.30);
+
+    --crm-shadow-hover:
+        0 18px 45px rgba(0,0,0,.45);
+
+    --crm-radius: 14px;
+}
+
+
+/* =========================================================
+   DJANGO ADMIN OVERRIDE
+========================================================= */
+
+body {
+
+    background: var(--crm-black) !important;
+}
+
+#content {
+
+    padding: 0 !important;
+
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(201,169,110,.05),
+            transparent 30%
+        ),
+        var(--crm-black) !important;
+}
+
+#content-main {
+
+    width: 100% !important;
+}
+
+#container {
+
+    background: var(--crm-black) !important;
+}
+
+.breadcrumbs {
+
+    display: none !important;
+}
+
+
+/* =========================================================
+   MAIN DASHBOARD
+========================================================= */
+
+.crm-dashboard {
+
+    width: 100%;
+
+    min-height:
+        calc(100vh - 60px);
+
+    padding: 28px;
+
+    box-sizing: border-box;
+
+    color: var(--crm-text);
+
+    background:
+
+        radial-gradient(
+            circle at 85% 0%,
+            rgba(201,169,110,.08),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 0% 40%,
+            rgba(201,169,110,.035),
+            transparent 30%
+        ),
+
+        var(--crm-black);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.crm-hero {
+
+    position: relative;
+
+    min-height: 245px;
+
+    margin-bottom: 25px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    border: 1px solid
+        rgba(201,169,110,.24);
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.42);
+
+    background:
+        
+        url("{% static 'spa/images/massage-therapist.jpg' %}");
+
+    background-size: cover;
+
+    background-position: center;
+}
+
+
+.crm-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(201,169,110,.12),
+            transparent 45%
+        );
+}
+
+
+.crm-hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    min-height: 245px;
+
+    padding: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    box-sizing: border-box;
+}
+
+
+.crm-hero-left {
+
+    max-width: 700px;
+}
+
+
+.crm-eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+    color: var(--crm-gold-light);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+
+.crm-eyebrow::before {
+
+    content: "";
+
+    width: 25px;
+
+    height: 1px;
+
+    background: var(--crm-gold);
+}
+
+
+.crm-hero-title {
+
+    margin: 0;
+
+    color: #fff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 38px;
+
+    line-height: 1.1;
+
+    font-weight: 500;
+
+    letter-spacing: -.7px;
+}
+
+
+.crm-hero-title span {
+
+    color: var(--crm-gold-light);
+}
+
+
+.crm-hero-description {
+
+    max-width: 600px;
+
+    margin: 12px 0 0;
+
+    color: #bbb6aa;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+.crm-hero-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    flex-wrap: wrap;
+}
+
+
+.crm-hero-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 40px;
+
+    padding: 0 17px;
+
+    border-radius: 9px;
+
+    border: 1px solid
+        rgba(201,169,110,.35);
+
+    background:
+        rgba(0,0,0,.38);
+
+    color: #eee !important;
+
+    text-decoration: none !important;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    transition: .2s ease;
+
+    backdrop-filter: blur(8px);
+}
+
+
+.crm-hero-btn:hover {
+
+    border-color:
+        var(--crm-gold);
+
+    color:
+        var(--crm-gold-light) !important;
+
+    background:
+        rgba(201,169,110,.10);
+
+    transform:
+        translateY(-2px);
+}
+
+
+.crm-hero-btn.primary {
+
+    background:
+        linear-gradient(
+            135deg,
+            #c9a96e,
+            #9d783d
+        );
+
+    border-color:
+        #c9a96e;
+
+    color:
+        #080807 !important;
+}
+
+
+.crm-hero-btn.primary:hover {
+
+    color:
+        #080807 !important;
+
+    box-shadow:
+        0 8px 25px
+        rgba(201,169,110,.22);
+}
+
+
+/* =========================================================
+   HERO DATE
+========================================================= */
+
+.crm-hero-date {
+
+    position: absolute;
+
+    right: 25px;
+
+    top: 20px;
+
+    z-index: 4;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.25);
+
+    background:
+        rgba(0,0,0,.35);
+
+    color:
+        #d6d0c3;
+
+    font-size: 9px;
+
+    font-weight: 750;
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+/* =========================================================
+   KPI GRID
+========================================================= */
+
+.crm-stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0,1fr));
+
+    gap: 14px;
+
+    margin-bottom: 22px;
+}
+
+
+/* =========================================================
+   KPI CARD
+========================================================= */
+
+.crm-stat {
+
+    position: relative;
+
+    display: block;
+
+    min-height: 135px;
+
+    padding: 18px;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            #151512,
+            #0e0e0c
+        );
+
+    border:
+        1px solid
+        var(--crm-border);
+
+    border-radius:
+        var(--crm-radius);
+
+    box-shadow:
+        var(--crm-shadow);
+
+    color:
+        inherit !important;
+
+    text-decoration:
+        none !important;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.crm-stat::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+
+    height: 100px;
+
+    right: -45px;
+
+    bottom: -55px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(201,169,110,.14);
+
+    box-shadow:
+        0 0 0 15px
+        rgba(201,169,110,.025);
+}
+
+
+.crm-stat:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(201,169,110,.42);
+
+    box-shadow:
+        var(--crm-shadow-hover);
+}
+
+
+.crm-stat.active {
+
+    border-color:
+        var(--crm-gold);
+
+    box-shadow:
+
+        0 0 0 1px
+        rgba(201,169,110,.16),
+
+        0 15px 40px
+        rgba(0,0,0,.38);
+}
+
+
+.crm-stat-head {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.crm-stat-label {
+
+    color:
+        var(--crm-muted);
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.crm-stat-icon {
+
+    width: 33px;
+
+    height: 33px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        rgba(201,169,110,.09);
+
+    border:
+        1px solid
+        rgba(201,169,110,.15);
+
+    color:
+        var(--crm-gold-light);
+
+    font-size:
+        12px;
+
+    font-weight:
+        850;
+}
+
+
+.crm-stat-value {
+
+    margin-top:
+        18px;
+
+    color:
+        #f7f2e8;
+
+    font-size:
+        27px;
+
+    line-height:
+        1;
+
+    font-weight:
+        780;
+
+    letter-spacing:
+        -.5px;
+}
+
+
+.crm-stat-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top:
+        14px;
+
+    color:
+        #77736b;
+
+    font-size:
+        9px;
+}
+
+
+.crm-stat-link {
+
+    color:
+        var(--crm-gold);
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================================
+   MANAGEMENT LAYOUT
+========================================================= */
+
+.crm-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        290px;
+
+    gap: 20px;
+
+    align-items:
+        start;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.crm-card,
+.side-card {
+
+    background:
+        linear-gradient(
+            145deg,
+            #121210,
+            #0e0e0c
+        );
+
+    border:
+        1px solid
+        var(--crm-border);
+
+    border-radius:
+        var(--crm-radius);
+
+    box-shadow:
+        var(--crm-shadow);
+
+    overflow:
+        hidden;
+
+    margin-bottom:
+        20px;
+}
+
+
+.crm-card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 17px 19px;
+
+    border-bottom:
+        1px solid
+        var(--crm-border-light);
+}
+
+
+.crm-card-title {
+
+    margin: 0;
+
+    color:
+        #eee9df;
+
+    font-size:
+        15px;
+
+    font-weight:
+        760;
+}
+
+
+.crm-card-subtitle {
+
+    margin:
+        4px 0 0;
+
+    color:
+        var(--crm-muted);
+
+    font-size:
+        10px;
+}
+
+
+/* =========================================================
+   WORKSPACE TABS
+========================================================= */
+
+.workspace-tabs {
+
+    display: flex;
+
+    gap: 6px;
+
+    padding:
+        12px 17px;
+
+    border-bottom:
+        1px solid
+        var(--crm-border-light);
+
+    overflow-x:
+        auto;
+
+    scrollbar-width:
+        thin;
+}
+
+
+.workspace-tab {
+
+    flex-shrink:
+        0;
+
+    height:
+        31px;
+
+    padding:
+        0 12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:
+        8px;
+
+    background:
+        #151513;
+
+    color:
+        #88847b;
+
+    font-size:
+        9px;
+
+    font-weight:
+        750;
+
+    cursor:
+        pointer;
+
+    transition:
+        .15s ease;
+}
+
+
+.workspace-tab:hover {
+
+    color:
+        var(--crm-gold-light);
+
+    border-color:
+        rgba(201,169,110,.25);
+}
+
+
+.workspace-tab.active {
+
+    background:
+        linear-gradient(
+            135deg,
+            #c9a96e,
+            #9c773e
+        );
+
+    border-color:
+        #c9a96e;
+
+    color:
+        #090908;
+}
+
+
+/* =========================================================
+   TOOLS
+========================================================= */
+
+.crm-tools {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    flex-wrap:
+        wrap;
+}
+
+
+.crm-search {
+
+    width:
+        230px;
+
+    height:
+        34px;
+
+    box-sizing:
+        border-box;
+
+    padding:
+        0 11px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:
+        8px;
+
+    background:
+        #0b0b0a;
+
+    color:
+        #eee;
+
+    font-size:
+        10px;
+
+    outline:
+        none;
+}
+
+
+.crm-search::placeholder {
+
+    color:
+        #656159;
+}
+
+
+.crm-search:focus {
+
+    border-color:
+        rgba(201,169,110,.55);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(201,169,110,.08);
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.crm-table-wrap {
+
+    overflow-x:
+        auto;
+}
+
+
+.crm-table {
+
+    width:
+        100%;
+
+    min-width:
+        950px;
+
+    border-collapse:
+        collapse;
+}
+
+
+.crm-table th {
+
+    padding:
+        11px 15px;
+
+    background:
+        #0c0c0b;
+
+    color:
+        #6f6b63;
+
+    font-size:
+        8px;
+
+    font-weight:
+        850;
+
+    letter-spacing:
+        .8px;
+
+    text-align:
+        left;
+
+    text-transform:
+        uppercase;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+
+    white-space:
+        nowrap;
+}
+
+
+.crm-table td {
+
+    padding:
+        12px 15px;
+
+    color:
+        #bcb7ad;
+
+    font-size:
+        10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.045);
+
+    vertical-align:
+        middle;
+}
+
+
+.crm-table tbody tr {
+
+    transition:
+        background .15s ease;
+}
+
+
+.crm-table tbody tr:hover {
+
+    background:
+        rgba(201,169,110,.035);
+}
+
+
+.crm-table tbody tr:last-child td {
+
+    border-bottom:
+        0;
+}
+
+
+/* =========================================================
+   CUSTOMER
+========================================================= */
+
+.customer {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+}
+
+
+.customer-avatar {
+
+    width:
+        33px;
+
+    height:
+        33px;
+
+    flex-shrink:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #c9a96e,
+            #75572c
+        );
+
+    color:
+        #0b0b09;
+
+    font-size:
+        10px;
+
+    font-weight:
+        900;
+
+    box-shadow:
+        0 3px 12px
+        rgba(201,169,110,.14);
+}
+
+
+.customer-info strong {
+
+    display:
+        block;
+
+    color:
+        #e8e3d9;
+
+    font-size:
+        10px;
+}
+
+
+.customer-info span {
+
+    display:
+        block;
+
+    margin-top:
+        2px;
+
+    color:
+        #77736b;
+
+    font-size:
+        8px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.crm-badge {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    padding:
+        5px 8px;
+
+    border-radius:
+        20px;
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    white-space:
+        nowrap;
+}
+
+
+.crm-badge::before {
+
+    content:
+        "";
+
+    width:
+        5px;
+
+    height:
+        5px;
+
+    border-radius:
+        50%;
+
+    background:
+        currentColor;
+}
+
+
+.crm-badge.pending {
+
+    background:
+        rgba(217,163,77,.10);
+
+    color:
+        #d9a34d;
+}
+
+
+.crm-badge.confirmed {
+
+    background:
+        rgba(88,183,123,.10);
+
+    color:
+        #58b77b;
+}
+
+
+.crm-badge.completed {
+
+    background:
+        rgba(127,159,232,.10);
+
+    color:
+        #8aa7ec;
+}
+
+
+.crm-badge.cancelled {
+
+    background:
+        rgba(217,106,106,.10);
+
+    color:
+        #d96a6a;
+}
+
+
+.crm-badge.paid {
+
+    background:
+        rgba(88,183,123,.10);
+
+    color:
+        #58b77b;
+}
+
+
+.crm-badge.unpaid {
+
+    background:
+        rgba(217,163,77,.10);
+
+    color:
+        #d9a34d;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.crm-actions {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    flex-wrap:
+        wrap;
+}
+
+
+.crm-btn {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        27px;
+
+    padding:
+        0 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:
+        7px;
+
+    background:
+        #151513;
+
+    color:
+        #a9a49a !important;
+
+    text-decoration:
+        none !important;
+
+    font-size:
+        8px;
+
+    font-weight:
+        750;
+
+    cursor:
+        pointer;
+
+    transition:
+        .15s ease;
+}
+
+
+.crm-btn:hover {
+
+    border-color:
+        rgba(201,169,110,.35);
+
+    color:
+        var(--crm-gold-light) !important;
+
+    background:
+        #1b1a17;
+}
+
+
+.crm-btn.primary {
+
+    background:
+        linear-gradient(
+            135deg,
+            #c9a96e,
+            #99743c
+        );
+
+    border-color:
+        #c9a96e;
+
+    color:
+        #090908 !important;
+}
+
+
+.crm-btn.primary:hover {
+
+    color:
+        #090908 !important;
+
+    box-shadow:
+        0 5px 16px
+        rgba(201,169,110,.16);
+}
+
+
+.crm-btn.gold {
+
+    color:
+        var(--crm-gold-light) !important;
+
+    border-color:
+        rgba(201,169,110,.30);
+}
+
+
+/* =========================================================
+   SIDE PANEL
+========================================================= */
+
+.side-header {
+
+    padding:
+        17px 18px;
+
+    border-bottom:
+        1px solid
+        var(--crm-border-light);
+}
+
+
+.side-header h3 {
+
+    margin:
+        0;
+
+    color:
+        #eee9df;
+
+    font-size:
+        13px;
+
+    font-weight:
+        760;
+}
+
+
+.side-header p {
+
+    margin:
+        4px 0 0;
+
+    color:
+        var(--crm-muted);
+
+    font-size:
+        9px;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:
+        8px;
+
+    padding:
+        15px;
+}
+
+
+.quick-card {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        8px;
+
+    padding:
+        12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:
+        9px;
+
+    background:
+        #151513;
+
+    color:
+        #bbb5a9 !important;
+
+    text-decoration:
+        none !important;
+
+    font-size:
+        9px;
+
+    font-weight:
+        750;
+
+    transition:
+        .15s ease;
+}
+
+
+.quick-card:hover {
+
+    background:
+        #1b1a17;
+
+    border-color:
+        rgba(201,169,110,.32);
+
+    color:
+        var(--crm-gold-light) !important;
+
+    transform:
+        translateY(-2px);
+}
+
+
+.quick-icon {
+
+    width:
+        28px;
+
+    height:
+        28px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        8px;
+
+    background:
+        rgba(201,169,110,.08);
+
+    border:
+        1px solid
+        rgba(201,169,110,.13);
+
+    color:
+        var(--crm-gold);
+
+    font-size:
+        10px;
+
+    font-weight:
+        850;
+}
+
+
+/* =========================================================
+   BUSINESS OVERVIEW
+========================================================= */
+
+.overview-list {
+
+    padding:
+        6px 17px;
+}
+
+
+.overview-item {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    padding:
+        12px 0;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.045);
+
+    color:
+        #918d84;
+
+    font-size:
+        10px;
+}
+
+
+.overview-item:last-child {
+
+    border-bottom:
+        0;
+}
+
+
+.overview-value {
+
+    color:
+        #e7e1d5;
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================================
+   PAYMENT SUMMARY
+========================================================= */
+
+.payment-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:
+        9px;
+
+    padding:
+        15px;
+}
+
+
+.payment-mini {
+
+    padding:
+        12px;
+
+    background:
+        #151513;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius:
+        9px;
+}
+
+
+.payment-mini-label {
+
+    color:
+        #77736b;
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .4px;
+}
+
+
+.payment-mini-value {
+
+    margin-top:
+        6px;
+
+    color:
+        #eee8dc;
+
+    font-size:
+        15px;
+
+    font-weight:
+        780;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.crm-empty {
+
+    padding:
+        45px 20px !important;
+
+    text-align:
+        center;
+
+    color:
+        #656159 !important;
+
+    font-size:
+        10px !important;
+}
+
+
+/* =========================================================
+   HIDDEN
+========================================================= */
+
+.crm-hidden {
+
+    display:
+        none !important;
+}
+
+
+/* =========================================================
+   GOLD DIVIDER
+========================================================= */
+
+.gold-divider {
+
+    width:
+        38px;
+
+    height:
+        2px;
+
+    margin-top:
+        8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #c9a96e,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:1200px) {
+
+    .crm-stats {
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .crm-layout {
+
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+@media (max-width:700px) {
+
+    .crm-dashboard {
+
+        padding:
+            14px;
+    }
+
+
+    .crm-hero {
+
+        min-height:
+            330px;
+    }
+
+
+    .crm-hero-content {
+
+        min-height:
+            330px;
+
+        padding:
+            25px;
+
+        align-items:
+            flex-end;
+    }
+
+
+    .crm-hero-title {
+
+        font-size:
+            29px;
+    }
+
+
+    .crm-hero-description {
+
+        font-size:
+            10px;
+    }
+
+
+    .crm-hero-date {
+
+        right:
+            15px;
+
+        top:
+            15px;
+    }
+
+
+    .crm-hero-actions {
+
+        margin-top:
+            17px;
+    }
+
+
+    .crm-stats {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            10px;
+    }
+
+
+    .crm-stat {
+
+        min-height:
+            120px;
+    }
+
+
+    .crm-card-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .crm-tools {
+
+        width:
+            100%;
+    }
+
+
+    .crm-search {
+
+        width:
+            100%;
+    }
+
+
+    .quick-grid {
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="crm-dashboard">
+
+
+    <!-- =====================================================
+         HERO
+    ===================================================== -->
+
+    <section class="crm-hero">
+
+
+        <div class="crm-hero-date">
+            {{ today|date:"l, d M Y" }}
+        </div>
+
+
+        <div class="crm-hero-content">
+
+
+            <div class="crm-hero-left">
+
+                <div class="crm-eyebrow">
+                    Sukoon Wellness & Spa
+                </div>
+
+
+                <h1 class="crm-hero-title">
+
+                    Welcome to your
+                    <span>Luxury CRM</span>
+
+                </h1>
+
+
+                <div class="gold-divider"></div>
+
+
+                <p class="crm-hero-description">
+
+                    Manage appointments, customers,
+                    services, staff, rooms and payments
+                    from one centralized workspace.
+
+                </p>
+
+
+                <div class="crm-hero-actions">
+
+                    <a
+                        href="{% url 'sukoon_admin:spa_booking_add' %}"
+                        class="crm-hero-btn primary"
+                    >
+                        + New Booking
+                    </a>
+
+
+                    <a
+                        href="#workspace"
+                        class="crm-hero-btn"
+                        data-quick-tab="bookings"
+                    >
+                        Manage Bookings
+                    </a>
+
+
+                    <a
+                        href="#workspace"
+                        class="crm-hero-btn"
+                        data-quick-tab="payments"
+                    >
+                        Payments
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         KPI CARDS
+    ===================================================== -->
+
+    <div class="crm-stats">
+
+
+        <!-- TOTAL BOOKINGS -->
+
+        <a
+            href="#workspace"
+            class="crm-stat"
+            data-workspace="bookings"
+            data-status="all"
+        >
+
+            <div class="crm-stat-head">
+
+                <span class="crm-stat-label">
+                    Total Bookings
+                </span>
+
+                <span class="crm-stat-icon">
+                    B
+                </span>
+
+            </div>
+
+
+            <div class="crm-stat-value">
+                {{ total_bookings }}
+            </div>
+
+
+            <div class="crm-stat-footer">
+
+                <span>
+                    All appointments
+                </span>
+
+                <span class="crm-stat-link">
+                    View all →
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- TODAY -->
+
+        <a
+            href="#workspace"
+            class="crm-stat"
+            data-workspace="today"
+        >
+
+            <div class="crm-stat-head">
+
+                <span class="crm-stat-label">
+                    Today's Appointments
+                </span>
+
+                <span class="crm-stat-icon">
+                    T
+                </span>
+
+            </div>
+
+
+            <div class="crm-stat-value">
+                {{ today_bookings }}
+            </div>
+
+
+            <div class="crm-stat-footer">
+
+                <span>
+                    Scheduled today
+                </span>
+
+                <span class="crm-stat-link">
+                    View →
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- PENDING -->
+
+        <a
+            href="#workspace"
+            class="crm-stat"
+            data-workspace="bookings"
+            data-status="pending"
+        >
+
+            <div class="crm-stat-head">
+
+                <span class="crm-stat-label">
+                    Pending Bookings
+                </span>
+
+                <span class="crm-stat-icon">
+                    P
+                </span>
+
+            </div>
+
+
+            <div class="crm-stat-value">
+                {{ pending_bookings }}
+            </div>
+
+
+            <div class="crm-stat-footer">
+
+                <span>
+                    Require attention
+                </span>
+
+                <span class="crm-stat-link">
+                    Review →
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- CONFIRMED -->
+
+        <a
+            href="#workspace"
+            class="crm-stat"
+            data-workspace="bookings"
+            data-status="confirmed"
+        >
+
+            <div class="crm-stat-head">
+
+                <span class="crm-stat-label">
+                    Confirmed
+                </span>
+
+                <span class="crm-stat-icon">
+                    C
+                </span>
+
+            </div>
+
+
+            <div class="crm-stat-value">
+                {{ confirmed_bookings }}
+            </div>
+
+
+            <div class="crm-stat-footer">
+
+                <span>
+                    Confirmed appointments
+                </span>
+
+                <span class="crm-stat-link">
+                    View →
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- COMPLETED -->
+
+        <a
+            href="#workspace"
+            class="crm-stat"
+            data-workspace="bookings"
+            data-status="completed"
+        >
+
+            <div class="crm-stat-head">
+
+                <span class="crm-stat-label">
+                    Completed
+                </span>
+
+                <span class="crm-stat-icon">
+                    ✓
+                </span>
+
+            </div>
+
+
+            <div class="crm-stat-value">
+                {{ completed_bookings }}
+            </div>
+
+
+            <div class="crm-stat-footer">
+
+                <span>
+                    Completed appointments
+                </span>
+
+                <span class="crm-stat-link">
+                    View →
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- PAID -->
+
+        <a
+            href="#workspace"
+            class="crm-stat"
+            data-workspace="payments"
+            data-payment="paid"
+        >
+
+            <div class="crm-stat-head">
+
+                <span class="crm-stat-label">
+                    Paid Payments
+                </span>
+
+                <span class="crm-stat-icon">
+                    ₹
+                </span>
+
+            </div>
+
+
+            <div class="crm-stat-value">
+                {{ paid_payments }}
+            </div>
+
+
+            <div class="crm-stat-footer">
+
+                <span>
+                    Successful payments
+                </span>
+
+                <span class="crm-stat-link">
+                    View →
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- PAYMENT PENDING -->
+
+        <a
+            href="#workspace"
+            class="crm-stat"
+            data-workspace="payments"
+            data-payment="pending"
+        >
+
+            <div class="crm-stat-head">
+
+                <span class="crm-stat-label">
+                    Pending Payments
+                </span>
+
+                <span class="crm-stat-icon">
+                    !
+                </span>
+
+            </div>
+
+
+            <div class="crm-stat-value">
+                {{ pending_payments }}
+            </div>
+
+
+            <div class="crm-stat-footer">
+
+                <span>
+                    Awaiting payment
+                </span>
+
+                <span class="crm-stat-link">
+                    Review →
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- REVENUE -->
+
+        <a
+            href="#workspace"
+            class="crm-stat"
+            data-workspace="payments"
+        >
+
+            <div class="crm-stat-head">
+
+                <span class="crm-stat-label">
+                    Revenue
+                </span>
+
+                <span class="crm-stat-icon">
+                    ₹
+                </span>
+
+            </div>
+
+
+            <div class="crm-stat-value">
+                ₹{{ revenue|floatformat:2 }}
+            </div>
+
+
+            <div class="crm-stat-footer">
+
+                <span>
+                    Successful payments
+                </span>
+
+                <span class="crm-stat-link">
+                    View payments →
+                </span>
+
+            </div>
+
+        </a>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         MANAGEMENT LAYOUT
+    ===================================================== -->
+
+    <div class="crm-layout">
+
+
+        <!-- =================================================
+             MAIN
+        ================================================= -->
+
+        <div id="workspace">
+
+
+            <div class="crm-card">
+
+
+                <!-- HEADER -->
+
+                <div class="crm-card-header">
+
+                    <div>
+
+                        <h2
+                            class="crm-card-title"
+                            id="workspaceTitle"
+                        >
+                            Booking Management
+                        </h2>
+
+                        <p
+                            class="crm-card-subtitle"
+                            id="workspaceSubtitle"
+                        >
+                            Manage customer appointments directly
+                            from the dashboard.
+                        </p>
+
+                    </div>
+
+
+                    <div class="crm-tools">
+
+                        <input
+                            type="search"
+                            id="globalSearch"
+                            class="crm-search"
+                            placeholder="Search customer, phone, service..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- TABS -->
+
+                <div class="workspace-tabs">
+
+                    <button
+                        type="button"
+                        class="workspace-tab active"
+                        data-tab="bookings"
+                    >
+                        All Bookings
+                    </button>
+
+                    <button
+                        type="button"
+                        class="workspace-tab"
+                        data-tab="today"
+                    >
+                        Today
+                    </button>
+
+                    <button
+                        type="button"
+                        class="workspace-tab"
+                        data-tab="pending"
+                    >
+                        Pending
+                    </button>
+
+                    <button
+                        type="button"
+                        class="workspace-tab"
+                        data-tab="confirmed"
+                    >
+                        Confirmed
+                    </button>
+
+                    <button
+                        type="button"
+                        class="workspace-tab"
+                        data-tab="completed"
+                    >
+                        Completed
+                    </button>
+
+                    <button
+                        type="button"
+                        class="workspace-tab"
+                        data-tab="cancelled"
+                    >
+                        Cancelled
+                    </button>
+
+                    <button
+                        type="button"
+                        class="workspace-tab"
+                        data-tab="payments"
+                    >
+                        Payments
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     BOOKINGS
+                ================================================= -->
+
+                <div
+                    id="bookingWorkspace"
+                    class="crm-table-wrap"
+                >
+
+                    <table class="crm-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Customer</th>
+                                <th>Service</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Staff</th>
+                                <th>Room</th>
+                                <th>Status</th>
+                                <th>Payment</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="bookingRows">
+
+
+                        {% for booking in all_bookings %}
+
+                            <tr
+                                class="booking-row"
+
+                                data-status="{{ booking.status }}"
+
+                                data-date="{{ booking.appointment_date|date:'Y-m-d' }}"
+
+                                data-search="{{ booking.name|lower }} {{ booking.phone|lower }} {% if booking.service %}{{ booking.service.name|lower }}{% endif %}"
+                            >
+
+
+                                <!-- CUSTOMER -->
+
+                                <td>
+
+                                    <div class="customer">
+
+                                        <div class="customer-avatar">
+                                            {{ booking.name|first|upper }}
+                                        </div>
+
+                                        <div class="customer-info">
+
+                                            <strong>
+                                                {{ booking.name }}
+                                            </strong>
+
+                                            <span>
+                                                {{ booking.phone }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- SERVICE -->
+
+                                <td>
+
+                                    {% if booking.service %}
+                                        {{ booking.service.name }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- DATE -->
+
+                                <td>
+                                    {{ booking.appointment_date|date:"d M Y" }}
+                                </td>
+
+
+                                <!-- TIME -->
+
+                                <td>
+                                    {{ booking.appointment_time|time:"g:i A" }}
+                                </td>
+
+
+                                <!-- STAFF -->
+
+                                <td>
+
+                                    {% if booking.staff %}
+                                        {{ booking.staff.name }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ROOM -->
+
+                                <td>
+
+                                    {% if booking.room %}
+                                        {{ booking.room.name }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    {% if booking.status == "pending" %}
+
+                                        <span class="crm-badge pending">
+                                            Pending
+                                        </span>
+
+                                    {% elif booking.status == "confirmed" %}
+
+                                        <span class="crm-badge confirmed">
+                                            Confirmed
+                                        </span>
+
+                                    {% elif booking.status == "completed" %}
+
+                                        <span class="crm-badge completed">
+                                            Completed
+                                        </span>
+
+                                    {% elif booking.status == "cancelled" %}
+
+                                        <span class="crm-badge cancelled">
+                                            Cancelled
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- PAYMENT -->
+
+                                <td>
+
+                                    {% if booking.payment %}
+
+                                        {% if booking.payment.status == "paid" %}
+
+                                            <span class="crm-badge paid">
+                                                Paid
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="crm-badge unpaid">
+                                                {{ booking.payment.status|title }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    {% else %}
+
+                                        <span class="crm-badge unpaid">
+                                            Unpaid
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ACTION -->
+
+                                <td>
+
+                                    <div class="crm-actions">
+
+                                        <a
+                                            href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
+                                            class="crm-btn primary"
+                                        >
+                                            View
+                                        </a>
+
+                                        <a
+                                            href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
+                                            class="crm-btn gold"
+                                        >
+                                            Manage
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td
+                                    colspan="9"
+                                    class="crm-empty"
+                                >
+                                    No bookings available.
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- =================================================
+                     PAYMENTS
+                ================================================= -->
+
+                <div
+                    id="paymentWorkspace"
+                    class="crm-table-wrap crm-hidden"
+                >
+
+                    <table class="crm-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Status</th>
+                                <th>Razorpay Order</th>
+                                <th>Payment ID</th>
+                                <th>Date</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="paymentRows">
+
+
+                        {% for payment in all_payments %}
+
+                            <tr
+                                class="payment-row"
+
+                                data-payment-status="{{ payment.status }}"
+
+                                data-search="{% if payment.booking %}{{ payment.booking.name|lower }} {{ payment.booking.phone|lower }}{% endif %} {{ payment.razorpay_order_id|lower }} {{ payment.razorpay_payment_id|lower }}"
+                            >
+
+                                <td>
+                                    #{{ payment.id }}
+                                </td>
+
+
+                                <td>
+
+                                    {% if payment.booking %}
+
+                                        <div class="customer">
+
+                                            <div class="customer-avatar">
+                                                {{ payment.booking.name|first|upper }}
+                                            </div>
+
+                                            <div class="customer-info">
+
+                                                <strong>
+                                                    {{ payment.booking.name }}
+                                                </strong>
+
+                                                <span>
+                                                    {{ payment.booking.phone }}
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    {% else %}
+
+                                        —
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+                                    ₹{{ payment.amount|floatformat:2 }}
+                                </td>
+
+
+                                <td>
+                                    {{ payment.currency }}
+                                </td>
+
+
+                                <td>
+
+                                    {% if payment.status == "paid" %}
+
+                                        <span class="crm-badge paid">
+                                            Paid
+                                        </span>
+
+                                    {% elif payment.status == "failed" %}
+
+                                        <span class="crm-badge cancelled">
+                                            Failed
+                                        </span>
+
+                                    {% elif payment.status == "refunded" %}
+
+                                        <span class="crm-badge completed">
+                                            Refunded
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="crm-badge unpaid">
+                                            {{ payment.status|title }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+                                    {{ payment.razorpay_order_id|default:"—" }}
+                                </td>
+
+
+                                <td>
+                                    {{ payment.razorpay_payment_id|default:"—" }}
+                                </td>
+
+
+                                <td>
+                                    {{ payment.created_at|date:"d M Y, g:i A" }}
+                                </td>
+
+
+                                <td>
+
+                                    <a
+                                        href="{% url 'sukoon_admin:payments_payment_change' payment.id %}"
+                                        class="crm-btn primary"
+                                    >
+                                        View
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td
+                                    colspan="9"
+                                    class="crm-empty"
+                                >
+                                    No payment records available.
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TODAY'S APPOINTMENTS
+            ================================================= -->
+
+            <div class="crm-card">
+
+                <div class="crm-card-header">
+
+                    <div>
+
+                        <h2 class="crm-card-title">
+                            Today's Appointments
+                        </h2>
+
+                        <p class="crm-card-subtitle">
+                            Today's scheduled customer visits.
+                        </p>
+
+                    </div>
+
+
+                    <span class="crm-badge completed">
+                        {{ today_bookings }} Today
+                    </span>
+
+                </div>
+
+
+                <div class="crm-table-wrap">
+
+                    <table class="crm-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Customer</th>
+                                <th>Service</th>
+                                <th>Time</th>
+                                <th>Staff</th>
+                                <th>Room</th>
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        {% for booking in today_appointments %}
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="customer">
+
+                                        <div class="customer-avatar">
+                                            {{ booking.name|first|upper }}
+                                        </div>
+
+                                        <div class="customer-info">
+
+                                            <strong>
+                                                {{ booking.name }}
+                                            </strong>
+
+                                            <span>
+                                                {{ booking.phone }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if booking.service %}
+                                        {{ booking.service.name }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+                                    {{ booking.appointment_time|time:"g:i A" }}
+                                </td>
+
+
+                                <td>
+
+                                    {% if booking.staff %}
+                                        {{ booking.staff.name }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if booking.room %}
+                                        {{ booking.room.name }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if booking.status == "confirmed" %}
+
+                                        <span class="crm-badge confirmed">
+                                            Confirmed
+                                        </span>
+
+                                    {% elif booking.status == "pending" %}
+
+                                        <span class="crm-badge pending">
+                                            Pending
+                                        </span>
+
+                                    {% elif booking.status == "completed" %}
+
+                                        <span class="crm-badge completed">
+                                            Completed
+                                        </span>
+
+                                    {% elif booking.status == "cancelled" %}
+
+                                        <span class="crm-badge cancelled">
+                                            Cancelled
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="crm-empty"
+                                >
+                                    No appointments scheduled for today.
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================= -->
+
+        <div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="side-card">
+
+                <div class="side-header">
+
+                    <h3>
+                        Quick Actions
+                    </h3>
+
+                    <p>
+                        Frequently used operations
+                    </p>
+
+                </div>
+
+
+                <div class="quick-grid">
+
+
+                    <a
+                        href="{% url 'sukoon_admin:spa_booking_add' %}"
+                        class="quick-card"
+                    >
+
+                        <span class="quick-icon">
+                            +
+                        </span>
+
+                        New Booking
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'sukoon_admin:spa_service_add' %}"
+                        class="quick-card"
+                    >
+
+                        <span class="quick-icon">
+                            S
+                        </span>
+
+                        Add Service
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'sukoon_admin:spa_staff_add' %}"
+                        class="quick-card"
+                    >
+
+                        <span class="quick-icon">
+                            ST
+                        </span>
+
+                        Add Staff
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'sukoon_admin:spa_room_add' %}"
+                        class="quick-card"
+                    >
+
+                        <span class="quick-icon">
+                            R
+                        </span>
+
+                        Add Room
+
+                    </a>
+
+
+                    <a
+                        href="#workspace"
+                        class="quick-card"
+                        data-quick-tab="payments"
+                    >
+
+                        <span class="quick-icon">
+                            ₹
+                        </span>
+
+                        Payments
+
+                    </a>
+
+
+                    <a
+                        href="#workspace"
+                        class="quick-card"
+                        data-quick-tab="bookings"
+                    >
+
+                        <span class="quick-icon">
+                            B
+                        </span>
+
+                        Bookings
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- BUSINESS OVERVIEW -->
+
+            <div class="side-card">
+
+                <div class="side-header">
+
+                    <h3>
+                        Business Overview
+                    </h3>
+
+                    <p>
+                        Current operational status
+                    </p>
+
+                </div>
+
+
+                <div class="overview-list">
+
+
+                    <div class="overview-item">
+
+                        <span>
+                            Active Services
+                        </span>
+
+                        <span class="overview-value">
+                            {{ active_services }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <span>
+                            Active Staff
+                        </span>
+
+                        <span class="overview-value">
+                            {{ active_staff }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <span>
+                            Active Rooms
+                        </span>
+
+                        <span class="overview-value">
+                            {{ active_rooms }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <span>
+                            Failed Payments
+                        </span>
+
+                        <span class="overview-value">
+                            {{ failed_payments }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <span>
+                            Cancelled Bookings
+                        </span>
+
+                        <span class="overview-value">
+                            {{ cancelled_bookings }}
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT SUMMARY -->
+
+            <div class="side-card">
+
+                <div class="side-header">
+
+                    <h3>
+                        Payment Summary
+                    </h3>
+
+                    <p>
+                        Current payment status
+                    </p>
+
+                </div>
+
+
+                <div class="payment-grid">
+
+
+                    <div class="payment-mini">
+
+                        <div class="payment-mini-label">
+                            PAID
+                        </div>
+
+                        <div class="payment-mini-value">
+                            {{ paid_payments }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-mini">
+
+                        <div class="payment-mini-label">
+                            PENDING
+                        </div>
+
+                        <div class="payment-mini-value">
+                            {{ pending_payments }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-mini">
+
+                        <div class="payment-mini-label">
+                            FAILED
+                        </div>
+
+                        <div class="payment-mini-value">
+                            {{ failed_payments }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-mini">
+
+                        <div class="payment-mini-label">
+                            REVENUE
+                        </div>
+
+                        <div class="payment-mini-value">
+                            ₹{{ revenue|floatformat:0 }}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    const tabs =
+        document.querySelectorAll(".workspace-tab");
+
+    const cards =
+        document.querySelectorAll(".crm-stat");
+
+    const bookingRows =
+        document.querySelectorAll(".booking-row");
+
+    const paymentRows =
+        document.querySelectorAll(".payment-row");
+
+    const searchInput =
+        document.getElementById("globalSearch");
+
+    const bookingWorkspace =
+        document.getElementById("bookingWorkspace");
+
+    const paymentWorkspace =
+        document.getElementById("paymentWorkspace");
+
+    const workspaceTitle =
+        document.getElementById("workspaceTitle");
+
+    const workspaceSubtitle =
+        document.getElementById("workspaceSubtitle");
+
+
+    let currentTab = "bookings";
+
+    let paymentFilter = "";
+
+
+    /* =====================================================
+       OPEN WORKSPACE
+    ===================================================== */
+
+    function openWorkspace(tab, paymentStatus = "") {
+
+        currentTab = tab;
+
+        paymentFilter = paymentStatus || "";
+
+
+        tabs.forEach(function (tabButton) {
+
+            tabButton.classList.toggle(
+                "active",
+                tabButton.dataset.tab === tab
+            );
+
+        });
+
+
+        if (tab === "payments") {
+
+            bookingWorkspace.classList.add(
+                "crm-hidden"
+            );
+
+            paymentWorkspace.classList.remove(
+                "crm-hidden"
+            );
+
+
+            workspaceTitle.textContent =
+                "Payment Management";
+
+
+            workspaceSubtitle.textContent =
+                "Review payment transactions and payment status.";
+
+
+            filterPayments();
+
+
+            return;
+
+        }
+
+
+        bookingWorkspace.classList.remove(
+            "crm-hidden"
+        );
+
+        paymentWorkspace.classList.add(
+            "crm-hidden"
+        );
+
+
+        if (tab === "today") {
+
+            workspaceTitle.textContent =
+                "Today's Appointments";
+
+            workspaceSubtitle.textContent =
+                "Appointments scheduled for today.";
+
+        }
+
+        else if (tab === "pending") {
+
+            workspaceTitle.textContent =
+                "Pending Bookings";
+
+            workspaceSubtitle.textContent =
+                "Bookings requiring confirmation.";
+
+        }
+
+        else if (tab === "confirmed") {
+
+            workspaceTitle.textContent =
+                "Confirmed Bookings";
+
+            workspaceSubtitle.textContent =
+                "Confirmed customer appointments.";
+
+        }
+
+        else if (tab === "completed") {
+
+            workspaceTitle.textContent =
+                "Completed Bookings";
+
+            workspaceSubtitle.textContent =
+                "Completed customer appointments.";
+
+        }
+
+        else if (tab === "cancelled") {
+
+            workspaceTitle.textContent =
+                "Cancelled Bookings";
+
+            workspaceSubtitle.textContent =
+                "Cancelled customer appointments.";
+
+        }
+
+        else {
+
+            workspaceTitle.textContent =
+                "Booking Management";
+
+            workspaceSubtitle.textContent =
+                "Manage customer appointments directly from the dashboard.";
+
+        }
+
+
+        filterBookings();
+
+    }
+
+
+    /* =====================================================
+       BOOKING FILTER
+    ===================================================== */
+
+    function filterBookings() {
+
+        const search =
+            (searchInput.value || "")
+                .toLowerCase()
+                .trim();
+
+
+        bookingRows.forEach(function (row) {
+
+            const rowSearch =
+                row.dataset.search || "";
+
+            const status =
+                row.dataset.status || "";
+
+            const date =
+                row.dataset.date || "";
+
+
+            let matchesTab = true;
+
+
+            if (currentTab === "today") {
+
+                matchesTab =
+                    date ===
+                    "{{ today|date:'Y-m-d' }}";
+
+            }
+
+            else if (
+                currentTab === "pending" ||
+                currentTab === "confirmed" ||
+                currentTab === "completed" ||
+                currentTab === "cancelled"
+            ) {
+
+                matchesTab =
+                    status === currentTab;
+
+            }
+
+
+            const matchesSearch =
+                !search ||
+                rowSearch.includes(search);
+
+
+            row.style.display =
+                matchesTab && matchesSearch
+                    ? ""
+                    : "none";
+
+        });
+
+    }
+
+
+    /* =====================================================
+       PAYMENT FILTER
+    ===================================================== */
+
+    function filterPayments() {
+
+        const search =
+            (searchInput.value || "")
+                .toLowerCase()
+                .trim();
+
+
+        paymentRows.forEach(function (row) {
+
+            const rowSearch =
+                row.dataset.search || "";
+
+            const status =
+                row.dataset.paymentStatus || "";
+
+
+            const matchesStatus =
+                !paymentFilter ||
+                status === paymentFilter;
+
+
+            const matchesSearch =
+                !search ||
+                rowSearch.includes(search);
+
+
+            row.style.display =
+                matchesStatus && matchesSearch
+                    ? ""
+                    : "none";
+
+        });
+
+    }
+
+
+    /* =====================================================
+       TAB CLICK
+    ===================================================== */
+
+    tabs.forEach(function (tab) {
+
+        tab.addEventListener(
+            "click",
+            function () {
+
+                cards.forEach(function (card) {
+
+                    card.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                openWorkspace(
+                    tab.dataset.tab
+                );
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       KPI CLICK
+    ===================================================== */
+
+    cards.forEach(function (card) {
+
+        card.addEventListener(
+            "click",
+            function () {
+
+
+                cards.forEach(function (item) {
+
+                    item.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                card.classList.add(
+                    "active"
+                );
+
+
+                const workspace =
+                    card.dataset.workspace;
+
+                const status =
+                    card.dataset.status || "";
+
+                const payment =
+                    card.dataset.payment || "";
+
+
+                if (workspace === "payments") {
+
+                    openWorkspace(
+                        "payments",
+                        payment
+                    );
+
+                }
+
+                else {
+
+                    openWorkspace(
+
+                        status &&
+                        status !== "all"
+                            ? status
+                            : workspace
+
+                    );
+
+                }
+
+
+                setTimeout(function () {
+
+                    const element =
+                        document.getElementById(
+                            "workspace"
+                        );
+
+
+                    if (element) {
+
+                        element.scrollIntoView({
+
+                            behavior:
+                                "smooth",
+
+                            block:
+                                "start"
+
+                        });
+
+                    }
+
+                }, 80);
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                if (
+                    currentTab ===
+                    "payments"
+                ) {
+
+                    filterPayments();
+
+                }
+
+                else {
+
+                    filterBookings();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       QUICK ACTIONS
+    ===================================================== */
+
+    document.querySelectorAll(
+        "[data-quick-tab]"
+    ).forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                openWorkspace(
+                    button.dataset.quickTab
+                );
+
+
+                setTimeout(function () {
+
+                    const element =
+                        document.getElementById(
+                            "workspace"
+                        );
+
+
+                    if (element) {
+
+                        element.scrollIntoView({
+
+                            behavior:
+                                "smooth",
+
+                            block:
+                                "start"
+
+                        });
+
+                    }
+
+                }, 80);
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       INITIAL
+    ===================================================== */
+
+    openWorkspace(
+        "bookings"
+    );
+
+});
+
+</script>
+
+{% endblock %}

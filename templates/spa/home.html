@@ -1,0 +1,1601 @@
+{% extends "spa/base.html" %}
+{% load static %}
+
+{% block title %}
+Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   HOME PAGE — BOOKING CTA
+========================================================= */
+
+.home-booking-section {
+    position: relative;
+    padding: 130px 0;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(5,5,5,.82),
+            rgba(5,5,5,.94)
+        ),
+        url("{% static 'images/service.jpg' %}")
+        center / cover no-repeat;
+}
+
+
+.home-booking-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(201,169,110,.14),
+            transparent 42%
+        );
+
+    pointer-events: none;
+}
+
+
+.home-booking-container {
+    position: relative;
+    z-index: 2;
+
+    width: min(1000px, calc(100% - 40px));
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+
+.home-booking-label {
+    margin-bottom: 18px;
+
+    color: #c9a96e;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+
+.home-booking-container h2 {
+    margin: 0 0 25px;
+
+    color: #ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 500;
+    line-height: 1.08;
+}
+
+
+.home-booking-container h2 span {
+    color: #c9a96e;
+    font-style: italic;
+}
+
+
+.home-booking-line {
+    width: 70px;
+    height: 1px;
+
+    margin: 0 auto 28px;
+
+    background: #c9a96e;
+}
+
+
+.home-booking-description {
+    max-width: 720px;
+
+    margin: 0 auto 35px;
+
+    color: #bdb5aa;
+
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+
+.home-booking-details {
+    display: flex;
+
+    justify-content: center;
+    align-items: stretch;
+
+    gap: 0;
+
+    max-width: 850px;
+
+    margin: 0 auto 40px;
+
+    border-top:
+        1px solid rgba(201,169,110,.22);
+
+    border-bottom:
+        1px solid rgba(201,169,110,.22);
+}
+
+
+.home-booking-detail {
+    flex: 1;
+
+    padding: 25px 30px;
+
+    text-align: center;
+}
+
+
+.home-booking-detail + .home-booking-detail {
+    border-left:
+        1px solid rgba(201,169,110,.18);
+}
+
+
+.home-booking-detail span {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #8f887e;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+
+.home-booking-detail strong {
+    display: block;
+
+    color: #eee7dc;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    line-height: 1.6;
+}
+
+
+.home-booking-buttons {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+
+.home-booking-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 220px;
+    min-height: 55px;
+
+    padding: 0 30px;
+
+    border: 1px solid #c9a96e;
+
+    background: #c9a96e;
+
+    color: #0a0a0a;
+
+    text-decoration: none;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    transition:
+        background .3s ease,
+        color .3s ease,
+        box-shadow .3s ease,
+        transform .3s ease;
+}
+
+
+.home-booking-button:hover {
+    background: transparent;
+
+    color: #c9a96e;
+
+    box-shadow:
+        0 0 30px
+        rgba(201,169,110,.12);
+
+    transform: translateY(-2px);
+}
+
+
+.home-booking-whatsapp {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 180px;
+    min-height: 55px;
+
+    padding: 0 30px;
+
+    border: 1px solid rgba(201,169,110,.45);
+
+    background: transparent;
+
+    color: #c9a96e;
+
+    text-decoration: none;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    transition: .3s ease;
+}
+
+
+.home-booking-whatsapp:hover {
+    background: rgba(201,169,110,.08);
+
+    color: #ffffff;
+
+    border-color: #c9a96e;
+}
+
+
+.home-booking-note {
+    margin-top: 28px;
+
+    color: #777168;
+
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   HOME CONTENT IMPROVEMENTS
+========================================================= */
+
+.hero-description {
+    max-width: 680px;
+}
+
+
+.intro-text {
+    max-width: 650px;
+}
+
+
+.service-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.service-link {
+    transition: .3s ease;
+}
+
+
+.service-link:hover {
+    color: #c9a96e;
+}
+
+
+.why-card {
+    transition:
+        transform .3s ease,
+        border-color .3s ease;
+}
+
+
+.why-card:hover {
+    transform: translateY(-5px);
+}
+
+
+.gallery-item {
+    overflow: hidden;
+}
+
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform .5s ease;
+}
+
+
+.gallery-item:hover img {
+    transform: scale(1.04);
+}
+
+
+.contact-buttons {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .home-booking-section {
+        padding: 90px 0;
+    }
+
+
+    .home-booking-container {
+        width: min(100% - 30px, 600px);
+    }
+
+
+    .home-booking-container h2 {
+        font-size: 42px;
+    }
+
+
+    .home-booking-description {
+        font-size: 13px;
+    }
+
+
+    .home-booking-details {
+        display: block;
+    }
+
+
+    .home-booking-detail {
+        padding: 20px;
+    }
+
+
+    .home-booking-detail + .home-booking-detail {
+        border-left: none;
+
+        border-top:
+            1px solid rgba(201,169,110,.18);
+    }
+
+
+    .home-booking-button,
+    .home-booking-whatsapp {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    .contact-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+
+    .contact-buttons a {
+        width: 100%;
+        max-width: 320px;
+        text-align: center;
+    }
+
+}
+
+
+@media (max-width: 400px) {
+
+    .home-booking-container h2 {
+        font-size: 36px;
+    }
+
+
+    .home-booking-section {
+        padding: 75px 0;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+<div class="hero-background">
+
+    <img
+        src="{% static 'images/Hero.png' %}"
+        alt="Relaxing environment at Sukoon Wellness & Spa"
+    >
+
+</div>
+
+
+<div class="hero-overlay"></div>
+
+
+<div class="hero-content">
+
+    <p class="hero-eyebrow">
+        SUKOON WELLNESS & SPA
+    </p>
+
+
+    <h1>
+        Relax.
+        <br>
+        Rejuvenate.
+        <br>
+        <span>Find Your Sukoon.</span>
+    </h1>
+
+
+    <p class="hero-description">
+        Take a pause from the everyday and enjoy a calm,
+        comfortable wellness experience designed to help
+        you relax, recharge and feel your best.
+    </p>
+
+
+    <div class="hero-buttons">
+
+        <a
+            href="{% url 'booking' %}"
+            class="btn-primary"
+        >
+            Book an Appointment
+        </a>
+
+
+        <a
+            href="{% url 'services' %}"
+            class="btn-outline"
+        >
+            Explore Treatments
+        </a>
+
+    </div>
+
+
+    <div class="hero-location">
+
+        <span>✦</span>
+
+        Dwarka City Center Mall,
+        2nd Floor, Majhaulia Road,
+        Gobarsahi, Muzaffarpur
+
+    </div>
+
+</div>
+
+
+<div class="hero-scroll">
+
+    <span>
+        SCROLL TO EXPLORE
+    </span>
+
+    <div class="scroll-line"></div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TRUST / HIGHLIGHTS
+===================================================== -->
+
+<section class="trust-section">
+
+<div class="container trust-grid">
+
+
+    <div class="trust-item">
+
+        <strong>
+            10 AM – 10 PM
+        </strong>
+
+        <span>
+            Opening Hours
+        </span>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <strong>
+            Professional
+        </strong>
+
+        <span>
+            Wellness Care
+        </span>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <strong>
+            Clean &
+            Comfortable
+        </strong>
+
+        <span>
+            Spa Environment
+        </span>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <strong>
+            Convenient
+        </strong>
+
+        <span>
+            Muzaffarpur Location
+        </span>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section class="intro-section">
+
+<div class="container intro-grid">
+
+
+    <div>
+
+        <p class="eyebrow">
+            THE SUKOON EXPERIENCE
+        </p>
+
+
+        <h2>
+
+            A peaceful space for
+            <span>
+                mind & body.
+            </span>
+
+        </h2>
+
+    </div>
+
+
+    <div>
+
+        <p class="intro-text">
+
+            At Sukoon Wellness & Spa, we believe taking
+            time for yourself is an important part of
+            wellbeing.
+
+            <br><br>
+
+            Our peaceful environment, professional care
+            and thoughtfully selected wellness therapies
+            are designed around your comfort, relaxation
+            and overall experience.
+
+        </p>
+
+
+        <a
+            href="{% url 'about' %}"
+            class="text-link"
+        >
+            Discover Sukoon →
+        </a>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FEATURED SERVICES
+===================================================== -->
+
+<section class="services-section">
+
+<div class="container">
+
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            OUR SIGNATURE TREATMENTS
+        </p>
+
+
+        <h2>
+
+            Wellness designed
+            <span>
+                around you.
+            </span>
+
+        </h2>
+
+
+        <p>
+
+            Explore thoughtfully selected wellness
+            treatments created to help you slow down,
+            release everyday tension and make time
+            for yourself.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="services-grid">
+
+
+        {% for service in featured_services %}
+
+
+        <article class="service-card">
+
+
+            {% if service.image %}
+
+            <div class="service-image">
+
+                <img
+                    src="{{ service.image.url }}"
+                    alt="{{ service.name }} at Sukoon Wellness & Spa"
+                    loading="lazy"
+                >
+
+            </div>
+
+            {% endif %}
+
+
+
+            <div class="service-content">
+
+
+                <p class="service-number">
+
+                    {% if forloop.counter < 10 %}
+
+                        0{{ forloop.counter }}
+
+                    {% else %}
+
+                        {{ forloop.counter }}
+
+                    {% endif %}
+
+                </p>
+
+
+
+                <h3>
+                    {{ service.name }}
+                </h3>
+
+
+
+                {% if service.short_description %}
+
+                <p>
+                    {{ service.short_description }}
+                </p>
+
+                {% elif service.description %}
+
+                <p>
+                    {{ service.description|truncatewords:20 }}
+                </p>
+
+                {% endif %}
+
+
+
+                <div class="service-meta">
+
+
+                    {% if service.price %}
+
+                    <div>
+
+                        <span>
+                            Starting from
+                        </span>
+
+                        <strong>
+                            ₹{{ service.price|floatformat:0 }}
+                        </strong>
+
+                    </div>
+
+                    {% endif %}
+
+
+
+                    {% if service.duration %}
+
+                    <div>
+
+                        <span>
+                            Duration
+                        </span>
+
+                        <strong>
+                            {{ service.duration }} min
+                        </strong>
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+                <a
+                    href="{% url 'booking' %}?service={{ service.id }}"
+                    class="service-link"
+                >
+                    Book Treatment →
+                </a>
+
+
+            </div>
+
+
+        </article>
+
+
+        {% empty %}
+
+
+        <!-- =================================================
+             FALLBACK SERVICE 01
+        ================================================= -->
+
+        <article class="service-card">
+
+            <div class="service-content">
+
+                <p class="service-number">
+                    01
+                </p>
+
+
+                <h3>
+                    Swedish Massage
+                </h3>
+
+
+                <p>
+                    A relaxing full-body experience designed
+                    to help ease everyday tension and encourage
+                    relaxation.
+                </p>
+
+
+                <a
+                    href="{% url 'booking' %}"
+                    class="service-link"
+                >
+                    Book Treatment →
+                </a>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             FALLBACK SERVICE 02
+        ================================================= -->
+
+        <article class="service-card">
+
+            <div class="service-content">
+
+                <p class="service-number">
+                    02
+                </p>
+
+
+                <h3>
+                    Deep Tissue Massage
+                </h3>
+
+
+                <p>
+                    A focused massage experience designed
+                    for areas that feel tight, tired or
+                    overworked.
+                </p>
+
+
+                <a
+                    href="{% url 'booking' %}"
+                    class="service-link"
+                >
+                    Book Treatment →
+                </a>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             FALLBACK SERVICE 03
+        ================================================= -->
+
+        <article class="service-card">
+
+            <div class="service-content">
+
+                <p class="service-number">
+                    03
+                </p>
+
+
+                <h3>
+                    Aromatherapy
+                </h3>
+
+
+                <p>
+                    A calming wellness experience combining
+                    relaxing massage techniques with
+                    aromatic oils.
+                </p>
+
+
+                <a
+                    href="{% url 'booking' %}"
+                    class="service-link"
+                >
+                    Book Treatment →
+                </a>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             FALLBACK SERVICE 04
+        ================================================= -->
+
+        <article class="service-card">
+
+            <div class="service-content">
+
+                <p class="service-number">
+                    04
+                </p>
+
+
+                <h3>
+                    Couple Massage
+                </h3>
+
+
+                <p>
+                    A shared wellness experience designed
+                    for two, with time to relax together.
+                </p>
+
+
+                <a
+                    href="{% url 'booking' %}"
+                    class="service-link"
+                >
+                    Book Treatment →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+    <div class="center-button">
+
+        <a
+            href="{% url 'services' %}"
+            class="btn-outline"
+        >
+            View All Treatments
+        </a>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section class="about-section">
+
+<div class="container about-grid">
+
+
+    <div class="about-image">
+
+        <img
+            src="{% static 'images/gallery-5.jpg' %}"
+            alt="Sukoon Wellness & Spa reception"
+            loading="lazy"
+        >
+
+
+        <div class="experience-badge">
+
+            <strong>
+                SUKOON
+            </strong>
+
+            <span>
+                Relax · Rejuvenate · Restore
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="about-content">
+
+        <p class="eyebrow">
+            ABOUT SUKOON
+        </p>
+
+
+        <h2>
+
+            A peaceful escape
+            <span>
+                from the everyday.
+            </span>
+
+        </h2>
+
+
+        <p>
+
+            Located at Dwarka City Center Mall in
+            Muzaffarpur, Sukoon Wellness & Spa offers
+            a calm and welcoming space where you can
+            step away from your routine and make time
+            for relaxation.
+
+        </p>
+
+
+        <p>
+
+            From aromatherapy and Swedish massage to
+            deep tissue, reflexology and other wellness
+            experiences, our treatments are presented
+            with your comfort and personal preferences
+            in mind.
+
+        </p>
+
+
+
+        <div class="about-features">
+
+
+            <div>
+
+                <strong>
+                    01
+                </strong>
+
+                <span>
+                    Peaceful Environment
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    02
+                </strong>
+
+                <span>
+                    Thoughtful Care
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    03
+                </strong>
+
+                <span>
+                    Clean & Comfortable
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    04
+                </strong>
+
+                <span>
+                    Personalized Experience
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <a
+            href="{% url 'about' %}"
+            class="btn-primary"
+        >
+            Learn More About Us
+        </a>
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WHY SUKOON
+===================================================== -->
+
+<section class="why-section">
+
+<div class="container">
+
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            WHY CHOOSE SUKOON
+        </p>
+
+
+        <h2>
+
+            Your comfort.
+            <span>
+                Our priority.
+            </span>
+
+        </h2>
+
+    </div>
+
+
+
+    <div class="why-grid">
+
+
+        <div class="why-card">
+
+            <div class="why-icon">
+                ✦
+            </div>
+
+
+            <h3>
+                A Calm Experience
+            </h3>
+
+
+            <p>
+                A welcoming environment designed
+                to help you slow down, relax and
+                enjoy your time.
+            </p>
+
+        </div>
+
+
+
+        <div class="why-card">
+
+            <div class="why-icon">
+                ◇
+            </div>
+
+
+            <h3>
+                Thoughtful Care
+            </h3>
+
+
+            <p>
+                A service experience focused on
+                comfort, privacy and personal
+                preference.
+            </p>
+
+        </div>
+
+
+
+        <div class="why-card">
+
+            <div class="why-icon">
+                ○
+            </div>
+
+
+            <h3>
+                Clean & Comfortable
+            </h3>
+
+
+            <p>
+                Cleanliness and comfort are important
+                parts of creating a welcoming spa
+                experience.
+            </p>
+
+        </div>
+
+
+
+        <div class="why-card">
+
+            <div class="why-icon">
+                ✧
+            </div>
+
+
+            <h3>
+                Convenient Location
+            </h3>
+
+
+            <p>
+                Located inside Dwarka City Center
+                Mall, Muzaffarpur.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     GALLERY
+===================================================== -->
+
+<section class="gallery-section">
+
+<div class="container">
+
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            OUR SPACE
+        </p>
+
+
+        <h2>
+
+            Step into
+            <span>
+                Sukoon.
+            </span>
+
+        </h2>
+
+
+        <p>
+
+            Take a glimpse of the space and atmosphere
+            created for your wellness experience.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="gallery-grid">
+
+
+        <div class="gallery-item large">
+
+            <img
+                src="{% static 'images/gallery-1.jpg' %}"
+                alt="Sukoon Wellness & Spa lounge"
+                loading="lazy"
+            >
+
+        </div>
+
+
+
+        <div class="gallery-item">
+
+            <img
+                src="{% static 'images/gallery-5.jpg' %}"
+                alt="Sukoon Wellness & Spa reception"
+                loading="lazy"
+            >
+
+        </div>
+
+
+
+        <div class="gallery-item">
+
+            <img
+                src="{% static 'images/gallery-10.jpg' %}"
+                alt="Sukoon Wellness & Spa treatment room"
+                loading="lazy"
+            >
+
+        </div>
+
+
+
+        <div class="gallery-item">
+
+            <img
+                src="{% static 'images/gallery-12.jpg' %}"
+                alt="Sukoon Wellness & Spa relaxation area"
+                loading="lazy"
+            >
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="center-button">
+
+        <a
+            href="{% url 'gallery' %}"
+            class="btn-outline"
+        >
+            Explore Full Gallery
+        </a>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     BOOKING CTA
+===================================================== -->
+
+<section class="home-booking-section">
+
+<div class="home-booking-container">
+
+
+    <p class="home-booking-label">
+        RESERVE YOUR EXPERIENCE
+    </p>
+
+
+    <h2>
+
+        Make time
+        <span>
+            for yourself.
+        </span>
+
+    </h2>
+
+
+    <div class="home-booking-line"></div>
+
+
+    <p class="home-booking-description">
+
+        Choose your preferred treatment, select a
+        convenient date and time, and send your
+        appointment request. Our team will review
+        your request and confirm the appointment
+        with you.
+
+    </p>
+
+
+
+    <!-- =================================================
+         BOOKING INFORMATION
+    ================================================= -->
+
+    <div class="home-booking-details">
+
+
+        <div class="home-booking-detail">
+
+            <span>
+                LOCATION
+            </span>
+
+
+            <strong>
+
+                Dwarka City Center Mall,
+                2nd Floor, Majhaulia Road,
+                Gobarsahi, Muzaffarpur,
+                Bihar 842002
+
+            </strong>
+
+        </div>
+
+
+
+        <div class="home-booking-detail">
+
+            <span>
+                HOURS
+            </span>
+
+
+            <strong>
+                10:00 AM – 10:00 PM
+            </strong>
+
+        </div>
+
+
+
+        <div class="home-booking-detail">
+
+            <span>
+                CALL US
+            </span>
+
+
+            <strong>
+                +91 90316 40551
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="home-booking-buttons">
+
+
+        <a
+            href="{% url 'booking' %}"
+            class="home-booking-button"
+        >
+            Book an Appointment
+        </a>
+
+
+        <a
+            href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="home-booking-whatsapp"
+        >
+            Chat on WhatsApp
+        </a>
+
+
+    </div>
+
+
+
+    <p class="home-booking-note">
+
+        Appointment requests are reviewed by our team.
+        Your appointment is confirmed after we verify
+        the requested date and time.
+
+    </p>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CONTACT CTA
+===================================================== -->
+
+<section class="contact-section">
+
+<div class="container contact-content">
+
+
+    <p class="eyebrow">
+        VISIT SUKOON
+    </p>
+
+
+    <h2>
+
+        Your time to
+        <span>
+            relax starts here.
+        </span>
+
+    </h2>
+
+
+    <p>
+
+        Dwarka City Center Mall,
+        2nd Floor, Majhaulia Road,
+        Gobarsahi, Muzaffarpur,
+        Bihar 842002
+
+    </p>
+
+
+
+    <div class="contact-buttons">
+
+
+        <a
+            href="{% url 'booking' %}"
+            class="btn-primary"
+        >
+            Book Appointment
+        </a>
+
+
+        <a
+            href="tel:+919031640551"
+            class="btn-outline"
+        >
+            Call 9031640551
+        </a>
+
+
+        <a
+            href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-outline"
+        >
+            WhatsApp
+        </a>
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

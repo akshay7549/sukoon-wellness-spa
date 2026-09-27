@@ -1,0 +1,883 @@
+{% extends "spa/base.html" %}
+{% load static %}
+
+{% block title %}About Sukoon Wellness & Spa | Our Story{% endblock %}
+
+{% block extra_css %}
+<style>
+/* =========================
+           ABOUT BLOG PAGE
+        ========================= */
+
+        .about-page {
+            background: #0b0b0b;
+            color: #f5f1e8;
+        }
+
+        .about-hero {
+            min-height: 70vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, .65),
+                    rgba(0, 0, 0, .82)
+                ),
+                url("{% static 'images/Balinese-Therapy.jpg' %}")
+                center/cover no-repeat;
+        }
+
+        .about-hero-content {
+            width: min(1100px, 90%);
+            margin: auto;
+            padding: 130px 0 100px;
+            text-align: center;
+        }
+
+        .about-label {
+            color: #c9a96e;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .about-hero h1 {
+            font-family: Georgia, serif;
+            font-size: clamp(48px, 7vw, 88px);
+            line-height: 1;
+            margin: 0 auto 25px;
+            max-width: 950px;
+        }
+
+        .about-hero h1 span {
+            color: #c9a96e;
+        }
+
+        .about-hero p {
+            max-width: 720px;
+            margin: auto;
+            color: #d6d1c7;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           BLOG CONTENT
+        ========================= */
+
+        .story-section {
+            padding: 110px 20px;
+        }
+
+        .story-container {
+            width: min(1050px, 92%);
+            margin: auto;
+        }
+
+        .story-header {
+            max-width: 780px;
+            margin-bottom: 65px;
+        }
+
+        .story-header .date {
+            color: #c9a96e;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .story-header h2 {
+            font-family: Georgia, serif;
+            font-size: clamp(36px, 5vw, 58px);
+            line-height: 1.15;
+            margin: 0 0 25px;
+        }
+
+        .story-header p {
+            color: #aaa;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1.4fr .6fr;
+            gap: 70px;
+            align-items: start;
+        }
+
+        .story-article p {
+            color: #c8c3bb;
+            font-size: 17px;
+            line-height: 1.95;
+            margin-bottom: 28px;
+        }
+
+        .story-article h3 {
+            font-family: Georgia, serif;
+            font-size: 32px;
+            margin: 55px 0 20px;
+            color: #f4eee2;
+        }
+
+        .story-image {
+            position: sticky;
+            top: 100px;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 520px;
+            object-fit: cover;
+            border-radius: 3px;
+            display: block;
+        }
+
+        .image-caption {
+            margin-top: 15px;
+            color: #777;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           QUOTE
+        ========================= */
+
+        .story-quote {
+            margin: 70px 0;
+            padding: 45px;
+            border-left: 2px solid #c9a96e;
+            background: rgba(201, 169, 110, .05);
+        }
+
+        .story-quote p {
+            font-family: Georgia, serif;
+            font-size: 29px;
+            line-height: 1.5;
+            color: #e9e1d4;
+            margin: 0;
+        }
+
+        /* =========================
+           PHILOSOPHY
+        ========================= */
+
+        .philosophy-section {
+            padding: 110px 20px;
+            background: #11100f;
+        }
+
+        .philosophy-container {
+            width: min(1100px, 92%);
+            margin: auto;
+        }
+
+        .philosophy-heading {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 65px;
+        }
+
+        .philosophy-heading span {
+            color: #c9a96e;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 12px;
+        }
+
+        .philosophy-heading h2 {
+            font-family: Georgia, serif;
+            font-size: 48px;
+            margin: 15px 0;
+        }
+
+        .philosophy-heading p {
+            color: #999;
+            line-height: 1.8;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .philosophy-card {
+            padding: 40px 30px;
+            border: 1px solid rgba(255,255,255,.08);
+            background: #0c0c0c;
+            transition: .3s ease;
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(201,169,110,.45);
+        }
+
+        .philosophy-number {
+            color: #c9a96e;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .philosophy-card h3 {
+            font-family: Georgia, serif;
+            font-size: 27px;
+            margin-bottom: 15px;
+        }
+
+        .philosophy-card p {
+            color: #999;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           EXPERIENCE
+        ========================= */
+
+        .experience-section {
+            padding: 110px 20px;
+        }
+
+        .experience-grid {
+            width: min(1100px, 92%);
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .experience-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+        }
+
+        .experience-content .label {
+            color: #c9a96e;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 12px;
+        }
+
+        .experience-content h2 {
+            font-family: Georgia, serif;
+            font-size: 50px;
+            line-height: 1.15;
+            margin: 18px 0 25px;
+        }
+
+        .experience-content p {
+            color: #aaa;
+            line-height: 1.9;
+            font-size: 17px;
+            margin-bottom: 25px;
+        }
+
+        .experience-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 35px;
+        }
+
+        .experience-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            color: #ddd;
+        }
+
+        .experience-list li::before {
+            content: "✦";
+            color: #c9a96e;
+            margin-right: 12px;
+        }
+
+        /* =========================
+           FINAL CTA
+        ========================= */
+
+        .about-cta {
+            padding: 120px 20px;
+            text-align: center;
+            background:
+                linear-gradient(
+                    rgba(0,0,0,.72),
+                    rgba(0,0,0,.82)
+                ),
+                url("{% static 'images/Jacuzzi Therapy.jpg' %}")
+                center/cover no-repeat;
+        }
+
+        .about-cta span {
+            color: #c9a96e;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 12px;
+        }
+
+        .about-cta h2 {
+            font-family: Georgia, serif;
+            font-size: clamp(40px, 6vw, 65px);
+            margin: 18px auto;
+            max-width: 800px;
+        }
+
+        .about-cta p {
+            color: #ccc;
+            max-width: 650px;
+            margin: 0 auto 35px;
+            line-height: 1.8;
+        }
+
+        .about-cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .gold-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #c9a96e;
+            color: #111;
+            text-decoration: none;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .gold-btn:hover {
+            transform: translateY(-3px);
+            background: #dfc18a;
+        }
+
+        .outline-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border: 1px solid #c9a96e;
+            color: #c9a96e;
+            text-decoration: none;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .outline-btn:hover {
+            background: #c9a96e;
+            color: #111;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .story-content,
+            .experience-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .story-image {
+                position: relative;
+                top: 0;
+            }
+
+            .story-image img,
+            .experience-image img {
+                height: 430px;
+            }
+
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-quote {
+                padding: 30px;
+            }
+
+            .story-quote p {
+                font-size: 23px;
+            }
+
+            .experience-content h2 {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .about-hero-content {
+                padding: 110px 0 80px;
+            }
+
+            .about-hero p {
+                font-size: 16px;
+            }
+
+            .story-section,
+            .philosophy-section,
+            .experience-section {
+                padding: 75px 15px;
+            }
+
+            .story-header h2,
+            .philosophy-heading h2 {
+                font-size: 38px;
+            }
+
+            .story-article p {
+                font-size: 16px;
+            }
+
+            .about-cta {
+                padding: 80px 15px;
+            }
+        }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<!-- =========================
+     HERO
+========================== -->
+
+<section class="about-hero">
+
+    <div class="about-hero-content">
+
+        <div class="about-label">
+            The Sukoon Story
+        </div>
+
+        <h1>
+            Where Peace
+            <span>Meets Luxury</span>
+        </h1>
+
+        <p>
+            A thoughtfully created wellness space in Muzaffarpur,
+            designed to help you slow down, step away from the everyday
+            and make time for yourself.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MAIN STORY
+========================== -->
+
+<section class="story-section">
+
+    <div class="story-container">
+
+        <div class="story-header">
+
+            <div class="date">
+                Our Story · Sukoon Wellness & Spa
+            </div>
+
+            <h2>
+                A space created for moments of calm.
+            </h2>
+
+            <p>
+                At Sukoon, we believe that taking time for yourself
+                should not feel like a luxury. It should feel like
+                a natural part of a balanced life.
+            </p>
+
+        </div>
+
+
+        <div class="story-content">
+
+            <article class="story-article">
+
+                <p>
+                    Welcome to <strong>Sukoon Wellness & Spa</strong> —
+                    a wellness destination created around a simple
+                    philosophy: give people a comfortable place to
+                    pause, relax and reconnect with themselves.
+                </p>
+
+                <p>
+                    Located in Muzaffarpur, Bihar, Sukoon brings together
+                    a carefully selected range of massage therapies,
+                    body-care experiences and wellness packages in an
+                    environment designed to feel calm, welcoming and
+                    unhurried.
+                </p>
+
+                <p>
+                    Modern life often leaves very little room to slow
+                    down. Between work, responsibilities and everyday
+                    routines, personal time can easily become an
+                    afterthought. Sukoon was created to offer a space
+                    where that time can be given the attention it
+                    deserves.
+                </p>
+
+                <p>
+                    From the atmosphere of the space to the way each
+                    experience is presented, our focus is on creating
+                    a visit that feels comfortable from beginning to
+                    end. Whether you are visiting after a demanding
+                    week, looking for a quiet break or simply making
+                    time for self-care, Sukoon gives you a place to
+                    step away from the pace of everyday life.
+                </p>
+
+
+                <div class="story-quote">
+
+                    <p>
+                        “Sometimes the most meaningful form of
+                        self-care is simply giving yourself permission
+                        to slow down.”
+                    </p>
+
+                </div>
+
+
+                <h3>
+                    The meaning behind Sukoon
+                </h3>
+
+                <p>
+                    The word <strong>Sukoon</strong> is associated with
+                    peace, calmness and a sense of inner comfort. It
+                    represents the feeling we want guests to associate
+                    with their time at our spa.
+                </p>
+
+                <p>
+                    For us, Sukoon is not just a name. It is the
+                    experience we aim to create — a peaceful pause
+                    from busy schedules, unnecessary distractions
+                    and the constant rush of everyday life.
+                </p>
+
+                <p>
+                    Every guest arrives with a different reason for
+                    visiting. Some may want a relaxing massage, some
+                    may prefer a focused wellness experience, while
+                    others may simply want quiet time in a comfortable
+                    environment.
+                </p>
+
+
+                <h3>
+                    Designed around your experience
+                </h3>
+
+                <p>
+                    Our approach begins with choice. Sukoon offers a
+                    variety of experiences so that guests can select
+                    what feels right for their visit, from gentle
+                    Swedish Massage and Aroma Therapy to Balinese
+                    Massage, Deep Tissue Massage, Thai Dry Therapy,
+                    Foot Reflexology and other wellness options.
+                </p>
+
+                <p>
+                    Alongside our massage therapies, we also offer
+                    selected body-care treatments and thoughtfully
+                    arranged wellness packages for guests who want
+                    to combine different experiences during their
+                    visit.
+                </p>
+
+                <p>
+                    Rather than treating every visit the same, we
+                    believe in giving guests the freedom to choose
+                    an experience that matches their preferences,
+                    schedule and comfort.
+                </p>
+
+
+                <h3>
+                    A place to pause
+                </h3>
+
+                <p>
+                    The Sukoon experience extends beyond the treatment
+                    itself. A peaceful environment, attentive service
+                    and a comfortable setting all play an important
+                    role in creating the right atmosphere.
+                </p>
+
+                <p>
+                    Our intention is simple: when you leave Sukoon,
+                    we want you to feel that you have genuinely taken
+                    time for yourself.
+                </p>
+
+                <p>
+                    Whether it is your first visit or part of your
+                    regular self-care routine, Sukoon is a place to
+                    return to whenever you need a little more calm
+                    in your day.
+                </p>
+
+
+                <h3>
+                    Our commitment to Sukoon
+                </h3>
+
+                <p>
+                    We continue to build Sukoon around the things that
+                    matter most in a wellness experience — cleanliness,
+                    comfort, thoughtful service and a peaceful
+                    environment.
+                </p>
+
+                <p>
+                    As we grow, our goal remains the same: to create
+                    a welcoming wellness destination where every guest
+                    can slow down, enjoy their time and experience
+                    their own moment of Sukoon.
+                </p>
+
+            </article>
+
+
+            <aside class="story-image">
+
+                <img
+                    src="{% static 'images/gallery-2.jpg' %}"
+                    alt="Sukoon Wellness & Spa reception"
+                >
+
+                <div class="image-caption">
+                    A calm and welcoming environment created for
+                    relaxation, comfort and personal time.
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PHILOSOPHY
+========================== -->
+
+<section class="philosophy-section">
+
+    <div class="philosophy-container">
+
+        <div class="philosophy-heading">
+
+            <span>
+                Our Philosophy
+            </span>
+
+            <h2>
+                Wellness, our way.
+            </h2>
+
+            <p>
+                Our approach is built around simple principles that
+                shape the Sukoon experience — thoughtful care,
+                comfortable surroundings and meaningful time for yourself.
+            </p>
+
+        </div>
+
+
+        <div class="philosophy-grid">
+
+            <div class="philosophy-card">
+
+                <div class="philosophy-number">
+                    01 — CARE
+                </div>
+
+                <h3>
+                    Personal Attention
+                </h3>
+
+                <p>
+                    Every guest deserves to feel comfortable and
+                    welcomed. We focus on attentive service and
+                    thoughtful care throughout your visit.
+                </p>
+
+            </div>
+
+
+            <div class="philosophy-card">
+
+                <div class="philosophy-number">
+                    02 — SPACE
+                </div>
+
+                <h3>
+                    Peaceful Environment
+                </h3>
+
+                <p>
+                    We create a calm setting where you can step away
+                    from everyday distractions and enjoy time dedicated
+                    to relaxation.
+                </p>
+
+            </div>
+
+
+            <div class="philosophy-card">
+
+                <div class="philosophy-number">
+                    03 — WELLNESS
+                </div>
+
+                <h3>
+                    Meaningful Relaxation
+                </h3>
+
+                <p>
+                    We believe a wellness experience should give you
+                    space to slow down, feel refreshed and return to
+                    your routine with a renewed sense of calm.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     EXPERIENCE
+========================== -->
+
+<section class="experience-section">
+
+    <div class="experience-grid">
+
+        <div class="experience-image">
+
+            <img
+                src="{% static 'images/Balinese Massage.jpg' %}"
+                alt="Sukoon Wellness & Spa treatment experience"
+            >
+
+        </div>
+
+
+        <div class="experience-content">
+
+            <span class="label">
+                The Experience
+            </span>
+
+            <h2>
+                Leave the outside world behind.
+            </h2>
+
+            <p>
+                Your time at Sukoon is designed to feel different
+                from the moment you arrive — calm, comfortable and
+                focused on you.
+            </p>
+
+            <p>
+                Whether you choose a relaxing massage, a body-care
+                experience or one of our wellness packages, our aim
+                is to create a welcoming experience where you can
+                take a genuine break from your everyday routine.
+            </p>
+
+            <ul class="experience-list">
+
+                <li>
+                    A curated selection of wellness therapies
+                </li>
+
+                <li>
+                    Clean and peaceful surroundings
+                </li>
+
+                <li>
+                    Comfortable treatment spaces
+                </li>
+
+                <li>
+                    Flexible massage and wellness options
+                </li>
+
+                <li>
+                    Thoughtful and attentive service
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FINAL CTA
+========================== -->
+
+<section class="about-cta">
+
+    <span>
+        Your time. Your peace. Your Sukoon.
+    </span>
+
+    <h2>
+        Make time for yourself.
+    </h2>
+
+    <p>
+        Step away from the everyday routine and give yourself
+        a moment to slow down, relax and enjoy a peaceful
+        wellness experience at Sukoon.
+    </p>
+
+    <div class="about-cta-buttons">
+
+        <a
+            href="{% url 'booking' %}"
+            class="gold-btn"
+        >
+            Book Your Experience
+        </a>
+
+        <a
+            href="{% url 'services' %}"
+            class="outline-btn"
+        >
+            Explore Therapies
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

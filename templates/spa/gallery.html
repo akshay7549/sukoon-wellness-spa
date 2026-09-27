@@ -1,0 +1,1408 @@
+{% extends "spa/base.html" %}
+{% load static %}
+
+{% block title %}
+Gallery | Sukoon Wellness & Spa
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   SUKOON GALLERY PAGE
+========================================================= */
+
+.gallery-page {
+    background: #090909;
+    color: #f5efe4;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.gallery-hero {
+    min-height: 62vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.60),
+            rgba(0, 0, 0, 0.88)
+        ),
+        url("{% static 'images/gallery-1.jpg' %}")
+        center / cover no-repeat;
+}
+
+.gallery-hero-content {
+    width: min(900px, 90%);
+    padding: 120px 0 90px;
+}
+
+.gallery-eyebrow {
+    color: #c9a96e;
+
+    text-transform: uppercase;
+    letter-spacing: 5px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    margin-bottom: 22px;
+}
+
+.gallery-hero h1 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(48px, 7vw, 82px);
+
+    line-height: 1.05;
+
+    margin: 0 0 25px;
+}
+
+.gallery-hero h1 span {
+    color: #c9a96e;
+}
+
+.gallery-hero p {
+    max-width: 700px;
+
+    margin: auto;
+
+    color: #d0c9bd;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   GALLERY SECTION
+========================================================= */
+
+.gallery-section {
+    padding: 110px 20px;
+}
+
+.gallery-container {
+    width: min(1350px, 94%);
+    margin: auto;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.gallery-heading {
+    text-align: center;
+
+    max-width: 750px;
+
+    margin: 0 auto 65px;
+}
+
+.gallery-heading .small-title {
+    color: #c9a96e;
+
+    text-transform: uppercase;
+
+    letter-spacing: 4px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    margin-bottom: 18px;
+}
+
+.gallery-heading h2 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(38px, 5vw, 58px);
+
+    margin: 0 0 18px;
+}
+
+.gallery-heading h2 span {
+    color: #c9a96e;
+}
+
+.gallery-heading p {
+    color: #999;
+
+    line-height: 1.8;
+
+    margin: auto;
+}
+
+
+/* =========================================================
+   GALLERY GRID — UNIFORM SIZE
+========================================================= */
+
+.gallery-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   GALLERY ITEM — SAME SIZE
+========================================================= */
+
+.gallery-item {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 4 / 3;
+
+    overflow: hidden;
+
+    background: #111;
+
+    border: 1px solid rgba(201, 169, 110, 0.22);
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    isolation: isolate;
+}
+
+
+/* Remove old masonry height rules */
+.gallery-item:nth-child(3n),
+.gallery-item:nth-child(5n) {
+    height: auto;
+    grid-row: auto;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.gallery-item img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition:
+        transform 0.7s ease,
+        filter 0.5s ease;
+}
+
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
+.gallery-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.85),
+            rgba(0,0,0,0.10)
+        );
+
+    opacity: 0;
+
+    transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+
+    filter: brightness(0.65);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   EYE ICON
+========================================================= */
+
+.gallery-eye {
+    width: 58px;
+    height: 58px;
+
+    border: 1px solid #c9a96e;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #c9a96e;
+
+    font-size: 21px;
+
+    background: rgba(0,0,0,0.35);
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-eye {
+    background: #c9a96e;
+
+    color: #090909;
+
+    transform: scale(1.08);
+}
+
+
+/* =========================================================
+   IMAGE LABEL
+========================================================= */
+
+.gallery-label {
+    position: absolute;
+
+    left: 22px;
+    bottom: 20px;
+
+    z-index: 2;
+
+    color: #f5efe4;
+
+    font-family: Georgia, serif;
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+.gallery-lightbox {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background: rgba(0,0,0,0.94);
+}
+
+.gallery-lightbox.active {
+    display: flex;
+}
+
+.gallery-lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+
+    object-fit: contain;
+
+    border: 1px solid rgba(201,169,110,0.45);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.8);
+}
+
+
+/* =========================================================
+   LIGHTBOX CLOSE
+========================================================= */
+
+.gallery-close {
+    position: absolute;
+
+    top: 25px;
+    right: 30px;
+
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid #c9a96e;
+
+    background: rgba(0,0,0,0.5);
+
+    color: #c9a96e;
+
+    border-radius: 50%;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   LIGHTBOX ARROWS
+========================================================= */
+
+.gallery-nav {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    border: 1px solid #c9a96e;
+
+    background: rgba(0,0,0,0.55);
+
+    color: #c9a96e;
+
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+.gallery-prev {
+    left: 25px;
+}
+
+.gallery-next {
+    right: 25px;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.gallery-cta {
+    padding: 110px 20px;
+
+    text-align: center;
+
+    border-top: 1px solid rgba(201,169,110,0.15);
+
+    background:
+        linear-gradient(
+            rgba(201,169,110,0.03),
+            rgba(0,0,0,0)
+        );
+}
+
+.gallery-cta h2 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(35px, 5vw, 55px);
+
+    margin-bottom: 18px;
+}
+
+.gallery-cta h2 span {
+    color: #c9a96e;
+}
+
+.gallery-cta p {
+    color: #999;
+
+    max-width: 650px;
+
+    margin: 0 auto 35px;
+
+    line-height: 1.8;
+}
+
+.gallery-book-btn {
+    display: inline-block;
+
+    padding: 16px 38px;
+
+    border: 1px solid #c9a96e;
+
+    color: #c9a96e;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    transition: all 0.3s ease;
+}
+
+.gallery-book-btn:hover {
+    background: #c9a96e;
+
+    color: #090909;
+}
+
+
+/* =========================================================
+   RESPONSIVE GALLERY
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .gallery-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 16px;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .gallery-section {
+        padding: 80px 15px;
+    }
+
+    .gallery-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 14px;
+    }
+
+    .gallery-item,
+    .gallery-item:nth-child(3n),
+    .gallery-item:nth-child(5n) {
+        height: auto;
+        aspect-ratio: 4 / 3;
+        grid-row: auto;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .gallery-hero {
+        min-height: 55vh;
+    }
+
+    .gallery-hero-content {
+        padding: 100px 0 70px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .gallery-item,
+    .gallery-item:nth-child(3n),
+    .gallery-item:nth-child(5n) {
+        height: auto;
+        aspect-ratio: 4 / 3;
+        grid-row: auto;
+    }
+
+    .gallery-overlay {
+        opacity: 1;
+
+        background:
+            linear-gradient(
+                to top,
+                rgba(0,0,0,0.65),
+                rgba(0,0,0,0.05)
+            );
+    }
+
+    .gallery-eye {
+        width: 48px;
+        height: 48px;
+    }
+
+    .gallery-close {
+        right: 15px;
+        top: 15px;
+    }
+
+    .gallery-prev {
+        left: 10px;
+    }
+
+    .gallery-next {
+        right: 10px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="gallery-page">
+
+
+    <!-- =====================================================
+         HERO
+    ===================================================== -->
+
+    <section class="gallery-hero">
+
+        <div class="gallery-hero-content">
+
+            <div class="gallery-eyebrow">
+                Inside Sukoon
+            </div>
+
+            <h1>
+                Our <span>Gallery</span>
+            </h1>
+
+            <p>
+                Take a closer look at Sukoon Wellness & Spa —
+                a thoughtfully designed space where calming
+                surroundings, wellness therapies and attentive
+                service come together to create a more relaxing
+                experience.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         GALLERY
+    ===================================================== -->
+
+    <section class="gallery-section">
+
+        <div class="gallery-container">
+
+
+            <div class="gallery-heading">
+
+                <div class="small-title">
+                    The Sukoon Experience
+                </div>
+
+                <h2>
+                    A closer look at
+                    <span>your escape.</span>
+                </h2>
+
+                <p>
+                    Explore glimpses of our spa interiors, treatment
+                    spaces and wellness experiences. Every detail is
+                    thoughtfully presented to reflect the calm,
+                    comfort and understated luxury of Sukoon.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 IMAGE GRID
+            ================================================= -->
+
+            <div class="gallery-grid" id="galleryGrid">
+
+
+                <!-- 01 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-5.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-5.jpg' %}"
+                        alt="Sukoon Wellness & Spa reception area"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- 02 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-4.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-4.jpg' %}"
+                        alt="Sukoon Wellness & Spa lounge and relaxation space"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- 03 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-10.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-10.jpg' %}"
+                        alt="Sukoon Wellness & Spa treatment room"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- 04 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-9.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-9.jpg' %}"
+                        alt="Sukoon Wellness & Spa relaxation area"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- 05 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-14.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-14.jpg' %}"
+                        alt="Sukoon Wellness & Spa entrance and welcoming interior"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 06 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/Potli Therapy.jpg' %}">
+
+                    <img
+                        src="{% static 'images/Potli Therapy.jpg' %}"
+                        alt="Traditional Potli Therapy at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 07 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/interior.jpg' %}">
+
+                    <img
+                        src="{% static 'images/interior.jpg' %}"
+                        alt="Sukoon Wellness & Spa interior and calming ambience"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 08 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-13.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-13.jpg' %}"
+                        alt="Sukoon Wellness & Spa interior relaxation space"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 09 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/Balinese Massage.jpg' %}">
+
+                    <img
+                        src="{% static 'images/Balinese Massage.jpg' %}"
+                        alt="Balinese Massage experience at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 10 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/skincare.jpg' %}">
+
+                    <img
+                        src="{% static 'images/skincare.jpg' %}"
+                        alt="Skincare and body care experience at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 11 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-8.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-8.jpg' %}"
+                        alt="Sukoon Wellness & Spa treatment and relaxation environment"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- 12 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-3.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-3.jpg' %}"
+                        alt="Elegant interior details at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 13 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-7.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-7.jpg' %}"
+                        alt="Calm wellness setting at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 14 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-4.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-4.jpg' %}"
+                        alt="Comfortable lounge area at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 15 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/gallery-2.jpg' %}">
+
+                    <img
+                        src="{% static 'images/gallery-2.jpg' %}"
+                        alt="Wellness experience at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- 16 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/Red Bull Therapy.jpg' %}">
+
+                    <img
+                        src="{% static 'images/Red Bull Therapy.jpg' %}"
+                        alt="Red Bull Therapy experience at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- 17 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/Scrubbing.jpg' %}">
+
+                    <img
+                        src="{% static 'images/Scrubbing.jpg' %}"
+                        alt="Body scrubbing treatment at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- 18 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/Bamboo Therapy.jpg' %}">
+
+                    <img
+                        src="{% static 'images/Bamboo Therapy.jpg' %}"
+                        alt="Bamboo Therapy experience at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- 19 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/Full Hand Scrub.jpg' %}">
+
+                    <img
+                        src="{% static 'images/Full Hand Scrub.jpg' %}"
+                        alt="Hand scrub and body care experience at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <!-- 20 -->
+
+                <div class="gallery-item"
+                     data-image="{% static 'images/service.jpg' %}">
+
+                    <img
+                        src="{% static 'images/service.jpg' %}"
+                        alt="Premium wellness and spa environment at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+                    <div class="gallery-overlay">
+
+                        <div class="gallery-eye">
+                            &#128065;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CTA
+    ===================================================== -->
+
+    <section class="gallery-cta">
+
+        <h2>
+            See the space.
+            <span>Feel the Sukoon.</span>
+        </h2>
+
+        <p>
+            Ready to step away from the everyday? Choose your
+            preferred wellness experience and make time for a
+            calm, comfortable visit at Sukoon Wellness & Spa.
+        </p>
+
+        <a
+            href="{% url 'booking' %}"
+            class="gallery-book-btn"
+        >
+            Book Your Experience
+        </a>
+
+    </section>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     LIGHTBOX
+========================================================= -->
+
+<div
+    class="gallery-lightbox"
+    id="galleryLightbox"
+    aria-hidden="true"
+>
+
+    <button
+        class="gallery-close"
+        id="galleryClose"
+        type="button"
+        aria-label="Close gallery"
+    >
+        &times;
+    </button>
+
+
+    <button
+        class="gallery-nav gallery-prev"
+        id="galleryPrev"
+        type="button"
+        aria-label="Previous image"
+    >
+        &#10094;
+    </button>
+
+
+    <img
+        id="lightboxImage"
+        src=""
+        alt="Gallery image preview"
+    >
+
+
+    <button
+        class="gallery-nav gallery-next"
+        id="galleryNext"
+        type="button"
+        aria-label="Next image"
+    >
+        &#10095;
+    </button>
+
+</div>
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const items =
+        document.querySelectorAll(".gallery-item");
+
+    const lightbox =
+        document.getElementById("galleryLightbox");
+
+    const lightboxImage =
+        document.getElementById("lightboxImage");
+
+    const closeButton =
+        document.getElementById("galleryClose");
+
+    const previousButton =
+        document.getElementById("galleryPrev");
+
+    const nextButton =
+        document.getElementById("galleryNext");
+
+
+    let currentIndex = 0;
+
+
+    /* =====================================================
+       OPEN IMAGE
+    ===================================================== */
+
+    function openLightbox(index) {
+
+        if (!items.length) {
+            return;
+        }
+
+        currentIndex = index;
+
+        const image =
+            items[currentIndex].dataset.image;
+
+        lightboxImage.src = image;
+
+        lightbox.classList.add("active");
+
+        lightbox.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.style.overflow = "hidden";
+    }
+
+
+    /* =====================================================
+       CLOSE IMAGE
+    ===================================================== */
+
+    function closeLightbox() {
+
+        lightbox.classList.remove("active");
+
+        lightbox.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.style.overflow = "";
+
+        lightboxImage.src = "";
+    }
+
+
+    /* =====================================================
+       NEXT IMAGE
+    ===================================================== */
+
+    function nextImage() {
+
+        currentIndex++;
+
+        if (currentIndex >= items.length) {
+            currentIndex = 0;
+        }
+
+        lightboxImage.src =
+            items[currentIndex].dataset.image;
+    }
+
+
+    /* =====================================================
+       PREVIOUS IMAGE
+    ===================================================== */
+
+    function previousImage() {
+
+        currentIndex--;
+
+        if (currentIndex < 0) {
+            currentIndex = items.length - 1;
+        }
+
+        lightboxImage.src =
+            items[currentIndex].dataset.image;
+    }
+
+
+    /* =====================================================
+       CLICK GALLERY
+    ===================================================== */
+
+    items.forEach(function (item, index) {
+
+        item.addEventListener(
+            "click",
+            function () {
+
+                openLightbox(index);
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    closeButton.addEventListener(
+        "click",
+        closeLightbox
+    );
+
+    nextButton.addEventListener(
+        "click",
+        nextImage
+    );
+
+    previousButton.addEventListener(
+        "click",
+        previousImage
+    );
+
+
+    /* =====================================================
+       CLICK BACKGROUND
+    ===================================================== */
+
+    lightbox.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target === lightbox
+            ) {
+                closeLightbox();
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       KEYBOARD
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                !lightbox.classList.contains("active")
+            ) {
+                return;
+            }
+
+            if (event.key === "Escape") {
+                closeLightbox();
+            }
+
+            if (event.key === "ArrowRight") {
+                nextImage();
+            }
+
+            if (event.key === "ArrowLeft") {
+                previousImage();
+            }
+
+        }
+    );
+
+});
+
+</script>
+
+{% endblock %}
