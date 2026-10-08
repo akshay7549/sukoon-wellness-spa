@@ -1,0 +1,36 @@
+from django.urls import include, path
+
+from spa.admin_site import sukoon_admin_site
+from spa.bill_views import booking_bill
+
+
+urlpatterns = [
+
+    # =========================================================
+    # SUKOON ADMIN
+    # =========================================================
+
+    path(
+        "admin/",
+        sukoon_admin_site.urls,
+    ),
+
+    # =========================================================
+    # BOOKING BILL
+    # =========================================================
+
+    path(
+        "admin/booking/<int:booking_id>/bill/",
+        booking_bill,
+        name="booking_bill",
+    ),
+
+    # =========================================================
+    # WEBSITE
+    # =========================================================
+
+    path(
+        "",
+        include("spa.urls"),
+    ),
+]

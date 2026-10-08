@@ -1,3703 +1,3606 @@
-{% extends "admin/base_site.html" %}
 {% load static %}
 
-{% block title %}
-Sukoon Wellness & Spa — Admin Panel
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
 
-{% block extrastyle %}
+    <meta charset="UTF-8">
 
-<style>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-/* =========================================================
-   SUKOON CRM
-   PREMIUM BLACK + GOLD LUXURY THEME
-========================================================= */
+    <title>Sukoon Wellness & Spa | CRM Dashboard</title>
 
-:root {
+    <meta
+        name="description"
+        content="Sukoon Wellness & Spa central CRM dashboard"
+    >
 
-    --crm-black: #080807;
-    --crm-black-2: #0e0e0c;
-    --crm-black-3: #151512;
-    --crm-card: #11110f;
-    --crm-card-hover: #171714;
+    <meta
+        name="theme-color"
+        content="#0b0b0a"
+    >
 
-    --crm-gold: #c9a96e;
-    --crm-gold-light: #e0c58e;
-    --crm-gold-dark: #9b793f;
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    --crm-cream: #f5efe3;
-    --crm-text: #eee8dc;
-    --crm-muted: #9c978c;
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-    --crm-border: rgba(201,169,110,.18);
-    --crm-border-light: rgba(255,255,255,.07);
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
-    --crm-green: #58b77b;
-    --crm-orange: #d9a34d;
-    --crm-red: #d96a6a;
-    --crm-blue: #7f9fe8;
+    <style>
 
-    --crm-shadow:
-        0 10px 35px rgba(0,0,0,.30);
+        /* =====================================================
+           ROOT
+        ====================================================== */
 
-    --crm-shadow-hover:
-        0 18px 45px rgba(0,0,0,.45);
+        :root {
 
-    --crm-radius: 14px;
-}
+            --black: #0b0b0a;
+            --black-soft: #10100e;
+            --black-card: #151512;
+            --black-card-2: #191916;
+            --black-hover: #1e1e1a;
 
+            --gold: #c9a96e;
+            --gold-light: #e4ce9b;
+            --gold-soft: rgba(201, 169, 110, 0.12);
+            --gold-dark: #9f7d43;
 
-/* =========================================================
-   DJANGO ADMIN OVERRIDE
-========================================================= */
+            --cream: #f8f5ee;
+            --cream-soft: #eee9dd;
 
-body {
+            --text: #f5f1e8;
+            --text-muted: #aaa397;
+            --text-dim: #77736b;
 
-    background: var(--crm-black) !important;
-}
+            --border: rgba(201, 169, 110, 0.20);
+            --border-soft: rgba(255, 255, 255, 0.07);
 
-#content {
+            --success: #75c991;
+            --success-bg: rgba(117, 201, 145, 0.11);
 
-    padding: 0 !important;
+            --danger: #df8c8c;
+            --danger-bg: rgba(223, 140, 140, 0.11);
 
-    background:
-        radial-gradient(
-            circle at 15% 10%,
-            rgba(201,169,110,.05),
-            transparent 30%
-        ),
-        var(--crm-black) !important;
-}
+            --info: #88b9d8;
+            --info-bg: rgba(136, 185, 216, 0.11);
 
-#content-main {
+            --warning: #e5b96d;
+            --warning-bg: rgba(229, 185, 109, 0.11);
 
-    width: 100% !important;
-}
+            --shadow:
+                0 24px 70px rgba(0, 0, 0, 0.34);
 
-#container {
+            --shadow-soft:
+                0 12px 35px rgba(0, 0, 0, 0.22);
 
-    background: var(--crm-black) !important;
-}
+            --radius: 15px;
+        }
 
-.breadcrumbs {
 
-    display: none !important;
-}
+        /* =====================================================
+           RESET
+        ====================================================== */
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-/* =========================================================
-   MAIN DASHBOARD
-========================================================= */
 
-.crm-dashboard {
+        html {
+            scroll-behavior: smooth;
+        }
 
-    width: 100%;
 
-    min-height:
-        calc(100vh - 60px);
+        body {
 
-    padding: 28px;
+            min-height: 100vh;
 
-    box-sizing: border-box;
+            background:
+                radial-gradient(
+                    circle at 92% 0%,
+                    rgba(201, 169, 110, 0.10),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 0% 45%,
+                    rgba(201, 169, 110, 0.035),
+                    transparent 25%
+                ),
+                var(--black);
 
-    color: var(--crm-text);
+            color: var(--text);
 
-    background:
+            font-family:
+                "DM Sans",
+                Arial,
+                sans-serif;
 
-        radial-gradient(
-            circle at 85% 0%,
-            rgba(201,169,110,.08),
-            transparent 28%
-        ),
+            line-height: 1.5;
+        }
 
-        radial-gradient(
-            circle at 0% 40%,
-            rgba(201,169,110,.035),
-            transparent 30%
-        ),
 
-        var(--crm-black);
-}
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
 
-/* =========================================================
-   HERO
-========================================================= */
+        button,
+        input,
+        select {
+            font: inherit;
+        }
 
-.crm-hero {
 
-    position: relative;
+        button {
+            cursor: pointer;
+        }
 
-    min-height: 245px;
 
-    margin-bottom: 25px;
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
 
-    overflow: hidden;
+        .crm-wrapper {
+            min-height: 100vh;
+        }
 
-    border-radius: 20px;
 
-    border: 1px solid
-        rgba(201,169,110,.24);
+        .crm-container {
 
-    box-shadow:
-        0 20px 55px rgba(0,0,0,.42);
+            width:
+                min(
+                    1500px,
+                    calc(100% - 48px)
+                );
 
-    background:
-        
-        url("{% static 'spa/images/massage-therapist.jpg' %}");
+            margin: 0 auto;
+        }
 
-    background-size: cover;
 
-    background-position: center;
-}
+        .muted {
+            color: var(--text-muted);
+        }
 
 
-.crm-hero::after {
+        /* =====================================================
+           TOPBAR
+        ====================================================== */
 
-    content: "";
+        .crm-topbar {
 
-    position: absolute;
+            position: sticky;
 
-    inset: 0;
+            top: 0;
 
-    pointer-events: none;
+            z-index: 1000;
 
-    background:
+            background:
+                rgba(11, 11, 10, 0.92);
 
-        linear-gradient(
-            135deg,
-            rgba(201,169,110,.12),
-            transparent 45%
-        );
-}
+            backdrop-filter:
+                blur(18px);
 
+            -webkit-backdrop-filter:
+                blur(18px);
 
-.crm-hero-content {
+            border-bottom:
+                1px solid var(--border);
+        }
 
-    position: relative;
 
-    z-index: 2;
+        .crm-topbar-inner {
 
-    min-height: 245px;
+            min-height: 76px;
 
-    padding: 32px;
+            display: flex;
 
-    display: flex;
+            align-items: center;
 
-    align-items: center;
+            justify-content: space-between;
 
-    justify-content: space-between;
+            gap: 25px;
+        }
 
-    gap: 30px;
 
-    box-sizing: border-box;
-}
+        /* =====================================================
+           BRAND
+        ====================================================== */
 
+        .brand-area {
 
-.crm-hero-left {
+            display: flex;
 
-    max-width: 700px;
-}
+            align-items: center;
 
+            gap: 14px;
 
-.crm-eyebrow {
+            min-width: 0;
+        }
 
-    display: inline-flex;
 
-    align-items: center;
+        .brand-logo {
 
-    gap: 8px;
+            width: 45px;
+            height: 45px;
 
-    margin-bottom: 12px;
+            flex-shrink: 0;
 
-    color: var(--crm-gold-light);
+            object-fit: contain;
 
-    font-size: 10px;
+            border-radius: 50%;
 
-    font-weight: 800;
+            background:
+                var(--black-card);
 
-    letter-spacing: 2px;
+            border:
+                1px solid var(--border);
 
-    text-transform: uppercase;
-}
+            box-shadow:
+                0 0 0 4px
+                rgba(201, 169, 110, 0.025);
+        }
 
 
-.crm-eyebrow::before {
+        .brand-copy {
 
-    content: "";
+            display: flex;
 
-    width: 25px;
+            flex-direction: column;
 
-    height: 1px;
+            min-width: 0;
+        }
 
-    background: var(--crm-gold);
-}
 
+        .brand-name {
 
-.crm-hero-title {
+            color:
+                var(--gold-light);
 
-    margin: 0;
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
 
-    color: #fff;
+            font-size: 20px;
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+            font-weight: 600;
 
-    font-size: 38px;
+            line-height: 1.1;
 
-    line-height: 1.1;
+            white-space: nowrap;
+        }
 
-    font-weight: 500;
 
-    letter-spacing: -.7px;
-}
+        .brand-subtitle {
 
+            margin-top: 4px;
 
-.crm-hero-title span {
+            color:
+                var(--text-muted);
 
-    color: var(--crm-gold-light);
-}
+            font-size: 10px;
 
+            font-weight: 600;
 
-.crm-hero-description {
+            letter-spacing:
+                0.18em;
 
-    max-width: 600px;
+            text-transform:
+                uppercase;
+        }
 
-    margin: 12px 0 0;
 
-    color: #bbb6aa;
+        /* =====================================================
+           TOPBAR ACTIONS
+        ====================================================== */
 
-    font-size: 12px;
+        .topbar-actions {
 
-    line-height: 1.7;
-}
+            display: flex;
 
+            align-items: center;
 
-.crm-hero-actions {
+            gap: 8px;
+        }
 
-    display: flex;
 
-    align-items: center;
+        .topbar-link {
 
-    gap: 9px;
+            display: inline-flex;
 
-    flex-wrap: wrap;
-}
+            align-items: center;
 
+            justify-content: center;
 
-.crm-hero-btn {
+            min-height: 39px;
 
-    display: inline-flex;
+            padding:
+                0 14px;
 
-    align-items: center;
+            border:
+                1px solid var(--border-soft);
 
-    justify-content: center;
+            border-radius: 8px;
 
-    min-height: 40px;
+            color:
+                var(--cream-soft);
 
-    padding: 0 17px;
+            font-size: 12px;
 
-    border-radius: 9px;
+            font-weight: 600;
 
-    border: 1px solid
-        rgba(201,169,110,.35);
+            transition:
+                0.2s ease;
+        }
 
-    background:
-        rgba(0,0,0,.38);
 
-    color: #eee !important;
+        .topbar-link:hover {
 
-    text-decoration: none !important;
+            background:
+                var(--black-hover);
 
-    font-size: 10px;
+            border-color:
+                var(--border);
 
-    font-weight: 800;
+            color:
+                var(--gold-light);
 
-    transition: .2s ease;
+            transform:
+                translateY(-1px);
+        }
 
-    backdrop-filter: blur(8px);
-}
 
+        .topbar-link.primary {
 
-.crm-hero-btn:hover {
+            background:
+                var(--gold);
 
-    border-color:
-        var(--crm-gold);
+            border-color:
+                var(--gold);
 
-    color:
-        var(--crm-gold-light) !important;
+            color:
+                var(--black);
+        }
 
-    background:
-        rgba(201,169,110,.10);
 
-    transform:
-        translateY(-2px);
-}
+        .topbar-link.primary:hover {
 
+            background:
+                var(--gold-light);
 
-.crm-hero-btn.primary {
+            border-color:
+                var(--gold-light);
 
-    background:
-        linear-gradient(
-            135deg,
-            #c9a96e,
-            #9d783d
-        );
+            color:
+                var(--black);
+        }
 
-    border-color:
-        #c9a96e;
 
-    color:
-        #080807 !important;
-}
+        .topbar-link.logout {
 
+            color:
+                var(--danger);
 
-.crm-hero-btn.primary:hover {
+            border-color:
+                rgba(223, 140, 140, 0.18);
+        }
 
-    color:
-        #080807 !important;
 
-    box-shadow:
-        0 8px 25px
-        rgba(201,169,110,.22);
-}
+        .topbar-link.logout:hover {
 
+            background:
+                var(--danger-bg);
 
-/* =========================================================
-   HERO DATE
-========================================================= */
+            border-color:
+                rgba(223, 140, 140, 0.30);
 
-.crm-hero-date {
+            color:
+                var(--danger);
+        }
 
-    position: absolute;
 
-    right: 25px;
+        /* =====================================================
+           MAIN
+        ====================================================== */
 
-    top: 20px;
+        .crm-main {
 
-    z-index: 4;
+            padding:
+                34px 0 70px;
+        }
 
-    padding: 8px 12px;
 
-    border-radius: 8px;
+        /* =====================================================
+           HERO
+        ====================================================== */
 
-    border:
-        1px solid
-        rgba(201,169,110,.25);
+        .dashboard-hero {
 
-    background:
-        rgba(0,0,0,.35);
+            position: relative;
 
-    color:
-        #d6d0c3;
+            overflow: hidden;
 
-    font-size: 9px;
+            padding:
+                38px 40px;
 
-    font-weight: 750;
+            margin-bottom:
+                26px;
 
-    backdrop-filter:
-        blur(8px);
-}
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(201, 169, 110, 0.13),
+                    rgba(17, 17, 15, 0.98) 55%,
+                    rgba(11, 11, 10, 1)
+                );
 
+            border:
+                1px solid var(--border);
 
-/* =========================================================
-   KPI GRID
-========================================================= */
+            border-radius:
+                20px;
 
-.crm-stats {
+            box-shadow:
+                var(--shadow);
+        }
 
-    display: grid;
 
-    grid-template-columns:
-        repeat(4, minmax(0,1fr));
+        .dashboard-hero::before {
 
-    gap: 14px;
+            content: "";
 
-    margin-bottom: 22px;
-}
+            position: absolute;
 
+            width: 300px;
+            height: 300px;
 
-/* =========================================================
-   KPI CARD
-========================================================= */
+            right: -110px;
+            top: -145px;
 
-.crm-stat {
+            border:
+                1px solid
+                rgba(201, 169, 110, 0.16);
 
-    position: relative;
+            border-radius: 50%;
+        }
 
-    display: block;
 
-    min-height: 135px;
+        .dashboard-hero::after {
 
-    padding: 18px;
+            content: "";
 
-    box-sizing: border-box;
+            position: absolute;
 
-    overflow: hidden;
+            width: 160px;
+            height: 160px;
 
-    background:
+            right: 70px;
+            bottom: -115px;
 
-        linear-gradient(
-            145deg,
-            #151512,
-            #0e0e0c
-        );
+            border-radius: 50%;
 
-    border:
-        1px solid
-        var(--crm-border);
+            background:
+                rgba(201, 169, 110, 0.035);
 
-    border-radius:
-        var(--crm-radius);
+            border:
+                1px solid
+                rgba(201, 169, 110, 0.08);
+        }
 
-    box-shadow:
-        var(--crm-shadow);
 
-    color:
-        inherit !important;
+        .hero-content {
 
-    text-decoration:
-        none !important;
+            position: relative;
 
-    cursor:
-        pointer;
+            z-index: 2;
+        }
 
-    transition:
-        transform .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease;
-}
 
+        .hero-layout {
 
-.crm-stat::before {
+            display: flex;
 
-    content: "";
+            align-items: center;
 
-    position: absolute;
+            justify-content: space-between;
 
-    width: 100px;
+            gap: 35px;
+        }
 
-    height: 100px;
 
-    right: -45px;
+        .hero-eyebrow {
 
-    bottom: -55px;
+            margin-bottom: 8px;
 
-    border-radius: 50%;
+            color:
+                var(--gold);
 
-    border:
-        1px solid
-        rgba(201,169,110,.14);
+            font-size: 10px;
 
-    box-shadow:
-        0 0 0 15px
-        rgba(201,169,110,.025);
-}
+            font-weight: 700;
 
+            letter-spacing:
+                0.22em;
 
-.crm-stat:hover {
+            text-transform:
+                uppercase;
+        }
 
-    transform:
-        translateY(-4px);
 
-    border-color:
-        rgba(201,169,110,.42);
+        .hero-title {
 
-    box-shadow:
-        var(--crm-shadow-hover);
-}
+            color:
+                var(--cream);
 
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
 
-.crm-stat.active {
+            font-size:
+                clamp(
+                    31px,
+                    4vw,
+                    50px
+                );
 
-    border-color:
-        var(--crm-gold);
+            font-weight: 600;
 
-    box-shadow:
+            line-height: 1.08;
+        }
 
-        0 0 0 1px
-        rgba(201,169,110,.16),
 
-        0 15px 40px
-        rgba(0,0,0,.38);
-}
+        .hero-description {
 
+            max-width: 720px;
 
-.crm-stat-head {
+            margin-top: 13px;
 
-    display: flex;
+            color:
+                var(--text-muted);
 
-    align-items: center;
+            font-size: 13px;
 
-    justify-content: space-between;
-}
+            line-height: 1.7;
+        }
 
 
-.crm-stat-label {
+        .hero-date {
 
-    color:
-        var(--crm-muted);
+            display: inline-flex;
 
-    font-size:
-        9px;
+            align-items: center;
 
-    font-weight:
-        800;
+            gap: 7px;
 
-    letter-spacing:
-        1px;
+            margin-top: 21px;
 
-    text-transform:
-        uppercase;
-}
+            padding:
+                8px 13px;
 
+            border:
+                1px solid var(--border);
 
-.crm-stat-icon {
+            border-radius:
+                999px;
 
-    width: 33px;
+            background:
+                rgba(201, 169, 110, 0.07);
 
-    height: 33px;
+            color:
+                var(--gold-light);
 
-    display: flex;
+            font-size: 11px;
 
-    align-items: center;
+            font-weight: 600;
+        }
 
-    justify-content: center;
 
-    border-radius: 9px;
+        .hero-mark {
 
-    background:
-        rgba(201,169,110,.09);
+            width: 120px;
+            height: 120px;
 
-    border:
-        1px solid
-        rgba(201,169,110,.15);
+            flex-shrink: 0;
 
-    color:
-        var(--crm-gold-light);
+            display: flex;
 
-    font-size:
-        12px;
+            align-items: center;
 
-    font-weight:
-        850;
-}
+            justify-content: center;
 
+            border:
+                1px solid
+                rgba(201, 169, 110, 0.22);
 
-.crm-stat-value {
+            border-radius: 50%;
 
-    margin-top:
-        18px;
+            background:
+                rgba(201, 169, 110, 0.035);
 
-    color:
-        #f7f2e8;
+            color:
+                var(--gold);
 
-    font-size:
-        27px;
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
 
-    line-height:
-        1;
+            font-size: 42px;
+        }
 
-    font-weight:
-        780;
 
-    letter-spacing:
-        -.5px;
-}
+        /* =====================================================
+           SECTION
+        ====================================================== */
 
+        .section {
+            margin-top: 31px;
+        }
 
-.crm-stat-footer {
 
-    display: flex;
+        .section-header {
 
-    align-items: center;
+            display: flex;
 
-    justify-content: space-between;
+            align-items: flex-end;
 
-    margin-top:
-        14px;
+            justify-content: space-between;
 
-    color:
-        #77736b;
+            gap: 20px;
 
-    font-size:
-        9px;
-}
+            margin-bottom: 15px;
+        }
 
 
-.crm-stat-link {
+        .section-title-wrap {
 
-    color:
-        var(--crm-gold);
+            display: flex;
 
-    font-weight:
-        800;
-}
+            flex-direction: column;
+        }
 
 
-/* =========================================================
-   MANAGEMENT LAYOUT
-========================================================= */
+        .section-eyebrow {
 
-.crm-layout {
+            margin-bottom: 3px;
 
-    display: grid;
+            color:
+                var(--gold);
 
-    grid-template-columns:
-        minmax(0,1fr)
-        290px;
+            font-size: 9px;
 
-    gap: 20px;
+            font-weight: 700;
 
-    align-items:
-        start;
-}
+            letter-spacing:
+                0.18em;
 
+            text-transform:
+                uppercase;
+        }
 
-/* =========================================================
-   CARDS
-========================================================= */
 
-.crm-card,
-.side-card {
+        .section-title {
 
-    background:
-        linear-gradient(
-            145deg,
-            #121210,
-            #0e0e0c
-        );
+            color:
+                var(--cream);
 
-    border:
-        1px solid
-        var(--crm-border);
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
 
-    border-radius:
-        var(--crm-radius);
+            font-size: 25px;
 
-    box-shadow:
-        var(--crm-shadow);
+            font-weight: 600;
 
-    overflow:
-        hidden;
+            line-height: 1.2;
+        }
 
-    margin-bottom:
-        20px;
-}
 
+        .section-description {
 
-.crm-card-header {
+            margin-top: 4px;
 
-    display: flex;
+            color:
+                var(--text-muted);
 
-    align-items: center;
+            font-size: 11px;
+        }
 
-    justify-content: space-between;
 
-    gap: 15px;
+        .section-action {
 
-    padding: 17px 19px;
+            display: inline-flex;
 
-    border-bottom:
-        1px solid
-        var(--crm-border-light);
-}
+            align-items: center;
 
+            gap: 7px;
 
-.crm-card-title {
+            color:
+                var(--gold);
 
-    margin: 0;
+            font-size: 11px;
 
-    color:
-        #eee9df;
+            font-weight: 600;
+        }
 
-    font-size:
-        15px;
 
-    font-weight:
-        760;
-}
+        .section-action:hover {
+            color: var(--gold-light);
+        }
 
 
-.crm-card-subtitle {
+        /* =====================================================
+           QUICK ACTIONS
+        ====================================================== */
 
-    margin:
-        4px 0 0;
+        .quick-actions {
 
-    color:
-        var(--crm-muted);
+            display: grid;
 
-    font-size:
-        10px;
-}
+            grid-template-columns:
+                repeat(
+                    4,
+                    minmax(0, 1fr)
+                );
 
+            gap: 13px;
+        }
 
-/* =========================================================
-   WORKSPACE TABS
-========================================================= */
 
-.workspace-tabs {
+        .quick-action {
 
-    display: flex;
+            display: flex;
 
-    gap: 6px;
+            align-items: center;
 
-    padding:
-        12px 17px;
+            gap: 13px;
 
-    border-bottom:
-        1px solid
-        var(--crm-border-light);
+            min-height: 74px;
 
-    overflow-x:
-        auto;
+            padding:
+                14px 16px;
 
-    scrollbar-width:
-        thin;
-}
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--black-card),
+                    var(--black-soft)
+                );
 
+            border:
+                1px solid var(--border-soft);
 
-.workspace-tab {
+            border-radius:
+                var(--radius);
 
-    flex-shrink:
-        0;
+            transition:
+                0.22s ease;
+        }
 
-    height:
-        31px;
 
-    padding:
-        0 12px;
+        .quick-action:hover {
 
-    border:
-        1px solid
-        rgba(255,255,255,.08);
+            transform:
+                translateY(-3px);
 
-    border-radius:
-        8px;
+            border-color:
+                var(--border);
 
-    background:
-        #151513;
+            background:
+                var(--black-hover);
 
-    color:
-        #88847b;
+            box-shadow:
+                var(--shadow-soft);
+        }
 
-    font-size:
-        9px;
 
-    font-weight:
-        750;
+        .quick-action-icon {
 
-    cursor:
-        pointer;
+            width: 40px;
+            height: 40px;
 
-    transition:
-        .15s ease;
-}
+            flex-shrink: 0;
 
+            display: flex;
 
-.workspace-tab:hover {
+            align-items: center;
 
-    color:
-        var(--crm-gold-light);
+            justify-content: center;
 
-    border-color:
-        rgba(201,169,110,.25);
-}
+            border-radius: 10px;
 
+            background:
+                var(--gold-soft);
 
-.workspace-tab.active {
+            border:
+                1px solid var(--border);
 
-    background:
-        linear-gradient(
-            135deg,
-            #c9a96e,
-            #9c773e
-        );
+            color:
+                var(--gold-light);
 
-    border-color:
-        #c9a96e;
+            font-size: 17px;
+        }
 
-    color:
-        #090908;
-}
 
+        .quick-action-content {
+            min-width: 0;
+        }
 
-/* =========================================================
-   TOOLS
-========================================================= */
 
-.crm-tools {
+        .quick-action-title {
 
-    display: flex;
+            color:
+                var(--cream);
 
-    align-items:
-        center;
+            font-size: 12px;
 
-    gap:
-        8px;
+            font-weight: 700;
+        }
 
-    flex-wrap:
-        wrap;
-}
 
+        .quick-action-text {
 
-.crm-search {
+            margin-top: 2px;
 
-    width:
-        230px;
+            color:
+                var(--text-dim);
 
-    height:
-        34px;
+            font-size: 10px;
+        }
 
-    box-sizing:
-        border-box;
 
-    padding:
-        0 11px;
+        .quick-action-arrow {
 
-    border:
-        1px solid
-        rgba(255,255,255,.09);
+            margin-left: auto;
 
-    border-radius:
-        8px;
+            color:
+                var(--gold-dark);
 
-    background:
-        #0b0b0a;
+            font-size: 14px;
+        }
 
-    color:
-        #eee;
 
-    font-size:
-        10px;
+        /* =====================================================
+           STAT CARDS
+        ====================================================== */
 
-    outline:
-        none;
-}
+        .stats-grid {
 
+            display: grid;
 
-.crm-search::placeholder {
+            grid-template-columns:
+                repeat(
+                    5,
+                    minmax(0, 1fr)
+                );
 
-    color:
-        #656159;
-}
+            gap: 13px;
+        }
 
 
-.crm-search:focus {
+        .stat-card {
 
-    border-color:
-        rgba(201,169,110,.55);
+            position: relative;
 
-    box-shadow:
-        0 0 0 3px
-        rgba(201,169,110,.08);
-}
+            min-height: 140px;
 
+            padding:
+                20px;
 
-/* =========================================================
-   TABLE
-========================================================= */
+            overflow: hidden;
 
-.crm-table-wrap {
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--black-card),
+                    #10100e
+                );
 
-    overflow-x:
-        auto;
-}
+            border:
+                1px solid var(--border-soft);
 
+            border-radius:
+                var(--radius);
 
-.crm-table {
+            transition:
+                0.22s ease;
+        }
 
-    width:
-        100%;
 
-    min-width:
-        950px;
+        .stat-card:hover {
 
-    border-collapse:
-        collapse;
-}
+            transform:
+                translateY(-3px);
 
+            border-color:
+                var(--border);
 
-.crm-table th {
+            box-shadow:
+                var(--shadow-soft);
+        }
 
-    padding:
-        11px 15px;
 
-    background:
-        #0c0c0b;
+        .stat-card::after {
 
-    color:
-        #6f6b63;
+            content: "";
 
-    font-size:
-        8px;
+            position: absolute;
 
-    font-weight:
-        850;
+            width: 100px;
+            height: 100px;
 
-    letter-spacing:
-        .8px;
+            right: -42px;
+            bottom: -42px;
 
-    text-align:
-        left;
+            border-radius: 50%;
 
-    text-transform:
-        uppercase;
+            border:
+                1px solid
+                rgba(201, 169, 110, 0.07);
+        }
 
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.07);
 
-    white-space:
-        nowrap;
-}
+        .stat-accent {
 
+            position: absolute;
 
-.crm-table td {
+            width: 3px;
 
-    padding:
-        12px 15px;
+            left: 0;
+            top: 20px;
+            bottom: 20px;
 
-    color:
-        #bcb7ad;
+            border-radius:
+                0 4px 4px 0;
 
-    font-size:
-        10px;
+            background:
+                var(--gold);
+        }
 
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.045);
 
-    vertical-align:
-        middle;
-}
+        .stat-label {
 
+            color:
+                var(--text-muted);
 
-.crm-table tbody tr {
+            font-size: 10px;
 
-    transition:
-        background .15s ease;
-}
+            font-weight: 700;
 
+            letter-spacing:
+                0.08em;
 
-.crm-table tbody tr:hover {
+            text-transform:
+                uppercase;
+        }
 
-    background:
-        rgba(201,169,110,.035);
-}
 
+        .stat-value {
 
-.crm-table tbody tr:last-child td {
+            margin-top: 9px;
 
-    border-bottom:
-        0;
-}
+            color:
+                var(--cream);
 
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
 
-/* =========================================================
-   CUSTOMER
-========================================================= */
+            font-size: 35px;
 
-.customer {
+            line-height: 1;
+        }
 
-    display:
-        flex;
 
-    align-items:
-        center;
+        .stat-note {
 
-    gap:
-        10px;
-}
+            margin-top: 12px;
 
+            color:
+                var(--text-dim);
 
-.customer-avatar {
+            font-size: 10px;
+        }
 
-    width:
-        33px;
 
-    height:
-        33px;
+        /* =====================================================
+           BUSINESS OVERVIEW
+        ====================================================== */
 
-    flex-shrink:
-        0;
+        .business-grid {
 
-    display:
-        flex;
+            display: grid;
 
-    align-items:
-        center;
+            grid-template-columns:
+                repeat(
+                    3,
+                    minmax(0, 1fr)
+                );
 
-    justify-content:
-        center;
+            gap: 13px;
+        }
 
-    border-radius:
-        50%;
 
-    background:
-        linear-gradient(
-            135deg,
-            #c9a96e,
-            #75572c
-        );
+        .business-card {
 
-    color:
-        #0b0b09;
+            display: flex;
 
-    font-size:
-        10px;
+            align-items: center;
 
-    font-weight:
-        900;
+            gap: 15px;
 
-    box-shadow:
-        0 3px 12px
-        rgba(201,169,110,.14);
-}
+            padding:
+                19px;
 
+            background:
+                var(--black-card);
 
-.customer-info strong {
+            border:
+                1px solid var(--border-soft);
 
-    display:
-        block;
+            border-radius:
+                var(--radius);
 
-    color:
-        #e8e3d9;
+            transition:
+                0.22s ease;
+        }
 
-    font-size:
-        10px;
-}
 
+        .business-card:hover {
 
-.customer-info span {
+            transform:
+                translateY(-2px);
 
-    display:
-        block;
+            border-color:
+                var(--border);
 
-    margin-top:
-        2px;
+            box-shadow:
+                var(--shadow-soft);
+        }
 
-    color:
-        #77736b;
 
-    font-size:
-        8px;
-}
+        .business-icon {
 
+            width: 47px;
+            height: 47px;
 
-/* =========================================================
-   STATUS
-========================================================= */
+            flex-shrink: 0;
 
-.crm-badge {
+            display: flex;
 
-    display:
-        inline-flex;
+            align-items: center;
 
-    align-items:
-        center;
+            justify-content: center;
 
-    gap:
-        5px;
+            border-radius: 12px;
 
-    padding:
-        5px 8px;
+            background:
+                var(--gold-soft);
 
-    border-radius:
-        20px;
+            border:
+                1px solid var(--border);
 
-    font-size:
-        8px;
+            color:
+                var(--gold-light);
 
-    font-weight:
-        800;
+            font-size: 19px;
+        }
 
-    white-space:
-        nowrap;
-}
 
+        .business-label {
 
-.crm-badge::before {
+            color:
+                var(--text-muted);
 
-    content:
-        "";
+            font-size: 10px;
 
-    width:
-        5px;
+            font-weight: 700;
 
-    height:
-        5px;
+            letter-spacing:
+                0.07em;
 
-    border-radius:
-        50%;
+            text-transform:
+                uppercase;
+        }
 
-    background:
-        currentColor;
-}
 
+        .business-value {
 
-.crm-badge.pending {
+            margin-top: 2px;
 
-    background:
-        rgba(217,163,77,.10);
+            color:
+                var(--cream);
 
-    color:
-        #d9a34d;
-}
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
 
+            font-size: 27px;
 
-.crm-badge.confirmed {
+            line-height: 1.1;
+        }
 
-    background:
-        rgba(88,183,123,.10);
 
-    color:
-        #58b77b;
-}
+        .business-status {
 
+            margin-left: auto;
 
-.crm-badge.completed {
+            padding:
+                5px 9px;
 
-    background:
-        rgba(127,159,232,.10);
+            border-radius:
+                999px;
 
-    color:
-        #8aa7ec;
-}
+            background:
+                var(--success-bg);
 
+            color:
+                var(--success);
 
-.crm-badge.cancelled {
+            font-size: 9px;
 
-    background:
-        rgba(217,106,106,.10);
+            font-weight: 700;
 
-    color:
-        #d96a6a;
-}
+            letter-spacing:
+                0.05em;
 
+            text-transform:
+                uppercase;
+        }
 
-.crm-badge.paid {
 
-    background:
-        rgba(88,183,123,.10);
+        /* =====================================================
+           TABLE CARD
+        ====================================================== */
 
-    color:
-        #58b77b;
-}
+        .appointments-card,
+        .recent-table-card {
 
+            overflow: hidden;
 
-.crm-badge.unpaid {
+            background:
+                var(--black-card);
 
-    background:
-        rgba(217,163,77,.10);
+            border:
+                1px solid var(--border-soft);
 
-    color:
-        #d9a34d;
-}
+            border-radius:
+                var(--radius);
 
+            box-shadow:
+                0 10px 35px rgba(0, 0, 0, 0.12);
+        }
 
-/* =========================================================
-   ACTIONS
-========================================================= */
 
-.crm-actions {
+        .table-scroll {
 
-    display:
-        flex;
+            width: 100%;
 
-    align-items:
-        center;
+            overflow-x: auto;
 
-    gap:
-        5px;
+            scrollbar-width:
+                thin;
 
-    flex-wrap:
-        wrap;
-}
+            scrollbar-color:
+                var(--gold-dark)
+                var(--black-soft);
+        }
 
 
-.crm-btn {
+        /* =====================================================
+           TABLE
+        ====================================================== */
 
-    display:
-        inline-flex;
+        .appointments-table,
+        .recent-table {
 
-    align-items:
-        center;
+            width: 100%;
 
-    justify-content:
-        center;
+            border-collapse:
+                collapse;
+        }
 
-    min-height:
-        27px;
 
-    padding:
-        0 9px;
+        .appointments-table {
+            min-width: 930px;
+        }
 
-    border:
-        1px solid
-        rgba(255,255,255,.09);
 
-    border-radius:
-        7px;
+        .recent-table {
+            min-width: 830px;
+        }
 
-    background:
-        #151513;
 
-    color:
-        #a9a49a !important;
+        .appointments-table th,
+        .recent-table th {
 
-    text-decoration:
-        none !important;
+            padding:
+                14px 17px;
 
-    font-size:
-        8px;
+            background:
+                rgba(201, 169, 110, 0.045);
 
-    font-weight:
-        750;
+            border-bottom:
+                1px solid var(--border);
 
-    cursor:
-        pointer;
+            color:
+                var(--text-muted);
 
-    transition:
-        .15s ease;
-}
+            font-size: 9px;
 
+            font-weight: 700;
 
-.crm-btn:hover {
+            letter-spacing:
+                0.10em;
 
-    border-color:
-        rgba(201,169,110,.35);
+            text-align:
+                left;
 
-    color:
-        var(--crm-gold-light) !important;
+            text-transform:
+                uppercase;
 
-    background:
-        #1b1a17;
-}
+            white-space:
+                nowrap;
+        }
 
 
-.crm-btn.primary {
+        .appointments-table td,
+        .recent-table td {
 
-    background:
-        linear-gradient(
-            135deg,
-            #c9a96e,
-            #99743c
-        );
+            padding:
+                15px 17px;
 
-    border-color:
-        #c9a96e;
+            border-bottom:
+                1px solid var(--border-soft);
 
-    color:
-        #090908 !important;
-}
+            color:
+                var(--cream-soft);
 
+            font-size: 12px;
 
-.crm-btn.primary:hover {
+            vertical-align:
+                middle;
+        }
 
-    color:
-        #090908 !important;
 
-    box-shadow:
-        0 5px 16px
-        rgba(201,169,110,.16);
-}
+        .appointments-table tbody tr,
+        .recent-table tbody tr {
 
+            transition:
+                background 0.18s ease;
+        }
 
-.crm-btn.gold {
 
-    color:
-        var(--crm-gold-light) !important;
+        .appointments-table tbody tr:hover,
+        .recent-table tbody tr:hover {
 
-    border-color:
-        rgba(201,169,110,.30);
-}
+            background:
+                rgba(201, 169, 110, 0.035);
+        }
 
 
-/* =========================================================
-   SIDE PANEL
-========================================================= */
+        .appointments-table tbody tr:last-child td,
+        .recent-table tbody tr:last-child td {
 
-.side-header {
+            border-bottom:
+                0;
+        }
 
-    padding:
-        17px 18px;
 
-    border-bottom:
-        1px solid
-        var(--crm-border-light);
-}
+        /* =====================================================
+           CUSTOMER
+        ====================================================== */
 
+        .customer-cell {
 
-.side-header h3 {
+            display: flex;
 
-    margin:
-        0;
+            align-items: center;
 
-    color:
-        #eee9df;
+            gap: 10px;
+        }
 
-    font-size:
-        13px;
 
-    font-weight:
-        760;
-}
+        .customer-avatar {
 
+            width: 35px;
+            height: 35px;
 
-.side-header p {
+            flex-shrink: 0;
 
-    margin:
-        4px 0 0;
+            display: flex;
 
-    color:
-        var(--crm-muted);
+            align-items: center;
 
-    font-size:
-        9px;
-}
+            justify-content: center;
 
+            border-radius: 50%;
 
-/* =========================================================
-   QUICK ACTIONS
-========================================================= */
+            background:
+                var(--gold-soft);
 
-.quick-grid {
+            border:
+                1px solid var(--border);
 
-    display:
-        grid;
+            color:
+                var(--gold-light);
 
-    grid-template-columns:
-        repeat(2,1fr);
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
 
-    gap:
-        8px;
+            font-size: 14px;
 
-    padding:
-        15px;
-}
+            font-weight: 700;
+        }
 
 
-.quick-card {
+        .customer-name {
 
-    display:
-        flex;
+            color:
+                var(--cream);
 
-    flex-direction:
-        column;
+            font-weight: 600;
+        }
 
-    gap:
-        8px;
 
-    padding:
-        12px;
+        .customer-phone {
 
-    border:
-        1px solid
-        rgba(255,255,255,.07);
+            margin-top: 2px;
 
-    border-radius:
-        9px;
+            color:
+                var(--text-dim);
 
-    background:
-        #151513;
+            font-size: 10px;
+        }
 
-    color:
-        #bbb5a9 !important;
 
-    text-decoration:
-        none !important;
+        .service-name {
 
-    font-size:
-        9px;
+            color:
+                var(--gold-light);
 
-    font-weight:
-        750;
+            font-weight: 600;
+        }
 
-    transition:
-        .15s ease;
-}
 
+        .appointment-time {
 
-.quick-card:hover {
+            color:
+                var(--cream);
 
-    background:
-        #1b1a17;
+            font-weight: 700;
+        }
 
-    border-color:
-        rgba(201,169,110,.32);
 
-    color:
-        var(--crm-gold-light) !important;
+        .appointment-end {
 
-    transform:
-        translateY(-2px);
-}
+            margin-top: 2px;
 
+            color:
+                var(--text-dim);
 
-.quick-icon {
+            font-size: 10px;
+        }
 
-    width:
-        28px;
 
-    height:
-        28px;
+        .resource-name {
+            color: var(--cream-soft);
+        }
 
-    display:
-        flex;
 
-    align-items:
-        center;
+        .resource-empty {
 
-    justify-content:
-        center;
+            color:
+                #68645e;
 
-    border-radius:
-        8px;
+            font-style:
+                italic;
+        }
 
-    background:
-        rgba(201,169,110,.08);
 
-    border:
-        1px solid
-        rgba(201,169,110,.13);
+        /* =====================================================
+           STATUS
+        ====================================================== */
 
-    color:
-        var(--crm-gold);
+        .status-badge {
 
-    font-size:
-        10px;
+            display: inline-flex;
 
-    font-weight:
-        850;
-}
+            align-items: center;
 
+            justify-content: center;
 
-/* =========================================================
-   BUSINESS OVERVIEW
-========================================================= */
+            gap: 5px;
 
-.overview-list {
+            padding:
+                5px 9px;
 
-    padding:
-        6px 17px;
-}
+            border-radius:
+                999px;
 
+            font-size: 9px;
 
-.overview-item {
+            font-weight: 700;
 
-    display:
-        flex;
+            letter-spacing:
+                0.04em;
 
-    align-items:
-        center;
+            text-transform:
+                uppercase;
 
-    justify-content:
-        space-between;
+            white-space:
+                nowrap;
+        }
 
-    padding:
-        12px 0;
 
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.045);
+        .status-badge::before {
 
-    color:
-        #918d84;
+            content: "";
 
-    font-size:
-        10px;
-}
+            width: 5px;
+            height: 5px;
 
+            border-radius: 50%;
 
-.overview-item:last-child {
+            background: currentColor;
+        }
 
-    border-bottom:
-        0;
-}
 
+        .status-confirmed {
 
-.overview-value {
+            background:
+                var(--success-bg);
 
-    color:
-        #e7e1d5;
+            color:
+                var(--success);
 
-    font-weight:
-        800;
-}
+            border:
+                1px solid
+                rgba(117, 201, 145, 0.20);
+        }
 
 
-/* =========================================================
-   PAYMENT SUMMARY
-========================================================= */
+        .status-completed {
 
-.payment-grid {
+            background:
+                var(--info-bg);
 
-    display:
-        grid;
+            color:
+                var(--info);
 
-    grid-template-columns:
-        repeat(2,1fr);
+            border:
+                1px solid
+                rgba(136, 185, 216, 0.20);
+        }
 
-    gap:
-        9px;
 
-    padding:
-        15px;
-}
+        .status-cancelled {
 
+            background:
+                var(--danger-bg);
 
-.payment-mini {
+            color:
+                var(--danger);
 
-    padding:
-        12px;
+            border:
+                1px solid
+                rgba(223, 140, 140, 0.20);
+        }
 
-    background:
-        #151513;
 
-    border:
-        1px solid
-        rgba(255,255,255,.06);
+        .status-default {
 
-    border-radius:
-        9px;
-}
+            background:
+                rgba(255, 255, 255, 0.04);
 
+            color:
+                var(--text-muted);
 
-.payment-mini-label {
+            border:
+                1px solid var(--border-soft);
+        }
 
-    color:
-        #77736b;
 
-    font-size:
-        8px;
+        /* =====================================================
+           TABLE ACTION
+        ====================================================== */
 
-    font-weight:
-        800;
+        .table-action {
 
-    letter-spacing:
-        .4px;
-}
+            display: inline-flex;
 
+            align-items: center;
 
-.payment-mini-value {
+            justify-content: center;
 
-    margin-top:
-        6px;
+            min-height: 31px;
 
-    color:
-        #eee8dc;
+            padding:
+                0 10px;
 
-    font-size:
-        15px;
+            border:
+                1px solid var(--border-soft);
 
-    font-weight:
-        780;
-}
+            border-radius: 7px;
 
+            color:
+                var(--gold);
 
-/* =========================================================
-   EMPTY
-========================================================= */
+            font-size: 10px;
 
-.crm-empty {
+            font-weight: 700;
 
-    padding:
-        45px 20px !important;
+            transition:
+                0.18s ease;
+        }
 
-    text-align:
-        center;
 
-    color:
-        #656159 !important;
+        .table-action:hover {
 
-    font-size:
-        10px !important;
-}
+            background:
+                var(--gold-soft);
 
+            border-color:
+                var(--border);
 
-/* =========================================================
-   HIDDEN
-========================================================= */
+            color:
+                var(--gold-light);
+        }
 
-.crm-hidden {
 
-    display:
-        none !important;
-}
+        .action-group {
 
+            display: flex;
 
-/* =========================================================
-   GOLD DIVIDER
-========================================================= */
+            align-items: center;
 
-.gold-divider {
+            gap: 6px;
 
-    width:
-        38px;
+            white-space:
+                nowrap;
+        }
 
-    height:
-        2px;
 
-    margin-top:
-        8px;
+        /* =====================================================
+           UPCOMING BOOKINGS
+        ====================================================== */
 
-    background:
-        linear-gradient(
-            90deg,
-            #c9a96e,
-            transparent
-        );
-}
+        .booking-list {
 
+            display: grid;
 
-/* =========================================================
-   MOBILE
-========================================================= */
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
 
-@media (max-width:1200px) {
+            gap: 13px;
+        }
 
-    .crm-stats {
 
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-    }
+        .booking-card {
 
-    .crm-layout {
+            position: relative;
 
-        grid-template-columns:
-            1fr;
-    }
+            padding:
+                19px;
 
-}
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--black-card),
+                    var(--black-soft)
+                );
 
+            border:
+                1px solid var(--border-soft);
 
-@media (max-width:700px) {
+            border-radius:
+                var(--radius);
 
-    .crm-dashboard {
+            transition:
+                0.22s ease;
+        }
 
-        padding:
-            14px;
-    }
 
+        .booking-card:hover {
 
-    .crm-hero {
+            transform:
+                translateY(-2px);
 
-        min-height:
-            330px;
-    }
+            border-color:
+                var(--border);
 
+            box-shadow:
+                var(--shadow-soft);
+        }
 
-    .crm-hero-content {
 
-        min-height:
-            330px;
+        .booking-card-top {
 
-        padding:
-            25px;
+            display: flex;
 
-        align-items:
-            flex-end;
-    }
+            align-items:
+                flex-start;
 
+            justify-content:
+                space-between;
 
-    .crm-hero-title {
+            gap: 15px;
+        }
 
-        font-size:
-            29px;
-    }
 
+        .booking-reference {
 
-    .crm-hero-description {
+            color:
+                var(--gold);
 
-        font-size:
-            10px;
-    }
+            font-size: 10px;
 
+            font-weight: 700;
 
-    .crm-hero-date {
+            letter-spacing:
+                0.08em;
+        }
 
-        right:
-            15px;
 
-        top:
-            15px;
-    }
+        .booking-reference-link:hover {
 
+            color:
+                var(--gold-light);
 
-    .crm-hero-actions {
+            text-decoration:
+                underline;
+        }
 
-        margin-top:
-            17px;
-    }
 
+        .booking-customer {
 
-    .crm-stats {
+            margin-top: 3px;
 
-        grid-template-columns:
-            1fr;
+            color:
+                var(--cream);
 
-        gap:
-            10px;
-    }
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
 
+            font-size: 19px;
+        }
 
-    .crm-stat {
 
-        min-height:
-            120px;
-    }
+        .booking-service {
 
+            margin-top: 3px;
 
-    .crm-card-header {
+            color:
+                var(--text-muted);
 
-        align-items:
-            flex-start;
+            font-size: 11px;
+        }
 
-        flex-direction:
-            column;
-    }
 
+        .booking-meta {
 
-    .crm-tools {
+            display: grid;
 
-        width:
-            100%;
-    }
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
 
+            gap: 11px;
 
-    .crm-search {
+            margin-top: 17px;
 
-        width:
-            100%;
-    }
+            padding-top: 14px;
 
+            border-top:
+                1px solid var(--border-soft);
+        }
 
-    .quick-grid {
 
-        grid-template-columns:
-            repeat(2,1fr);
-    }
+        .meta-label {
 
-}
+            color:
+                var(--text-dim);
 
+            font-size: 8px;
 
-</style>
+            font-weight: 700;
 
-{% endblock %}
+            letter-spacing:
+                0.10em;
 
+            text-transform:
+                uppercase;
+        }
 
-{% block content %}
 
-<div class="crm-dashboard">
+        .meta-value {
+
+            margin-top: 3px;
+
+            color:
+                var(--cream-soft);
+
+            font-size: 11px;
+        }
+
+
+        .booking-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            gap: 7px;
+
+            margin-top: 16px;
+        }
+
+
+        .booking-action {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 31px;
+
+            padding:
+                0 10px;
+
+            border:
+                1px solid var(--border-soft);
+
+            border-radius: 7px;
+
+            color:
+                var(--text-muted);
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            transition:
+                0.18s ease;
+        }
+
+
+        .booking-action:hover {
+
+            border-color:
+                var(--border);
+
+            color:
+                var(--gold-light);
+
+            background:
+                var(--gold-soft);
+        }
+
+
+        .booking-action.primary {
+
+            border-color:
+                var(--border);
+
+            color:
+                var(--gold);
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ====================================================== */
+
+        .empty-state {
+
+            padding:
+                55px 25px;
+
+            text-align:
+                center;
+        }
+
+
+        .empty-icon {
+
+            width: 57px;
+            height: 57px;
+
+            margin:
+                0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                var(--gold-soft);
+
+            border:
+                1px solid var(--border);
+
+            color:
+                var(--gold);
+
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
+
+            font-size: 23px;
+        }
+
+
+        .empty-title {
+
+            color:
+                var(--cream);
+
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
+
+            font-size: 20px;
+        }
+
+
+        .empty-text {
+
+            max-width: 440px;
+
+            margin:
+                6px auto 0;
+
+            color:
+                var(--text-muted);
+
+            font-size: 11px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .crm-footer {
+
+            margin-top:
+                48px;
+
+            padding-top:
+                24px;
+
+            border-top:
+                1px solid var(--border-soft);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            gap: 20px;
+        }
+
+
+        .footer-text {
+
+            color:
+                var(--text-dim);
+
+            font-size: 10px;
+        }
+
+
+        .footer-brand {
+
+            color:
+                var(--gold-dark);
+
+            font-family:
+                "Playfair Display",
+                Georgia,
+                serif;
+
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 1250px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(
+                        3,
+                        minmax(0, 1fr)
+                    );
+            }
+
+
+            .quick-actions {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+            }
+
+        }
+
+
+        @media (max-width: 950px) {
+
+            .crm-container {
+
+                width:
+                    calc(100% - 30px);
+            }
+
+
+            .hero-layout {
+
+                align-items:
+                    flex-start;
+            }
+
+
+            .hero-mark {
+                display: none;
+            }
+
+
+            .business-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .booking-list {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .crm-topbar-inner {
+
+                min-height:
+                    68px;
+            }
+
+
+            .brand-copy {
+                display: none;
+            }
+
+
+            .topbar-actions {
+                gap: 5px;
+            }
+
+
+            .topbar-link {
+
+                min-height:
+                    36px;
+
+                padding:
+                    0 9px;
+
+                font-size:
+                    10px;
+            }
+
+
+            .crm-main {
+
+                padding:
+                    24px 0 50px;
+            }
+
+
+            .dashboard-hero {
+
+                padding:
+                    28px 23px;
+
+                border-radius:
+                    16px;
+            }
+
+
+            .hero-title {
+
+                font-size:
+                    31px;
+            }
+
+
+            .hero-description {
+
+                font-size:
+                    12px;
+            }
+
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+            }
+
+
+            .stat-card {
+
+                min-height:
+                    125px;
+
+                padding:
+                    17px;
+            }
+
+
+            .stat-value {
+
+                font-size:
+                    28px;
+            }
+
+
+            .section-header {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+
+            .section-title {
+
+                font-size:
+                    23px;
+            }
+
+
+            .quick-actions {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .crm-footer {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .crm-container {
+
+                width:
+                    calc(100% - 20px);
+            }
+
+
+            .stats-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .topbar-link:first-child {
+
+                display:
+                    none;
+            }
+
+
+            .hero-title {
+
+                font-size:
+                    28px;
+            }
+
+
+            .booking-card-top {
+
+                flex-direction:
+                    column;
+            }
+
+
+            .booking-actions {
+
+                justify-content:
+                    flex-start;
+            }
+
+
+            .business-card {
+
+                padding:
+                    15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="crm-wrapper">
 
 
     <!-- =====================================================
-         HERO
-    ===================================================== -->
+         TOP NAVIGATION
+    ====================================================== -->
 
-    <section class="crm-hero">
+    <header class="crm-topbar">
 
+        <div class="crm-container">
 
-        <div class="crm-hero-date">
-            {{ today|date:"l, d M Y" }}
-        </div>
+            <div class="crm-topbar-inner">
 
 
-        <div class="crm-hero-content">
+                <!-- BRAND -->
 
+                <a
+                    href="{% url 'sukoon_admin:index' %}"
+                    class="brand-area"
+                    aria-label="Sukoon CRM Dashboard"
+                >
 
-            <div class="crm-hero-left">
+                    {% if site_logo %}
 
-                <div class="crm-eyebrow">
-                    Sukoon Wellness & Spa
-                </div>
-
-
-                <h1 class="crm-hero-title">
-
-                    Welcome to your
-                    <span>Luxury CRM</span>
-
-                </h1>
-
-
-                <div class="gold-divider"></div>
-
-
-                <p class="crm-hero-description">
-
-                    Manage appointments, customers,
-                    services, staff, rooms and payments
-                    from one centralized workspace.
-
-                </p>
-
-
-                <div class="crm-hero-actions">
-
-                    <a
-                        href="{% url 'sukoon_admin:spa_booking_add' %}"
-                        class="crm-hero-btn primary"
-                    >
-                        + New Booking
-                    </a>
-
-
-                    <a
-                        href="#workspace"
-                        class="crm-hero-btn"
-                        data-quick-tab="bookings"
-                    >
-                        Manage Bookings
-                    </a>
-
-
-                    <a
-                        href="#workspace"
-                        class="crm-hero-btn"
-                        data-quick-tab="payments"
-                    >
-                        Payments
-                    </a>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         KPI CARDS
-    ===================================================== -->
-
-    <div class="crm-stats">
-
-
-        <!-- TOTAL BOOKINGS -->
-
-        <a
-            href="#workspace"
-            class="crm-stat"
-            data-workspace="bookings"
-            data-status="all"
-        >
-
-            <div class="crm-stat-head">
-
-                <span class="crm-stat-label">
-                    Total Bookings
-                </span>
-
-                <span class="crm-stat-icon">
-                    B
-                </span>
-
-            </div>
-
-
-            <div class="crm-stat-value">
-                {{ total_bookings }}
-            </div>
-
-
-            <div class="crm-stat-footer">
-
-                <span>
-                    All appointments
-                </span>
-
-                <span class="crm-stat-link">
-                    View all →
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <!-- TODAY -->
-
-        <a
-            href="#workspace"
-            class="crm-stat"
-            data-workspace="today"
-        >
-
-            <div class="crm-stat-head">
-
-                <span class="crm-stat-label">
-                    Today's Appointments
-                </span>
-
-                <span class="crm-stat-icon">
-                    T
-                </span>
-
-            </div>
-
-
-            <div class="crm-stat-value">
-                {{ today_bookings }}
-            </div>
-
-
-            <div class="crm-stat-footer">
-
-                <span>
-                    Scheduled today
-                </span>
-
-                <span class="crm-stat-link">
-                    View →
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <!-- PENDING -->
-
-        <a
-            href="#workspace"
-            class="crm-stat"
-            data-workspace="bookings"
-            data-status="pending"
-        >
-
-            <div class="crm-stat-head">
-
-                <span class="crm-stat-label">
-                    Pending Bookings
-                </span>
-
-                <span class="crm-stat-icon">
-                    P
-                </span>
-
-            </div>
-
-
-            <div class="crm-stat-value">
-                {{ pending_bookings }}
-            </div>
-
-
-            <div class="crm-stat-footer">
-
-                <span>
-                    Require attention
-                </span>
-
-                <span class="crm-stat-link">
-                    Review →
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <!-- CONFIRMED -->
-
-        <a
-            href="#workspace"
-            class="crm-stat"
-            data-workspace="bookings"
-            data-status="confirmed"
-        >
-
-            <div class="crm-stat-head">
-
-                <span class="crm-stat-label">
-                    Confirmed
-                </span>
-
-                <span class="crm-stat-icon">
-                    C
-                </span>
-
-            </div>
-
-
-            <div class="crm-stat-value">
-                {{ confirmed_bookings }}
-            </div>
-
-
-            <div class="crm-stat-footer">
-
-                <span>
-                    Confirmed appointments
-                </span>
-
-                <span class="crm-stat-link">
-                    View →
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <!-- COMPLETED -->
-
-        <a
-            href="#workspace"
-            class="crm-stat"
-            data-workspace="bookings"
-            data-status="completed"
-        >
-
-            <div class="crm-stat-head">
-
-                <span class="crm-stat-label">
-                    Completed
-                </span>
-
-                <span class="crm-stat-icon">
-                    ✓
-                </span>
-
-            </div>
-
-
-            <div class="crm-stat-value">
-                {{ completed_bookings }}
-            </div>
-
-
-            <div class="crm-stat-footer">
-
-                <span>
-                    Completed appointments
-                </span>
-
-                <span class="crm-stat-link">
-                    View →
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <!-- PAID -->
-
-        <a
-            href="#workspace"
-            class="crm-stat"
-            data-workspace="payments"
-            data-payment="paid"
-        >
-
-            <div class="crm-stat-head">
-
-                <span class="crm-stat-label">
-                    Paid Payments
-                </span>
-
-                <span class="crm-stat-icon">
-                    ₹
-                </span>
-
-            </div>
-
-
-            <div class="crm-stat-value">
-                {{ paid_payments }}
-            </div>
-
-
-            <div class="crm-stat-footer">
-
-                <span>
-                    Successful payments
-                </span>
-
-                <span class="crm-stat-link">
-                    View →
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <!-- PAYMENT PENDING -->
-
-        <a
-            href="#workspace"
-            class="crm-stat"
-            data-workspace="payments"
-            data-payment="pending"
-        >
-
-            <div class="crm-stat-head">
-
-                <span class="crm-stat-label">
-                    Pending Payments
-                </span>
-
-                <span class="crm-stat-icon">
-                    !
-                </span>
-
-            </div>
-
-
-            <div class="crm-stat-value">
-                {{ pending_payments }}
-            </div>
-
-
-            <div class="crm-stat-footer">
-
-                <span>
-                    Awaiting payment
-                </span>
-
-                <span class="crm-stat-link">
-                    Review →
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <!-- REVENUE -->
-
-        <a
-            href="#workspace"
-            class="crm-stat"
-            data-workspace="payments"
-        >
-
-            <div class="crm-stat-head">
-
-                <span class="crm-stat-label">
-                    Revenue
-                </span>
-
-                <span class="crm-stat-icon">
-                    ₹
-                </span>
-
-            </div>
-
-
-            <div class="crm-stat-value">
-                ₹{{ revenue|floatformat:2 }}
-            </div>
-
-
-            <div class="crm-stat-footer">
-
-                <span>
-                    Successful payments
-                </span>
-
-                <span class="crm-stat-link">
-                    View payments →
-                </span>
-
-            </div>
-
-        </a>
-
-
-    </div>
-
-
-    <!-- =====================================================
-         MANAGEMENT LAYOUT
-    ===================================================== -->
-
-    <div class="crm-layout">
-
-
-        <!-- =================================================
-             MAIN
-        ================================================= -->
-
-        <div id="workspace">
-
-
-            <div class="crm-card">
-
-
-                <!-- HEADER -->
-
-                <div class="crm-card-header">
-
-                    <div>
-
-                        <h2
-                            class="crm-card-title"
-                            id="workspaceTitle"
+                        <img
+                            src="{{ site_logo }}"
+                            alt="Sukoon Wellness & Spa"
+                            class="brand-logo"
                         >
-                            Booking Management
+
+                    {% else %}
+
+                        <img
+                            src="{% static 'images/logo.png' %}"
+                            alt="Sukoon Wellness & Spa"
+                            class="brand-logo"
+                        >
+
+                    {% endif %}
+
+
+                    <div class="brand-copy">
+
+                        <span class="brand-name">
+                            Sukoon Wellness & Spa
+                        </span>
+
+                        <span class="brand-subtitle">
+                            Wellness CRM
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- ACTIONS -->
+
+                <nav
+                    class="topbar-actions"
+                    aria-label="CRM navigation"
+                >
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="topbar-link"
+                    >
+                        View Website
+                    </a>
+
+
+                    <a
+                        href="{% url 'sukoon_admin:index' %}"
+                        class="topbar-link primary"
+                    >
+                        Dashboard
+                    </a>
+
+
+                    {% if user.is_authenticated %}
+
+                        <a
+                            href="{% url 'sukoon_admin:logout' %}"
+                            class="topbar-link logout"
+                        >
+                            Logout
+                        </a>
+
+                    {% endif %}
+
+                </nav>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="crm-main">
+
+        <div class="crm-container">
+
+
+            <!-- =================================================
+                 HERO
+            ================================================== -->
+
+            <section
+                class="dashboard-hero"
+                aria-labelledby="dashboard-title"
+            >
+
+                <div class="hero-layout">
+
+                    <div class="hero-content">
+
+                        <div class="hero-eyebrow">
+                            Sukoon Wellness & Spa · CRM
+                        </div>
+
+
+                        <h1
+                            id="dashboard-title"
+                            class="hero-title"
+                        >
+                            Welcome to your dashboard
+                        </h1>
+
+
+                        <p class="hero-description">
+
+                            Manage appointments, customers,
+                            services, therapists and rooms from
+                            one central workspace.
+
+                        </p>
+
+
+                        <div class="hero-date">
+
+                            ✦
+
+                            Today ·
+                            {{ today|date:"l, d F Y" }}
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="hero-mark"
+                        aria-hidden="true"
+                    >
+                        S
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <div class="section-title-wrap">
+
+                        <span class="section-eyebrow">
+                            Workspace
+                        </span>
+
+                        <h2 class="section-title">
+                            Quick Actions
                         </h2>
 
-                        <p
-                            class="crm-card-subtitle"
-                            id="workspaceSubtitle"
+                        <p class="section-description">
+                            Access the most frequently used CRM areas.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+
+                    <a
+                        href="/admin/spa/booking/"
+                        class="quick-action"
+                    >
+
+                        <div
+                            class="quick-action-icon"
+                            aria-hidden="true"
                         >
-                            Manage customer appointments directly
-                            from the dashboard.
+                            ◷
+                        </div>
+
+                        <div class="quick-action-content">
+
+                            <div class="quick-action-title">
+                                Manage Bookings
+                            </div>
+
+                            <div class="quick-action-text">
+                                View and manage appointments
+                            </div>
+
+                        </div>
+
+                        <span class="quick-action-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="/admin/spa/service/"
+                        class="quick-action"
+                    >
+
+                        <div
+                            class="quick-action-icon"
+                            aria-hidden="true"
+                        >
+                            ✦
+                        </div>
+
+                        <div class="quick-action-content">
+
+                            <div class="quick-action-title">
+                                Services
+                            </div>
+
+                            <div class="quick-action-text">
+                                Manage spa treatments
+                            </div>
+
+                        </div>
+
+                        <span class="quick-action-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="/admin/spa/staff/"
+                        class="quick-action"
+                    >
+
+                        <div
+                            class="quick-action-icon"
+                            aria-hidden="true"
+                        >
+                            ♙
+                        </div>
+
+                        <div class="quick-action-content">
+
+                            <div class="quick-action-title">
+                                Staff
+                            </div>
+
+                            <div class="quick-action-text">
+                                Manage therapists and staff
+                            </div>
+
+                        </div>
+
+                        <span class="quick-action-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="/admin/spa/room/"
+                        class="quick-action"
+                    >
+
+                        <div
+                            class="quick-action-icon"
+                            aria-hidden="true"
+                        >
+                            ◇
+                        </div>
+
+                        <div class="quick-action-content">
+
+                            <div class="quick-action-title">
+                                Rooms
+                            </div>
+
+                            <div class="quick-action-text">
+                                Manage treatment rooms
+                            </div>
+
+                        </div>
+
+                        <span class="quick-action-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 BOOKING STATISTICS
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <div class="section-title-wrap">
+
+                        <span class="section-eyebrow">
+                            Overview
+                        </span>
+
+                        <h2 class="section-title">
+                            Booking Statistics
+                        </h2>
+
+                        <p class="section-description">
+                            Current appointment activity at Sukoon.
                         </p>
 
                     </div>
 
 
-                    <div class="crm-tools">
+                    <a
+                        href="/admin/spa/booking/"
+                        class="section-action"
+                    >
+                        View all bookings →
+                    </a>
 
-                        <input
-                            type="search"
-                            id="globalSearch"
-                            class="crm-search"
-                            placeholder="Search customer, phone, service..."
-                        >
+                </div>
+
+
+                <div class="stats-grid">
+
+
+                    <div class="stat-card">
+
+                        <span class="stat-accent"></span>
+
+                        <div class="stat-label">
+                            Total Bookings
+                        </div>
+
+                        <div class="stat-value">
+                            {{ total_bookings }}
+                        </div>
+
+                        <div class="stat-note">
+                            All appointments
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <span class="stat-accent"></span>
+
+                        <div class="stat-label">
+                            Today
+                        </div>
+
+                        <div class="stat-value">
+                            {{ today_bookings }}
+                        </div>
+
+                        <div class="stat-note">
+                            Today's appointments
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <span class="stat-accent"></span>
+
+                        <div class="stat-label">
+                            Confirmed
+                        </div>
+
+                        <div class="stat-value">
+                            {{ confirmed_bookings }}
+                        </div>
+
+                        <div class="stat-note">
+                            Active confirmed bookings
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <span class="stat-accent"></span>
+
+                        <div class="stat-label">
+                            Completed
+                        </div>
+
+                        <div class="stat-value">
+                            {{ completed_bookings }}
+                        </div>
+
+                        <div class="stat-note">
+                            Finished appointments
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <span class="stat-accent"></span>
+
+                        <div class="stat-label">
+                            Cancelled
+                        </div>
+
+                        <div class="stat-value">
+                            {{ cancelled_bookings }}
+                        </div>
+
+                        <div class="stat-note">
+                            Cancelled appointments
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 BUSINESS OVERVIEW
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <div class="section-title-wrap">
+
+                        <span class="section-eyebrow">
+                            Operations
+                        </span>
+
+                        <h2 class="section-title">
+                            Business Overview
+                        </h2>
+
+                        <p class="section-description">
+                            Active resources currently available in CRM.
+                        </p>
 
                     </div>
 
                 </div>
 
 
-                <!-- TABS -->
+                <div class="business-grid">
 
-                <div class="workspace-tabs">
 
-                    <button
-                        type="button"
-                        class="workspace-tab active"
-                        data-tab="bookings"
-                    >
-                        All Bookings
-                    </button>
+                    <div class="business-card">
 
-                    <button
-                        type="button"
-                        class="workspace-tab"
-                        data-tab="today"
-                    >
-                        Today
-                    </button>
+                        <div
+                            class="business-icon"
+                            aria-hidden="true"
+                        >
+                            ✦
+                        </div>
 
-                    <button
-                        type="button"
-                        class="workspace-tab"
-                        data-tab="pending"
-                    >
-                        Pending
-                    </button>
+                        <div>
 
-                    <button
-                        type="button"
-                        class="workspace-tab"
-                        data-tab="confirmed"
-                    >
-                        Confirmed
-                    </button>
+                            <div class="business-label">
+                                Active Services
+                            </div>
 
-                    <button
-                        type="button"
-                        class="workspace-tab"
-                        data-tab="completed"
-                    >
-                        Completed
-                    </button>
+                            <div class="business-value">
+                                {{ active_services }}
+                            </div>
 
-                    <button
-                        type="button"
-                        class="workspace-tab"
-                        data-tab="cancelled"
-                    >
-                        Cancelled
-                    </button>
+                        </div>
 
-                    <button
-                        type="button"
-                        class="workspace-tab"
-                        data-tab="payments"
-                    >
-                        Payments
-                    </button>
+                        <span class="business-status">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <div class="business-card">
+
+                        <div
+                            class="business-icon"
+                            aria-hidden="true"
+                        >
+                            ♙
+                        </div>
+
+                        <div>
+
+                            <div class="business-label">
+                                Active Staff
+                            </div>
+
+                            <div class="business-value">
+                                {{ active_staff }}
+                            </div>
+
+                        </div>
+
+                        <span class="business-status">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <div class="business-card">
+
+                        <div
+                            class="business-icon"
+                            aria-hidden="true"
+                        >
+                            ◇
+                        </div>
+
+                        <div>
+
+                            <div class="business-label">
+                                Active Rooms
+                            </div>
+
+                            <div class="business-value">
+                                {{ active_rooms }}
+                            </div>
+
+                        </div>
+
+                        <span class="business-status">
+                            Active
+                        </span>
+
+                    </div>
 
                 </div>
 
+            </section>
 
-                <!-- =================================================
-                     BOOKINGS
-                ================================================= -->
-
-                <div
-                    id="bookingWorkspace"
-                    class="crm-table-wrap"
-                >
-
-                    <table class="crm-table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>Customer</th>
-                                <th>Service</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Staff</th>
-                                <th>Room</th>
-                                <th>Status</th>
-                                <th>Payment</th>
-                                <th>Action</th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="bookingRows">
-
-
-                        {% for booking in all_bookings %}
-
-                            <tr
-                                class="booking-row"
-
-                                data-status="{{ booking.status }}"
-
-                                data-date="{{ booking.appointment_date|date:'Y-m-d' }}"
-
-                                data-search="{{ booking.name|lower }} {{ booking.phone|lower }} {% if booking.service %}{{ booking.service.name|lower }}{% endif %}"
-                            >
-
-
-                                <!-- CUSTOMER -->
-
-                                <td>
-
-                                    <div class="customer">
-
-                                        <div class="customer-avatar">
-                                            {{ booking.name|first|upper }}
-                                        </div>
-
-                                        <div class="customer-info">
-
-                                            <strong>
-                                                {{ booking.name }}
-                                            </strong>
-
-                                            <span>
-                                                {{ booking.phone }}
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-
-                                <!-- SERVICE -->
-
-                                <td>
-
-                                    {% if booking.service %}
-                                        {{ booking.service.name }}
-                                    {% else %}
-                                        —
-                                    {% endif %}
-
-                                </td>
-
-
-                                <!-- DATE -->
-
-                                <td>
-                                    {{ booking.appointment_date|date:"d M Y" }}
-                                </td>
-
-
-                                <!-- TIME -->
-
-                                <td>
-                                    {{ booking.appointment_time|time:"g:i A" }}
-                                </td>
-
-
-                                <!-- STAFF -->
-
-                                <td>
-
-                                    {% if booking.staff %}
-                                        {{ booking.staff.name }}
-                                    {% else %}
-                                        —
-                                    {% endif %}
-
-                                </td>
-
-
-                                <!-- ROOM -->
-
-                                <td>
-
-                                    {% if booking.room %}
-                                        {{ booking.room.name }}
-                                    {% else %}
-                                        —
-                                    {% endif %}
-
-                                </td>
-
-
-                                <!-- STATUS -->
-
-                                <td>
-
-                                    {% if booking.status == "pending" %}
-
-                                        <span class="crm-badge pending">
-                                            Pending
-                                        </span>
-
-                                    {% elif booking.status == "confirmed" %}
-
-                                        <span class="crm-badge confirmed">
-                                            Confirmed
-                                        </span>
-
-                                    {% elif booking.status == "completed" %}
-
-                                        <span class="crm-badge completed">
-                                            Completed
-                                        </span>
-
-                                    {% elif booking.status == "cancelled" %}
-
-                                        <span class="crm-badge cancelled">
-                                            Cancelled
-                                        </span>
-
-                                    {% endif %}
-
-                                </td>
-
-
-                                <!-- PAYMENT -->
-
-                                <td>
-
-                                    {% if booking.payment %}
-
-                                        {% if booking.payment.status == "paid" %}
-
-                                            <span class="crm-badge paid">
-                                                Paid
-                                            </span>
-
-                                        {% else %}
-
-                                            <span class="crm-badge unpaid">
-                                                {{ booking.payment.status|title }}
-                                            </span>
-
-                                        {% endif %}
-
-                                    {% else %}
-
-                                        <span class="crm-badge unpaid">
-                                            Unpaid
-                                        </span>
-
-                                    {% endif %}
-
-                                </td>
-
-
-                                <!-- ACTION -->
-
-                                <td>
-
-                                    <div class="crm-actions">
-
-                                        <a
-                                            href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
-                                            class="crm-btn primary"
-                                        >
-                                            View
-                                        </a>
-
-                                        <a
-                                            href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
-                                            class="crm-btn gold"
-                                        >
-                                            Manage
-                                        </a>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                        {% empty %}
-
-                            <tr>
-
-                                <td
-                                    colspan="9"
-                                    class="crm-empty"
-                                >
-                                    No bookings available.
-                                </td>
-
-                            </tr>
-
-                        {% endfor %}
-
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-
-                <!-- =================================================
-                     PAYMENTS
-                ================================================= -->
-
-                <div
-                    id="paymentWorkspace"
-                    class="crm-table-wrap crm-hidden"
-                >
-
-                    <table class="crm-table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>ID</th>
-                                <th>Customer</th>
-                                <th>Amount</th>
-                                <th>Currency</th>
-                                <th>Status</th>
-                                <th>Razorpay Order</th>
-                                <th>Payment ID</th>
-                                <th>Date</th>
-                                <th>Action</th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="paymentRows">
-
-
-                        {% for payment in all_payments %}
-
-                            <tr
-                                class="payment-row"
-
-                                data-payment-status="{{ payment.status }}"
-
-                                data-search="{% if payment.booking %}{{ payment.booking.name|lower }} {{ payment.booking.phone|lower }}{% endif %} {{ payment.razorpay_order_id|lower }} {{ payment.razorpay_payment_id|lower }}"
-                            >
-
-                                <td>
-                                    #{{ payment.id }}
-                                </td>
-
-
-                                <td>
-
-                                    {% if payment.booking %}
-
-                                        <div class="customer">
-
-                                            <div class="customer-avatar">
-                                                {{ payment.booking.name|first|upper }}
-                                            </div>
-
-                                            <div class="customer-info">
-
-                                                <strong>
-                                                    {{ payment.booking.name }}
-                                                </strong>
-
-                                                <span>
-                                                    {{ payment.booking.phone }}
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    {% else %}
-
-                                        —
-
-                                    {% endif %}
-
-                                </td>
-
-
-                                <td>
-                                    ₹{{ payment.amount|floatformat:2 }}
-                                </td>
-
-
-                                <td>
-                                    {{ payment.currency }}
-                                </td>
-
-
-                                <td>
-
-                                    {% if payment.status == "paid" %}
-
-                                        <span class="crm-badge paid">
-                                            Paid
-                                        </span>
-
-                                    {% elif payment.status == "failed" %}
-
-                                        <span class="crm-badge cancelled">
-                                            Failed
-                                        </span>
-
-                                    {% elif payment.status == "refunded" %}
-
-                                        <span class="crm-badge completed">
-                                            Refunded
-                                        </span>
-
-                                    {% else %}
-
-                                        <span class="crm-badge unpaid">
-                                            {{ payment.status|title }}
-                                        </span>
-
-                                    {% endif %}
-
-                                </td>
-
-
-                                <td>
-                                    {{ payment.razorpay_order_id|default:"—" }}
-                                </td>
-
-
-                                <td>
-                                    {{ payment.razorpay_payment_id|default:"—" }}
-                                </td>
-
-
-                                <td>
-                                    {{ payment.created_at|date:"d M Y, g:i A" }}
-                                </td>
-
-
-                                <td>
-
-                                    <a
-                                        href="{% url 'sukoon_admin:payments_payment_change' payment.id %}"
-                                        class="crm-btn primary"
-                                    >
-                                        View
-                                    </a>
-
-                                </td>
-
-                            </tr>
-
-
-                        {% empty %}
-
-                            <tr>
-
-                                <td
-                                    colspan="9"
-                                    class="crm-empty"
-                                >
-                                    No payment records available.
-                                </td>
-
-                            </tr>
-
-                        {% endfor %}
-
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
 
 
             <!-- =================================================
                  TODAY'S APPOINTMENTS
-            ================================================= -->
+            ================================================== -->
 
-            <div class="crm-card">
+            <section class="section">
 
-                <div class="crm-card-header">
+                <div class="section-header">
 
-                    <div>
+                    <div class="section-title-wrap">
 
-                        <h2 class="crm-card-title">
+                        <span class="section-eyebrow">
+                            Today
+                        </span>
+
+                        <h2 class="section-title">
                             Today's Appointments
                         </h2>
 
-                        <p class="crm-card-subtitle">
-                            Today's scheduled customer visits.
+                        <p class="section-description">
+                            All appointments scheduled for today.
                         </p>
 
                     </div>
 
 
-                    <span class="crm-badge completed">
-                        {{ today_bookings }} Today
-                    </span>
+                    <a
+                        href="/admin/spa/booking/"
+                        class="section-action"
+                    >
+
+                        {{ today_bookings }}
+                        appointment{{ today_bookings|pluralize }}
+
+                        →
+
+                    </a>
 
                 </div>
 
 
-                <div class="crm-table-wrap">
+                <div class="appointments-card">
 
-                    <table class="crm-table">
+                    {% if today_appointments %}
 
-                        <thead>
+                        <div class="table-scroll">
 
-                            <tr>
+                            <table class="appointments-table">
 
-                                <th>Customer</th>
-                                <th>Service</th>
-                                <th>Time</th>
-                                <th>Staff</th>
-                                <th>Room</th>
-                                <th>Status</th>
+                                <thead>
 
-                            </tr>
+                                    <tr>
 
-                        </thead>
+                                        <th scope="col">
+                                            Customer
+                                        </th>
+
+                                        <th scope="col">
+                                            Service
+                                        </th>
+
+                                        <th scope="col">
+                                            Time
+                                        </th>
+
+                                        <th scope="col">
+                                            Staff
+                                        </th>
+
+                                        <th scope="col">
+                                            Room
+                                        </th>
+
+                                        <th scope="col">
+                                            Status
+                                        </th>
+
+                                        <th scope="col">
+                                            Action
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
 
 
-                        <tbody>
+                                <tbody>
+
+                                    {% for booking in today_appointments %}
+
+                                        <tr>
 
 
-                        {% for booking in today_appointments %}
+                                            <td>
 
-                            <tr>
+                                                <div class="customer-cell">
 
-                                <td>
+                                                    <div class="customer-avatar">
 
-                                    <div class="customer">
+                                                        {% if booking.name %}
+                                                            {{ booking.name|first|upper }}
+                                                        {% else %}
+                                                            ?
+                                                        {% endif %}
 
-                                        <div class="customer-avatar">
-                                            {{ booking.name|first|upper }}
+                                                    </div>
+
+
+                                                    <div>
+
+                                                        <div class="customer-name">
+                                                            {{ booking.name|default:"Guest" }}
+                                                        </div>
+
+                                                        <div class="customer-phone">
+                                                            {{ booking.phone|default:"No phone" }}
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.service %}
+
+                                                    <span class="service-name">
+                                                        {{ booking.service.name }}
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="resource-empty">
+                                                        Service unavailable
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.appointment_time %}
+
+                                                    <div class="appointment-time">
+                                                        {{ booking.appointment_time|time:"g:i A" }}
+                                                    </div>
+
+                                                    {% if booking.end_time %}
+
+                                                        <div class="appointment-end">
+                                                            Ends {{ booking.end_time|time:"g:i A" }}
+                                                        </div>
+
+                                                    {% endif %}
+
+                                                {% else %}
+
+                                                    <span class="resource-empty">
+                                                        Not specified
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.staff %}
+
+                                                    <span class="resource-name">
+                                                        {{ booking.staff.name }}
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="resource-empty">
+                                                        Unassigned
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.room %}
+
+                                                    <span class="resource-name">
+                                                        {{ booking.room.name }}
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="resource-empty">
+                                                        Unassigned
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.status == "confirmed" %}
+
+                                                    <span class="status-badge status-confirmed">
+                                                        Confirmed
+                                                    </span>
+
+                                                {% elif booking.status == "completed" %}
+
+                                                    <span class="status-badge status-completed">
+                                                        Completed
+                                                    </span>
+
+                                                {% elif booking.status == "cancelled" %}
+
+                                                    <span class="status-badge status-cancelled">
+                                                        Cancelled
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="status-badge status-default">
+                                                        {{ booking.status|default:"Unknown"|title }}
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <div class="action-group">
+
+                                                    <a
+                                                        href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
+                                                        class="table-action"
+                                                    >
+                                                        View
+                                                    </a>
+
+                                                    <a
+                                                        href="{% url 'booking_bill' booking.id %}"
+                                                        class="table-action"
+                                                    >
+                                                        Bill
+                                                    </a>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="empty-state">
+
+                            <div
+                                class="empty-icon"
+                                aria-hidden="true"
+                            >
+                                ◌
+                            </div>
+
+                            <div class="empty-title">
+                                No appointments today
+                            </div>
+
+                            <p class="empty-text">
+
+                                There are no appointments scheduled
+                                for {{ today|date:"d F Y" }}.
+
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 UPCOMING APPOINTMENTS
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <div class="section-title-wrap">
+
+                        <span class="section-eyebrow">
+                            Schedule
+                        </span>
+
+                        <h2 class="section-title">
+                            Upcoming Appointments
+                        </h2>
+
+                        <p class="section-description">
+                            Confirmed appointments coming next.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {% if upcoming_appointments %}
+
+                    <div class="booking-list">
+
+                        {% for booking in upcoming_appointments %}
+
+                            <article class="booking-card">
+
+
+                                <div class="booking-card-top">
+
+                                    <div>
+
+                                        <div class="booking-reference">
+
+                                            <a
+                                                href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
+                                                class="booking-reference-link"
+                                            >
+                                                BOOKING #{{ booking.id }}
+                                            </a>
+
                                         </div>
 
-                                        <div class="customer-info">
 
-                                            <strong>
-                                                {{ booking.name }}
-                                            </strong>
+                                        <div class="booking-customer">
+                                            {{ booking.name|default:"Guest" }}
+                                        </div>
 
-                                            <span>
-                                                {{ booking.phone }}
-                                            </span>
+
+                                        <div class="booking-service">
+
+                                            {% if booking.service %}
+                                                {{ booking.service.name }}
+                                            {% else %}
+                                                Service unavailable
+                                            {% endif %}
 
                                         </div>
 
                                     </div>
 
-                                </td>
+
+                                    <span class="status-badge status-confirmed">
+                                        Confirmed
+                                    </span>
+
+                                </div>
 
 
-                                <td>
-
-                                    {% if booking.service %}
-                                        {{ booking.service.name }}
-                                    {% else %}
-                                        —
-                                    {% endif %}
-
-                                </td>
+                                <div class="booking-meta">
 
 
-                                <td>
-                                    {{ booking.appointment_time|time:"g:i A" }}
-                                </td>
+                                    <div>
+
+                                        <div class="meta-label">
+                                            Date
+                                        </div>
+
+                                        <div class="meta-value">
+                                            {{ booking.appointment_date|date:"d M Y" }}
+                                        </div>
+
+                                    </div>
 
 
-                                <td>
+                                    <div>
 
-                                    {% if booking.staff %}
-                                        {{ booking.staff.name }}
-                                    {% else %}
-                                        —
-                                    {% endif %}
+                                        <div class="meta-label">
+                                            Time
+                                        </div>
 
-                                </td>
+                                        <div class="meta-value">
 
+                                            {% if booking.appointment_time %}
 
-                                <td>
+                                                {{ booking.appointment_time|time:"g:i A" }}
 
-                                    {% if booking.room %}
-                                        {{ booking.room.name }}
-                                    {% else %}
-                                        —
-                                    {% endif %}
+                                                {% if booking.end_time %}
+                                                    – {{ booking.end_time|time:"g:i A" }}
+                                                {% endif %}
 
-                                </td>
+                                            {% else %}
 
+                                                Not specified
 
-                                <td>
+                                            {% endif %}
 
-                                    {% if booking.status == "confirmed" %}
+                                        </div>
 
-                                        <span class="crm-badge confirmed">
-                                            Confirmed
-                                        </span>
-
-                                    {% elif booking.status == "pending" %}
-
-                                        <span class="crm-badge pending">
-                                            Pending
-                                        </span>
-
-                                    {% elif booking.status == "completed" %}
-
-                                        <span class="crm-badge completed">
-                                            Completed
-                                        </span>
-
-                                    {% elif booking.status == "cancelled" %}
-
-                                        <span class="crm-badge cancelled">
-                                            Cancelled
-                                        </span>
-
-                                    {% endif %}
-
-                                </td>
-
-                            </tr>
+                                    </div>
 
 
-                        {% empty %}
+                                    <div>
 
-                            <tr>
+                                        <div class="meta-label">
+                                            Staff
+                                        </div>
 
-                                <td
-                                    colspan="6"
-                                    class="crm-empty"
-                                >
-                                    No appointments scheduled for today.
-                                </td>
+                                        <div class="meta-value">
 
-                            </tr>
+                                            {% if booking.staff %}
+                                                {{ booking.staff.name }}
+                                            {% else %}
+                                                Unassigned
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <div class="meta-label">
+                                            Room
+                                        </div>
+
+                                        <div class="meta-value">
+
+                                            {% if booking.room %}
+                                                {{ booking.room.name }}
+                                            {% else %}
+                                                Unassigned
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="booking-actions">
+
+                                    <a
+                                        href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
+                                        class="booking-action"
+                                    >
+                                        Manage Booking
+                                    </a>
+
+                                    <a
+                                        href="{% url 'booking_bill' booking.id %}"
+                                        class="booking-action primary"
+                                    >
+                                        Generate Bill
+                                    </a>
+
+                                </div>
+
+                            </article>
 
                         {% endfor %}
 
+                    </div>
 
-                        </tbody>
+                {% else %}
 
-                    </table>
+                    <div class="appointments-card">
+
+                        <div class="empty-state">
+
+                            <div
+                                class="empty-icon"
+                                aria-hidden="true"
+                            >
+                                ◌
+                            </div>
+
+                            <div class="empty-title">
+                                No upcoming appointments
+                            </div>
+
+                            <p class="empty-text">
+
+                                There are currently no confirmed
+                                upcoming appointments.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+
+            <!-- =================================================
+                 RECENT BOOKINGS
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <div class="section-title-wrap">
+
+                        <span class="section-eyebrow">
+                            Activity
+                        </span>
+
+                        <h2 class="section-title">
+                            Recent Bookings
+                        </h2>
+
+                        <p class="section-description">
+                            Latest booking activity in the system.
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="/admin/spa/booking/"
+                        class="section-action"
+                    >
+                        Open booking manager →
+                    </a>
 
                 </div>
 
-            </div>
+
+                <div class="recent-table-card">
+
+                    {% if recent_bookings %}
+
+                        <div class="table-scroll">
+
+                            <table class="recent-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th scope="col">
+                                            Booking
+                                        </th>
+
+                                        <th scope="col">
+                                            Customer
+                                        </th>
+
+                                        <th scope="col">
+                                            Service
+                                        </th>
+
+                                        <th scope="col">
+                                            Appointment
+                                        </th>
+
+                                        <th scope="col">
+                                            Staff
+                                        </th>
+
+                                        <th scope="col">
+                                            Status
+                                        </th>
+
+                                        <th scope="col">
+                                            Action
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    {% for booking in recent_bookings %}
+
+                                        <tr>
+
+
+                                            <td>
+
+                                                <a
+                                                    href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
+                                                    class="booking-id"
+                                                >
+                                                    #{{ booking.id }}
+                                                </a>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <strong>
+                                                    {{ booking.name|default:"Guest" }}
+                                                </strong>
+
+                                                <br>
+
+                                                <span class="secondary-text">
+                                                    {{ booking.phone|default:"No phone" }}
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.service %}
+
+                                                    {{ booking.service.name }}
+
+                                                {% else %}
+
+                                                    <span class="resource-empty">
+                                                        —
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.appointment_date %}
+
+                                                    {{ booking.appointment_date|date:"d M Y" }}
+
+                                                    {% if booking.appointment_time %}
+
+                                                        <br>
+
+                                                        <span class="secondary-text">
+
+                                                            {{ booking.appointment_time|time:"g:i A" }}
+
+                                                        </span>
+
+                                                    {% endif %}
+
+                                                {% else %}
+
+                                                    —
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.staff %}
+
+                                                    {{ booking.staff.name }}
+
+                                                {% else %}
+
+                                                    <span class="resource-empty">
+                                                        Unassigned
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {% if booking.status == "confirmed" %}
+
+                                                    <span class="status-badge status-confirmed">
+                                                        Confirmed
+                                                    </span>
+
+                                                {% elif booking.status == "completed" %}
+
+                                                    <span class="status-badge status-completed">
+                                                        Completed
+                                                    </span>
+
+                                                {% elif booking.status == "cancelled" %}
+
+                                                    <span class="status-badge status-cancelled">
+                                                        Cancelled
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="status-badge status-default">
+                                                        {{ booking.status|default:"Unknown"|title }}
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <div class="action-group">
+
+                                                    <a
+                                                        href="{% url 'sukoon_admin:spa_booking_change' booking.id %}"
+                                                        class="table-action"
+                                                    >
+                                                        View
+                                                    </a>
+
+                                                    <a
+                                                        href="{% url 'booking_bill' booking.id %}"
+                                                        class="table-action"
+                                                    >
+                                                        Bill
+                                                    </a>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="empty-state">
+
+                            <div
+                                class="empty-icon"
+                                aria-hidden="true"
+                            >
+                                ◌
+                            </div>
+
+                            <div class="empty-title">
+                                No bookings yet
+                            </div>
+
+                            <p class="empty-text">
+
+                                Booking activity will appear here
+                                once customers start making appointments.
+
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer class="crm-footer">
+
+                <div class="footer-text">
+
+                    © {% now "Y" %}
+                    Sukoon Wellness & Spa
+                    · Central CRM
+
+                </div>
+
+
+                <div class="footer-brand">
+
+                    Relax · Rejuvenate · Restore
+
+                </div>
+
+            </footer>
 
 
         </div>
 
-
-        <!-- =================================================
-             SIDEBAR
-        ================================================= -->
-
-        <div>
-
-
-            <!-- QUICK ACTIONS -->
-
-            <div class="side-card">
-
-                <div class="side-header">
-
-                    <h3>
-                        Quick Actions
-                    </h3>
-
-                    <p>
-                        Frequently used operations
-                    </p>
-
-                </div>
-
-
-                <div class="quick-grid">
-
-
-                    <a
-                        href="{% url 'sukoon_admin:spa_booking_add' %}"
-                        class="quick-card"
-                    >
-
-                        <span class="quick-icon">
-                            +
-                        </span>
-
-                        New Booking
-
-                    </a>
-
-
-                    <a
-                        href="{% url 'sukoon_admin:spa_service_add' %}"
-                        class="quick-card"
-                    >
-
-                        <span class="quick-icon">
-                            S
-                        </span>
-
-                        Add Service
-
-                    </a>
-
-
-                    <a
-                        href="{% url 'sukoon_admin:spa_staff_add' %}"
-                        class="quick-card"
-                    >
-
-                        <span class="quick-icon">
-                            ST
-                        </span>
-
-                        Add Staff
-
-                    </a>
-
-
-                    <a
-                        href="{% url 'sukoon_admin:spa_room_add' %}"
-                        class="quick-card"
-                    >
-
-                        <span class="quick-icon">
-                            R
-                        </span>
-
-                        Add Room
-
-                    </a>
-
-
-                    <a
-                        href="#workspace"
-                        class="quick-card"
-                        data-quick-tab="payments"
-                    >
-
-                        <span class="quick-icon">
-                            ₹
-                        </span>
-
-                        Payments
-
-                    </a>
-
-
-                    <a
-                        href="#workspace"
-                        class="quick-card"
-                        data-quick-tab="bookings"
-                    >
-
-                        <span class="quick-icon">
-                            B
-                        </span>
-
-                        Bookings
-
-                    </a>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- BUSINESS OVERVIEW -->
-
-            <div class="side-card">
-
-                <div class="side-header">
-
-                    <h3>
-                        Business Overview
-                    </h3>
-
-                    <p>
-                        Current operational status
-                    </p>
-
-                </div>
-
-
-                <div class="overview-list">
-
-
-                    <div class="overview-item">
-
-                        <span>
-                            Active Services
-                        </span>
-
-                        <span class="overview-value">
-                            {{ active_services }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="overview-item">
-
-                        <span>
-                            Active Staff
-                        </span>
-
-                        <span class="overview-value">
-                            {{ active_staff }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="overview-item">
-
-                        <span>
-                            Active Rooms
-                        </span>
-
-                        <span class="overview-value">
-                            {{ active_rooms }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="overview-item">
-
-                        <span>
-                            Failed Payments
-                        </span>
-
-                        <span class="overview-value">
-                            {{ failed_payments }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="overview-item">
-
-                        <span>
-                            Cancelled Bookings
-                        </span>
-
-                        <span class="overview-value">
-                            {{ cancelled_bookings }}
-                        </span>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- PAYMENT SUMMARY -->
-
-            <div class="side-card">
-
-                <div class="side-header">
-
-                    <h3>
-                        Payment Summary
-                    </h3>
-
-                    <p>
-                        Current payment status
-                    </p>
-
-                </div>
-
-
-                <div class="payment-grid">
-
-
-                    <div class="payment-mini">
-
-                        <div class="payment-mini-label">
-                            PAID
-                        </div>
-
-                        <div class="payment-mini-value">
-                            {{ paid_payments }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="payment-mini">
-
-                        <div class="payment-mini-label">
-                            PENDING
-                        </div>
-
-                        <div class="payment-mini-value">
-                            {{ pending_payments }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="payment-mini">
-
-                        <div class="payment-mini-label">
-                            FAILED
-                        </div>
-
-                        <div class="payment-mini-value">
-                            {{ failed_payments }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="payment-mini">
-
-                        <div class="payment-mini-label">
-                            REVENUE
-                        </div>
-
-                        <div class="payment-mini-value">
-                            ₹{{ revenue|floatformat:0 }}
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
+    </main>
 
 </div>
 
+</body>
 
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function () {
-
-
-    const tabs =
-        document.querySelectorAll(".workspace-tab");
-
-    const cards =
-        document.querySelectorAll(".crm-stat");
-
-    const bookingRows =
-        document.querySelectorAll(".booking-row");
-
-    const paymentRows =
-        document.querySelectorAll(".payment-row");
-
-    const searchInput =
-        document.getElementById("globalSearch");
-
-    const bookingWorkspace =
-        document.getElementById("bookingWorkspace");
-
-    const paymentWorkspace =
-        document.getElementById("paymentWorkspace");
-
-    const workspaceTitle =
-        document.getElementById("workspaceTitle");
-
-    const workspaceSubtitle =
-        document.getElementById("workspaceSubtitle");
-
-
-    let currentTab = "bookings";
-
-    let paymentFilter = "";
-
-
-    /* =====================================================
-       OPEN WORKSPACE
-    ===================================================== */
-
-    function openWorkspace(tab, paymentStatus = "") {
-
-        currentTab = tab;
-
-        paymentFilter = paymentStatus || "";
-
-
-        tabs.forEach(function (tabButton) {
-
-            tabButton.classList.toggle(
-                "active",
-                tabButton.dataset.tab === tab
-            );
-
-        });
-
-
-        if (tab === "payments") {
-
-            bookingWorkspace.classList.add(
-                "crm-hidden"
-            );
-
-            paymentWorkspace.classList.remove(
-                "crm-hidden"
-            );
-
-
-            workspaceTitle.textContent =
-                "Payment Management";
-
-
-            workspaceSubtitle.textContent =
-                "Review payment transactions and payment status.";
-
-
-            filterPayments();
-
-
-            return;
-
-        }
-
-
-        bookingWorkspace.classList.remove(
-            "crm-hidden"
-        );
-
-        paymentWorkspace.classList.add(
-            "crm-hidden"
-        );
-
-
-        if (tab === "today") {
-
-            workspaceTitle.textContent =
-                "Today's Appointments";
-
-            workspaceSubtitle.textContent =
-                "Appointments scheduled for today.";
-
-        }
-
-        else if (tab === "pending") {
-
-            workspaceTitle.textContent =
-                "Pending Bookings";
-
-            workspaceSubtitle.textContent =
-                "Bookings requiring confirmation.";
-
-        }
-
-        else if (tab === "confirmed") {
-
-            workspaceTitle.textContent =
-                "Confirmed Bookings";
-
-            workspaceSubtitle.textContent =
-                "Confirmed customer appointments.";
-
-        }
-
-        else if (tab === "completed") {
-
-            workspaceTitle.textContent =
-                "Completed Bookings";
-
-            workspaceSubtitle.textContent =
-                "Completed customer appointments.";
-
-        }
-
-        else if (tab === "cancelled") {
-
-            workspaceTitle.textContent =
-                "Cancelled Bookings";
-
-            workspaceSubtitle.textContent =
-                "Cancelled customer appointments.";
-
-        }
-
-        else {
-
-            workspaceTitle.textContent =
-                "Booking Management";
-
-            workspaceSubtitle.textContent =
-                "Manage customer appointments directly from the dashboard.";
-
-        }
-
-
-        filterBookings();
-
-    }
-
-
-    /* =====================================================
-       BOOKING FILTER
-    ===================================================== */
-
-    function filterBookings() {
-
-        const search =
-            (searchInput.value || "")
-                .toLowerCase()
-                .trim();
-
-
-        bookingRows.forEach(function (row) {
-
-            const rowSearch =
-                row.dataset.search || "";
-
-            const status =
-                row.dataset.status || "";
-
-            const date =
-                row.dataset.date || "";
-
-
-            let matchesTab = true;
-
-
-            if (currentTab === "today") {
-
-                matchesTab =
-                    date ===
-                    "{{ today|date:'Y-m-d' }}";
-
-            }
-
-            else if (
-                currentTab === "pending" ||
-                currentTab === "confirmed" ||
-                currentTab === "completed" ||
-                currentTab === "cancelled"
-            ) {
-
-                matchesTab =
-                    status === currentTab;
-
-            }
-
-
-            const matchesSearch =
-                !search ||
-                rowSearch.includes(search);
-
-
-            row.style.display =
-                matchesTab && matchesSearch
-                    ? ""
-                    : "none";
-
-        });
-
-    }
-
-
-    /* =====================================================
-       PAYMENT FILTER
-    ===================================================== */
-
-    function filterPayments() {
-
-        const search =
-            (searchInput.value || "")
-                .toLowerCase()
-                .trim();
-
-
-        paymentRows.forEach(function (row) {
-
-            const rowSearch =
-                row.dataset.search || "";
-
-            const status =
-                row.dataset.paymentStatus || "";
-
-
-            const matchesStatus =
-                !paymentFilter ||
-                status === paymentFilter;
-
-
-            const matchesSearch =
-                !search ||
-                rowSearch.includes(search);
-
-
-            row.style.display =
-                matchesStatus && matchesSearch
-                    ? ""
-                    : "none";
-
-        });
-
-    }
-
-
-    /* =====================================================
-       TAB CLICK
-    ===================================================== */
-
-    tabs.forEach(function (tab) {
-
-        tab.addEventListener(
-            "click",
-            function () {
-
-                cards.forEach(function (card) {
-
-                    card.classList.remove(
-                        "active"
-                    );
-
-                });
-
-
-                openWorkspace(
-                    tab.dataset.tab
-                );
-
-            }
-        );
-
-    });
-
-
-    /* =====================================================
-       KPI CLICK
-    ===================================================== */
-
-    cards.forEach(function (card) {
-
-        card.addEventListener(
-            "click",
-            function () {
-
-
-                cards.forEach(function (item) {
-
-                    item.classList.remove(
-                        "active"
-                    );
-
-                });
-
-
-                card.classList.add(
-                    "active"
-                );
-
-
-                const workspace =
-                    card.dataset.workspace;
-
-                const status =
-                    card.dataset.status || "";
-
-                const payment =
-                    card.dataset.payment || "";
-
-
-                if (workspace === "payments") {
-
-                    openWorkspace(
-                        "payments",
-                        payment
-                    );
-
-                }
-
-                else {
-
-                    openWorkspace(
-
-                        status &&
-                        status !== "all"
-                            ? status
-                            : workspace
-
-                    );
-
-                }
-
-
-                setTimeout(function () {
-
-                    const element =
-                        document.getElementById(
-                            "workspace"
-                        );
-
-
-                    if (element) {
-
-                        element.scrollIntoView({
-
-                            behavior:
-                                "smooth",
-
-                            block:
-                                "start"
-
-                        });
-
-                    }
-
-                }, 80);
-
-            }
-        );
-
-    });
-
-
-    /* =====================================================
-       SEARCH
-    ===================================================== */
-
-    if (searchInput) {
-
-        searchInput.addEventListener(
-            "input",
-            function () {
-
-                if (
-                    currentTab ===
-                    "payments"
-                ) {
-
-                    filterPayments();
-
-                }
-
-                else {
-
-                    filterBookings();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       QUICK ACTIONS
-    ===================================================== */
-
-    document.querySelectorAll(
-        "[data-quick-tab]"
-    ).forEach(function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                openWorkspace(
-                    button.dataset.quickTab
-                );
-
-
-                setTimeout(function () {
-
-                    const element =
-                        document.getElementById(
-                            "workspace"
-                        );
-
-
-                    if (element) {
-
-                        element.scrollIntoView({
-
-                            behavior:
-                                "smooth",
-
-                            block:
-                                "start"
-
-                        });
-
-                    }
-
-                }, 80);
-
-            }
-        );
-
-    });
-
-
-    /* =====================================================
-       INITIAL
-    ===================================================== */
-
-    openWorkspace(
-        "bookings"
-    );
-
-});
-
-</script>
-
-{% endblock %}
+</html>

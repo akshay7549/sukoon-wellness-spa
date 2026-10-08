@@ -18,40 +18,6 @@ from .models import (
     StaffLeave,
 )
 
-from payments.models import Payment
-
-
-# =========================================================
-# PAYMENT ADMIN
-# =========================================================
-
-class PaymentAdmin(admin.ModelAdmin):
-
-    list_display = (
-        "id",
-        "booking",
-        "amount",
-        "status",
-        "created_at",
-    )
-
-    list_filter = (
-        "status",
-        "created_at",
-    )
-
-    search_fields = (
-        "booking__name",
-        "booking__phone",
-        "booking__email",
-    )
-
-    ordering = (
-        "-created_at",
-    )
-
-    list_per_page = 25
-
 
 # =========================================================
 # SERVICE CATEGORY ADMIN
@@ -274,11 +240,11 @@ class BookingAdmin(admin.ModelAdmin):
         "appointment_datetime",
         "staff_name",
         "room_name",
+        "booking_price",
         "booking_status",
-        "payment_status",
-        "booking_amount",
         "whatsapp_status",
         "whatsapp_button",
+        "bill_button",
     )
 
     # =====================================================
@@ -306,8 +272,6 @@ class BookingAdmin(admin.ModelAdmin):
         "service__name",
         "staff__name",
         "room__name",
-        "payment__razorpay_order_id",
-        "payment__razorpay_payment_id",
     )
 
     # =====================================================
@@ -374,17 +338,16 @@ class BookingAdmin(admin.ModelAdmin):
     empty_value_display = "—"
 
     # =====================================================
-    # ACTIONS
+    # ADMIN ACTIONS
     # =====================================================
 
     actions = (
-        "confirm_paid_bookings",
         "complete_bookings",
         "cancel_bookings",
     )
 
     # =====================================================
-    # CUSTOM DISPLAY METHODS
+    # BOOKING ID
     # =====================================================
 
     @admin.display(
@@ -393,10 +356,13 @@ class BookingAdmin(admin.ModelAdmin):
     )
     def booking_id(self, obj):
 
-        url = reverse(
-            "sukoon_admin:spa_booking_change",
-            args=[obj.pk],
-        )
+        try:
+            url = reverse(
+                "sukoon_admin:spa_booking_change",
+                args=[obj.pk],
+            )
+        except Exception:
+            url = "#"
 
         return format_html(
             '<a href="{}"><strong>#{}</strong></a>',
@@ -404,7 +370,9 @@ class BookingAdmin(admin.ModelAdmin):
             obj.pk,
         )
 
-    # -----------------------------------------------------
+    # =====================================================
+    # CUSTOMER
+    # =====================================================
 
     @admin.display(
         description="Customer",
@@ -412,10 +380,13 @@ class BookingAdmin(admin.ModelAdmin):
     )
     def customer_name(self, obj):
 
-        url = reverse(
-            "sukoon_admin:spa_booking_change",
-            args=[obj.pk],
-        )
+        try:
+            url = reverse(
+                "sukoon_admin:spa_booking_change",
+                args=[obj.pk],
+            )
+        except Exception:
+            url = "#"
 
         return format_html(
             '<a href="{}"><strong>{}</strong></a>',
@@ -423,7 +394,9 @@ class BookingAdmin(admin.ModelAdmin):
             obj.name,
         )
 
-    # -----------------------------------------------------
+    # =====================================================
+    # PHONE
+    # =====================================================
 
     @admin.display(
         description="Phone",
@@ -440,7 +413,9 @@ class BookingAdmin(admin.ModelAdmin):
             obj.phone,
         )
 
-    # -----------------------------------------------------
+    # =====================================================
+    # SERVICE
+    # =====================================================
 
     @admin.display(
         description="Service",
@@ -453,7 +428,9 @@ class BookingAdmin(admin.ModelAdmin):
 
         return obj.service.name
 
-    # -----------------------------------------------------
+    # =====================================================
+    # APPOINTMENT
+    # =====================================================
 
     @admin.display(
         description="Appointment",
@@ -469,6 +446,7 @@ class BookingAdmin(admin.ModelAdmin):
         )
 
         if not obj.appointment_time:
+
             return format_html(
                 "<strong>{}</strong>",
                 date_value,
@@ -499,7 +477,9 @@ class BookingAdmin(admin.ModelAdmin):
             time_value,
         )
 
-    # -----------------------------------------------------
+    # =====================================================
+    # STAFF
+    # =====================================================
 
     @admin.display(
         description="Staff",
@@ -508,13 +488,16 @@ class BookingAdmin(admin.ModelAdmin):
     def staff_name(self, obj):
 
         if not obj.staff:
+
             return mark_safe(
                 '<span style="color:#999;">Unassigned</span>'
             )
 
         return obj.staff.name
 
-    # -----------------------------------------------------
+    # =====================================================
+    # ROOM
+    # =====================================================
 
     @admin.display(
         description="Room",
@@ -523,16 +506,40 @@ class BookingAdmin(admin.ModelAdmin):
     def room_name(self, obj):
 
         if not obj.room:
+
             return mark_safe(
                 '<span style="color:#999;">Unassigned</span>'
             )
 
         return obj.room.name
 
-    # -----------------------------------------------------
+    # =====================================================
+    # PRICE
+    # =====================================================
 
     @admin.display(
-        description="Booking",
+        description="Amount",
+        ordering="selected_price",
+    )
+    def booking_price(self, obj):
+
+        if obj.selected_price is None:
+
+            return mark_safe(
+                '<span style="color:#999;">—</span>'
+            )
+
+        return format_html(
+            "<strong>₹{}</strong>",
+            obj.selected_price,
+        )
+
+    # =====================================================
+    # BOOKING STATUS
+    # =====================================================
+
+    @admin.display(
+        description="Status",
         ordering="status",
     )
     def booking_status(self, obj):
@@ -540,11 +547,6 @@ class BookingAdmin(admin.ModelAdmin):
         status = obj.status or ""
 
         labels = {
-            "pending": (
-                "Pending",
-                "#856404",
-                "#fff3cd",
-            ),
             "confirmed": (
                 "Confirmed",
                 "#155724",
@@ -588,106 +590,9 @@ class BookingAdmin(admin.ModelAdmin):
             label,
         )
 
-    # -----------------------------------------------------
-
-    @admin.display(
-        description="Payment",
-    )
-    def payment_status(self, obj):
-
-        try:
-            payment = obj.payment
-
-        except Payment.DoesNotExist:
-
-            return mark_safe(
-                '<span style="color:#999;">No Payment</span>'
-            )
-
-        payment_url = reverse(
-            "sukoon_admin:payments_payment_change",
-            args=[payment.pk],
-        )
-
-        labels = {
-            "created": (
-                "Created",
-                "#856404",
-                "#fff3cd",
-            ),
-            "pending": (
-                "Pending",
-                "#856404",
-                "#fff3cd",
-            ),
-            "paid": (
-                "Paid",
-                "#155724",
-                "#d4edda",
-            ),
-            "failed": (
-                "Failed",
-                "#721c24",
-                "#f8d7da",
-            ),
-            "refunded": (
-                "Refunded",
-                "#004085",
-                "#cce5ff",
-            ),
-        }
-
-        payment_status_value = payment.status or ""
-
-        label, text_color, background = labels.get(
-            payment_status_value,
-            (
-                (
-                    payment_status_value.title()
-                    if payment_status_value
-                    else "Unknown"
-                ),
-                "#333",
-                "#eee",
-            ),
-        )
-
-        return format_html(
-            '<a href="{}" style="'
-            'display:inline-block;'
-            'padding:4px 9px;'
-            'border-radius:20px;'
-            'font-size:12px;'
-            'font-weight:600;'
-            'text-decoration:none;'
-            'color:{};'
-            'background:{};'
-            '">'
-            '{}'
-            '</a>',
-            payment_url,
-            text_color,
-            background,
-            label,
-        )
-
-    # -----------------------------------------------------
-
-    @admin.display(
-        description="Amount",
-        ordering="selected_price",
-    )
-    def booking_amount(self, obj):
-
-        if obj.selected_price is None:
-            return "—"
-
-        return format_html(
-            "<strong>₹{}</strong>",
-            obj.selected_price,
-        )
-
-    # -----------------------------------------------------
+    # =====================================================
+    # WHATSAPP STATUS
+    # =====================================================
 
     @admin.display(
         description="WhatsApp",
@@ -731,7 +636,9 @@ class BookingAdmin(admin.ModelAdmin):
             '<span style="color:#999;">Not Sent</span>'
         )
 
-    # -----------------------------------------------------
+    # =====================================================
+    # WHATSAPP BUTTON
+    # =====================================================
 
     @admin.display(
         description="WhatsApp",
@@ -747,26 +654,48 @@ class BookingAdmin(admin.ModelAdmin):
             if character.isdigit()
         )
 
-        # =================================================
+        # -------------------------------------------------
         # INDIA NUMBER HANDLING
-        # =================================================
+        # -------------------------------------------------
 
         if len(phone) == 10:
             phone = "91" + phone
+
+        service_name = (
+            obj.service.name
+            if obj.service
+            else "N/A"
+        )
+
+        appointment_date = (
+            obj.appointment_date.strftime("%d %b %Y")
+            if obj.appointment_date
+            else "N/A"
+        )
+
+        appointment_time = (
+            obj.appointment_time.strftime("%I:%M %p")
+            if obj.appointment_time
+            else "N/A"
+        )
+
+        status = (
+            obj.status.title()
+            if obj.status
+            else "Confirmed"
+        )
 
         message = (
             f"Hello {obj.name},\n\n"
             f"This is Sukoon Wellness & Spa.\n\n"
             f"Your appointment details:\n"
             f"Booking ID: #{obj.id}\n"
-            f"Service: "
-            f"{obj.service.name if obj.service else 'N/A'}\n"
-            f"Date: "
-            f"{obj.appointment_date.strftime('%d %b %Y') if obj.appointment_date else 'N/A'}\n"
-            f"Time: "
-            f"{obj.appointment_time.strftime('%I:%M %p') if obj.appointment_time else 'N/A'}\n"
-            f"Status: {obj.status.title() if obj.status else 'Pending'}\n\n"
-            f"Thank you for choosing Sukoon Wellness & Spa."
+            f"Service: {service_name}\n"
+            f"Date: {appointment_date}\n"
+            f"Time: {appointment_time}\n"
+            f"Status: {status}\n\n"
+            f"Thank you for choosing "
+            f"Sukoon Wellness & Spa."
         )
 
         whatsapp_url = (
@@ -793,73 +722,47 @@ class BookingAdmin(admin.ModelAdmin):
         )
 
     # =====================================================
-    # ADMIN ACTIONS
+    # BILL BUTTON
     # =====================================================
 
-    @admin.action(
-        description="Confirm selected paid bookings"
+    @admin.display(
+        description="Bill",
     )
-    def confirm_paid_bookings(
-        self,
-        request,
-        queryset,
-    ):
+    def bill_button(self, obj):
 
-        confirmed_count = 0
-        skipped_count = 0
+        try:
 
-        for booking in queryset:
-
-            if booking.status != "pending":
-                skipped_count += 1
-                continue
-
-            try:
-                payment = booking.payment
-
-            except Payment.DoesNotExist:
-                skipped_count += 1
-                continue
-
-            if payment.status != "paid":
-                skipped_count += 1
-                continue
-
-            booking.status = "confirmed"
-
-            booking.save(
-                update_fields=[
-                    "status",
-                    "updated_at",
-                ]
+            url = reverse(
+                "booking_bill",
+                args=[obj.pk],
             )
 
-            confirmed_count += 1
-
-        if confirmed_count:
-
-            self.message_user(
-                request,
-                (
-                    f"{confirmed_count} paid booking(s) "
-                    f"confirmed successfully."
-                ),
-                messages.SUCCESS,
+            return format_html(
+                '<a href="{}" target="_blank" '
+                'style="'
+                'display:inline-block;'
+                'padding:5px 10px;'
+                'border-radius:5px;'
+                'background:#c9a96e;'
+                'color:#111;'
+                'font-size:12px;'
+                'font-weight:600;'
+                'text-decoration:none;'
+                '">'
+                'Bill'
+                '</a>',
+                url,
             )
 
-        if skipped_count:
+        except Exception:
 
-            self.message_user(
-                request,
-                (
-                    f"{skipped_count} booking(s) skipped. "
-                    f"Only pending bookings with a paid "
-                    f"payment can be confirmed."
-                ),
-                messages.WARNING,
+            return mark_safe(
+                '<span style="color:#999;">Bill</span>'
             )
 
-    # -----------------------------------------------------
+    # =====================================================
+    # COMPLETE BOOKINGS
+    # =====================================================
 
     @admin.action(
         description="Mark selected confirmed bookings as completed"
@@ -895,7 +798,9 @@ class BookingAdmin(admin.ModelAdmin):
                 messages.WARNING,
             )
 
-    # -----------------------------------------------------
+    # =====================================================
+    # CANCEL BOOKINGS
+    # =====================================================
 
     @admin.action(
         description="Cancel selected bookings"
@@ -907,10 +812,7 @@ class BookingAdmin(admin.ModelAdmin):
     ):
 
         cancellable = queryset.filter(
-            status__in=[
-                "pending",
-                "confirmed",
-            ]
+            status="confirmed"
         )
 
         count = cancellable.count()
@@ -931,10 +833,7 @@ class BookingAdmin(admin.ModelAdmin):
 
             self.message_user(
                 request,
-                (
-                    "No pending or confirmed "
-                    "bookings were selected."
-                ),
+                "No confirmed bookings were selected.",
                 messages.WARNING,
             )
 
@@ -1029,11 +928,7 @@ class BookingAdmin(admin.ModelAdmin):
 
 # =========================================================
 # CUSTOM ADMIN SITE REGISTRATION
-# IMPORTANT:
-# Do NOT use @sukoon_admin_site.register(...)
 # =========================================================
-
-sukoon_admin_site.register(Payment, PaymentAdmin)
 
 sukoon_admin_site.register(
     ServiceCategory,

@@ -1,0 +1,227 @@
+{% extends "spa/base.html" %}
+
+{% block title %}
+Booking Confirmed | Sukoon Wellness & Spa
+{% endblock %}
+
+
+{% block content %}
+
+<section class="min-h-screen flex items-center justify-center px-6 py-24 bg-[#080808] text-[#f5efe4]">
+
+    <div class="w-full max-w-2xl text-center">
+
+        <!-- SUCCESS ICON -->
+
+        <div class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full border border-[#c9a96e]">
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-10 w-10 text-[#c9a96e]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.5"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 13l4 4L19 7"
+                />
+            </svg>
+
+        </div>
+
+
+        <!-- HEADING -->
+
+        <p class="mb-3 text-sm uppercase tracking-[0.35em] text-[#c9a96e]">
+            Sukoon Wellness & Spa
+        </p>
+
+        <h1 class="mb-5 font-serif text-4xl md:text-5xl">
+            Booking Confirmed
+        </h1>
+
+        <p class="mx-auto mb-10 max-w-xl text-base leading-7 text-[#c8c0b4]">
+            Your appointment has been successfully confirmed.
+            We look forward to welcoming you to Sukoon Wellness & Spa.
+        </p>
+
+
+        <!-- BOOKING CARD -->
+
+        <div class="mx-auto mb-10 max-w-lg rounded-2xl border border-[#2b2823] bg-[#11110f] p-7 text-left">
+
+            <div class="mb-6 flex items-center justify-between border-b border-[#2b2823] pb-5">
+
+                <span class="text-sm text-[#aaa297]">
+                    Booking ID
+                </span>
+
+                <strong class="text-lg text-[#c9a96e]">
+                    #{{ booking.id }}
+                </strong>
+
+            </div>
+
+
+            <!-- CUSTOMER -->
+
+            <div class="mb-5">
+
+                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
+                    Customer
+                </p>
+
+                <p class="text-base text-[#f5efe4]">
+                    {{ booking.name }}
+                </p>
+
+            </div>
+
+
+            <!-- SERVICE -->
+
+            <div class="mb-5">
+
+                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
+                    Service
+                </p>
+
+                <p class="text-base text-[#f5efe4]">
+                    {{ booking.service.name }}
+                </p>
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="mb-5">
+
+                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
+                    Date
+                </p>
+
+                <p class="text-base text-[#f5efe4]">
+                    {{ booking.appointment_date|date:"d M Y" }}
+                </p>
+
+            </div>
+
+
+            <!-- TIME -->
+
+            <div class="mb-5">
+
+                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
+                    Time
+                </p>
+
+                <p class="text-base text-[#f5efe4]">
+                    {{ booking.appointment_time|time:"h:i A" }}
+
+                    {% if booking.end_time %}
+                        – {{ booking.end_time|time:"h:i A" }}
+                    {% endif %}
+                </p>
+
+            </div>
+
+
+            <!-- STAFF -->
+
+            {% if booking.staff %}
+
+            <div class="mb-5">
+
+                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
+                    Therapist
+                </p>
+
+                <p class="text-base text-[#f5efe4]">
+                    {{ booking.staff.name }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- ROOM -->
+
+            {% if booking.room %}
+
+            <div class="mb-5">
+
+                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
+                    Room
+                </p>
+
+                <p class="text-base text-[#f5efe4]">
+                    {{ booking.room.name }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- STATUS -->
+
+            <div class="border-t border-[#2b2823] pt-5">
+
+                <div class="flex items-center justify-between">
+
+                    <span class="text-sm text-[#aaa297]">
+                        Status
+                    </span>
+
+                    <span class="rounded-full bg-[#d4edda] px-4 py-1.5 text-xs font-semibold text-[#155724]">
+                        Confirmed
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <p class="mb-8 text-sm leading-6 text-[#aaa297]">
+            Please keep your booking ID
+            <strong class="text-[#c9a96e]">
+                #{{ booking.id }}
+            </strong>
+            for your reference.
+        </p>
+
+
+        <!-- BUTTONS -->
+
+        <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+
+            <a
+                href="{% url 'home' %}"
+                class="inline-flex items-center justify-center rounded-full border border-[#c9a96e] px-7 py-3 text-sm font-medium text-[#c9a96e] transition hover:bg-[#c9a96e] hover:text-[#080808]"
+            >
+                Back to Home
+            </a>
+
+            <a
+                href="{% url 'booking' %}"
+                class="inline-flex items-center justify-center rounded-full bg-[#c9a96e] px-7 py-3 text-sm font-medium text-[#080808] transition hover:bg-[#e0c38a]"
+            >
+                Book Another Session
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

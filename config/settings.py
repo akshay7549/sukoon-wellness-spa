@@ -1,6 +1,6 @@
-
 from pathlib import Path
 import os
+
 from dotenv import load_dotenv
 
 
@@ -24,12 +24,12 @@ load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
-    "django-insecure-change-this-in-production"
+    "django-insecure-change-this-in-production",
 )
 
 DEBUG = os.environ.get(
     "DJANGO_DEBUG",
-    "True"
+    "True",
 ).lower() == "true"
 
 ALLOWED_HOSTS = [
@@ -43,6 +43,11 @@ ALLOWED_HOSTS = [
 # =========================================================
 
 INSTALLED_APPS = [
+
+    # -----------------------------------------------------
+    # Django
+    # -----------------------------------------------------
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -50,11 +55,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Your application
-    "spa",
+    # -----------------------------------------------------
+    # Sukoon Wellness & Spa
+    # -----------------------------------------------------
 
-    # Payment application
-    "payments",
+    "spa",
 ]
 
 
@@ -63,6 +68,7 @@ INSTALLED_APPS = [
 # =========================================================
 
 MIDDLEWARE = [
+
     "django.middleware.security.SecurityMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -102,6 +108,7 @@ TEMPLATES = [
 
         "OPTIONS": {
             "context_processors": [
+
                 "django.template.context_processors.request",
 
                 "django.contrib.auth.context_processors.auth",
@@ -121,7 +128,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 # =========================================================
-# DATABASE - MYSQL
+# DATABASE
 # =========================================================
 
 DATABASES = {
@@ -132,22 +139,22 @@ DATABASES = {
 
         "USER": os.environ.get(
             "DB_USER",
-            "root"
+            "root",
         ),
 
         "PASSWORD": os.environ.get(
             "DB_PASSWORD",
-            "MySQL@Sukoon2026"
+            "MySQL@Sukoon2026",
         ),
 
         "HOST": os.environ.get(
             "DB_HOST",
-            "127.0.0.1"
+            "127.0.0.1",
         ),
 
         "PORT": os.environ.get(
             "DB_PORT",
-            "3307"
+            "3307",
         ),
 
         "OPTIONS": {
@@ -158,48 +165,41 @@ DATABASES = {
 
 
 # =========================================================
-# RAZORPAY
-# =========================================================
-
-RAZORPAY_KEY_ID = os.environ["RAZORPAY_KEY_ID"]
-
-RAZORPAY_KEY_SECRET = os.environ["RAZORPAY_KEY_SECRET"]
-
-
-# =========================================================
 # WHATSAPP CONFIGURATION
 # =========================================================
 #
-# Keep WHATSAPP_ENABLED=False until the actual WhatsApp
-# Business API credentials are configured.
+# WhatsApp is kept separate from the payment system.
 #
-# Do NOT put these credentials directly inside Python code.
-# Keep them inside the .env file.
+# The current admin dashboard can still generate an
+# ordinary WhatsApp link using the customer's phone number.
+#
+# These settings are only required if a WhatsApp Business
+# API integration is implemented later.
 # =========================================================
 
 WHATSAPP_ENABLED = os.environ.get(
     "WHATSAPP_ENABLED",
-    "False"
+    "False",
 ).lower() == "true"
 
 WHATSAPP_API_URL = os.environ.get(
     "WHATSAPP_API_URL",
-    ""
+    "",
 )
 
 WHATSAPP_ACCESS_TOKEN = os.environ.get(
     "WHATSAPP_ACCESS_TOKEN",
-    ""
+    "",
 )
 
 WHATSAPP_PHONE_NUMBER_ID = os.environ.get(
     "WHATSAPP_PHONE_NUMBER_ID",
-    ""
+    "",
 )
 
 WHATSAPP_BUSINESS_ACCOUNT_ID = os.environ.get(
     "WHATSAPP_BUSINESS_ACCOUNT_ID",
-    ""
+    "",
 )
 
 
@@ -208,6 +208,7 @@ WHATSAPP_BUSINESS_ACCOUNT_ID = os.environ.get(
 # =========================================================
 
 AUTH_PASSWORD_VALIDATORS = [
+
     {
         "NAME": (
             "django.contrib.auth."

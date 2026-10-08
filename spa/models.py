@@ -1,4 +1,3 @@
-
 from django.db import models
 
 
@@ -29,6 +28,7 @@ class ServiceCategory(models.Model):
     class Meta:
         verbose_name = "Service Category"
         verbose_name_plural = "Service Categories"
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -61,11 +61,13 @@ class Service(models.Model):
         blank=True
     )
 
+    # Service's default/base price
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2
     )
 
+    # Default duration in minutes
     duration = models.PositiveIntegerField(
         help_text="Duration in minutes"
     )
@@ -248,16 +250,27 @@ class StaffLeave(models.Model):
 
 class Booking(models.Model):
 
+    # =====================================================
+    # BOOKING STATUS
+    # =====================================================
+    #
+    # Booking is created only after availability validation.
+    #
+    # Therefore:
+    # confirmed = newly created booking
+    # completed = appointment completed
+    # cancelled = appointment cancelled
+    #
+
     STATUS_CHOICES = [
-        ("pending", "Pending"),
         ("confirmed", "Confirmed"),
         ("completed", "Completed"),
         ("cancelled", "Cancelled"),
     ]
 
-    # -----------------------------------------------------
+    # =====================================================
     # CUSTOMER INFORMATION
-    # -----------------------------------------------------
+    # =====================================================
 
     name = models.CharField(
         max_length=100
@@ -272,9 +285,9 @@ class Booking(models.Model):
         null=True
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # SELECTED SERVICE
-    # -----------------------------------------------------
+    # =====================================================
 
     service = models.ForeignKey(
         Service,
@@ -284,9 +297,9 @@ class Booking(models.Model):
         related_name="bookings"
     )
 
-    # -----------------------------------------------------
-    # SELECTED DURATION & PRICE
-    # -----------------------------------------------------
+    # =====================================================
+    # SELECTED SERVICE OPTION
+    # =====================================================
 
     selected_duration = models.PositiveIntegerField(
         null=True,
@@ -298,12 +311,13 @@ class Booking(models.Model):
         max_digits=10,
         decimal_places=2,
         null=True,
-        blank=True
+        blank=True,
+        help_text="Price of the selected service"
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # APPOINTMENT DATE & TIME
-    # -----------------------------------------------------
+    # =====================================================
 
     appointment_date = models.DateField()
 
@@ -317,9 +331,9 @@ class Booking(models.Model):
         help_text="Booking end time"
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # STAFF ASSIGNMENT
-    # -----------------------------------------------------
+    # =====================================================
 
     staff = models.ForeignKey(
         Staff,
@@ -329,9 +343,9 @@ class Booking(models.Model):
         related_name="bookings"
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # ROOM ASSIGNMENT
-    # -----------------------------------------------------
+    # =====================================================
 
     room = models.ForeignKey(
         Room,
@@ -341,27 +355,27 @@ class Booking(models.Model):
         related_name="bookings"
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # CUSTOMER MESSAGE
-    # -----------------------------------------------------
+    # =====================================================
 
     message = models.TextField(
         blank=True
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # BOOKING STATUS
-    # -----------------------------------------------------
+    # =====================================================
 
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default="pending"
+        default="confirmed"
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # WHATSAPP NOTIFICATION TRACKING
-    # -----------------------------------------------------
+    # =====================================================
 
     whatsapp_sent = models.BooleanField(
         default=False,
@@ -375,9 +389,9 @@ class Booking(models.Model):
         help_text="Last WhatsApp delivery/API status."
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # TIMESTAMPS
-    # -----------------------------------------------------
+    # =====================================================
 
     created_at = models.DateTimeField(
         auto_now_add=True
@@ -387,10 +401,18 @@ class Booking(models.Model):
         auto_now=True
     )
 
+    # =====================================================
+    # META
+    # =====================================================
+
     class Meta:
         ordering = [
             "-created_at"
         ]
+
+    # =====================================================
+    # STRING REPRESENTATION
+    # =====================================================
 
     def __str__(self):
 

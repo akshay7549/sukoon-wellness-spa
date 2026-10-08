@@ -5,1597 +5,4961 @@
 Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 {% endblock %}
 
+
 {% block extra_css %}
 
 <style>
 
 /* =========================================================
-   HOME PAGE — BOOKING CTA
+   SUKOON WELLNESS & SPA
+   PREMIUM HOME PAGE — V3
+   Luxury Indian Wellness / Editorial / Modern
 ========================================================= */
 
-.home-booking-section {
-    position: relative;
-    padding: 130px 0;
+:root {
+
+    --sukoon-black: #080807;
+    --sukoon-black-2: #0d0d0b;
+    --sukoon-black-3: #141411;
+    --sukoon-black-4: #1b1b17;
+
+    --sukoon-cream: #f7f4ed;
+    --sukoon-cream-2: #efebe2;
+    --sukoon-cream-3: #e7e0d4;
+
+    --sukoon-white: #ffffff;
+
+    --sukoon-gold: #c9a96e;
+    --sukoon-gold-light: #e5cf9b;
+    --sukoon-gold-soft: #d7bb83;
+    --sukoon-gold-dark: #9c793f;
+
+    --sukoon-text: #3e3932;
+    --sukoon-text-soft: #6d665d;
+    --sukoon-muted: #918a80;
+
+    --sukoon-border-dark: rgba(201,169,110,.18);
+    --sukoon-border-dark-strong: rgba(201,169,110,.35);
+
+    --sukoon-border-light: rgba(64,58,50,.12);
+
+    --sukoon-container: 1280px;
+
+    --sukoon-transition:
+        .35s cubic-bezier(.22,.61,.36,1);
+
+    --sukoon-slow:
+        .75s cubic-bezier(.22,.61,.36,1);
+
+    --sukoon-shadow:
+        0 30px 80px rgba(0,0,0,.18);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.home-page {
+
+    width: 100%;
     overflow: hidden;
 
     background:
-        linear-gradient(
-            rgba(5,5,5,.82),
-            rgba(5,5,5,.94)
-        ),
-        url("{% static 'images/service.jpg' %}")
-        center / cover no-repeat;
+        var(--sukoon-cream);
+
+    color:
+        var(--sukoon-text);
 }
 
 
-.home-booking-section::before {
+.home-page *,
+.home-page *::before,
+.home-page *::after {
+
+    box-sizing: border-box;
+}
+
+
+.home-page img {
+
+    display: block;
+
+    max-width: 100%;
+}
+
+
+.home-page a {
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+.home-page section {
+
+    position: relative;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.sukoon-container {
+
+    width:
+        min(
+            var(--sukoon-container),
+            calc(100% - 56px)
+        );
+
+    margin-inline: auto;
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.sukoon-eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin:
+        0 0 22px;
+
+    color:
+        var(--sukoon-gold);
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1;
+
+    letter-spacing:
+        4px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.sukoon-eyebrow::before {
+
     content: "";
-    position: absolute;
-    inset: 0;
+
+    width:
+        30px;
+
+    height:
+        1px;
+
+    background:
+        currentColor;
+
+    opacity:
+        .9;
+}
+
+
+/* =========================================================
+   BUTTON SYSTEM
+========================================================= */
+
+.sukoon-btn {
+
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height:
+        54px;
+
+    padding:
+        0 30px;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid transparent;
+
+    text-decoration:
+        none;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        2.2px;
+
+    line-height:
+        1;
+
+    text-transform:
+        uppercase;
+
+    transition:
+        color var(--sukoon-transition),
+        background var(--sukoon-transition),
+        border-color var(--sukoon-transition),
+        transform var(--sukoon-transition),
+        box-shadow var(--sukoon-transition);
+}
+
+
+.sukoon-btn span {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+}
+
+
+.sukoon-btn::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    width:
+        0;
+
+    height:
+        0;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(255,255,255,.10);
+
+    transform:
+        translate(-50%, -50%);
+
+    transition:
+        width .5s ease,
+        height .5s ease;
+}
+
+
+.sukoon-btn:hover::after {
+
+    width:
+        350px;
+
+    height:
+        350px;
+}
+
+
+.sukoon-btn:hover {
+
+    transform:
+        translateY(-3px);
+}
+
+
+.sukoon-btn-primary {
+
+    background:
+        var(--sukoon-gold);
+
+    color:
+        #090908;
+
+    border-color:
+        var(--sukoon-gold);
+
+    box-shadow:
+        0 12px 35px rgba(201,169,110,.12);
+}
+
+
+.sukoon-btn-primary:hover {
+
+    background:
+        var(--sukoon-gold-light);
+
+    border-color:
+        var(--sukoon-gold-light);
+
+    box-shadow:
+        0 18px 45px rgba(201,169,110,.22);
+}
+
+
+.sukoon-btn-outline {
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:
+        #ffffff;
+
+    border-color:
+        rgba(255,255,255,.30);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+.sukoon-btn-outline:hover {
+
+    color:
+        var(--sukoon-gold-light);
+
+    border-color:
+        var(--sukoon-gold);
+
+    background:
+        rgba(201,169,110,.08);
+}
+
+
+.sukoon-btn-dark {
+
+    background:
+        var(--sukoon-black);
+
+    color:
+        var(--sukoon-gold-light);
+
+    border-color:
+        var(--sukoon-black);
+}
+
+
+.sukoon-btn-dark:hover {
+
+    background:
+        var(--sukoon-gold);
+
+    color:
+        var(--sukoon-black);
+
+    border-color:
+        var(--sukoon-gold);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.sukoon-hero {
+
+    position:
+        relative;
+
+    min-height:
+        min(900px, 94vh);
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    overflow:
+        hidden;
+
+    background:
+        #070706;
+}
+
+
+.sukoon-hero-media {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    z-index:
+        0;
+
+    overflow:
+        hidden;
+}
+
+
+.sukoon-hero-media img {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    object-position:
+        center;
+
+    transform:
+        scale(1.06);
+
+    animation:
+        sukoonHeroZoom 16s
+        ease-out forwards;
+}
+
+
+@keyframes sukoonHeroZoom {
+
+    from {
+        transform:
+            scale(1.12);
+    }
+
+    to {
+        transform:
+            scale(1.06);
+    }
+}
+
+
+/* Main cinematic overlay */
+
+.sukoon-hero-overlay {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    z-index:
+        1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5,5,4,.96) 0%,
+            rgba(5,5,4,.84) 30%,
+            rgba(5,5,4,.54) 60%,
+            rgba(5,5,4,.45) 100%
+        );
+}
+
+
+/* Atmospheric gold */
+
+.sukoon-hero-overlay::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        760px;
+
+    height:
+        760px;
+
+    right:
+        -250px;
+
+    top:
+        50%;
+
+    transform:
+        translateY(-50%);
+
+    border-radius:
+        50%;
 
     background:
         radial-gradient(
-            circle at 50% 20%,
-            rgba(201,169,110,.14),
-            transparent 42%
+            circle,
+            rgba(201,169,110,.20),
+            rgba(201,169,110,.06) 35%,
+            transparent 70%
         );
 
-    pointer-events: none;
+    pointer-events:
+        none;
 }
 
 
-.home-booking-container {
-    position: relative;
-    z-index: 2;
+/* Bottom fade */
 
-    width: min(1000px, calc(100% - 40px));
-    margin: 0 auto;
+.sukoon-hero-overlay::after {
 
-    text-align: center;
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    bottom:
+        0;
+
+    height:
+        250px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(5,5,4,.90)
+        );
 }
 
 
-.home-booking-label {
-    margin-bottom: 18px;
+/* Hero content */
 
-    color: #c9a96e;
+.sukoon-hero-content {
 
-    font-size: 10px;
-    font-weight: 700;
+    position:
+        relative;
 
-    text-transform: uppercase;
-    letter-spacing: 4px;
+    z-index:
+        3;
+
+    width:
+        min(
+            var(--sukoon-container),
+            calc(100% - 56px)
+        );
+
+    margin:
+        0 auto;
+
+    padding:
+        175px 0 135px;
 }
 
 
-.home-booking-container h2 {
-    margin: 0 0 25px;
+.sukoon-hero-copy {
 
-    color: #ffffff;
+    max-width:
+        900px;
+}
+
+
+/* Hero eyebrow */
+
+.sukoon-hero-eyebrow {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        14px;
+
+    margin:
+        0 0 28px;
+
+    color:
+        var(--sukoon-gold-light);
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        5px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.sukoon-hero-eyebrow::before {
+
+    content:
+        "";
+
+    width:
+        38px;
+
+    height:
+        1px;
+
+    background:
+        var(--sukoon-gold);
+}
+
+
+/* Hero title */
+
+.sukoon-hero-title {
+
+    max-width:
+        920px;
+
+    margin:
+        0;
+
+    color:
+        #ffffff;
 
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-    font-size: clamp(42px, 6vw, 72px);
-    font-weight: 500;
-    line-height: 1.08;
+    font-size:
+        clamp(
+            62px,
+            8vw,
+            112px
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        .89;
+
+    letter-spacing:
+        -5px;
 }
 
 
-.home-booking-container h2 span {
-    color: #c9a96e;
-    font-style: italic;
+.sukoon-hero-title span {
+
+    display:
+        inline-block;
+
+    color:
+        var(--sukoon-gold-light);
+
+    font-style:
+        italic;
 }
 
 
-.home-booking-line {
-    width: 70px;
-    height: 1px;
+/* Hero description */
 
-    margin: 0 auto 28px;
+.sukoon-hero-description {
 
-    background: #c9a96e;
+    max-width:
+        610px;
+
+    margin:
+        38px 0 0;
+
+    color:
+        rgba(240,235,227,.74);
+
+    font-size:
+        15px;
+
+    line-height:
+        1.95;
 }
 
 
-.home-booking-description {
-    max-width: 720px;
+/* Hero actions */
 
-    margin: 0 auto 35px;
+.sukoon-hero-actions {
 
-    color: #bdb5aa;
+    display:
+        flex;
 
-    font-size: 15px;
-    line-height: 1.9;
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    flex-wrap:
+        wrap;
+
+    margin-top:
+        38px;
 }
 
 
-.home-booking-details {
-    display: flex;
+/* Hero location */
 
-    justify-content: center;
-    align-items: stretch;
+.sukoon-hero-location {
 
-    gap: 0;
+    display:
+        flex;
 
-    max-width: 850px;
+    align-items:
+        flex-start;
 
-    margin: 0 auto 40px;
+    gap:
+        12px;
 
-    border-top:
-        1px solid rgba(201,169,110,.22);
+    max-width:
+        560px;
 
-    border-bottom:
-        1px solid rgba(201,169,110,.22);
+    margin-top:
+        42px;
+
+    color:
+        rgba(230,224,215,.55);
+
+    font-size:
+        10px;
+
+    line-height:
+        1.8;
 }
 
 
-.home-booking-detail {
-    flex: 1;
+.sukoon-hero-location-icon {
 
-    padding: 25px 30px;
+    flex:
+        0 0 auto;
 
-    text-align: center;
+    color:
+        var(--sukoon-gold);
+
+    font-size:
+        14px;
 }
 
 
-.home-booking-detail + .home-booking-detail {
-    border-left:
-        1px solid rgba(201,169,110,.18);
+/* Hero side */
+
+.sukoon-hero-side {
+
+    position:
+        absolute;
+
+    right:
+        35px;
+
+    bottom:
+        42px;
+
+    z-index:
+        5;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        14px;
 }
 
 
-.home-booking-detail span {
-    display: block;
+.sukoon-hero-side span {
 
-    margin-bottom: 9px;
+    color:
+        rgba(255,255,255,.45);
 
-    color: #8f887e;
+    font-size:
+        8px;
 
-    font-size: 9px;
-    font-weight: 700;
+    font-weight:
+        700;
 
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing:
+        3px;
+
+    writing-mode:
+        vertical-rl;
 }
 
 
-.home-booking-detail strong {
-    display: block;
+.sukoon-hero-scroll-line {
 
-    color: #eee7dc;
+    width:
+        1px;
 
-    font-size: 13px;
-    font-weight: 500;
+    height:
+        75px;
 
-    line-height: 1.6;
-}
-
-
-.home-booking-buttons {
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    gap: 15px;
-
-    flex-wrap: wrap;
-}
-
-
-.home-booking-button {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    min-width: 220px;
-    min-height: 55px;
-
-    padding: 0 30px;
-
-    border: 1px solid #c9a96e;
-
-    background: #c9a96e;
-
-    color: #0a0a0a;
-
-    text-decoration: none;
-
-    font-size: 10px;
-    font-weight: 800;
-
-    text-transform: uppercase;
-    letter-spacing: 2px;
-
-    transition:
-        background .3s ease,
-        color .3s ease,
-        box-shadow .3s ease,
-        transform .3s ease;
-}
-
-
-.home-booking-button:hover {
-    background: transparent;
-
-    color: #c9a96e;
-
-    box-shadow:
-        0 0 30px
-        rgba(201,169,110,.12);
-
-    transform: translateY(-2px);
-}
-
-
-.home-booking-whatsapp {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    min-width: 180px;
-    min-height: 55px;
-
-    padding: 0 30px;
-
-    border: 1px solid rgba(201,169,110,.45);
-
-    background: transparent;
-
-    color: #c9a96e;
-
-    text-decoration: none;
-
-    font-size: 10px;
-    font-weight: 800;
-
-    text-transform: uppercase;
-    letter-spacing: 2px;
-
-    transition: .3s ease;
-}
-
-
-.home-booking-whatsapp:hover {
-    background: rgba(201,169,110,.08);
-
-    color: #ffffff;
-
-    border-color: #c9a96e;
-}
-
-
-.home-booking-note {
-    margin-top: 28px;
-
-    color: #777168;
-
-    font-size: 11px;
-    line-height: 1.7;
+    background:
+        linear-gradient(
+            to bottom,
+            var(--sukoon-gold),
+            transparent
+        );
 }
 
 
 /* =========================================================
-   HOME CONTENT IMPROVEMENTS
+   TRUST STRIP
 ========================================================= */
 
-.hero-description {
-    max-width: 680px;
+.sukoon-trust {
+
+    background:
+        var(--sukoon-black);
+
+    border-top:
+        1px solid
+        rgba(201,169,110,.12);
+
+    border-bottom:
+        1px solid
+        rgba(201,169,110,.12);
 }
 
 
-.intro-text {
-    max-width: 650px;
+.sukoon-trust-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    width:
+        min(
+            1180px,
+            calc(100% - 56px)
+        );
+
+    margin:
+        auto;
 }
 
 
-.service-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.sukoon-trust-item {
+
+    min-height:
+        120px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        20px;
+
+    text-align:
+        center;
 }
 
 
-.service-link {
-    transition: .3s ease;
+.sukoon-trust-item + .sukoon-trust-item {
+
+    border-left:
+        1px solid
+        rgba(201,169,110,.12);
 }
 
 
-.service-link:hover {
-    color: #c9a96e;
+.sukoon-trust-item strong {
+
+    color:
+        #eee8de;
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
 }
 
 
-.why-card {
-    transition:
-        transform .3s ease,
-        border-color .3s ease;
-}
+.sukoon-trust-item span {
 
+    margin-top:
+        8px;
 
-.why-card:hover {
-    transform: translateY(-5px);
-}
+    color:
+        #746e66;
 
+    font-size:
+        8px;
 
-.gallery-item {
-    overflow: hidden;
-}
+    font-weight:
+        800;
 
+    letter-spacing:
+        2px;
 
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    transition:
-        transform .5s ease;
-}
-
-
-.gallery-item:hover img {
-    transform: scale(1.04);
-}
-
-
-.contact-buttons {
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    gap: 12px;
-
-    flex-wrap: wrap;
+    text-transform:
+        uppercase;
 }
 
 
 /* =========================================================
-   MOBILE
+   INTRO
+========================================================= */
+
+.sukoon-intro {
+
+    padding:
+        155px 0;
+
+    background:
+        var(--sukoon-cream);
+}
+
+
+.sukoon-intro-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1.05fr .95fr;
+
+    gap:
+        110px;
+
+    align-items:
+        center;
+}
+
+
+.sukoon-intro-title {
+
+    max-width:
+        680px;
+
+    margin:
+        0;
+
+    color:
+        var(--sukoon-text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            48px,
+            5.5vw,
+            78px
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1;
+
+    letter-spacing:
+        -3px;
+}
+
+
+.sukoon-intro-title span {
+
+    color:
+        var(--sukoon-gold-dark);
+
+    font-style:
+        italic;
+}
+
+
+.sukoon-intro-content {
+
+    padding:
+        5px 0 5px 30px;
+
+    border-left:
+        1px solid
+        rgba(159,125,67,.32);
+}
+
+
+.sukoon-intro-text {
+
+    max-width:
+        590px;
+
+    margin:
+        0 0 30px;
+
+    color:
+        var(--sukoon-text-soft);
+
+    font-size:
+        15px;
+
+    line-height:
+        2;
+}
+
+
+.sukoon-text-link {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+    color:
+        var(--sukoon-text);
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        2px;
+
+    text-decoration:
+        none;
+
+    text-transform:
+        uppercase;
+
+    transition:
+        color var(--sukoon-transition),
+        gap var(--sukoon-transition);
+}
+
+
+.sukoon-text-link:hover {
+
+    color:
+        var(--sukoon-gold-dark);
+
+    gap:
+        15px;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.sukoon-section-heading {
+
+    max-width:
+        780px;
+
+    margin:
+        0 auto 70px;
+
+    text-align:
+        center;
+}
+
+
+.sukoon-section-heading .sukoon-eyebrow {
+
+    justify-content:
+        center;
+}
+
+
+.sukoon-section-title {
+
+    margin:
+        0;
+
+    color:
+        inherit;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            45px,
+            5.4vw,
+            72px
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1.02;
+
+    letter-spacing:
+        -2.8px;
+}
+
+
+.sukoon-section-title span {
+
+    color:
+        var(--sukoon-gold);
+
+    font-style:
+        italic;
+}
+
+
+.sukoon-section-description {
+
+    max-width:
+        650px;
+
+    margin:
+        24px auto 0;
+
+    color:
+        var(--sukoon-muted);
+
+    font-size:
+        14px;
+
+    line-height:
+        1.9;
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.sukoon-services {
+
+    padding:
+        155px 0;
+
+    background:
+        var(--sukoon-black);
+}
+
+
+.sukoon-services .sukoon-section-heading {
+
+    color:
+        #ffffff;
+}
+
+
+.sukoon-services-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap:
+        18px;
+}
+
+
+/* Card */
+
+.sukoon-service-card {
+
+    position:
+        relative;
+
+    min-height:
+        530px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    overflow:
+        hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            #171714,
+            #11110f
+        );
+
+    border:
+        1px solid
+        rgba(201,169,110,.13);
+
+    transition:
+        transform var(--sukoon-slow),
+        border-color var(--sukoon-transition),
+        box-shadow var(--sukoon-transition);
+}
+
+
+.sukoon-service-card:hover {
+
+    transform:
+        translateY(-10px);
+
+    border-color:
+        rgba(201,169,110,.42);
+
+    box-shadow:
+        0 30px 70px
+        rgba(0,0,0,.38);
+}
+
+
+/* Image */
+
+.sukoon-service-image {
+
+    position:
+        relative;
+
+    height:
+        255px;
+
+    overflow:
+        hidden;
+
+    background:
+        #1b1b18;
+}
+
+
+.sukoon-service-image::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(8,8,7,.70),
+            transparent 60%
+        );
+
+    pointer-events:
+        none;
+}
+
+
+.sukoon-service-image img {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    transition:
+        transform .9s
+        cubic-bezier(.22,.61,.36,1);
+}
+
+
+.sukoon-service-card:hover
+.sukoon-service-image img {
+
+    transform:
+        scale(1.08);
+}
+
+
+/* Number */
+
+.sukoon-service-number {
+
+    position:
+        absolute;
+
+    top:
+        18px;
+
+    right:
+        18px;
+
+    z-index:
+        3;
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    color:
+        var(--sukoon-gold-light);
+
+    background:
+        rgba(8,8,7,.70);
+
+    border:
+        1px solid
+        rgba(201,169,110,.35);
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    backdrop-filter:
+        blur(10px);
+}
+
+
+/* Content */
+
+.sukoon-service-content {
+
+    flex:
+        1;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    padding:
+        28px 26px 25px;
+}
+
+
+.sukoon-service-label {
+
+    margin:
+        0 0 12px;
+
+    color:
+        var(--sukoon-gold);
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        3px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.sukoon-service-title {
+
+    margin:
+        0;
+
+    color:
+        #f4eee5;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        27px;
+
+    font-weight:
+        400;
+
+    line-height:
+        1.15;
+}
+
+
+.sukoon-service-description {
+
+    margin:
+        14px 0 20px;
+
+    color:
+        #8d877e;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.85;
+}
+
+
+.sukoon-service-meta {
+
+    display:
+        flex;
+
+    gap:
+        30px;
+
+    margin-top:
+        auto;
+
+    padding-top:
+        20px;
+
+    border-top:
+        1px solid
+        rgba(201,169,110,.12);
+}
+
+
+.sukoon-service-meta-item {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        5px;
+}
+
+
+.sukoon-service-meta-item span {
+
+    color:
+        #68635d;
+
+    font-size:
+        7px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1.5px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.sukoon-service-meta-item strong {
+
+    color:
+        #d7cfc4;
+
+    font-size:
+        12px;
+
+    font-weight:
+        500;
+}
+
+
+.sukoon-service-link {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    margin-top:
+        22px;
+
+    color:
+        var(--sukoon-gold);
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        2px;
+
+    text-decoration:
+        none;
+
+    text-transform:
+        uppercase;
+
+    transition:
+        gap var(--sukoon-transition),
+        color var(--sukoon-transition);
+}
+
+
+.sukoon-service-link:hover {
+
+    gap:
+        14px;
+
+    color:
+        var(--sukoon-gold-light);
+}
+
+
+/* Center action */
+
+.sukoon-centered-action {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    margin-top:
+        60px;
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.sukoon-about {
+
+    padding:
+        155px 0;
+
+    background:
+        var(--sukoon-cream-2);
+}
+
+
+.sukoon-about-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        105px;
+
+    align-items:
+        center;
+}
+
+
+/* Image */
+
+.sukoon-about-image {
+
+    position:
+        relative;
+
+    padding:
+        0 35px 35px 0;
+}
+
+
+.sukoon-about-image::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    right:
+        0;
+
+    bottom:
+        0;
+
+    width:
+        78%;
+
+    height:
+        78%;
+
+    border:
+        1px solid
+        rgba(159,125,67,.32);
+
+    z-index:
+        0;
+}
+
+
+.sukoon-about-image > img {
+
+    position:
+        relative;
+
+    z-index:
+        1;
+
+    width:
+        100%;
+
+    aspect-ratio:
+        4 / 5;
+
+    object-fit:
+        cover;
+
+    box-shadow:
+        0 25px 70px
+        rgba(50,42,30,.10);
+}
+
+
+/* Badge */
+
+.sukoon-about-badge {
+
+    position:
+        absolute;
+
+    right:
+        3px;
+
+    bottom:
+        52px;
+
+    z-index:
+        3;
+
+    width:
+        190px;
+
+    min-height:
+        112px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        20px;
+
+    background:
+        var(--sukoon-black);
+
+    border:
+        1px solid
+        var(--sukoon-gold);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.20);
+}
+
+
+.sukoon-about-badge strong {
+
+    color:
+        var(--sukoon-gold);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        23px;
+
+    font-weight:
+        400;
+
+    letter-spacing:
+        2px;
+}
+
+
+.sukoon-about-badge span {
+
+    margin-top:
+        7px;
+
+    color:
+        #9c958c;
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        1px;
+
+    text-align:
+        center;
+}
+
+
+/* Content */
+
+.sukoon-about-content h2 {
+
+    max-width:
+        670px;
+
+    margin:
+        0 0 27px;
+
+    color:
+        var(--sukoon-text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            46px,
+            5vw,
+            70px
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1.01;
+
+    letter-spacing:
+        -2.5px;
+}
+
+
+.sukoon-about-content h2 span {
+
+    color:
+        var(--sukoon-gold-dark);
+
+    font-style:
+        italic;
+}
+
+
+.sukoon-about-copy {
+
+    max-width:
+        620px;
+
+    color:
+        #706960;
+
+    font-size:
+        14px;
+
+    line-height:
+        1.95;
+}
+
+
+.sukoon-about-copy + .sukoon-about-copy {
+
+    margin-top:
+        18px;
+}
+
+
+/* Features */
+
+.sukoon-about-features {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap:
+        0 20px;
+
+    margin:
+        35px 0;
+}
+
+
+.sukoon-about-feature {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        14px;
+
+    padding:
+        17px 0;
+
+    border-top:
+        1px solid
+        rgba(64,58,50,.13);
+}
+
+
+.sukoon-about-feature-number {
+
+    color:
+        var(--sukoon-gold-dark);
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        2px;
+}
+
+
+.sukoon-about-feature span {
+
+    color:
+        #5f5951;
+
+    font-size:
+        11px;
+
+    font-weight:
+        600;
+}
+
+
+/* =========================================================
+   WHY SUKOON
+========================================================= */
+
+.sukoon-why {
+
+    padding:
+        155px 0;
+
+    background:
+        var(--sukoon-cream);
+}
+
+
+.sukoon-why-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap:
+        18px;
+}
+
+
+.sukoon-why-card {
+
+    position:
+        relative;
+
+    min-height:
+        315px;
+
+    padding:
+        38px 30px;
+
+    overflow:
+        hidden;
+
+    background:
+        rgba(255,255,255,.82);
+
+    border:
+        1px solid
+        rgba(64,58,50,.10);
+
+    transition:
+        transform var(--sukoon-transition),
+        box-shadow var(--sukoon-transition),
+        border-color var(--sukoon-transition);
+}
+
+
+.sukoon-why-card::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        0;
+
+    width:
+        0;
+
+    height:
+        2px;
+
+    background:
+        var(--sukoon-gold);
+
+    transition:
+        width var(--sukoon-transition);
+}
+
+
+.sukoon-why-card::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    right:
+        -60px;
+
+    bottom:
+        -70px;
+
+    width:
+        150px;
+
+    height:
+        150px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(201,169,110,.07);
+
+    transition:
+        transform .6s ease;
+}
+
+
+.sukoon-why-card:hover {
+
+    transform:
+        translateY(-9px);
+
+    border-color:
+        rgba(201,169,110,.30);
+
+    box-shadow:
+        0 25px 55px
+        rgba(60,50,35,.10);
+}
+
+
+.sukoon-why-card:hover::before {
+
+    width:
+        100%;
+}
+
+
+.sukoon-why-card:hover::after {
+
+    transform:
+        scale(1.5);
+}
+
+
+.sukoon-why-icon {
+
+    width:
+        52px;
+
+    height:
+        52px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    margin-bottom:
+        28px;
+
+    color:
+        var(--sukoon-gold-dark);
+
+    border:
+        1px solid
+        rgba(159,125,67,.30);
+
+    font-size:
+        16px;
+}
+
+
+.sukoon-why-card h3 {
+
+    margin:
+        0 0 14px;
+
+    color:
+        var(--sukoon-text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        24px;
+
+    font-weight:
+        400;
+}
+
+
+.sukoon-why-card p {
+
+    margin:
+        0;
+
+    color:
+        #777168;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.85;
+}
+
+
+/* =========================================================
+   GALLERY
+========================================================= */
+
+.sukoon-gallery {
+
+    padding:
+        155px 0;
+
+    background:
+        #0d0d0b;
+}
+
+
+.sukoon-gallery .sukoon-section-heading {
+
+    color:
+        #ffffff;
+}
+
+
+.sukoon-gallery-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1.35fr .8fr .8fr;
+
+    grid-template-rows:
+        290px 290px;
+
+    gap:
+        12px;
+}
+
+
+.sukoon-gallery-item {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    background:
+        #171714;
+}
+
+
+.sukoon-gallery-item.large {
+
+    grid-row:
+        1 / 3;
+}
+
+
+.sukoon-gallery-item::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.58),
+            transparent 60%
+        );
+
+    opacity:
+        0;
+
+    transition:
+        opacity var(--sukoon-transition);
+}
+
+
+.sukoon-gallery-item:hover::after {
+
+    opacity:
+        1;
+}
+
+
+.sukoon-gallery-item img {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    transition:
+        transform .9s
+        cubic-bezier(.22,.61,.36,1);
+}
+
+
+.sukoon-gallery-item:hover img {
+
+    transform:
+        scale(1.08);
+}
+
+
+/* =========================================================
+   FRANCHISE
+========================================================= */
+
+.sukoon-franchise {
+
+    position:
+        relative;
+
+    padding:
+        155px 0;
+
+    overflow:
+        hidden;
+
+    background:
+        linear-gradient(
+            rgba(7,7,6,.91),
+            rgba(7,7,6,.97)
+        ),
+        url("{% static 'images/service.jpg' %}")
+        center / cover no-repeat;
+}
+
+
+.sukoon-franchise::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        650px;
+
+    height:
+        650px;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(201,169,110,.17),
+            transparent 68%
+        );
+
+    pointer-events:
+        none;
+}
+
+
+.sukoon-franchise-content {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        min(
+            920px,
+            calc(100% - 56px)
+        );
+
+    margin:
+        0 auto;
+
+    text-align:
+        center;
+}
+
+
+.sukoon-franchise-title {
+
+    margin:
+        0;
+
+    color:
+        #ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            48px,
+            6vw,
+            80px
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1.01;
+
+    letter-spacing:
+        -2.8px;
+}
+
+
+.sukoon-franchise-title span {
+
+    color:
+        var(--sukoon-gold);
+
+    font-style:
+        italic;
+}
+
+
+.sukoon-franchise-description {
+
+    max-width:
+        700px;
+
+    margin:
+        27px auto 0;
+
+    color:
+        #a9a299;
+
+    font-size:
+        14px;
+
+    line-height:
+        1.95;
+}
+
+
+.sukoon-franchise-actions {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        12px;
+
+    flex-wrap:
+        wrap;
+
+    margin-top:
+        38px;
+}
+
+
+/* =========================================================
+   BOOKING CTA
+========================================================= */
+
+.sukoon-booking {
+
+    position:
+        relative;
+
+    padding:
+        155px 0;
+
+    overflow:
+        hidden;
+
+    background:
+        linear-gradient(
+            rgba(5,5,4,.91),
+            rgba(5,5,4,.97)
+        ),
+        url("{% static 'images/service.jpg' %}")
+        center / cover no-repeat;
+}
+
+
+.sukoon-booking::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        700px;
+
+    height:
+        700px;
+
+    left:
+        50%;
+
+    top:
+        -300px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(201,169,110,.15),
+            transparent 68%
+        );
+}
+
+
+.sukoon-booking-content {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        min(
+            1080px,
+            calc(100% - 56px)
+        );
+
+    margin:
+        0 auto;
+
+    text-align:
+        center;
+}
+
+
+.sukoon-booking-title {
+
+    margin:
+        0;
+
+    color:
+        #ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            50px,
+            6vw,
+            80px
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1.02;
+
+    letter-spacing:
+        -2.8px;
+}
+
+
+.sukoon-booking-title span {
+
+    color:
+        var(--sukoon-gold);
+
+    font-style:
+        italic;
+}
+
+
+.sukoon-booking-divider {
+
+    width:
+        65px;
+
+    height:
+        1px;
+
+    margin:
+        29px auto;
+
+    background:
+        var(--sukoon-gold);
+}
+
+
+.sukoon-booking-description {
+
+    max-width:
+        700px;
+
+    margin:
+        0 auto 42px;
+
+    color:
+        #aaa39a;
+
+    font-size:
+        14px;
+
+    line-height:
+        1.9;
+}
+
+
+/* Booking details */
+
+.sukoon-booking-details {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    max-width:
+        920px;
+
+    margin:
+        0 auto 40px;
+
+    border-top:
+        1px solid
+        rgba(201,169,110,.20);
+
+    border-bottom:
+        1px solid
+        rgba(201,169,110,.20);
+}
+
+
+.sukoon-booking-detail {
+
+    padding:
+        29px 22px;
+}
+
+
+.sukoon-booking-detail + .sukoon-booking-detail {
+
+    border-left:
+        1px solid
+        rgba(201,169,110,.16);
+}
+
+
+.sukoon-booking-detail span {
+
+    display:
+        block;
+
+    margin-bottom:
+        10px;
+
+    color:
+        #716b63;
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        2px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.sukoon-booking-detail strong {
+
+    display:
+        block;
+
+    color:
+        #e4ddd2;
+
+    font-size:
+        12px;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.65;
+}
+
+
+.sukoon-booking-actions {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        12px;
+
+    flex-wrap:
+        wrap;
+}
+
+
+.sukoon-booking-note {
+
+    margin:
+        25px auto 0;
+
+    color:
+        #625d56;
+
+    font-size:
+        10px;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.sukoon-contact {
+
+    padding:
+        145px 0;
+
+    background:
+        var(--sukoon-cream);
+}
+
+
+.sukoon-contact-content {
+
+    width:
+        min(
+            920px,
+            calc(100% - 56px)
+        );
+
+    margin:
+        0 auto;
+
+    text-align:
+        center;
+}
+
+
+.sukoon-contact-title {
+
+    margin:
+        0;
+
+    color:
+        var(--sukoon-text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            48px,
+            6vw,
+            78px
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1.03;
+
+    letter-spacing:
+        -2.8px;
+}
+
+
+.sukoon-contact-title span {
+
+    color:
+        var(--sukoon-gold-dark);
+
+    font-style:
+        italic;
+}
+
+
+.sukoon-contact-address {
+
+    max-width:
+        680px;
+
+    margin:
+        27px auto;
+
+    color:
+        #777168;
+
+    font-size:
+        14px;
+
+    line-height:
+        1.9;
+}
+
+
+.sukoon-contact-actions {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        10px;
+
+    flex-wrap:
+        wrap;
+
+    margin-top:
+        32px;
+}
+
+
+.sukoon-contact-actions .sukoon-btn-outline {
+
+    color:
+        var(--sukoon-text);
+
+    border-color:
+        rgba(64,58,50,.25);
+
+    background:
+        transparent;
+}
+
+
+.sukoon-contact-actions .sukoon-btn-outline:hover {
+
+    color:
+        var(--sukoon-gold);
+
+    background:
+        var(--sukoon-black);
+
+    border-color:
+        var(--sukoon-black);
+}
+
+
+/* =========================================================
+   MOBILE STICKY CTA
+========================================================= */
+
+.sukoon-mobile-cta {
+
+    display:
+        none;
+
+    position:
+        fixed;
+
+    left:
+        12px;
+
+    right:
+        12px;
+
+    bottom:
+        12px;
+
+    z-index:
+        999;
+
+    padding:
+        8px;
+
+    background:
+        rgba(8,8,7,.94);
+
+    border:
+        1px solid
+        rgba(201,169,110,.30);
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,.35);
+
+    backdrop-filter:
+        blur(15px);
+}
+
+
+.sukoon-mobile-cta a {
+
+    width:
+        100%;
+
+    min-height:
+        48px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        var(--sukoon-gold);
+
+    color:
+        var(--sukoon-black);
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        2px;
+
+    text-decoration:
+        none;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* =========================================================
+   RESPONSIVE — 1150
+========================================================= */
+
+@media (max-width: 1150px) {
+
+    .sukoon-services-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .sukoon-why-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .sukoon-about-grid {
+
+        gap:
+            65px;
+    }
+
+
+    .sukoon-intro-grid {
+
+        gap:
+            70px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 900
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .sukoon-container,
+    .sukoon-hero-content {
+
+        width:
+            min(
+                calc(100% - 40px),
+                700px
+            );
+    }
+
+
+    .sukoon-hero {
+
+        min-height:
+            780px;
+    }
+
+
+    .sukoon-hero-content {
+
+        padding:
+            140px 0 100px;
+    }
+
+
+    .sukoon-intro-grid,
+    .sukoon-about-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            65px;
+    }
+
+
+    .sukoon-intro-content {
+
+        padding:
+            28px 0 0;
+
+        border-left:
+            none;
+
+        border-top:
+            1px solid
+            rgba(159,125,67,.30);
+    }
+
+
+    .sukoon-about-content {
+
+        order:
+            1;
+    }
+
+
+    .sukoon-about-image {
+
+        order:
+            2;
+
+        max-width:
+            650px;
+    }
+
+
+    .sukoon-gallery-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+
+        grid-template-rows:
+            300px 220px 220px;
+    }
+
+
+    .sukoon-gallery-item.large {
+
+        grid-column:
+            1 / 3;
+
+        grid-row:
+            1;
+    }
+
+
+    .sukoon-booking-details {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .sukoon-booking-detail + .sukoon-booking-detail {
+
+        border-left:
+            none;
+
+        border-top:
+            1px solid
+            rgba(201,169,110,.16);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 700
 ========================================================= */
 
 @media (max-width: 700px) {
 
-    .home-booking-section {
-        padding: 90px 0;
+    .sukoon-container,
+    .sukoon-hero-content {
+
+        width:
+            calc(100% - 30px);
     }
 
 
-    .home-booking-container {
-        width: min(100% - 30px, 600px);
+    .sukoon-hero {
+
+        min-height:
+            730px;
+
+        align-items:
+            flex-end;
     }
 
 
-    .home-booking-container h2 {
-        font-size: 42px;
+    .sukoon-hero-overlay {
+
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(5,5,4,.25) 0%,
+                rgba(5,5,4,.55) 36%,
+                rgba(5,5,4,.97) 100%
+            );
     }
 
 
-    .home-booking-description {
-        font-size: 13px;
+    .sukoon-hero-overlay::before {
+
+        width:
+            400px;
+
+        height:
+            400px;
+
+        right:
+            -190px;
     }
 
 
-    .home-booking-details {
-        display: block;
+    .sukoon-hero-content {
+
+        padding:
+            100px 0 72px;
     }
 
 
-    .home-booking-detail {
-        padding: 20px;
+    .sukoon-hero-eyebrow {
+
+        margin-bottom:
+            22px;
+
+        font-size:
+            8px;
+
+        letter-spacing:
+            3px;
     }
 
 
-    .home-booking-detail + .home-booking-detail {
-        border-left: none;
+    .sukoon-hero-title {
+
+        font-size:
+            clamp(
+                46px,
+                14vw,
+                70px
+            );
+
+        line-height:
+            .94;
+
+        letter-spacing:
+            -2.5px;
+    }
+
+
+    .sukoon-hero-description {
+
+        margin-top:
+            25px;
+
+        font-size:
+            13px;
+
+        line-height:
+            1.8;
+    }
+
+
+    .sukoon-hero-actions {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        margin-top:
+            30px;
+    }
+
+
+    .sukoon-hero-actions .sukoon-btn {
+
+        width:
+            100%;
+    }
+
+
+    .sukoon-hero-location {
+
+        margin-top:
+            28px;
+
+        font-size:
+            9px;
+    }
+
+
+    .sukoon-hero-side {
+
+        display:
+            none;
+    }
+
+
+    /* Trust */
+
+    .sukoon-trust-grid {
+
+        width:
+            100%;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .sukoon-trust-item {
+
+        min-height:
+            94px;
+
+        padding:
+            15px 9px;
+    }
+
+
+    .sukoon-trust-item:nth-child(3),
+    .sukoon-trust-item:nth-child(4) {
 
         border-top:
-            1px solid rgba(201,169,110,.18);
+            1px solid
+            rgba(201,169,110,.12);
     }
 
 
-    .home-booking-button,
-    .home-booking-whatsapp {
-        width: 100%;
-        min-width: 0;
+    .sukoon-trust-item:nth-child(3) {
+
+        border-left:
+            none;
     }
 
 
-    .contact-buttons {
-        flex-direction: column;
-        width: 100%;
+    .sukoon-trust-item strong {
+
+        font-size:
+            10px;
     }
 
 
-    .contact-buttons a {
-        width: 100%;
-        max-width: 320px;
-        text-align: center;
+    .sukoon-trust-item span {
+
+        font-size:
+            7px;
+
+        letter-spacing:
+            1.2px;
     }
 
+
+    /* Sections */
+
+    .sukoon-intro,
+    .sukoon-services,
+    .sukoon-about,
+    .sukoon-why,
+    .sukoon-gallery {
+
+        padding:
+            90px 0;
+    }
+
+
+    .sukoon-franchise,
+    .sukoon-booking,
+    .sukoon-contact {
+
+        padding:
+            90px 0;
+    }
+
+
+    /* Intro */
+
+    .sukoon-intro-title {
+
+        font-size:
+            clamp(
+                42px,
+                12vw,
+                60px
+            );
+
+        letter-spacing:
+            -1.8px;
+    }
+
+
+    .sukoon-intro-text {
+
+        font-size:
+            13px;
+
+        line-height:
+            1.9;
+    }
+
+
+    /* Section heading */
+
+    .sukoon-section-heading {
+
+        margin-bottom:
+            45px;
+    }
+
+
+    .sukoon-section-title {
+
+        font-size:
+            clamp(
+                39px,
+                11vw,
+                58px
+            );
+
+        letter-spacing:
+            -1.8px;
+    }
+
+
+    .sukoon-section-description {
+
+        font-size:
+            13px;
+    }
+
+
+    /* Services */
+
+    .sukoon-services-grid {
+
+        grid-template-columns:
+            1fr;
+
+        width:
+            min(
+                100%,
+                500px
+            );
+
+        margin:
+            0 auto;
+    }
+
+
+    .sukoon-service-card {
+
+        min-height:
+            auto;
+    }
+
+
+    .sukoon-service-image {
+
+        height:
+            255px;
+    }
+
+
+    /* About */
+
+    .sukoon-about-image {
+
+        padding:
+            0 20px 20px 0;
+    }
+
+
+    .sukoon-about-content h2 {
+
+        font-size:
+            clamp(
+                42px,
+                11vw,
+                60px
+            );
+    }
+
+
+    .sukoon-about-copy {
+
+        font-size:
+            13px;
+    }
+
+
+    .sukoon-about-features {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .sukoon-about-badge {
+
+        right:
+            -2px;
+
+        bottom:
+            28px;
+
+        width:
+            165px;
+
+        min-height:
+            95px;
+    }
+
+
+    /* Why */
+
+    .sukoon-why-grid {
+
+        grid-template-columns:
+            1fr;
+
+        width:
+            min(
+                100%,
+                500px
+            );
+
+        margin:
+            0 auto;
+    }
+
+
+    .sukoon-why-card {
+
+        min-height:
+            auto;
+
+        padding:
+            32px 27px;
+    }
+
+
+    /* Gallery */
+
+    .sukoon-gallery-grid {
+
+        width:
+            100%;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        grid-template-rows:
+            220px 160px 160px;
+
+        gap:
+            8px;
+    }
+
+
+    /* CTA */
+
+    .sukoon-franchise-title,
+    .sukoon-booking-title,
+    .sukoon-contact-title {
+
+        font-size:
+            clamp(
+                41px,
+                11vw,
+                60px
+            );
+
+        letter-spacing:
+            -1.8px;
+    }
+
+
+    .sukoon-franchise-description,
+    .sukoon-booking-description {
+
+        font-size:
+            13px;
+    }
+
+
+    .sukoon-franchise-actions,
+    .sukoon-booking-actions,
+    .sukoon-contact-actions {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+    }
+
+
+    .sukoon-franchise-actions .sukoon-btn,
+    .sukoon-booking-actions .sukoon-btn,
+    .sukoon-contact-actions .sukoon-btn {
+
+        width:
+            100%;
+    }
+
+
+    .sukoon-booking-detail {
+
+        padding:
+            22px 18px;
+    }
+
+
+    /* Mobile sticky booking */
+
+    .sukoon-mobile-cta {
+
+        display:
+            block;
+    }
+
+
+    .sukoon-contact {
+
+        padding-bottom:
+            115px;
+    }
 }
 
 
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
 @media (max-width: 400px) {
 
-    .home-booking-container h2 {
-        font-size: 36px;
+    .sukoon-hero {
+
+        min-height:
+            690px;
     }
 
 
-    .home-booking-section {
-        padding: 75px 0;
+    .sukoon-hero-title {
+
+        font-size:
+            43px;
+
+        letter-spacing:
+            -1.7px;
     }
 
+
+    .sukoon-section-title {
+
+        font-size:
+            38px;
+    }
+
+
+    .sukoon-gallery-grid {
+
+        grid-template-rows:
+            190px 140px 140px;
+    }
+
+
+    .sukoon-about-badge {
+
+        width:
+            145px;
+
+        min-height:
+            82px;
+
+        padding:
+            12px;
+    }
+
+
+    .sukoon-about-badge strong {
+
+        font-size:
+            18px;
+    }
+
+
+    .sukoon-about-badge span {
+
+        font-size:
+            7px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.sukoon-btn:focus-visible,
+.sukoon-service-link:focus-visible,
+.sukoon-text-link:focus-visible,
+.sukoon-mobile-cta a:focus-visible {
+
+    outline:
+        2px solid
+        var(--sukoon-gold);
+
+    outline-offset:
+        4px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .home-page *,
+    .home-page *::before,
+    .home-page *::after {
+
+        scroll-behavior:
+            auto !important;
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .01ms !important;
+    }
+
+
+    .sukoon-hero-media img {
+
+        animation:
+            none;
+    }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) {
+
+    .sukoon-service-card:hover,
+    .sukoon-why-card:hover {
+
+        transform:
+            none;
+    }
+
+
+    .sukoon-gallery-item:hover img,
+    .sukoon-service-card:hover
+    .sukoon-service-image img {
+
+        transform:
+            none;
+    }
+
+
+    .sukoon-btn:hover {
+
+        transform:
+            none;
+    }
 }
 
 </style>
 
 {% endblock %}
 
+
+
 {% block content %}
 
-<!-- =====================================================
+<div class="home-page">
+
+
+<!-- =========================================================
      HERO
-===================================================== -->
+========================================================= -->
 
-<section class="hero">
+<section class="sukoon-hero">
 
-<div class="hero-background">
+    <div class="sukoon-hero-media">
 
-    <img
-        src="{% static 'images/Hero.png' %}"
-        alt="Relaxing environment at Sukoon Wellness & Spa"
-    >
-
-</div>
-
-
-<div class="hero-overlay"></div>
-
-
-<div class="hero-content">
-
-    <p class="hero-eyebrow">
-        SUKOON WELLNESS & SPA
-    </p>
-
-
-    <h1>
-        Relax.
-        <br>
-        Rejuvenate.
-        <br>
-        <span>Find Your Sukoon.</span>
-    </h1>
-
-
-    <p class="hero-description">
-        Take a pause from the everyday and enjoy a calm,
-        comfortable wellness experience designed to help
-        you relax, recharge and feel your best.
-    </p>
-
-
-    <div class="hero-buttons">
-
-        <a
-            href="{% url 'booking' %}"
-            class="btn-primary"
+        <img
+            src="{% static 'images/Hero.png' %}"
+            alt="Luxury wellness environment at Sukoon Wellness & Spa"
         >
-            Book an Appointment
-        </a>
-
-
-        <a
-            href="{% url 'services' %}"
-            class="btn-outline"
-        >
-            Explore Treatments
-        </a>
 
     </div>
 
 
-    <div class="hero-location">
+    <div class="sukoon-hero-overlay"></div>
 
-        <span>✦</span>
 
-        Dwarka City Center Mall,
-        2nd Floor, Majhaulia Road,
-        Gobarsahi, Muzaffarpur
+    <div class="sukoon-hero-content">
+
+        <div class="sukoon-hero-copy">
+
+            <p class="sukoon-hero-eyebrow">
+                SUKOON WELLNESS & SPA
+            </p>
+
+
+            <h1 class="sukoon-hero-title">
+
+                Relax.
+                <br>
+
+                Rejuvenate.
+                <br>
+
+                <span>
+                    Find Your Sukoon.
+                </span>
+
+            </h1>
+
+
+            <p class="sukoon-hero-description">
+
+                Step away from the everyday and discover
+                a peaceful wellness experience created
+                around relaxation, comfort and your
+                personal wellbeing.
+
+            </p>
+
+
+            <div class="sukoon-hero-actions">
+
+                <a
+                    href="{% url 'booking' %}"
+                    class="sukoon-btn sukoon-btn-primary"
+                >
+                    <span>
+                        Book an Appointment
+                    </span>
+                </a>
+
+
+                <a
+                    href="{% url 'services' %}"
+                    class="sukoon-btn sukoon-btn-outline"
+                >
+                    <span>
+                        Explore Treatments
+                    </span>
+                </a>
+
+            </div>
+
+
+            <div class="sukoon-hero-location">
+
+                <span class="sukoon-hero-location-icon">
+                    ✦
+                </span>
+
+                <span>
+                    Dwarka City Center Mall,
+                    2nd Floor, Majhaulia Road,
+                    Gobarsahi, Muzaffarpur,
+                    Bihar 842002
+                </span>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
 
+    <div class="sukoon-hero-side">
 
-<div class="hero-scroll">
+        <span>
+            SCROLL TO EXPLORE
+        </span>
 
-    <span>
-        SCROLL TO EXPLORE
-    </span>
+        <div class="sukoon-hero-scroll-line"></div>
 
-    <div class="scroll-line"></div>
-
-</div>
+    </div>
 
 </section>
 
 
 
-<!-- =====================================================
-     TRUST / HIGHLIGHTS
-===================================================== -->
+<!-- =========================================================
+     TRUST STRIP
+========================================================= -->
 
-<section class="trust-section">
+<section class="sukoon-trust">
 
-<div class="container trust-grid">
+    <div class="sukoon-trust-grid">
+
+        <div class="sukoon-trust-item">
+
+            <strong>
+                10 AM – 10 PM
+            </strong>
+
+            <span>
+                Opening Hours
+            </span>
+
+        </div>
 
 
-    <div class="trust-item">
+        <div class="sukoon-trust-item">
 
-        <strong>
-            10 AM – 10 PM
-        </strong>
+            <strong>
+                Professional
+            </strong>
 
-        <span>
-            Opening Hours
-        </span>
+            <span>
+                Wellness Care
+            </span>
+
+        </div>
+
+
+        <div class="sukoon-trust-item">
+
+            <strong>
+                Clean & Comfortable
+            </strong>
+
+            <span>
+                Spa Environment
+            </span>
+
+        </div>
+
+
+        <div class="sukoon-trust-item">
+
+            <strong>
+                Muzaffarpur
+            </strong>
+
+            <span>
+                Convenient Location
+            </span>
+
+        </div>
 
     </div>
-
-
-    <div class="trust-item">
-
-        <strong>
-            Professional
-        </strong>
-
-        <span>
-            Wellness Care
-        </span>
-
-    </div>
-
-
-    <div class="trust-item">
-
-        <strong>
-            Clean &
-            Comfortable
-        </strong>
-
-        <span>
-            Spa Environment
-        </span>
-
-    </div>
-
-
-    <div class="trust-item">
-
-        <strong>
-            Convenient
-        </strong>
-
-        <span>
-            Muzaffarpur Location
-        </span>
-
-    </div>
-
-
-</div>
 
 </section>
 
 
 
-<!-- =====================================================
+<!-- =========================================================
      INTRO
-===================================================== -->
+========================================================= -->
 
-<section class="intro-section">
+<section class="sukoon-intro">
 
-<div class="container intro-grid">
+    <div class="sukoon-container">
+
+        <div class="sukoon-intro-grid">
+
+            <div>
+
+                <p class="sukoon-eyebrow">
+                    THE SUKOON EXPERIENCE
+                </p>
 
 
-    <div>
+                <h2 class="sukoon-intro-title">
 
-        <p class="eyebrow">
-            THE SUKOON EXPERIENCE
-        </p>
+                    A peaceful space for
+                    <span>
+                        mind & body.
+                    </span>
+
+                </h2>
+
+            </div>
 
 
-        <h2>
+            <div class="sukoon-intro-content">
 
-            A peaceful space for
-            <span>
-                mind & body.
-            </span>
+                <p class="sukoon-intro-text">
 
-        </h2>
+                    At Sukoon Wellness & Spa, we believe
+                    that taking time for yourself is an
+                    important part of wellbeing.
+
+                    <br><br>
+
+                    Our peaceful environment, thoughtful
+                    care and carefully selected wellness
+                    experiences are designed to help you
+                    slow down, recharge and feel your best.
+
+                </p>
+
+
+                <a
+                    href="{% url 'about' %}"
+                    class="sukoon-text-link"
+                >
+                    Discover Sukoon
+                    <span>→</span>
+                </a>
+
+            </div>
+
+        </div>
 
     </div>
-
-
-    <div>
-
-        <p class="intro-text">
-
-            At Sukoon Wellness & Spa, we believe taking
-            time for yourself is an important part of
-            wellbeing.
-
-            <br><br>
-
-            Our peaceful environment, professional care
-            and thoughtfully selected wellness therapies
-            are designed around your comfort, relaxation
-            and overall experience.
-
-        </p>
-
-
-        <a
-            href="{% url 'about' %}"
-            class="text-link"
-        >
-            Discover Sukoon →
-        </a>
-
-    </div>
-
-
-</div>
 
 </section>
 
 
 
-<!-- =====================================================
-     FEATURED SERVICES
-===================================================== -->
+<!-- =========================================================
+     SERVICES
+========================================================= -->
 
-<section class="services-section">
+<section class="sukoon-services">
 
-<div class="container">
+    <div class="sukoon-container">
 
+        <div class="sukoon-section-heading">
 
-    <div class="section-heading">
-
-        <p class="eyebrow">
-            OUR SIGNATURE TREATMENTS
-        </p>
-
-
-        <h2>
-
-            Wellness designed
-            <span>
-                around you.
-            </span>
-
-        </h2>
+            <p class="sukoon-eyebrow">
+                OUR SIGNATURE TREATMENTS
+            </p>
 
 
-        <p>
+            <h2 class="sukoon-section-title">
 
-            Explore thoughtfully selected wellness
-            treatments created to help you slow down,
-            release everyday tension and make time
-            for yourself.
+                Wellness designed
+                <span>
+                    around you.
+                </span>
 
-        </p>
+            </h2>
+
+
+            <p class="sukoon-section-description">
+
+                Explore thoughtfully selected wellness
+                treatments created to help you relax,
+                release everyday tension and make time
+                for yourself.
+
+            </p>
+
+        </div>
+
+
+        <div class="sukoon-services-grid">
+
+            {% for service in featured_services %}
+
+            <article class="sukoon-service-card">
+
+                {% if service.image %}
+
+                <div class="sukoon-service-image">
+
+                    <img
+                        src="{{ service.image.url }}"
+                        alt="{{ service.name }} at Sukoon Wellness & Spa"
+                        loading="lazy"
+                    >
+
+
+                    <div class="sukoon-service-number">
+
+                        {% if forloop.counter < 10 %}
+                            0{{ forloop.counter }}
+                        {% else %}
+                            {{ forloop.counter }}
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div
+                    class="sukoon-service-image"
+                    style="
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #171714,
+                            #28261e
+                        );
+                    "
+                >
+
+                    <div class="sukoon-service-number">
+
+                        {% if forloop.counter < 10 %}
+                            0{{ forloop.counter }}
+                        {% else %}
+                            {{ forloop.counter }}
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <div class="sukoon-service-content">
+
+                    <p class="sukoon-service-label">
+                        SUKOON TREATMENT
+                    </p>
+
+
+                    <h3 class="sukoon-service-title">
+                        {{ service.name }}
+                    </h3>
+
+
+                    {% if service.short_description %}
+
+                    <p class="sukoon-service-description">
+                        {{ service.short_description }}
+                    </p>
+
+                    {% elif service.description %}
+
+                    <p class="sukoon-service-description">
+                        {{ service.description|truncatewords:22 }}
+                    </p>
+
+                    {% else %}
+
+                    <p class="sukoon-service-description">
+                        A thoughtfully designed wellness
+                        experience focused on relaxation,
+                        comfort and wellbeing.
+                    </p>
+
+                    {% endif %}
+
+
+                    {% if service.price or service.duration %}
+
+                    <div class="sukoon-service-meta">
+
+                        {% if service.price %}
+
+                        <div class="sukoon-service-meta-item">
+
+                            <span>
+                                Starting From
+                            </span>
+
+                            <strong>
+                                ₹{{ service.price|floatformat:0 }}
+                            </strong>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        {% if service.duration %}
+
+                        <div class="sukoon-service-meta-item">
+
+                            <span>
+                                Duration
+                            </span>
+
+                            <strong>
+                                {{ service.duration }} min
+                            </strong>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <a
+                        href="{% url 'booking' %}?service={{ service.id }}"
+                        class="sukoon-service-link"
+                    >
+                        Book Treatment
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            {% empty %}
+
+
+            <!-- FALLBACK 01 -->
+
+            <article class="sukoon-service-card">
+
+                <div
+                    class="sukoon-service-image"
+                    style="
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #171714,
+                            #28261e
+                        );
+                    "
+                >
+
+                    <div class="sukoon-service-number">
+                        01
+                    </div>
+
+                </div>
+
+
+                <div class="sukoon-service-content">
+
+                    <p class="sukoon-service-label">
+                        SUKOON TREATMENT
+                    </p>
+
+                    <h3 class="sukoon-service-title">
+                        Swedish Massage
+                    </h3>
+
+                    <p class="sukoon-service-description">
+                        A relaxing full-body experience
+                        designed to encourage relaxation
+                        and help release everyday tension.
+                    </p>
+
+
+                    <a
+                        href="{% url 'booking' %}"
+                        class="sukoon-service-link"
+                    >
+                        Book Treatment →
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- FALLBACK 02 -->
+
+            <article class="sukoon-service-card">
+
+                <div
+                    class="sukoon-service-image"
+                    style="
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #171714,
+                            #28261e
+                        );
+                    "
+                >
+
+                    <div class="sukoon-service-number">
+                        02
+                    </div>
+
+                </div>
+
+
+                <div class="sukoon-service-content">
+
+                    <p class="sukoon-service-label">
+                        SUKOON TREATMENT
+                    </p>
+
+                    <h3 class="sukoon-service-title">
+                        Deep Tissue Massage
+                    </h3>
+
+                    <p class="sukoon-service-description">
+                        A focused massage experience for
+                        areas that feel tight, tired or
+                        overworked.
+                    </p>
+
+
+                    <a
+                        href="{% url 'booking' %}"
+                        class="sukoon-service-link"
+                    >
+                        Book Treatment →
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- FALLBACK 03 -->
+
+            <article class="sukoon-service-card">
+
+                <div
+                    class="sukoon-service-image"
+                    style="
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #171714,
+                            #28261e
+                        );
+                    "
+                >
+
+                    <div class="sukoon-service-number">
+                        03
+                    </div>
+
+                </div>
+
+
+                <div class="sukoon-service-content">
+
+                    <p class="sukoon-service-label">
+                        SUKOON TREATMENT
+                    </p>
+
+                    <h3 class="sukoon-service-title">
+                        Aromatherapy
+                    </h3>
+
+                    <p class="sukoon-service-description">
+                        A calming wellness experience
+                        combining relaxing massage
+                        techniques with aromatic oils.
+                    </p>
+
+
+                    <a
+                        href="{% url 'booking' %}"
+                        class="sukoon-service-link"
+                    >
+                        Book Treatment →
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- FALLBACK 04 -->
+
+            <article class="sukoon-service-card">
+
+                <div
+                    class="sukoon-service-image"
+                    style="
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #171714,
+                            #28261e
+                        );
+                    "
+                >
+
+                    <div class="sukoon-service-number">
+                        04
+                    </div>
+
+                </div>
+
+
+                <div class="sukoon-service-content">
+
+                    <p class="sukoon-service-label">
+                        SUKOON TREATMENT
+                    </p>
+
+                    <h3 class="sukoon-service-title">
+                        Couple Massage
+                    </h3>
+
+                    <p class="sukoon-service-description">
+                        A shared wellness experience
+                        designed for two, with time to
+                        relax together.
+                    </p>
+
+
+                    <a
+                        href="{% url 'booking' %}"
+                        class="sukoon-service-link"
+                    >
+                        Book Treatment →
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="sukoon-centered-action">
+
+            <a
+                href="{% url 'services' %}"
+                class="sukoon-btn sukoon-btn-outline"
+            >
+                <span>
+                    View All Treatments
+                </span>
+            </a>
+
+        </div>
 
     </div>
 
+</section>
 
 
-    <div class="services-grid">
+
+<!-- =========================================================
+     ABOUT
+========================================================= -->
+
+<section class="sukoon-about">
+
+    <div class="sukoon-container">
+
+        <div class="sukoon-about-grid">
 
 
-        {% for service in featured_services %}
-
-
-        <article class="service-card">
-
-
-            {% if service.image %}
-
-            <div class="service-image">
+            <div class="sukoon-about-image">
 
                 <img
-                    src="{{ service.image.url }}"
-                    alt="{{ service.name }} at Sukoon Wellness & Spa"
+                    src="{% static 'images/gallery-5.jpg' %}"
+                    alt="Sukoon Wellness & Spa reception"
+                    loading="lazy"
+                >
+
+
+                <div class="sukoon-about-badge">
+
+                    <strong>
+                        SUKOON
+                    </strong>
+
+                    <span>
+                        Relax · Rejuvenate · Restore
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="sukoon-about-content">
+
+                <p class="sukoon-eyebrow">
+                    ABOUT SUKOON
+                </p>
+
+
+                <h2>
+
+                    A peaceful escape
+                    <span>
+                        from the everyday.
+                    </span>
+
+                </h2>
+
+
+                <p class="sukoon-about-copy">
+
+                    Located at Dwarka City Center Mall
+                    in Muzaffarpur, Sukoon Wellness &
+                    Spa offers a calm and welcoming
+                    environment where you can step away
+                    from your routine and make time for
+                    relaxation.
+
+                </p>
+
+
+                <p class="sukoon-about-copy">
+
+                    From aromatherapy and Swedish massage
+                    to deep tissue, reflexology and other
+                    wellness experiences, our treatments
+                    are presented with your comfort and
+                    personal preferences in mind.
+
+                </p>
+
+
+                <div class="sukoon-about-features">
+
+                    <div class="sukoon-about-feature">
+
+                        <strong class="sukoon-about-feature-number">
+                            01
+                        </strong>
+
+                        <span>
+                            Peaceful Environment
+                        </span>
+
+                    </div>
+
+
+                    <div class="sukoon-about-feature">
+
+                        <strong class="sukoon-about-feature-number">
+                            02
+                        </strong>
+
+                        <span>
+                            Thoughtful Care
+                        </span>
+
+                    </div>
+
+
+                    <div class="sukoon-about-feature">
+
+                        <strong class="sukoon-about-feature-number">
+                            03
+                        </strong>
+
+                        <span>
+                            Clean & Comfortable
+                        </span>
+
+                    </div>
+
+
+                    <div class="sukoon-about-feature">
+
+                        <strong class="sukoon-about-feature-number">
+                            04
+                        </strong>
+
+                        <span>
+                            Personalized Experience
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="{% url 'about' %}"
+                    class="sukoon-btn sukoon-btn-dark"
+                >
+                    <span>
+                        Learn More About Us
+                    </span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     WHY SUKOON
+========================================================= -->
+
+<section class="sukoon-why">
+
+    <div class="sukoon-container">
+
+        <div class="sukoon-section-heading">
+
+            <p class="sukoon-eyebrow">
+                WHY CHOOSE SUKOON
+            </p>
+
+
+            <h2 class="sukoon-section-title">
+
+                Your comfort.
+                <span>
+                    Our priority.
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <div class="sukoon-why-grid">
+
+
+            <article class="sukoon-why-card">
+
+                <div class="sukoon-why-icon">
+                    ✦
+                </div>
+
+                <h3>
+                    A Calm Experience
+                </h3>
+
+                <p>
+                    A welcoming environment designed
+                    to help you slow down, relax and
+                    enjoy your time.
+                </p>
+
+            </article>
+
+
+            <article class="sukoon-why-card">
+
+                <div class="sukoon-why-icon">
+                    ◇
+                </div>
+
+                <h3>
+                    Thoughtful Care
+                </h3>
+
+                <p>
+                    A service experience focused on
+                    comfort, privacy and personal
+                    preference.
+                </p>
+
+            </article>
+
+
+            <article class="sukoon-why-card">
+
+                <div class="sukoon-why-icon">
+                    ○
+                </div>
+
+                <h3>
+                    Clean & Comfortable
+                </h3>
+
+                <p>
+                    Cleanliness and comfort are important
+                    parts of creating a welcoming spa
+                    experience.
+                </p>
+
+            </article>
+
+
+            <article class="sukoon-why-card">
+
+                <div class="sukoon-why-icon">
+                    ✧
+                </div>
+
+                <h3>
+                    Convenient Location
+                </h3>
+
+                <p>
+                    Located inside Dwarka City Center
+                    Mall, Muzaffarpur.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     GALLERY
+========================================================= -->
+
+<section class="sukoon-gallery">
+
+    <div class="sukoon-container">
+
+        <div class="sukoon-section-heading">
+
+            <p class="sukoon-eyebrow">
+                OUR SPACE
+            </p>
+
+
+            <h2 class="sukoon-section-title">
+
+                Step into
+                <span>
+                    Sukoon.
+                </span>
+
+            </h2>
+
+
+            <p class="sukoon-section-description">
+
+                Take a glimpse of the space and
+                atmosphere created for your
+                wellness experience.
+
+            </p>
+
+        </div>
+
+
+        <div class="sukoon-gallery-grid">
+
+
+            <div class="sukoon-gallery-item large">
+
+                <img
+                    src="{% static 'images/gallery-1.jpg' %}"
+                    alt="Sukoon Wellness & Spa lounge"
                     loading="lazy"
                 >
 
             </div>
 
-            {% endif %}
 
+            <div class="sukoon-gallery-item">
 
-
-            <div class="service-content">
-
-
-                <p class="service-number">
-
-                    {% if forloop.counter < 10 %}
-
-                        0{{ forloop.counter }}
-
-                    {% else %}
-
-                        {{ forloop.counter }}
-
-                    {% endif %}
-
-                </p>
-
-
-
-                <h3>
-                    {{ service.name }}
-                </h3>
-
-
-
-                {% if service.short_description %}
-
-                <p>
-                    {{ service.short_description }}
-                </p>
-
-                {% elif service.description %}
-
-                <p>
-                    {{ service.description|truncatewords:20 }}
-                </p>
-
-                {% endif %}
-
-
-
-                <div class="service-meta">
-
-
-                    {% if service.price %}
-
-                    <div>
-
-                        <span>
-                            Starting from
-                        </span>
-
-                        <strong>
-                            ₹{{ service.price|floatformat:0 }}
-                        </strong>
-
-                    </div>
-
-                    {% endif %}
-
-
-
-                    {% if service.duration %}
-
-                    <div>
-
-                        <span>
-                            Duration
-                        </span>
-
-                        <strong>
-                            {{ service.duration }} min
-                        </strong>
-
-                    </div>
-
-                    {% endif %}
-
-
-                </div>
-
-
-
-                <a
-                    href="{% url 'booking' %}?service={{ service.id }}"
-                    class="service-link"
+                <img
+                    src="{% static 'images/gallery-5.jpg' %}"
+                    alt="Sukoon Wellness & Spa reception"
+                    loading="lazy"
                 >
-                    Book Treatment →
-                </a>
-
 
             </div>
 
 
-        </article>
+            <div class="sukoon-gallery-item">
 
-
-        {% empty %}
-
-
-        <!-- =================================================
-             FALLBACK SERVICE 01
-        ================================================= -->
-
-        <article class="service-card">
-
-            <div class="service-content">
-
-                <p class="service-number">
-                    01
-                </p>
-
-
-                <h3>
-                    Swedish Massage
-                </h3>
-
-
-                <p>
-                    A relaxing full-body experience designed
-                    to help ease everyday tension and encourage
-                    relaxation.
-                </p>
-
-
-                <a
-                    href="{% url 'booking' %}"
-                    class="service-link"
+                <img
+                    src="{% static 'images/gallery-10.jpg' %}"
+                    alt="Sukoon Wellness & Spa treatment room"
+                    loading="lazy"
                 >
-                    Book Treatment →
-                </a>
 
             </div>
 
-        </article>
 
+            <div class="sukoon-gallery-item">
 
-
-        <!-- =================================================
-             FALLBACK SERVICE 02
-        ================================================= -->
-
-        <article class="service-card">
-
-            <div class="service-content">
-
-                <p class="service-number">
-                    02
-                </p>
-
-
-                <h3>
-                    Deep Tissue Massage
-                </h3>
-
-
-                <p>
-                    A focused massage experience designed
-                    for areas that feel tight, tired or
-                    overworked.
-                </p>
-
-
-                <a
-                    href="{% url 'booking' %}"
-                    class="service-link"
+                <img
+                    src="{% static 'images/gallery-10.jpg' %}"
+                    alt="Sukoon Wellness & Spa relaxation area"
+                    loading="lazy"
                 >
-                    Book Treatment →
-                </a>
 
             </div>
 
-        </article>
 
+            <div class="sukoon-gallery-item">
 
-
-        <!-- =================================================
-             FALLBACK SERVICE 03
-        ================================================= -->
-
-        <article class="service-card">
-
-            <div class="service-content">
-
-                <p class="service-number">
-                    03
-                </p>
-
-
-                <h3>
-                    Aromatherapy
-                </h3>
-
-
-                <p>
-                    A calming wellness experience combining
-                    relaxing massage techniques with
-                    aromatic oils.
-                </p>
-
-
-                <a
-                    href="{% url 'booking' %}"
-                    class="service-link"
+                <img
+                    src="{% static 'images/gallery-15.jpg' %}"
+                    alt="Sukoon Wellness & Spa interior"
+                    loading="lazy"
                 >
-                    Book Treatment →
-                </a>
 
             </div>
 
-        </article>
+        </div>
 
 
+        <div class="sukoon-centered-action">
 
-        <!-- =================================================
-             FALLBACK SERVICE 04
-        ================================================= -->
-
-        <article class="service-card">
-
-            <div class="service-content">
-
-                <p class="service-number">
-                    04
-                </p>
-
-
-                <h3>
-                    Couple Massage
-                </h3>
-
-
-                <p>
-                    A shared wellness experience designed
-                    for two, with time to relax together.
-                </p>
-
-
-                <a
-                    href="{% url 'booking' %}"
-                    class="service-link"
-                >
-                    Book Treatment →
-                </a>
-
-            </div>
-
-        </article>
-
-
-        {% endfor %}
-
-
-    </div>
-
-
-
-    <div class="center-button">
-
-        <a
-            href="{% url 'services' %}"
-            class="btn-outline"
-        >
-            View All Treatments
-        </a>
-
-    </div>
-
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     ABOUT
-===================================================== -->
-
-<section class="about-section">
-
-<div class="container about-grid">
-
-
-    <div class="about-image">
-
-        <img
-            src="{% static 'images/gallery-5.jpg' %}"
-            alt="Sukoon Wellness & Spa reception"
-            loading="lazy"
-        >
-
-
-        <div class="experience-badge">
-
-            <strong>
-                SUKOON
-            </strong>
-
-            <span>
-                Relax · Rejuvenate · Restore
-            </span>
+            <a
+                href="{% url 'gallery' %}"
+                class="sukoon-btn sukoon-btn-outline"
+            >
+                <span>
+                    Explore Full Gallery
+                </span>
+            </a>
 
         </div>
 
     </div>
 
+</section>
 
 
-    <div class="about-content">
 
-        <p class="eyebrow">
-            ABOUT SUKOON
+<!-- =========================================================
+     FRANCHISE
+========================================================= -->
+
+<section class="sukoon-franchise">
+
+    <div class="sukoon-franchise-content">
+
+        <p class="sukoon-eyebrow">
+            SUKOON FRANCHISE
         </p>
 
 
-        <h2>
+        <h2 class="sukoon-franchise-title">
 
-            A peaceful escape
+            Bring the Sukoon
             <span>
-                from the everyday.
+                Experience to Your City.
             </span>
 
         </h2>
 
 
-        <p>
+        <p class="sukoon-franchise-description">
 
-            Located at Dwarka City Center Mall in
-            Muzaffarpur, Sukoon Wellness & Spa offers
-            a calm and welcoming space where you can
-            step away from your routine and make time
-            for relaxation.
-
-        </p>
-
-
-        <p>
-
-            From aromatherapy and Swedish massage to
-            deep tissue, reflexology and other wellness
-            experiences, our treatments are presented
-            with your comfort and personal preferences
-            in mind.
+            Build your own premium wellness business
+            with Sukoon Wellness & Spa. Our franchise
+            model brings together a sophisticated brand
+            identity, structured operations, professional
+            service standards and ongoing business support.
 
         </p>
 
 
+        <div class="sukoon-franchise-actions">
 
-        <div class="about-features">
-
-
-            <div>
-
-                <strong>
-                    01
-                </strong>
-
+            <a
+                href="{% url 'franchise' %}"
+                class="sukoon-btn sukoon-btn-primary"
+            >
                 <span>
-                    Peaceful Environment
+                    Explore Franchise
                 </span>
+            </a>
 
-            </div>
 
-
-            <div>
-
-                <strong>
-                    02
-                </strong>
-
+            <a
+                href="{% url 'franchise' %}#franchise-enquiry"
+                class="sukoon-btn sukoon-btn-outline"
+            >
                 <span>
-                    Thoughtful Care
+                    Become a Partner
                 </span>
-
-            </div>
-
-
-            <div>
-
-                <strong>
-                    03
-                </strong>
-
-                <span>
-                    Clean & Comfortable
-                </span>
-
-            </div>
-
-
-            <div>
-
-                <strong>
-                    04
-                </strong>
-
-                <span>
-                    Personalized Experience
-                </span>
-
-            </div>
-
+            </a>
 
         </div>
 
-
-
-        <a
-            href="{% url 'about' %}"
-            class="btn-primary"
-        >
-            Learn More About Us
-        </a>
-
-
     </div>
-
-
-</div>
 
 </section>
 
 
 
-<!-- =====================================================
-     WHY SUKOON
-===================================================== -->
-
-<section class="why-section">
-
-<div class="container">
-
-
-    <div class="section-heading">
-
-        <p class="eyebrow">
-            WHY CHOOSE SUKOON
-        </p>
-
-
-        <h2>
-
-            Your comfort.
-            <span>
-                Our priority.
-            </span>
-
-        </h2>
-
-    </div>
-
-
-
-    <div class="why-grid">
-
-
-        <div class="why-card">
-
-            <div class="why-icon">
-                ✦
-            </div>
-
-
-            <h3>
-                A Calm Experience
-            </h3>
-
-
-            <p>
-                A welcoming environment designed
-                to help you slow down, relax and
-                enjoy your time.
-            </p>
-
-        </div>
-
-
-
-        <div class="why-card">
-
-            <div class="why-icon">
-                ◇
-            </div>
-
-
-            <h3>
-                Thoughtful Care
-            </h3>
-
-
-            <p>
-                A service experience focused on
-                comfort, privacy and personal
-                preference.
-            </p>
-
-        </div>
-
-
-
-        <div class="why-card">
-
-            <div class="why-icon">
-                ○
-            </div>
-
-
-            <h3>
-                Clean & Comfortable
-            </h3>
-
-
-            <p>
-                Cleanliness and comfort are important
-                parts of creating a welcoming spa
-                experience.
-            </p>
-
-        </div>
-
-
-
-        <div class="why-card">
-
-            <div class="why-icon">
-                ✧
-            </div>
-
-
-            <h3>
-                Convenient Location
-            </h3>
-
-
-            <p>
-                Located inside Dwarka City Center
-                Mall, Muzaffarpur.
-            </p>
-
-        </div>
-
-
-    </div>
-
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     GALLERY
-===================================================== -->
-
-<section class="gallery-section">
-
-<div class="container">
-
-
-    <div class="section-heading">
-
-        <p class="eyebrow">
-            OUR SPACE
-        </p>
-
-
-        <h2>
-
-            Step into
-            <span>
-                Sukoon.
-            </span>
-
-        </h2>
-
-
-        <p>
-
-            Take a glimpse of the space and atmosphere
-            created for your wellness experience.
-
-        </p>
-
-    </div>
-
-
-
-    <div class="gallery-grid">
-
-
-        <div class="gallery-item large">
-
-            <img
-                src="{% static 'images/gallery-1.jpg' %}"
-                alt="Sukoon Wellness & Spa lounge"
-                loading="lazy"
-            >
-
-        </div>
-
-
-
-        <div class="gallery-item">
-
-            <img
-                src="{% static 'images/gallery-5.jpg' %}"
-                alt="Sukoon Wellness & Spa reception"
-                loading="lazy"
-            >
-
-        </div>
-
-
-
-        <div class="gallery-item">
-
-            <img
-                src="{% static 'images/gallery-10.jpg' %}"
-                alt="Sukoon Wellness & Spa treatment room"
-                loading="lazy"
-            >
-
-        </div>
-
-
-
-        <div class="gallery-item">
-
-            <img
-                src="{% static 'images/gallery-12.jpg' %}"
-                alt="Sukoon Wellness & Spa relaxation area"
-                loading="lazy"
-            >
-
-        </div>
-
-
-    </div>
-
-
-
-    <div class="center-button">
-
-        <a
-            href="{% url 'gallery' %}"
-            class="btn-outline"
-        >
-            Explore Full Gallery
-        </a>
-
-    </div>
-
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
+<!-- =========================================================
      BOOKING CTA
-===================================================== -->
+========================================================= -->
 
-<section class="home-booking-section">
+<section class="sukoon-booking">
 
-<div class="home-booking-container">
+    <div class="sukoon-booking-content">
 
-
-    <p class="home-booking-label">
-        RESERVE YOUR EXPERIENCE
-    </p>
-
-
-    <h2>
-
-        Make time
-        <span>
-            for yourself.
-        </span>
-
-    </h2>
+        <p class="sukoon-eyebrow">
+            RESERVE YOUR EXPERIENCE
+        </p>
 
 
-    <div class="home-booking-line"></div>
+        <h2 class="sukoon-booking-title">
 
-
-    <p class="home-booking-description">
-
-        Choose your preferred treatment, select a
-        convenient date and time, and send your
-        appointment request. Our team will review
-        your request and confirm the appointment
-        with you.
-
-    </p>
-
-
-
-    <!-- =================================================
-         BOOKING INFORMATION
-    ================================================= -->
-
-    <div class="home-booking-details">
-
-
-        <div class="home-booking-detail">
-
+            Make time
             <span>
-                LOCATION
+                for yourself.
             </span>
 
+        </h2>
 
-            <strong>
 
-                Dwarka City Center Mall,
-                2nd Floor, Majhaulia Road,
-                Gobarsahi, Muzaffarpur,
-                Bihar 842002
+        <div class="sukoon-booking-divider"></div>
 
-            </strong>
+
+        <p class="sukoon-booking-description">
+
+            Choose your preferred treatment, select a
+            convenient date and time, and complete your
+            appointment booking. Your appointment is
+            confirmed once the booking is successfully
+            submitted.
+
+        </p>
+
+
+        <div class="sukoon-booking-details">
+
+
+            <div class="sukoon-booking-detail">
+
+                <span>
+                    LOCATION
+                </span>
+
+                <strong>
+                    Dwarka City Center Mall,
+                    2nd Floor, Majhaulia Road,
+                    Gobarsahi, Muzaffarpur,
+                    Bihar 842002
+                </strong>
+
+            </div>
+
+
+            <div class="sukoon-booking-detail">
+
+                <span>
+                    HOURS
+                </span>
+
+                <strong>
+                    10:00 AM – 10:00 PM
+                </strong>
+
+            </div>
+
+
+            <div class="sukoon-booking-detail">
+
+                <span>
+                    CALL US
+                </span>
+
+                <strong>
+                    +91 90316 40551
+                </strong>
+
+            </div>
 
         </div>
 
 
+        <div class="sukoon-booking-actions">
 
-        <div class="home-booking-detail">
-
-            <span>
-                HOURS
-            </span>
-
-
-            <strong>
-                10:00 AM – 10:00 PM
-            </strong>
-
-        </div>
+            <a
+                href="{% url 'booking' %}"
+                class="sukoon-btn sukoon-btn-primary"
+            >
+                <span>
+                    Book an Appointment
+                </span>
+            </a>
 
 
-
-        <div class="home-booking-detail">
-
-            <span>
-                CALL US
-            </span>
-
-
-            <strong>
-                +91 90316 40551
-            </strong>
+            <a
+                href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+                target="_blank"
+                rel="noopener noreferrer"
+                class="sukoon-btn sukoon-btn-outline"
+            >
+                <span>
+                    Chat on WhatsApp
+                </span>
+            </a>
 
         </div>
 
+
+        <p class="sukoon-booking-note">
+            Appointments are subject to available slots.
+        </p>
 
     </div>
-
-
-
-    <div class="home-booking-buttons">
-
-
-        <a
-            href="{% url 'booking' %}"
-            class="home-booking-button"
-        >
-            Book an Appointment
-        </a>
-
-
-        <a
-            href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
-            target="_blank"
-            rel="noopener noreferrer"
-            class="home-booking-whatsapp"
-        >
-            Chat on WhatsApp
-        </a>
-
-
-    </div>
-
-
-
-    <p class="home-booking-note">
-
-        Appointment requests are reviewed by our team.
-        Your appointment is confirmed after we verify
-        the requested date and time.
-
-    </p>
-
-
-</div>
 
 </section>
 
 
 
-<!-- =====================================================
-     CONTACT CTA
-===================================================== -->
+<!-- =========================================================
+     CONTACT
+========================================================= -->
 
-<section class="contact-section">
+<section class="sukoon-contact">
 
-<div class="container contact-content">
+    <div class="sukoon-contact-content">
 
-
-    <p class="eyebrow">
-        VISIT SUKOON
-    </p>
-
-
-    <h2>
-
-        Your time to
-        <span>
-            relax starts here.
-        </span>
-
-    </h2>
+        <p class="sukoon-eyebrow">
+            VISIT SUKOON
+        </p>
 
 
-    <p>
+        <h2 class="sukoon-contact-title">
 
-        Dwarka City Center Mall,
-        2nd Floor, Majhaulia Road,
-        Gobarsahi, Muzaffarpur,
-        Bihar 842002
+            Your time to
+            <span>
+                relax starts here.
+            </span>
 
-    </p>
-
-
-
-    <div class="contact-buttons">
+        </h2>
 
 
-        <a
-            href="{% url 'booking' %}"
-            class="btn-primary"
-        >
-            Book Appointment
-        </a>
+        <p class="sukoon-contact-address">
+
+            Dwarka City Center Mall,
+            2nd Floor, Majhaulia Road,
+            Gobarsahi, Muzaffarpur,
+            Bihar 842002
+
+        </p>
 
 
-        <a
-            href="tel:+919031640551"
-            class="btn-outline"
-        >
-            Call 9031640551
-        </a>
+        <div class="sukoon-contact-actions">
+
+            <a
+                href="{% url 'booking' %}"
+                class="sukoon-btn sukoon-btn-dark"
+            >
+                <span>
+                    Book Appointment
+                </span>
+            </a>
 
 
-        <a
-            href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-outline"
-        >
-            WhatsApp
-        </a>
+            <a
+                href="tel:+919031640551"
+                class="sukoon-btn sukoon-btn-outline"
+            >
+                <span>
+                    Call 9031640551
+                </span>
+            </a>
 
+
+            <a
+                href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+                target="_blank"
+                rel="noopener noreferrer"
+                class="sukoon-btn sukoon-btn-outline"
+            >
+                <span>
+                    WhatsApp
+                </span>
+            </a>
+
+        </div>
 
     </div>
 
+</section>
+
+
+
+<!-- =========================================================
+     MOBILE BOOKING CTA
+========================================================= -->
+
+<div class="sukoon-mobile-cta">
+
+    <a href="{% url 'booking' %}">
+        Book an Appointment
+    </a>
 
 </div>
 
-</section>
+
+</div>
 
 {% endblock %}
+
+
 
 {% block extra_js %}
 {% endblock %}

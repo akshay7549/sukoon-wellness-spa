@@ -1,0 +1,3162 @@
+{% extends "spa/base.html" %}
+{% load static %}
+
+{% block title %}
+Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   SUKOON FRANCHISE PAGE
+   PREMIUM BLACK / GOLD / CREAM SYSTEM
+========================================================= */
+
+.franchise-page {
+
+    --gold: #c9a96e;
+    --gold-light: #e3cc9b;
+    --gold-dark: #9d7b42;
+
+    --black: #090908;
+    --black-soft: #0f0f0d;
+    --black-card: #151512;
+
+    --cream: #f8f5ee;
+    --cream-soft: #f1ece3;
+    --white: #ffffff;
+
+    --text: #403a32;
+    --muted: #777168;
+
+    overflow: hidden;
+    background: var(--cream);
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+.franchise-page *,
+.franchise-page *::before,
+.franchise-page *::after {
+    box-sizing: border-box;
+}
+
+.franchise-page a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.franchise-container {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+.franchise-eyebrow,
+.franchise-section-label,
+.franchise-section-heading .label {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   REVEAL / DECORATIVE ELEMENTS
+========================================================= */
+
+.franchise-gold-line {
+    width: 60px;
+    height: 1px;
+    margin: 24px 0;
+    background: var(--gold);
+}
+
+.franchise-gold-line.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.franchise-hero {
+
+    position: relative;
+
+    min-height: 760px;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(4,4,3,.97) 0%,
+            rgba(4,4,3,.88) 42%,
+            rgba(4,4,3,.48) 100%
+        ),
+        url("{% static 'images/service.jpg' %}")
+        center / cover no-repeat;
+}
+
+.franchise-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 75% 48%,
+            rgba(201,169,110,.20),
+            transparent 34%
+        );
+
+    pointer-events: none;
+}
+
+.franchise-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    right: 7%;
+    top: 16%;
+
+    width: 360px;
+    height: 360px;
+
+    border: 1px solid rgba(201,169,110,.14);
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 40px rgba(201,169,110,.025),
+        0 0 0 80px rgba(201,169,110,.018);
+
+    pointer-events: none;
+}
+
+.franchise-hero-container {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1180px, calc(100% - 40px));
+
+    margin: 0 auto;
+
+    padding: 145px 0 120px;
+}
+
+.franchise-eyebrow {
+
+    margin: 0 0 24px;
+
+    color: var(--gold);
+
+    letter-spacing: 5px;
+}
+
+.franchise-hero h1 {
+
+    max-width: 900px;
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(58px, 8vw, 102px);
+
+    font-weight: 400;
+
+    line-height: .98;
+
+    letter-spacing: -4px;
+}
+
+.franchise-hero h1 span {
+
+    color: var(--gold-light);
+
+    font-style: italic;
+}
+
+.franchise-hero-description {
+
+    max-width: 680px;
+
+    margin: 32px 0 0;
+
+    color: #bbb4aa;
+
+    font-size: 15px;
+
+    line-height: 1.95;
+}
+
+.franchise-hero-buttons {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 40px;
+}
+
+.franchise-hero-buttons a {
+
+    min-height: 56px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 31px;
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease,
+        color .3s ease,
+        box-shadow .3s ease;
+}
+
+.franchise-apply {
+
+    background: var(--gold);
+
+    border: 1px solid var(--gold);
+
+    color: #080807;
+}
+
+.franchise-apply:hover {
+
+    background: var(--gold-light);
+
+    border-color: var(--gold-light);
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.25);
+}
+
+.franchise-brochure {
+
+    border: 1px solid rgba(201,169,110,.45);
+
+    background: rgba(0,0,0,.15);
+
+    color: var(--gold);
+}
+
+.franchise-brochure:hover {
+
+    background: rgba(201,169,110,.10);
+
+    border-color: var(--gold);
+
+    color: #ffffff;
+
+    transform: translateY(-3px);
+}
+
+
+/* HERO META */
+
+.franchise-hero-meta {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 0;
+
+    max-width: 850px;
+
+    margin-top: 60px;
+
+    border-top:
+        1px solid rgba(201,169,110,.20);
+
+    border-bottom:
+        1px solid rgba(201,169,110,.20);
+}
+
+.franchise-hero-meta-item {
+
+    flex: 1;
+
+    min-width: 170px;
+
+    padding: 20px 24px;
+}
+
+.franchise-hero-meta-item + .franchise-hero-meta-item {
+
+    border-left:
+        1px solid rgba(201,169,110,.14);
+}
+
+.franchise-hero-meta-item span {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #6e685f;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+.franchise-hero-meta-item strong {
+
+    color: #ddd5ca;
+
+    font-size: 12px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.franchise-intro {
+
+    padding: 135px 0;
+
+    background: var(--cream);
+}
+
+.franchise-intro-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        .9fr 1.1fr;
+
+    gap: 110px;
+
+    align-items: center;
+}
+
+.franchise-section-label {
+
+    margin: 0 0 20px;
+
+    color: var(--gold-dark);
+}
+
+.franchise-intro h2 {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(45px, 5vw, 70px);
+
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+}
+
+.franchise-intro h2 span {
+
+    display: block;
+
+    color: var(--gold-dark);
+
+    font-style: italic;
+}
+
+.franchise-intro-copy {
+
+    position: relative;
+
+    padding-left: 30px;
+
+    border-left:
+        1px solid rgba(201,169,110,.65);
+}
+
+.franchise-intro-copy p {
+
+    margin: 0 0 22px;
+
+    color: #706960;
+
+    font-size: 14px;
+
+    line-height: 2;
+}
+
+.franchise-intro-copy p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   WHY SUKOON
+========================================================= */
+
+.franchise-why {
+
+    position: relative;
+
+    padding: 145px 0;
+
+    background: var(--black);
+
+    overflow: hidden;
+}
+
+.franchise-why::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -220px;
+    top: -220px;
+
+    border:
+        1px solid rgba(201,169,110,.10);
+
+    border-radius: 50%;
+}
+
+.franchise-section-heading {
+
+    max-width: 760px;
+
+    margin: 0 auto 68px;
+
+    text-align: center;
+}
+
+.franchise-section-heading .label {
+
+    margin-bottom: 18px;
+
+    color: var(--gold);
+}
+
+.franchise-section-heading h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(44px, 5vw, 68px);
+
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+}
+
+.franchise-section-heading h2 span {
+
+    color: var(--gold);
+
+    font-style: italic;
+}
+
+.franchise-section-heading p {
+
+    max-width: 650px;
+
+    margin: 24px auto 0;
+
+    color: #858078;
+
+    font-size: 13px;
+
+    line-height: 1.9;
+}
+
+.franchise-why-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+}
+
+.franchise-feature {
+
+    position: relative;
+
+    min-height: 315px;
+
+    padding: 35px 28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #171714,
+            #11110f
+        );
+
+    border:
+        1px solid rgba(201,169,110,.13);
+
+    overflow: hidden;
+
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.franchise-feature::after {
+
+    content: "";
+
+    position: absolute;
+
+    right: -30px;
+    bottom: -30px;
+
+    width: 100px;
+    height: 100px;
+
+    border:
+        1px solid rgba(201,169,110,.10);
+
+    border-radius: 50%;
+}
+
+.franchise-feature:hover {
+
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(201,169,110,.42);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.25);
+}
+
+.franchise-feature-number {
+
+    color: var(--gold);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+}
+
+.franchise-feature h3 {
+
+    margin: 30px 0 16px;
+
+    color: #eee8df;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 25px;
+
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+.franchise-feature p {
+
+    margin: 0;
+
+    color: #817b73;
+
+    font-size: 12px;
+
+    line-height: 1.85;
+}
+
+
+/* =========================================================
+   WHAT YOU GET
+========================================================= */
+
+.franchise-support {
+
+    padding: 145px 0;
+
+    background: var(--cream-soft);
+}
+
+.support-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        .75fr 1.25fr;
+
+    gap: 95px;
+
+    align-items: start;
+}
+
+.support-heading h2 {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(44px, 5vw, 68px);
+
+    font-weight: 400;
+
+    line-height: 1.04;
+
+    letter-spacing: -2px;
+}
+
+.support-heading h2 span {
+
+    display: block;
+
+    color: var(--gold-dark);
+
+    font-style: italic;
+}
+
+.support-heading p {
+
+    max-width: 430px;
+
+    margin-top: 26px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.9;
+}
+
+.support-list {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    column-gap: 38px;
+}
+
+.support-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-height: 67px;
+
+    border-bottom:
+        1px solid rgba(64,58,50,.12);
+}
+
+.support-item span:first-child {
+
+    color: var(--gold-dark);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.support-item span:last-child {
+
+    color: #5f5951;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FRANCHISE MODELS
+========================================================= */
+
+.franchise-models {
+
+    padding: 145px 0;
+
+    background: var(--cream);
+}
+
+.model-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.model-card {
+
+    position: relative;
+
+    min-height: 430px;
+
+    padding: 40px 34px;
+
+    background: #ffffff;
+
+    border:
+        1px solid rgba(64,58,50,.10);
+
+    overflow: hidden;
+
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.model-card:hover {
+
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(201,169,110,.45);
+
+    box-shadow:
+        0 30px 60px rgba(50,40,25,.08);
+}
+
+.model-card.featured {
+
+    background:
+        linear-gradient(
+            145deg,
+            #151513,
+            #0d0d0c
+        );
+
+    border-color:
+        rgba(201,169,110,.32);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.14);
+}
+
+.model-card.featured::before {
+
+    content: "POPULAR MODEL";
+
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    padding: 10px 15px;
+
+    background: var(--gold);
+
+    color: #090908;
+
+    font-size: 7px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.5px;
+}
+
+.model-label {
+
+    color: var(--gold-dark);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+}
+
+.model-card.featured .model-label {
+    color: var(--gold);
+}
+
+.model-card h3 {
+
+    margin: 25px 0 9px;
+
+    color: var(--text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 32px;
+
+    font-weight: 400;
+}
+
+.model-card.featured h3 {
+    color: #ffffff;
+}
+
+.model-subtitle {
+
+    color: var(--gold-dark);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: .5px;
+}
+
+.model-card.featured .model-subtitle {
+    color: var(--gold);
+}
+
+.model-card p {
+
+    margin: 26px 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.9;
+}
+
+.model-card.featured p {
+    color: #89827a;
+}
+
+.model-ideal {
+
+    position: absolute;
+
+    left: 34px;
+    right: 34px;
+    bottom: 32px;
+
+    padding-top: 19px;
+
+    border-top:
+        1px solid rgba(64,58,50,.12);
+}
+
+.model-card.featured .model-ideal {
+    border-color:
+        rgba(201,169,110,.16);
+}
+
+.model-ideal span {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #8a8379;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+.model-ideal strong {
+
+    color: var(--text);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+}
+
+.model-card.featured .model-ideal strong {
+    color: #d8d0c5;
+}
+
+
+/* =========================================================
+   INVESTMENT
+========================================================= */
+
+.investment-section {
+
+    position: relative;
+
+    padding: 125px 0;
+
+    background: var(--black);
+
+    overflow: hidden;
+}
+
+.investment-section::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    left: 50%;
+    top: -400px;
+
+    transform: translateX(-50%);
+
+    border:
+        1px solid rgba(201,169,110,.09);
+
+    border-radius: 50%;
+}
+
+.investment-box {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 980px;
+
+    margin: 0 auto;
+
+    padding: 75px 65px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(201,169,110,.12),
+            transparent 55%
+        ),
+        var(--black-card);
+
+    border:
+        1px solid rgba(201,169,110,.25);
+}
+
+.investment-label {
+
+    color: var(--gold);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+}
+
+.investment-box h2 {
+
+    margin: 21px 0 10px;
+
+    color: #ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(46px, 6vw, 78px);
+
+    font-weight: 400;
+
+    line-height: 1;
+}
+
+.investment-box h2 span {
+
+    display: block;
+
+    color: var(--gold);
+
+    font-style: italic;
+}
+
+.investment-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    margin-top: 55px;
+
+    border-top:
+        1px solid rgba(201,169,110,.18);
+
+    border-bottom:
+        1px solid rgba(201,169,110,.18);
+}
+
+.investment-item {
+
+    padding: 26px 15px;
+}
+
+.investment-item + .investment-item {
+
+    border-left:
+        1px solid rgba(201,169,110,.15);
+}
+
+.investment-item span {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #706a62;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+.investment-item strong {
+
+    color: #ddd5c9;
+
+    font-size: 12px;
+
+    font-weight: 500;
+}
+
+.investment-note {
+
+    max-width: 700px;
+
+    margin: 25px auto 0;
+
+    color: #69635c;
+
+    font-size: 10px;
+
+    line-height: 1.8;
+}
+
+.investment-button,
+.final-button {
+
+    display: inline-flex;
+
+    min-height: 55px;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 32px;
+
+    background: var(--gold);
+
+    color: #090908;
+
+    border: 1px solid var(--gold);
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease;
+}
+
+.investment-button {
+    margin-top: 34px;
+}
+
+.investment-button:hover,
+.final-button:hover {
+
+    background: var(--gold-light);
+
+    border-color: var(--gold-light);
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   SUPPORT JOURNEY
+========================================================= */
+
+.franchise-journey {
+
+    padding: 145px 0;
+
+    background: var(--cream);
+}
+
+.journey-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.journey-card {
+
+    position: relative;
+
+    padding: 42px 34px;
+
+    background: #ffffff;
+
+    border:
+        1px solid rgba(64,58,50,.08);
+
+    border-top:
+        2px solid var(--gold);
+
+    box-shadow:
+        0 18px 45px rgba(50,40,25,.04);
+}
+
+.journey-card > span {
+
+    color: var(--gold-dark);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+}
+
+.journey-card h3 {
+
+    margin: 20px 0 23px;
+
+    color: var(--text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 28px;
+
+    font-weight: 400;
+}
+
+.journey-list {
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+.journey-list li {
+
+    padding: 10px 0;
+
+    color: #777168;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    border-bottom:
+        1px solid rgba(64,58,50,.08);
+}
+
+.journey-list li::before {
+
+    content: "✦";
+
+    margin-right: 10px;
+
+    color: var(--gold-dark);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   PARTNERS
+========================================================= */
+
+.partner-section {
+
+    padding: 140px 0;
+
+    background: #eee9df;
+}
+
+.partner-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        .8fr 1.2fr;
+
+    gap: 100px;
+
+    align-items: center;
+}
+
+.partner-heading h2 {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(44px, 5vw, 68px);
+
+    font-weight: 400;
+
+    line-height: 1.04;
+
+    letter-spacing: -2px;
+}
+
+.partner-heading h2 span {
+
+    display: block;
+
+    color: var(--gold-dark);
+
+    font-style: italic;
+}
+
+.partner-heading p {
+
+    max-width: 430px;
+
+    margin-top: 25px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.9;
+}
+
+.partner-list {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+}
+
+.partner-item {
+
+    padding: 21px 20px;
+
+    background: #ffffff;
+
+    border:
+        1px solid rgba(64,58,50,.09);
+
+    color: #5e5850;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease;
+}
+
+.partner-item:hover {
+
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(201,169,110,.40);
+}
+
+.partner-item::before {
+
+    content: "✦";
+
+    margin-right: 10px;
+
+    color: var(--gold-dark);
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   FINAL CTA
+========================================================= */
+
+.franchise-final {
+
+    position: relative;
+
+    padding: 145px 0;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            rgba(5,5,4,.92),
+            rgba(5,5,4,.97)
+        ),
+        url("{% static 'images/Hero.png' %}")
+        center / cover no-repeat;
+
+    overflow: hidden;
+}
+
+.franchise-final::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    left: 50%;
+    top: -320px;
+
+    transform: translateX(-50%);
+
+    border:
+        1px solid rgba(201,169,110,.12);
+
+    border-radius: 50%;
+}
+
+.franchise-final h2 {
+
+    position: relative;
+    z-index: 2;
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    color: #ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(46px, 6vw, 78px);
+
+    font-weight: 400;
+
+    line-height: 1.03;
+
+    letter-spacing: -2px;
+}
+
+.franchise-final h2 span {
+
+    color: var(--gold);
+
+    font-style: italic;
+}
+
+.franchise-final p {
+
+    position: relative;
+    z-index: 2;
+
+    max-width: 650px;
+
+    margin: 26px auto 0;
+
+    color: #938c83;
+
+    font-size: 14px;
+
+    line-height: 1.9;
+}
+
+.final-button {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: 37px;
+}
+
+
+/* =========================================================
+   ENQUIRY
+========================================================= */
+
+.franchise-enquiry {
+
+    padding: 145px 0;
+
+    background: var(--cream);
+}
+
+.enquiry-wrapper {
+
+    display: grid;
+
+    grid-template-columns:
+        .75fr 1.25fr;
+
+    gap: 85px;
+
+    align-items: start;
+}
+
+.enquiry-info h2 {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(44px, 5vw, 68px);
+
+    font-weight: 400;
+
+    line-height: 1.04;
+
+    letter-spacing: -2px;
+}
+
+.enquiry-info h2 span {
+
+    display: block;
+
+    color: var(--gold-dark);
+
+    font-style: italic;
+}
+
+.enquiry-info p {
+
+    max-width: 440px;
+
+    margin-top: 25px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.9;
+}
+
+.enquiry-contact {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    margin-top: 30px;
+}
+
+.enquiry-contact a {
+
+    color: #5d574f;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: color .25s ease;
+}
+
+.enquiry-contact a:hover {
+    color: var(--gold-dark);
+}
+
+.enquiry-form {
+
+    padding: 45px;
+
+    background: #ffffff;
+
+    border:
+        1px solid rgba(64,58,50,.10);
+
+    box-shadow:
+        0 25px 65px rgba(50,40,25,.08);
+}
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+
+    color: #5f5951;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+
+    width: 100%;
+
+    padding: 15px;
+
+    background: #faf8f3;
+
+    border:
+        1px solid rgba(64,58,50,.13);
+
+    outline: none;
+
+    color: #403a32;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    transition:
+        background .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.form-group textarea {
+
+    min-height: 125px;
+
+    resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #aaa39a;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+
+    background: #ffffff;
+
+    border-color: var(--gold);
+
+    box-shadow:
+        0 0 0 3px rgba(201,169,110,.08);
+}
+
+.form-submit {
+
+    width: 100%;
+
+    min-height: 56px;
+
+    margin-top: 21px;
+
+    border: 1px solid var(--black);
+
+    background: var(--black);
+
+    color: var(--gold);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background .3s ease,
+        color .3s ease,
+        border-color .3s ease,
+        transform .3s ease;
+}
+
+.form-submit:hover {
+
+    background: var(--gold);
+
+    border-color: var(--gold);
+
+    color: #090908;
+
+    transform: translateY(-2px);
+}
+
+.form-note {
+
+    margin-top: 14px;
+
+    color: #aaa39a;
+
+    font-size: 9px;
+
+    line-height: 1.7;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   MOBILE / TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .franchise-why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .franchise-intro-grid,
+    .support-grid,
+    .partner-grid,
+    .enquiry-wrapper {
+        gap: 60px;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .franchise-container,
+    .franchise-hero-container {
+        width: min(100% - 30px, 650px);
+    }
+
+    .franchise-hero {
+        min-height: 700px;
+    }
+
+    .franchise-hero-container {
+        padding: 115px 0 85px;
+    }
+
+    .franchise-hero h1 {
+        font-size: 58px;
+        letter-spacing: -2px;
+    }
+
+    .franchise-hero-description {
+        font-size: 13px;
+    }
+
+    .franchise-hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .franchise-hero-buttons a {
+        width: 100%;
+    }
+
+    .franchise-hero-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .franchise-hero-meta-item + .franchise-hero-meta-item {
+        border-left: none;
+    }
+
+    .franchise-hero-meta-item:nth-child(2n) {
+        border-left:
+            1px solid rgba(201,169,110,.14);
+    }
+
+    .franchise-hero-meta-item:nth-child(n+3) {
+        border-top:
+            1px solid rgba(201,169,110,.14);
+    }
+
+    .franchise-intro,
+    .franchise-why,
+    .franchise-support,
+    .franchise-models,
+    .franchise-journey,
+    .partner-section,
+    .franchise-final,
+    .franchise-enquiry {
+        padding: 95px 0;
+    }
+
+    .franchise-intro-grid,
+    .support-grid,
+    .partner-grid,
+    .enquiry-wrapper {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .franchise-intro-copy {
+        padding-left: 20px;
+    }
+
+    .support-list,
+    .partner-list {
+        grid-template-columns: 1fr;
+    }
+
+    .model-grid,
+    .journey-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .model-card {
+        min-height: 390px;
+    }
+
+    .investment-box {
+        padding: 55px 25px;
+    }
+
+    .investment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .investment-item + .investment-item {
+        border-left: none;
+        border-top:
+            1px solid rgba(201,169,110,.15);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .enquiry-form {
+        padding: 28px 22px;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .franchise-hero {
+        min-height: 690px;
+    }
+
+    .franchise-hero h1 {
+        font-size: 48px;
+        line-height: 1;
+    }
+
+    .franchise-hero-description {
+        font-size: 12.5px;
+        line-height: 1.8;
+    }
+
+    .franchise-hero-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .franchise-hero-meta-item:nth-child(2n) {
+        border-left: none;
+    }
+
+    .franchise-hero-meta-item + .franchise-hero-meta-item {
+        border-top:
+            1px solid rgba(201,169,110,.14);
+    }
+
+    .franchise-section-heading h2,
+    .franchise-intro h2,
+    .support-heading h2,
+    .partner-heading h2,
+    .enquiry-info h2,
+    .franchise-final h2 {
+        font-size: 42px;
+    }
+
+    .franchise-why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .franchise-feature {
+        min-height: auto;
+    }
+
+    .investment-box h2 {
+        font-size: 45px;
+    }
+
+    .investment-button,
+    .final-button {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 380px) {
+
+    .franchise-hero h1 {
+        font-size: 42px;
+    }
+
+    .franchise-section-heading h2,
+    .franchise-intro h2,
+    .support-heading h2,
+    .partner-heading h2,
+    .enquiry-info h2,
+    .franchise-final h2 {
+        font-size: 38px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="franchise-page">
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="franchise-hero">
+
+    <div class="franchise-hero-container">
+
+        <p class="franchise-eyebrow">
+            SUKOON WELLNESS & SPA
+        </p>
+
+
+        <h1>
+            Bring Peace.
+            <br>
+            Build <span>Luxury.</span>
+        </h1>
+
+
+        <p class="franchise-hero-description">
+            Bring the Sukoon experience to your city with a
+            premium wellness business built around brand,
+            service, ambience and structured franchise support.
+        </p>
+
+
+        <div class="franchise-hero-buttons">
+
+            <a
+                href="#franchise-enquiry"
+                class="franchise-apply"
+            >
+                Apply for Franchise
+            </a>
+
+
+            <a
+                href="#franchise-investment"
+                class="franchise-brochure"
+            >
+                Explore Investment
+            </a>
+
+        </div>
+
+
+        <div class="franchise-hero-meta">
+
+            <div class="franchise-hero-meta-item">
+
+                <span>
+                    Business Format
+                </span>
+
+                <strong>
+                    Premium Wellness
+                </strong>
+
+            </div>
+
+
+            <div class="franchise-hero-meta-item">
+
+                <span>
+                    Investment
+                </span>
+
+                <strong>
+                    Starting ₹25 Lakhs*
+                </strong>
+
+            </div>
+
+
+            <div class="franchise-hero-meta-item">
+
+                <span>
+                    Outlet
+                </span>
+
+                <strong>
+                    800–1,500 Sq. Ft.*
+                </strong>
+
+            </div>
+
+
+            <div class="franchise-hero-meta-item">
+
+                <span>
+                    Location
+                </span>
+
+                <strong>
+                    Pan-India Opportunities
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section class="franchise-intro">
+
+    <div class="franchise-container">
+
+        <div class="franchise-intro-grid">
+
+            <div>
+
+                <p class="franchise-section-label">
+                    BRING THE SUKOON EXPERIENCE TO YOUR CITY
+                </p>
+
+
+                <h2>
+                    Your business.
+                    <span>Our brand.</span>
+                </h2>
+
+            </div>
+
+
+            <div class="franchise-intro-copy">
+
+                <p>
+                    Sukoon Wellness & Spa is designed as a
+                    premium wellness brand for customers
+                    seeking relaxation, comfort and quality
+                    service.
+                </p>
+
+
+                <p>
+                    Our franchise concept brings together
+                    brand identity, service standards,
+                    operational systems, customer experience
+                    and business support to create a
+                    professional wellness destination.
+                </p>
+
+
+                <p>
+                    Whether you are an entrepreneur, investor,
+                    hospitality professional or property owner,
+                    Sukoon offers multiple formats designed
+                    around different business requirements.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WHY SUKOON
+===================================================== -->
+
+<section class="franchise-why">
+
+    <div class="franchise-container">
+
+        <div class="franchise-section-heading">
+
+            <div class="label">
+                WHY SUKOON
+            </div>
+
+
+            <h2>
+                Built for
+                <span>ambition.</span>
+            </h2>
+
+
+            <p>
+                A structured wellness business concept designed
+                to give franchise partners a strong foundation
+                for launching and growing their Sukoon outlet.
+            </p>
+
+        </div>
+
+
+        <div class="franchise-why-grid">
+
+            <article class="franchise-feature">
+
+                <span class="franchise-feature-number">
+                    01
+                </span>
+
+
+                <h3>
+                    A Premium Wellness Brand
+                </h3>
+
+
+                <p>
+                    A sophisticated brand identity created for
+                    customers looking for relaxation, wellness
+                    and a premium experience.
+                </p>
+
+            </article>
+
+
+            <article class="franchise-feature">
+
+                <span class="franchise-feature-number">
+                    02
+                </span>
+
+
+                <h3>
+                    Structured Business Concept
+                </h3>
+
+
+                <p>
+                    A defined business framework covering
+                    services, pricing, operations, customer
+                    experience and marketing.
+                </p>
+
+            </article>
+
+
+            <article class="franchise-feature">
+
+                <span class="franchise-feature-number">
+                    03
+                </span>
+
+
+                <h3>
+                    Franchise Support
+                </h3>
+
+
+                <p>
+                    Guidance across location planning,
+                    interiors, staffing, training and launch
+                    preparation.
+                </p>
+
+            </article>
+
+
+            <article class="franchise-feature">
+
+                <span class="franchise-feature-number">
+                    04
+                </span>
+
+
+                <h3>
+                    Scalable Formats
+                </h3>
+
+
+                <p>
+                    Opportunities designed for standalone spas,
+                    hotel and resort properties and premium
+                    wellness destinations.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WHAT YOU GET
+===================================================== -->
+
+<section class="franchise-support">
+
+    <div class="franchise-container">
+
+        <div class="support-grid">
+
+            <div class="support-heading">
+
+                <p class="franchise-section-label">
+                    YOUR FRANCHISE
+                </p>
+
+
+                <h2>
+                    Our brand.
+                    <span>Your opportunity.</span>
+                </h2>
+
+
+                <p>
+                    From brand setup to operational guidance,
+                    Sukoon provides a framework designed to
+                    help partners build a consistent and
+                    premium customer experience.
+                </p>
+
+            </div>
+
+
+            <div class="support-list">
+
+                <div class="support-item">
+                    <span>01</span>
+                    <span>Sukoon Brand & Trademark Usage</span>
+                </div>
+
+                <div class="support-item">
+                    <span>02</span>
+                    <span>Premium Interior & Design Guidelines</span>
+                </div>
+
+                <div class="support-item">
+                    <span>03</span>
+                    <span>Complete Spa SOPs</span>
+                </div>
+
+                <div class="support-item">
+                    <span>04</span>
+                    <span>Staff Recruitment & Training Support</span>
+                </div>
+
+                <div class="support-item">
+                    <span>05</span>
+                    <span>Service & Treatment Protocols</span>
+                </div>
+
+                <div class="support-item">
+                    <span>06</span>
+                    <span>Pricing & Package Guidance</span>
+                </div>
+
+                <div class="support-item">
+                    <span>07</span>
+                    <span>POS & Operational System Guidance</span>
+                </div>
+
+                <div class="support-item">
+                    <span>08</span>
+                    <span>Launch & Local Marketing Support</span>
+                </div>
+
+                <div class="support-item">
+                    <span>09</span>
+                    <span>Digital Marketing Templates</span>
+                </div>
+
+                <div class="support-item">
+                    <span>10</span>
+                    <span>Social Media Branding</span>
+                </div>
+
+                <div class="support-item">
+                    <span>11</span>
+                    <span>Membership & Loyalty Program</span>
+                </div>
+
+                <div class="support-item">
+                    <span>12</span>
+                    <span>Ongoing Business Guidance</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FRANCHISE MODELS
+===================================================== -->
+
+<section class="franchise-models">
+
+    <div class="franchise-container">
+
+        <div class="franchise-section-heading">
+
+            <div class="label">
+                FRANCHISE OPTIONS
+            </div>
+
+
+            <h2 style="color:#403a32;">
+                Choose your
+                <span>franchise model.</span>
+            </h2>
+
+
+            <p>
+                Select a model according to your investment,
+                operational preference and property type.
+            </p>
+
+        </div>
+
+
+        <div class="model-grid">
+
+
+            <!-- FOFO -->
+
+            <article class="model-card">
+
+                <span class="model-label">
+                    MODEL 01
+                </span>
+
+
+                <h3>
+                    FOFO
+                </h3>
+
+
+                <div class="model-subtitle">
+                    Franchise Owned · Franchise Operated
+                </div>
+
+
+                <p>
+                    Invest in your own Sukoon outlet and operate
+                    it using the established brand system,
+                    service standards and franchise support.
+                </p>
+
+
+                <div class="model-ideal">
+
+                    <span>
+                        Ideal For
+                    </span>
+
+                    <strong>
+                        Entrepreneurs & Business Owners
+                    </strong>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- FOCO -->
+
+            <article class="model-card featured">
+
+                <span class="model-label">
+                    MODEL 02
+                </span>
+
+
+                <h3>
+                    FOCO
+                </h3>
+
+
+                <div class="model-subtitle">
+                    Franchise Owned · Company Operated
+                </div>
+
+
+                <p>
+                    Invest in the outlet while Sukoon manages
+                    day-to-day operations through an agreed
+                    operating model.
+                </p>
+
+
+                <div class="model-ideal">
+
+                    <span>
+                        Ideal For
+                    </span>
+
+                    <strong>
+                        Investors seeking an operated model
+                    </strong>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- HOTEL -->
+
+            <article class="model-card">
+
+                <span class="model-label">
+                    MODEL 03
+                </span>
+
+
+                <h3>
+                    Hotel & Resort Spa
+                </h3>
+
+
+                <div class="model-subtitle">
+                    Wellness Inside Your Property
+                </div>
+
+
+                <p>
+                    Transform an existing hotel, resort or
+                    hospitality property into a premium Sukoon
+                    wellness destination.
+                </p>
+
+
+                <div class="model-ideal">
+
+                    <span>
+                        Ideal For
+                    </span>
+
+                    <strong>
+                        Hotels · Resorts · Hospitality Groups
+                    </strong>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     INVESTMENT
+===================================================== -->
+
+<section
+    class="investment-section"
+    id="franchise-investment"
+>
+
+    <div class="franchise-container">
+
+        <div class="investment-box">
+
+            <div class="investment-label">
+                FRANCHISE INVESTMENT
+            </div>
+
+
+            <h2>
+                Starting From
+                <span>₹25 Lakhs*</span>
+            </h2>
+
+
+            <div class="investment-grid">
+
+                <div class="investment-item">
+
+                    <span>
+                        Franchise Fee
+                    </span>
+
+                    <strong>
+                        From ₹5 Lakhs*
+                    </strong>
+
+                </div>
+
+
+                <div class="investment-item">
+
+                    <span>
+                        Outlet Size
+                    </span>
+
+                    <strong>
+                        Approx. 800–1,500 Sq. Ft.*
+                    </strong>
+
+                </div>
+
+
+                <div class="investment-item">
+
+                    <span>
+                        Agreement
+                    </span>
+
+                    <strong>
+                        5 Years*
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <p class="investment-note">
+                *Terms, investment requirements and royalty
+                structure may vary depending on location,
+                outlet size and selected franchise model.
+                Final commercial terms are discussed during
+                the franchise evaluation process.
+            </p>
+
+
+            <a
+                href="#franchise-enquiry"
+                class="investment-button"
+            >
+                Request Investment Details
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SUPPORT JOURNEY
+===================================================== -->
+
+<section class="franchise-journey">
+
+    <div class="franchise-container">
+
+        <div class="franchise-section-heading">
+
+            <div class="label">
+                OUR SUPPORT SYSTEM
+            </div>
+
+
+            <h2 style="color:#403a32;">
+                From idea to
+                <span>opening day.</span>
+            </h2>
+
+
+            <p style="color:#777168;">
+                A structured journey designed to support you
+                before launch, during opening and beyond.
+            </p>
+
+        </div>
+
+
+        <div class="journey-grid">
+
+
+            <article class="journey-card">
+
+                <span>
+                    Before Launch
+                </span>
+
+
+                <h3>
+                    Build the Foundation
+                </h3>
+
+
+                <ul class="journey-list">
+
+                    <li>Location evaluation</li>
+                    <li>Business planning</li>
+                    <li>Space planning</li>
+                    <li>Interior guidelines</li>
+                    <li>Equipment specifications</li>
+                    <li>Staffing plan</li>
+
+                </ul>
+
+            </article>
+
+
+
+            <article class="journey-card">
+
+                <span>
+                    Launch
+                </span>
+
+
+                <h3>
+                    Open With Confidence
+                </h3>
+
+
+                <ul class="journey-list">
+
+                    <li>Staff training</li>
+                    <li>Service training</li>
+                    <li>Brand setup</li>
+                    <li>Marketing creatives</li>
+                    <li>Launch campaign</li>
+                    <li>Opening support</li>
+
+                </ul>
+
+            </article>
+
+
+
+            <article class="journey-card">
+
+                <span>
+                    After Launch
+                </span>
+
+
+                <h3>
+                    Grow With Sukoon
+                </h3>
+
+
+                <ul class="journey-list">
+
+                    <li>Operational guidance</li>
+                    <li>Marketing support</li>
+                    <li>Performance review</li>
+                    <li>New offers & packages</li>
+                    <li>Customer retention strategies</li>
+                    <li>Ongoing brand support</li>
+
+                </ul>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WHO CAN BECOME A PARTNER
+===================================================== -->
+
+<section class="partner-section">
+
+    <div class="franchise-container">
+
+        <div class="partner-grid">
+
+            <div class="partner-heading">
+
+                <p class="franchise-section-label">
+                    FRANCHISE PARTNERS
+                </p>
+
+
+                <h2>
+                    Is Sukoon
+                    <span>for you?</span>
+                </h2>
+
+
+                <p>
+                    Sukoon welcomes partners from different
+                    business backgrounds who are interested
+                    in building a premium wellness business.
+                </p>
+
+            </div>
+
+
+            <div class="partner-list">
+
+                <div class="partner-item">
+                    Entrepreneurs
+                </div>
+
+                <div class="partner-item">
+                    Hotel & Resort Owners
+                </div>
+
+                <div class="partner-item">
+                    Investors
+                </div>
+
+                <div class="partner-item">
+                    Salon & Wellness Business Owners
+                </div>
+
+                <div class="partner-item">
+                    Hospitality Professionals
+                </div>
+
+                <div class="partner-item">
+                    Business Families
+                </div>
+
+                <div class="partner-item">
+                    First-time Entrepreneurs
+                </div>
+
+                <div class="partner-item">
+                    Wellness Business Investors
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FINAL CTA
+===================================================== -->
+
+<section class="franchise-final">
+
+    <div class="franchise-container">
+
+        <h2>
+            Your City Could Be Our
+            <span>Next Sukoon Destination.</span>
+        </h2>
+
+
+        <p>
+            Build a premium wellness destination with a
+            structured brand system, professional service
+            standards and ongoing franchise support.
+        </p>
+
+
+        <a
+            href="#franchise-enquiry"
+            class="final-button"
+        >
+            Become a Franchise Partner
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FRANCHISE ENQUIRY
+===================================================== -->
+
+<section
+    class="franchise-enquiry"
+    id="franchise-enquiry"
+>
+
+    <div class="franchise-container">
+
+        <div class="enquiry-wrapper">
+
+
+            <!-- LEFT -->
+
+            <div class="enquiry-info">
+
+                <p class="franchise-section-label">
+                    FRANCHISE ENQUIRY
+                </p>
+
+
+                <h2>
+                    Start Your
+                    <span>Sukoon Journey.</span>
+                </h2>
+
+
+                <p>
+                    Tell us about yourself, your preferred
+                    location and your franchise requirements.
+                    Our team can discuss the suitable model
+                    and next steps with you.
+                </p>
+
+
+                <div class="enquiry-contact">
+
+                    <a href="tel:+919031640551">
+                        +91 90316 40551
+                    </a>
+
+                    <a
+                        href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20am%20interested%20in%20a%20franchise."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        WhatsApp Franchise Enquiry →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <div class="enquiry-form">
+
+                <form
+                    method="post"
+                    action=""
+                >
+
+                    {% csrf_token %}
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="franchise_name">
+                                Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="franchise_name"
+                                name="name"
+                                placeholder="Your full name"
+                                autocomplete="name"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="franchise_phone">
+                                Mobile Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="franchise_phone"
+                                name="phone"
+                                placeholder="+91 XXXXX XXXXX"
+                                autocomplete="tel"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="franchise_email">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="franchise_email"
+                                name="email"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="franchise_city">
+                                City / Location
+                            </label>
+
+                            <input
+                                type="text"
+                                id="franchise_city"
+                                name="city"
+                                placeholder="Preferred city"
+                                autocomplete="address-level2"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="investment_range">
+                                Investment Range
+                            </label>
+
+                            <select
+                                id="investment_range"
+                                name="investment_range"
+                                required
+                            >
+
+                                <option value="">
+                                    Select investment range
+                                </option>
+
+                                <option value="25-35">
+                                    ₹25–35 Lakhs
+                                </option>
+
+                                <option value="35-50">
+                                    ₹35–50 Lakhs
+                                </option>
+
+                                <option value="50-75">
+                                    ₹50–75 Lakhs
+                                </option>
+
+                                <option value="75+">
+                                    ₹75 Lakhs+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="franchise_model">
+                                Preferred Model
+                            </label>
+
+                            <select
+                                id="franchise_model"
+                                name="franchise_model"
+                                required
+                            >
+
+                                <option value="">
+                                    Select model
+                                </option>
+
+                                <option value="FOFO">
+                                    FOFO
+                                </option>
+
+                                <option value="FOCO">
+                                    FOCO
+                                </option>
+
+                                <option value="HOTEL_RESORT">
+                                    Hotel & Resort Spa
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <div class="form-group full">
+
+                            <label for="franchise_message">
+                                Message
+                            </label>
+
+                            <textarea
+                                id="franchise_message"
+                                name="message"
+                                placeholder="Tell us about your location, experience or franchise plans..."
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="form-submit"
+                    >
+                        Submit Franchise Enquiry
+                    </button>
+
+
+                    <p class="form-note">
+                        By submitting this enquiry, you agree
+                        that the Sukoon team may contact you
+                        regarding franchise opportunities.
+                    </p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</div>
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /*
+     * Smooth anchor scrolling
+     */
+
+    document.querySelectorAll(
+        '.franchise-page a[href^="#"]'
+    ).forEach(function (link) {
+
+        link.addEventListener("click", function (event) {
+
+            const targetId =
+                this.getAttribute("href");
+
+            const target =
+                document.querySelector(targetId);
+
+            if (!target) {
+                return;
+            }
+
+            event.preventDefault();
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

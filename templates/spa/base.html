@@ -26,6 +26,11 @@
         content="telephone=yes"
     >
 
+    <meta
+        name="author"
+        content="Sukoon Wellness & Spa"
+    >
+
 
     <!-- =====================================================
          SEO
@@ -40,19 +45,13 @@
 
     <meta
         name="description"
-        content="{% block meta_description %}Sukoon Wellness & Spa in Muzaffarpur. Explore wellness treatments and book an appointment in a calm and comfortable environment.{% endblock %}"
+        content="{% block meta_description %}Sukoon Wellness & Spa in Muzaffarpur. Discover premium wellness treatments, massage experiences and a peaceful space to relax, rejuvenate and restore.{% endblock %}"
     >
 
 
     <meta
         name="robots"
         content="{% block meta_robots %}index, follow{% endblock %}"
-    >
-
-
-    <meta
-        name="author"
-        content="Sukoon Wellness & Spa"
     >
 
 
@@ -74,6 +73,11 @@
     >
 
     <meta
+        property="og:site_name"
+        content="Sukoon Wellness & Spa"
+    >
+
+    <meta
         property="og:title"
         content="{% block og_title %}Sukoon Wellness & Spa | Muzaffarpur{% endblock %}"
     >
@@ -88,9 +92,14 @@
         content="{% static 'images/Hero.png' %}"
     >
 
+    <meta
+        property="og:locale"
+        content="en_IN"
+    >
+
 
     <!-- =====================================================
-         TWITTER / SOCIAL SHARING
+         TWITTER / SOCIAL
     ===================================================== -->
 
     <meta
@@ -105,7 +114,7 @@
 
     <meta
         name="twitter:description"
-        content="{% block twitter_description %}Wellness treatments and relaxation experiences in Muzaffarpur.{% endblock %}"
+        content="{% block twitter_description %}Premium wellness treatments and relaxation experiences in Muzaffarpur.{% endblock %}"
     >
 
     <meta
@@ -178,7 +187,7 @@
         "@context": "https://schema.org",
         "@type": "BeautySalon",
         "name": "Sukoon Wellness & Spa",
-        "description": "Wellness treatments and relaxation experiences at Sukoon Wellness & Spa in Muzaffarpur.",
+        "description": "Premium wellness treatments and relaxation experiences at Sukoon Wellness & Spa in Muzaffarpur.",
         "image": "{% static 'images/Hero.png' %}",
         "telephone": "+91 90316 40551",
         "address": {
@@ -192,7 +201,6 @@
         "openingHours": "Mo-Su 10:00-22:00"
     }
     </script>
-
 
 </head>
 
@@ -214,7 +222,7 @@
 
 
 <!-- =====================================================
-     HEADER / NAVBAR
+     HEADER
 ===================================================== -->
 
 <header
@@ -291,21 +299,29 @@
             >
                 Booking
             </a>
-	 <a
-                href="{% url 'contact' %}"
-                class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+
+
+            <a
+                href="{% url 'franchise' %}"
+                class="{% if request.resolver_match.url_name == 'franchise' %}active{% endif %}"
             >
-                contact
+                Franchise
             </a>
 
 
+            <a
+                href="{% url 'contact' %}"
+                class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+            >
+                Contact
+            </a>
 
         </nav>
 
 
 
         <!-- =================================================
-             DESKTOP CTA
+             DESKTOP ACTIONS
         ================================================= -->
 
         <div class="nav-actions">
@@ -349,7 +365,6 @@
 
         </button>
 
-
     </div>
 
 
@@ -371,6 +386,7 @@
 
             <a
                 href="{% url 'home' %}"
+                class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
             >
                 Home
             </a>
@@ -378,6 +394,7 @@
 
             <a
                 href="{% url 'about' %}"
+                class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"
             >
                 About
             </a>
@@ -385,6 +402,7 @@
 
             <a
                 href="{% url 'services' %}"
+                class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}"
             >
                 Treatments
             </a>
@@ -392,6 +410,7 @@
 
             <a
                 href="{% url 'gallery' %}"
+                class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
             >
                 Gallery
             </a>
@@ -399,8 +418,25 @@
 
             <a
                 href="{% url 'booking' %}"
+                class="{% if request.resolver_match.url_name == 'booking' %}active{% endif %}"
             >
                 Booking
+            </a>
+
+
+            <a
+                href="{% url 'franchise' %}"
+                class="{% if request.resolver_match.url_name == 'franchise' %}active{% endif %}"
+            >
+                Franchise
+            </a>
+
+
+            <a
+                href="{% url 'contact' %}"
+                class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+            >
+                Contact
             </a>
 
 
@@ -411,7 +447,7 @@
                 href="tel:+919031640551"
                 class="mobile-call"
             >
-                Call 9031640551
+                Call +91 90316 40551
             </a>
 
 
@@ -451,7 +487,6 @@
 
 <footer class="site-footer">
 
-
     <div class="footer-container">
 
 
@@ -476,11 +511,8 @@
 
 
             <p>
-
-                A calm and welcoming space for
-                relaxation, wellness and personal care
-                in Muzaffarpur.
-
+                A calm and welcoming space for relaxation,
+                wellness and personal care in Muzaffarpur.
             </p>
 
 
@@ -526,8 +558,18 @@
             </a>
 
 
+            <a href="{% url 'franchise' %}">
+                Franchise
+            </a>
+
+
             <a href="{% url 'booking' %}">
                 Book Appointment
+            </a>
+
+
+            <a href="{% url 'contact' %}">
+                Contact
             </a>
 
         </div>
@@ -562,12 +604,10 @@
 
 
             <p>
-
                 Dwarka City Center Mall,<br>
                 2nd Floor, Majhaulia Road,<br>
                 Gobarsahi, Muzaffarpur,<br>
                 Bihar 842002
-
             </p>
 
         </div>
@@ -575,7 +615,7 @@
 
 
         <!-- =================================================
-             HOURS
+             OPENING HOURS
         ================================================= -->
 
         <div class="footer-column">
@@ -586,25 +626,21 @@
 
 
             <p>
-
                 Monday – Sunday<br>
 
                 <strong>
                     10:00 AM – 10:00 PM
                 </strong>
-
             </p>
 
 
             <p class="footer-note">
-
-                Appointment requests are subject
-                to confirmation.
-
+                Book your preferred treatment and
+                receive confirmation after successful
+                availability validation.
             </p>
 
         </div>
-
 
     </div>
 
@@ -618,13 +654,10 @@
 
         <div class="footer-bottom-container">
 
-
             <p>
-
                 © {% now "Y" %}
                 Sukoon Wellness & Spa.
                 All rights reserved.
-
             </p>
 
 
@@ -642,11 +675,9 @@
 
             </div>
 
-
         </div>
 
     </div>
-
 
 </footer>
 
@@ -663,11 +694,9 @@
     rel="noopener noreferrer"
     aria-label="Chat with Sukoon Wellness and Spa on WhatsApp"
 >
-
     <span>
         WhatsApp
     </span>
-
 </a>
 
 
@@ -712,6 +741,68 @@
 
 
 /* =====================================================
+   GLOBAL
+===================================================== */
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+
+body {
+
+    margin: 0;
+
+    background:
+        var(--bg);
+
+    color:
+        var(--text);
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+}
+
+
+body.menu-open {
+
+    overflow: hidden;
+
+}
+
+
+*,
+*::before,
+*::after {
+
+    box-sizing: border-box;
+
+}
+
+
+img {
+
+    max-width: 100%;
+
+}
+
+
+button,
+a {
+
+    -webkit-tap-highlight-color:
+        transparent;
+
+}
+
+
+
+/* =====================================================
    ACCESSIBILITY
 ===================================================== */
 
@@ -726,9 +817,11 @@
 
     padding: 12px 18px;
 
-    background: var(--gold);
+    background:
+        var(--gold);
 
-    color: #000;
+    color:
+        #000;
 
     text-decoration: none;
 
@@ -762,7 +855,7 @@
     width: 100%;
 
     background:
-        rgba(7, 7, 6, 0.94);
+        rgba(7, 7, 6, .94);
 
     border-bottom:
         1px solid
@@ -781,7 +874,7 @@
 
     width:
         min(
-            100% - 40px,
+            calc(100% - 40px),
             1320px
         );
 
@@ -795,7 +888,7 @@
 
     justify-content: space-between;
 
-    gap: 30px;
+    gap: 28px;
 
 }
 
@@ -833,7 +926,7 @@
 
 
 /* =====================================================
-   DESKTOP NAV
+   DESKTOP NAVIGATION
 ===================================================== */
 
 .desktop-nav {
@@ -844,7 +937,7 @@
 
     justify-content: center;
 
-    gap: 30px;
+    gap: 27px;
 
     margin-left: auto;
 
@@ -923,12 +1016,14 @@
 
     align-items: center;
 
-    gap: 10px;
+    gap: 9px;
 
 }
 
 
 .nav-call {
+
+    padding: 11px 13px;
 
     color:
         var(--gold-light);
@@ -940,8 +1035,6 @@
     font-weight: 700;
 
     letter-spacing: 1px;
-
-    padding: 11px 15px;
 
 }
 
@@ -961,7 +1054,8 @@
     background:
         var(--gold);
 
-    color: #090909;
+    color:
+        #090909;
 
     text-decoration: none;
 
@@ -1003,9 +1097,10 @@
     width: 44px;
     height: 44px;
 
-    padding: 10px;
+    padding: 9px;
 
-    border: 1px solid
+    border:
+        1px solid
         rgba(201,164,92,.30);
 
     background:
@@ -1029,7 +1124,33 @@
         var(--gold-light);
 
     transition:
-        transform .25s ease;
+        transform .25s ease,
+        opacity .25s ease;
+
+}
+
+
+.mobile-menu-btn.open span:nth-child(1) {
+
+    transform:
+        translateY(6px)
+        rotate(45deg);
+
+}
+
+
+.mobile-menu-btn.open span:nth-child(2) {
+
+    opacity: 0;
+
+}
+
+
+.mobile-menu-btn.open span:nth-child(3) {
+
+    transform:
+        translateY(-6px)
+        rotate(-45deg);
 
 }
 
@@ -1055,20 +1176,29 @@
 }
 
 
+.mobile-menu.open {
+
+    display: block;
+
+}
+
+
 .mobile-nav {
 
     display: flex;
 
     flex-direction: column;
 
-    padding: 15px 20px 25px;
+    padding:
+        12px 20px 25px;
 
 }
 
 
 .mobile-nav a {
 
-    padding: 15px 5px;
+    padding:
+        15px 5px;
 
     color:
         rgba(255,255,255,.85);
@@ -1081,10 +1211,14 @@
         1px solid
         rgba(255,255,255,.06);
 
+    transition:
+        color .2s ease;
+
 }
 
 
-.mobile-nav a:hover {
+.mobile-nav a:hover,
+.mobile-nav a.active {
 
     color:
         var(--gold-light);
@@ -1094,7 +1228,7 @@
 
 .mobile-menu-divider {
 
-    height: 15px;
+    height: 12px;
 
 }
 
@@ -1112,7 +1246,7 @@
     margin-top: 10px;
 
     padding:
-        13px 18px !important;
+        14px 18px !important;
 
     text-align: center;
 
@@ -1159,7 +1293,8 @@
 
     margin: 0 auto;
 
-    padding: 75px 0 60px;
+    padding:
+        75px 0 60px;
 
     display: grid;
 
@@ -1193,7 +1328,8 @@
 
     max-width: 340px;
 
-    margin-bottom: 20px;
+    margin:
+        0 0 20px;
 
     color:
         var(--muted);
@@ -1417,7 +1553,8 @@
     min-width: 54px;
     height: 54px;
 
-    padding: 0 17px;
+    padding:
+        0 17px;
 
     border:
         1px solid
@@ -1527,14 +1664,14 @@
 
 
 /* =====================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET
 ===================================================== */
 
-@media (max-width: 1050px) {
+@media (max-width: 1100px) {
 
     .desktop-nav {
 
-        gap: 20px;
+        gap: 18px;
 
     }
 
@@ -1549,7 +1686,11 @@
 
 
 
-@media (max-width: 850px) {
+/* =====================================================
+   RESPONSIVE — MOBILE NAV
+===================================================== */
+
+@media (max-width: 900px) {
 
     .desktop-nav {
 
@@ -1559,13 +1700,6 @@
 
 
     .mobile-menu-btn {
-
-        display: block;
-
-    }
-
-
-    .mobile-menu.open {
 
         display: block;
 
@@ -1591,6 +1725,10 @@
 }
 
 
+
+/* =====================================================
+   RESPONSIVE — SMALL MOBILE
+===================================================== */
 
 @media (max-width: 600px) {
 
@@ -1680,11 +1818,14 @@
     *::before,
     *::after {
 
-        transition-duration: .01ms !important;
+        transition-duration:
+            .01ms !important;
 
-        animation-duration: .01ms !important;
+        animation-duration:
+            .01ms !important;
 
-        animation-iteration-count: 1 !important;
+        animation-iteration-count:
+            1 !important;
 
     }
 
@@ -1700,156 +1841,223 @@
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
 
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
+        /* =================================================
+           MOBILE MENU
+        ================================================= */
 
-    const menuButton =
-        document.getElementById("mobile-menu-btn");
+        const menuButton =
+            document.getElementById(
+                "mobile-menu-btn"
+            );
 
-    const mobileMenu =
-        document.getElementById("mobile-menu");
+        const mobileMenu =
+            document.getElementById(
+                "mobile-menu"
+            );
 
 
-    if (menuButton && mobileMenu) {
+        function closeMobileMenu() {
 
-        menuButton.addEventListener("click", function () {
+            if (!menuButton || !mobileMenu) {
+                return;
+            }
 
-            const isOpen =
-                mobileMenu.classList.toggle("open");
 
+            mobileMenu.classList.remove(
+                "open"
+            );
+
+            menuButton.classList.remove(
+                "open"
+            );
 
             menuButton.setAttribute(
                 "aria-expanded",
-                isOpen ? "true" : "false"
+                "false"
             );
-
 
             mobileMenu.setAttribute(
                 "aria-hidden",
-                isOpen ? "false" : "true"
+                "true"
             );
 
-        });
+            document.body.classList.remove(
+                "menu-open"
+            );
+
+        }
 
 
-        /* Close menu after clicking link */
+        if (menuButton && mobileMenu) {
 
-        const mobileLinks =
-            mobileMenu.querySelectorAll("a");
+            menuButton.addEventListener(
+                "click",
+                function () {
 
-
-        mobileLinks.forEach(function (link) {
-
-            link.addEventListener("click", function () {
-
-                mobileMenu.classList.remove("open");
-
-                menuButton.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-                mobileMenu.setAttribute(
-                    "aria-hidden",
-                    "true"
-                );
-
-            });
-
-        });
-
-    }
+                    const isOpen =
+                        mobileMenu.classList.toggle(
+                            "open"
+                        );
 
 
+                    menuButton.classList.toggle(
+                        "open",
+                        isOpen
+                    );
 
-    /* =====================================================
-       BACK TO TOP
-    ===================================================== */
-
-    const backToTop =
-        document.getElementById("back-to-top");
-
-
-    if (backToTop) {
-
-        window.addEventListener(
-            "scroll",
-            function () {
-
-                if (window.scrollY > 500) {
-
-                    backToTop.classList.add("show");
-
-                } else {
-
-                    backToTop.classList.remove("show");
-
-                }
-
-            },
-            { passive: true }
-        );
-
-
-        backToTop.addEventListener(
-            "click",
-            function () {
-
-                window.scrollTo({
-
-                    top: 0,
-
-                    behavior: "smooth"
-
-                });
-
-            }
-        );
-
-    }
-
-
-
-    /* =====================================================
-       CLOSE MOBILE MENU ON ESCAPE
-    ===================================================== */
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key === "Escape") {
-
-                if (
-                    mobileMenu &&
-                    mobileMenu.classList.contains("open")
-                ) {
-
-                    mobileMenu.classList.remove("open");
 
                     menuButton.setAttribute(
                         "aria-expanded",
-                        "false"
+                        isOpen
+                            ? "true"
+                            : "false"
                     );
+
 
                     mobileMenu.setAttribute(
                         "aria-hidden",
-                        "true"
+                        isOpen
+                            ? "false"
+                            : "true"
                     );
+
+
+                    document.body.classList.toggle(
+                        "menu-open",
+                        isOpen
+                    );
+
+                }
+            );
+
+
+            const mobileLinks =
+                mobileMenu.querySelectorAll(
+                    "a"
+                );
+
+
+            mobileLinks.forEach(
+                function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        closeMobileMenu
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =================================================
+           CLOSE MENU ON ESCAPE
+        ================================================= */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeMobileMenu();
 
                 }
 
             }
+        );
+
+
+
+        /* =================================================
+           BACK TO TOP
+        ================================================= */
+
+        const backToTop =
+            document.getElementById(
+                "back-to-top"
+            );
+
+
+        if (backToTop) {
+
+            window.addEventListener(
+                "scroll",
+                function () {
+
+                    if (
+                        window.scrollY > 500
+                    ) {
+
+                        backToTop.classList.add(
+                            "show"
+                        );
+
+                    } else {
+
+                        backToTop.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                },
+                {
+                    passive: true
+                }
+            );
+
+
+            backToTop.addEventListener(
+                "click",
+                function () {
+
+                    window.scrollTo({
+
+                        top: 0,
+
+                        behavior: "smooth"
+
+                    });
+
+                }
+            );
 
         }
-    );
 
 
-});
+
+        /* =================================================
+           CLOSE MOBILE MENU ON RESIZE
+        ================================================= */
+
+        window.addEventListener(
+            "resize",
+            function () {
+
+                if (
+                    window.innerWidth > 900
+                ) {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+
+    }
+);
 
 </script>
 

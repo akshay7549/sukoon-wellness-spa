@@ -3,9 +3,9 @@ from django.contrib.admin import AdminSite
 
 class SukoonAdminSite(AdminSite):
     """
-    Custom AdminSite for Sukoon Wellness & Spa.
+    Custom Django AdminSite for Sukoon Wellness & Spa.
 
-    /admin/ acts as the central CRM dashboard.
+    /admin/ is the central CRM dashboard.
     """
 
     # =====================================================
@@ -14,12 +14,12 @@ class SukoonAdminSite(AdminSite):
 
     site_header = "Sukoon Wellness & Spa"
     site_title = "Sukoon Admin"
-    index_title = "Dashboard"
+    index_title = "Sukoon CRM Dashboard"
 
     # Main website
     site_url = "/"
 
-    # Django sidebar
+    # Django navigation sidebar
     enable_nav_sidebar = True
 
     # =====================================================
@@ -28,13 +28,15 @@ class SukoonAdminSite(AdminSite):
 
     def index(self, request, extra_context=None):
         """
-        Replace Django's default admin homepage
-        with the Sukoon CRM dashboard.
+        Use the custom Sukoon CRM dashboard as the
+        main /admin/ homepage.
         """
 
         from .admin_dashboard import admin_dashboard
 
-        return admin_dashboard(request)
+        return admin_dashboard(
+            request,
+        )
 
 
 # =========================================================
@@ -42,5 +44,5 @@ class SukoonAdminSite(AdminSite):
 # =========================================================
 
 sukoon_admin_site = SukoonAdminSite(
-    name="sukoon_admin"
+    name="sukoon_admin",
 )
