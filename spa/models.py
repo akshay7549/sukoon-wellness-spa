@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
 
 
@@ -44,6 +44,9 @@ class ServiceCategory(models.Model):
 # =========================================================
 
 class Service(models.Model):
+    staff_required = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(2)])
+    requires_couple_room = models.BooleanField(default=False)
+    is_package = models.BooleanField(default=False)
 
     category = models.ForeignKey(
         ServiceCategory,
@@ -208,6 +211,7 @@ class Staff(models.Model):
 # =========================================================
 
 class Room(models.Model):
+    is_couple_room = models.BooleanField(default=False, help_text="Room suitable for two simultaneous massage appointments.")
 
     name = models.CharField(
         max_length=100
@@ -273,6 +277,8 @@ class StaffLeave(models.Model):
 # =========================================================
 
 class Booking(models.Model):
+    secondary_staff = models.ForeignKey("Staff", on_delete=models.SET_NULL, null=True, blank=True, related_name="secondary_bookings")
+    package_credit = models.ForeignKey("PackageCredit", on_delete=models.PROTECT, null=True, blank=True, related_name="bookings")
 
     customer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -553,3 +559,6 @@ class Notification(models.Model):
     sent_at = models.DateTimeField(null=True, blank=True)
     class Meta:
         ordering = ["-due_at"]
+
+
+from .business_models import Invoice, InvoiceLine, InvoicePayment, PackageComponent, PackageEnrollment, PackageCredit, CustomerRecord, PackageRedemption

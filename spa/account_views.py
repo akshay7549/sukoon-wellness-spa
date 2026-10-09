@@ -98,4 +98,7 @@ def my_bookings(request):
     for booking in bookings:
         booking.can_change = can_change(booking)
     profile, _ = CustomerProfile.objects.get_or_create(user=request.user)
-    return render(request, "spa/my_bookings.html", {"bookings": bookings, "profile":profile})
+    from .models import PackageEnrollment, Invoice
+    packages=PackageEnrollment.objects.filter(customer=request.user).prefetch_related("credits__bookings","credits__redemptions")
+    invoices=Invoice.objects.filter(customer=request.user).prefetch_related("lines","payments")
+    return render(request, "spa/my_bookings.html", {"bookings": bookings, "profile":profile,"packages":packages,"invoices":invoices})

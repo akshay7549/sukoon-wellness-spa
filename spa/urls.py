@@ -4,6 +4,7 @@ from . import views
 from .account_views import AccountLoginView, AccountLogoutView, my_bookings, register
 from .connect_views import connect
 from . import customer_views, email_views, public_views
+from .business_views import invoice_print
 from django.contrib.auth import views as auth_views
 
 
@@ -12,6 +13,7 @@ from django.contrib.auth import views as auth_views
 # =========================================================
 
 urlpatterns = [
+    path("invoices/<int:invoice_id>/print/",invoice_print,name="invoice_print"),
     path("api/service-options/",views.service_options,name="service_options"),
     path("privacy/", public_views.privacy, name="privacy"),
     path("cancellation-policy/", public_views.cancellation_policy, name="cancellation_policy"),

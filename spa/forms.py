@@ -153,6 +153,7 @@ class BookingForm(forms.ModelForm):
             "phone",
             "email",
             "service",
+            "package_credit",
             "appointment_date",
             "appointment_time",
             "message",
@@ -182,8 +183,14 @@ class BookingForm(forms.ModelForm):
     # =====================================================
 
     def __init__(self, *args, **kwargs):
+        customer_user = kwargs.pop("customer_user", None)
 
         super().__init__(*args, **kwargs)
+        from .models import PackageCredit
+        credits = PackageCredit.objects.select_related("enrollment").prefetch_related("bookings")
+        self.fields["package_credit"].queryset = credits.filter(enrollment__customer=customer_user) if customer_user and customer_user.is_authenticated else credits.none()
+        self.fields["package_credit"].required = False
+        self.fields["package_credit"].empty_label = "Pay for this session"
 
         # -------------------------------------------------
         # ACTIVE SERVICES

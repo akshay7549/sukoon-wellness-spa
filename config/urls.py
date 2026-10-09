@@ -9,6 +9,7 @@ from spa.bill_views import booking_bill
 # =========================================================
 
 urlpatterns = [
+    path("admin/", include("spa.business_urls")),
 
     # =====================================================
     # BOOKING BILL

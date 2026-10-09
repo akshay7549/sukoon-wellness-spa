@@ -21,14 +21,14 @@ def can_change(booking):
 @require_POST
 def cancel_booking(request, booking_id):
     with transaction.atomic():
+        list(Staff.objects.select_for_update().order_by("pk"))
+        list(Room.objects.select_for_update().order_by("pk"))
         booking = get_object_or_404(Booking.objects.select_for_update(), pk=booking_id, customer=request.user)
         if not can_change(booking):
             messages.error(request, "Online changes close 2 hours before the appointment. Please contact reception.")
         else:
-            booking.status = "cancelled"
-            booking.save(update_fields=["status","updated_at"])
-            from .notifications import queue_booking_notifications
-            queue_booking_notifications(booking, "cancelled")
+            from .services.bookings import transition_booking
+            transition_booking(booking.pk, "cancelled")
             messages.success(request, "Your appointment has been cancelled. Contact reception regarding any amount already paid.")
     return redirect("my_bookings")
 
@@ -39,7 +39,7 @@ def reschedule_booking(request, booking_id):
     if not can_change(booking):
         messages.error(request, "Online changes close 2 hours before the appointment. Please contact reception.")
         return redirect("my_bookings")
-    form = BookingForm(request.POST if request.method=="POST" else None, instance=booking, initial={"duration":booking.selected_duration})
+    form = BookingForm(request.POST if request.method=="POST" else None, instance=booking, initial={"duration":booking.selected_duration}, customer_user=request.user)
     if request.method=="POST" and form.is_valid():
         try:
             with transaction.atomic():
@@ -56,4 +56,5 @@ def reschedule_booking(request, booking_id):
         except ValidationError as exc:
             form.add_error(None, exc)
     from .models import Service
-    return render(request,"spa/booking.html",{"booking_form":form,"services":Service.objects.filter(pk=booking.service_id).prefetch_related("options"),"rescheduling":True,"reschedule_booking_id":booking.pk})
+    from .views import package_data
+    return render(request,"spa/booking.html",{"booking_form":form,"services":Service.objects.filter(pk=booking.service_id).prefetch_related("options"),"package_data":package_data(form),"rescheduling":True,"reschedule_booking_id":booking.pk})

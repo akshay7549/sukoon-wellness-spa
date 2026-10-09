@@ -11,6 +11,7 @@ Production uses DJANGO_SETTINGS_MODULE=config.production. It requires a unique s
 3. Configure private environment variables from .env.example; set DJANGO_DEBUG=False and public domain/DB values.
 4. Run python manage.py migrate --settings=config.production.
 5. Run python manage.py setup_roles --settings=config.production.
+   Preview/apply the reviewed menu using sync_rate_card, then run python manage.py setup_business_catalog --settings=config.production to configure package recipes, couple requirements and homepage featured treatments. Set Is couple room on the actual room in admin. Confirm package max_duration limits before selling: blank means all active durations are permitted. No room capacity or package duration policy is inferred from the rate card.
 6. Run python manage.py collectstatic --noinput --settings=config.production.
 7. Run python manage.py check --deploy --settings=config.production. security.W021 is expected while browser HSTS preload is intentionally disabled; enable preload only after confirming long-term HTTPS coverage and owner approval.
 8. Use a production WSGI/ASGI server; never expose runserver. On Windows, install Waitress and run waitress-serve --listen=127.0.0.1:8000 config.wsgi:application behind an HTTPS reverse proxy. On Linux, use Gunicorn behind nginx. Set DJANGO_SETTINGS_MODULE=config.production in the service environment.
@@ -31,6 +32,14 @@ WhatsApp integration targets a Meta-compatible WhatsApp Business template API. C
 Queued messages are provider-accepted, not proven delivered; no delivery webhook is implemented.
 Run process_notifications once per minute after enabling providers. Inspect failed/processing jobs in admin. A worker crash after provider acceptance can leave a processing job; check provider logs before retrying to avoid duplicate messages.
 Do not enable providers merely to test against real customers; use test recipients or mocked providers.
+
+## Reception workflow
+The dashboard links to Daily Calendar, Multi-service Invoices, Customer History and Payments/Pending Dues. Receptionists can manage invoices and append receipts; business-wide collections remain Owner-only.
+Create a standalone invoice for body care or packages (duration optional), or open a booking bill and choose Add Services/Record Receipts. Leave a row rate blank to use its selected duration price or duration-free menu rate. Add rows for multiple services. Select the customer's account before payment for portal access; guest purchases can be managed through reception history by phone.
+Opening paid is a historical balance without a receipt date and is excluded from dated collections. Leave it blank when unknown; confirm it before recording further payments. Record a dated receipt for every new Cash/UPI/Card payment. Overpayments and duplicate submissions are rejected/handled idempotently. Receipted invoices are locked; create another invoice for additional services. These records do not initiate payment gateway charges or refunds.
+Purchased package credits activate only after full recorded payment. Confirmed appointments reserve credits, completed visits redeem them, and cancellation releases unused reservations. Redeemed package visits have protected history and cannot be deleted/reassigned. Package rules are editable under Treatments, but purchases snapshot their counts and duration limits.
+Couple Massage reserves two distinct available therapists and a room marked Is couple room. Until the real room is marked, no couple slots are offered. No new physical room was fabricated.
+Daily Calendar shows both therapists, rooms, leave/unavailable periods and appointments. Customer History searches a full mobile number and stores reception-only preferences. Treatment search/category filters are public; customer invoices and package balances are account-private.
 
 ## Daily backup and restore
 Run python manage.py backup_project --settings=config.production at 02:00 server local time using cron or Task Scheduler. Run verify_backup on the resulting ZIP.

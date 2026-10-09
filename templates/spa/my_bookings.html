@@ -53,6 +53,8 @@
         <p>Online cancellation and rescheduling are available until {{ change_cutoff_hours }} hours before your appointment.</p>
     </div>
     <div class="booking-list">
+        {% for package in packages %}<article class="account-booking"><h2>{{ package.package_name }}</h2>{% for credit in package.credits.all %}<p>{{ credit.label }}{% if credit.max_duration %} (up to {{ credit.max_duration }} min){% endif %} · {{ credit.used }} used / {{ credit.total_sessions }} total · {{ credit.reserved }} reserved · <strong>{{ credit.available }} available</strong></p>{% endfor %}</article>{% endfor %}
+        {% if invoices %}<article class="account-booking"><h2>My Invoices</h2>{% for invoice in invoices %}<p><a class="account-button" href="{% url 'invoice_print' invoice.pk %}">SWI-{{ invoice.pk|stringformat:"06d" }} · ₹{{ invoice.net_amount|floatformat:2 }} · {{ invoice.payment_status }}</a></p>{% endfor %}</article>{% endif %}
         {% for booking in bookings %}
         <article class="account-booking">
             <div class="booking-top">

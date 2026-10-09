@@ -31,6 +31,7 @@
         </nav>
         <div class="sidebar-heading">Manage your spa</div>
         <nav class="sidebar-nav">
+            <a href="{% url 'appointment_calendar' %}">Daily Calendar</a><a href="{% url 'invoice_list' %}">Multi-service Invoices</a><a href="{% url 'customer_history' %}">Customer History &amp; Packages</a>{% if perms.spa.view_business_analytics %}<a href="{% url 'collections' %}">Payments &amp; Pending Dues</a>{% endif %}
             <a href="{% url 'sukoon_admin:spa_booking_changelist' %}"><span class="nav-icon" aria-hidden="true">▤</span> All Bookings <span class="external-arrow">↗</span></a>
             <a href="{% url 'sukoon_admin:spa_service_changelist' %}"><span class="nav-icon" aria-hidden="true">✦</span> Treatments &amp; Prices</a>
             <a href="{% url 'sukoon_admin:spa_servicecategory_changelist' %}"><span class="nav-icon" aria-hidden="true">⊞</span> Service Categories</a>

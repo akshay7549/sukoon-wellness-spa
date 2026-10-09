@@ -1099,6 +1099,7 @@ Book Your Session | Sukoon Wellness & Spa
                             </label>
 
                             {{ booking_form.service }}
+                            {% if user.is_authenticated %}<label for="{{ booking_form.package_credit.id_for_label }}">Use a purchased package (optional)</label>{{ booking_form.package_credit }}{{ booking_form.package_credit.errors }}<p class="field-hint">Choose a credit for this treatment. Covered sessions have no additional treatment charge.</p>{% endif %}
 
                             {% for error in booking_form.service.errors %}
                                 <div class="field-error">
@@ -1491,6 +1492,7 @@ Book Your Session | Sukoon Wellness & Spa
 
 {% block extra_js %}
 
+{{ package_data|json_script:"package-credits" }}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -1862,6 +1864,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updatePrice() {
 
+        const selectedCredit=document.getElementById("id_package_credit")?.value;
+        const credits=JSON.parse(document.getElementById("package-credits")?.textContent||"[]")||[];
+        if(selectedCredit && durationSelect?.value && credits.some(c=>String(c.id)===selectedCredit && c.treatments.map(String).includes(serviceSelect?.value) && (!c.limit || Number(durationSelect.value)<=c.limit))){priceElement.textContent="₹0.00";updateSummary();return;}
+
         const serviceId =
             serviceSelect?.value;
 
@@ -1909,6 +1915,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+
+    document.getElementById("id_package_credit")?.addEventListener("change",updatePrice);
 
     /* =====================================================
        CLEAR SLOTS

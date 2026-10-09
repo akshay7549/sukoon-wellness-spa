@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import permission_required
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
 
@@ -35,6 +35,8 @@ def booking_bill(request, booking_id):
         ),
         pk=booking_id,
     )
+    if hasattr(booking,"invoice"):
+        return redirect("invoice_print",invoice_id=booking.invoice.pk)
 
     # =====================================================
     # SERVICE

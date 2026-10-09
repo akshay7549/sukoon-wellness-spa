@@ -57,6 +57,16 @@ class ServiceCategoryAdmin(admin.ModelAdmin):
 #   90 min - ₹2000
 # =========================================================
 
+from .models import PackageComponent, PackageEnrollment, PackageCredit, CustomerRecord, Invoice, InvoicePayment
+
+
+class PackageComponentInline(admin.TabularInline):
+    model = PackageComponent
+    fk_name = "package"
+    extra = 0
+    fields = ("treatment", "alternative", "sessions", "max_duration")
+
+
 class ServiceOptionInline(admin.TabularInline):
 
     model = ServiceOption
@@ -128,6 +138,7 @@ class ServiceAdmin(admin.ModelAdmin):
 
     inlines = (
         ServiceOptionInline,
+        PackageComponentInline,
     )
 
     # -----------------------------------------------------
@@ -228,9 +239,11 @@ class StaffAdmin(admin.ModelAdmin):
 # =========================================================
 
 class RoomAdmin(admin.ModelAdmin):
+    list_editable = ("is_couple_room",)
 
     list_display = (
         "name",
+        "is_couple_room",
         "is_active",
         "created_at",
     )
@@ -902,30 +915,8 @@ class BookingAdmin(admin.ModelAdmin):
         queryset,
     ):
 
-        updated = queryset.filter(
-            status="confirmed"
-        ).update(
-            status="completed"
-        )
-
-        if updated:
-
-            self.message_user(
-                request,
-                (
-                    f"{updated} booking(s) marked "
-                    f"as completed."
-                ),
-                messages.SUCCESS,
-            )
-
-        else:
-
-            self.message_user(
-                request,
-                "No confirmed bookings were selected.",
-                messages.WARNING,
-            )
+        from .services.status_actions import apply_status_action
+        apply_status_action(self, request, queryset, "completed")
 
     # =====================================================
     # CANCEL BOOKINGS
@@ -940,31 +931,8 @@ class BookingAdmin(admin.ModelAdmin):
         queryset,
     ):
 
-        cancellable = queryset.filter(
-            status="confirmed"
-        )
-
-        count = cancellable.count()
-
-        cancellable.update(
-            status="cancelled"
-        )
-
-        if count:
-
-            self.message_user(
-                request,
-                f"{count} booking(s) cancelled.",
-                messages.SUCCESS,
-            )
-
-        else:
-
-            self.message_user(
-                request,
-                "No confirmed bookings were selected.",
-                messages.WARNING,
-            )
+        from .services.status_actions import apply_status_action
+        apply_status_action(self, request, queryset, "cancelled")
 
     # =====================================================
     # FIELDSETS
@@ -990,6 +958,7 @@ class BookingAdmin(admin.ModelAdmin):
                 "fields": (
                     "service",
                     "duration",
+                    "package_credit",
                     "selected_duration",
                     "selected_price",
                 )
@@ -1012,6 +981,7 @@ class BookingAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "staff",
+                    "secondary_staff",
                     "room",
                 )
             },
@@ -1137,6 +1107,34 @@ class NotificationAdmin(admin.ModelAdmin):
     readonly_fields = ("booking", "dedupe_key", "channel", "recipient", "subject", "message", "due_at", "status", "attempts", "last_error", "sent_at")
     def has_add_permission(self, request): return False
     def has_delete_permission(self, request, obj=None): return False
+
+
+class PackageCreditInline(admin.TabularInline):
+    model = PackageCredit
+    extra = 0
+    can_delete = False
+    fields = ("label", "max_duration", "total_sessions", "used", "reserved", "available")
+    readonly_fields = fields
+    def has_add_permission(self, request, obj=None): return False
+
+
+class PackageEnrollmentAdmin(admin.ModelAdmin):
+    list_display = ("customer_name", "phone", "package_name", "purchased_at")
+    search_fields = ("customer_name", "phone", "package_name")
+    readonly_fields = ("invoice_line", "customer", "customer_name", "phone", "package_name", "purchased_at")
+    inlines = (PackageCreditInline,)
+    def has_add_permission(self, request): return False
+    def has_change_permission(self, request, obj=None): return False
+    def has_delete_permission(self, request, obj=None): return False
+
+
+class CustomerRecordAdmin(admin.ModelAdmin):
+    list_display = ("name", "phone", "updated_at")
+    search_fields = ("name", "phone")
+
+
+sukoon_admin_site.register(PackageEnrollment, PackageEnrollmentAdmin)
+sukoon_admin_site.register(CustomerRecord, CustomerRecordAdmin)
 
 sukoon_admin_site.register(get_user_model(), CustomerUserAdmin)
 sukoon_admin_site.register(Group)

@@ -42,6 +42,8 @@ def day_resources(appointment_date, exclude_booking_id=None):
         # Unknown legacy end times reserve the remainder of the day conservatively.
         end = time_to_minutes(b.end_time) if b.end_time else min(BUSINESS_END, start + b.selected_duration) if b.selected_duration else BUSINESS_END
         intervals.append((b.staff_id, b.room_id, start, end))
+        if b.secondary_staff_id:
+            intervals.append((b.secondary_staff_id, b.room_id, start, end))
     return staff, rooms, intervals
 
 def free_resources(resources, start_time, end_time):
@@ -76,10 +78,12 @@ def check_slot_availability(appointment_date, start_time, duration, exclude_book
     return {"available": available, "reason": None if available else "Time is past, outside business hours, or unavailable.",
             "start_time": start_time, "end_time": end_time, "staff": staff, "rooms": rooms}
 
-def get_available_slots(appointment_date, duration, exclude_booking_id=None):
+def get_available_slots(appointment_date, duration, exclude_booking_id=None, service=None):
     if not duration or duration <= 0 or appointment_date < timezone.localdate():
         return []
     resources = day_resources(appointment_date, exclude_booking_id)
+    if service and service.requires_couple_room:
+        resources = (resources[0], [r for r in resources[1] if r.is_couple_room], resources[2])
     now = timezone.localtime()
     minimum = BUSINESS_START
     if appointment_date == now.date():
@@ -88,7 +92,7 @@ def get_available_slots(appointment_date, duration, exclude_booking_id=None):
     for minute in range(minimum, BUSINESS_END - duration + 1, SLOT_INTERVAL):
         start, end = minutes_to_time(minute), minutes_to_time(minute + duration)
         staff, rooms = free_resources(resources, start, end)
-        if staff and rooms:
+        if len(staff) >= (service.staff_required if service else 1) and rooms:
             slots.append({"start_time": start, "end_time": end, "staff": staff, "rooms": rooms})
     return slots
 

@@ -49,6 +49,10 @@ class BookingUnavailableError(Exception):
     pass
 
 
+def package_data(form):
+    return [{"id":credit.pk,"treatments":[credit.treatment_id,credit.alternative_id],"limit":credit.max_duration} for credit in form.fields["package_credit"].queryset]
+
+
 # =========================================================
 # HOME PAGE
 # =========================================================
@@ -69,7 +73,7 @@ def home(request):
     if request.method == "POST":
 
         booking_form = BookingForm(
-            request.POST
+            request.POST, customer_user=request.user,
         )
 
         if booking_form.is_valid():
@@ -120,7 +124,7 @@ def home(request):
 
     else:
 
-        booking_form = BookingForm(initial=booking_initial(request))
+        booking_form = BookingForm(initial=booking_initial(request), customer_user=request.user)
 
     # =====================================================
     # ACTIVE SERVICES
@@ -147,6 +151,7 @@ def home(request):
         "services": services,
         "featured_services": featured_services,
         "booking_form": booking_form,
+        "package_data": package_data(booking_form),
     }
 
     return render(
@@ -177,9 +182,15 @@ def about(request):
 
 def services(request):
     treatments = add_service_covers(list(Service.objects.filter(is_active=True).select_related("category").prefetch_related("options")))
+    search=request.GET.get("q", "").strip()[:100]
+    kind=request.GET.get("kind", "")
+    if search: treatments=[s for s in treatments if search.casefold() in s.name.casefold()]
+    if kind=="packages": treatments=[s for s in treatments if s.is_package]
+    elif kind=="body": treatments=[s for s in treatments if s.menu_price is not None and not s.is_package]
+    elif kind=="massage": treatments=[s for s in treatments if s.menu_price is None and not s.is_package]
     for service in treatments:
         service.bookable = any(o.is_active for o in service.options.all())
-    return render(request,"spa/services.html",{"services":treatments})
+    return render(request,"spa/services.html",{"services":treatments,"search":search,"kind":kind})
 
 
 # =========================================================
@@ -226,7 +237,7 @@ def booking(request):
     if request.method == "POST":
 
         booking_form = BookingForm(
-            request.POST
+            request.POST, customer_user=request.user,
         )
 
         if booking_form.is_valid():
@@ -267,7 +278,7 @@ def booking(request):
 
     else:
 
-        booking_form = BookingForm(initial=booking_initial(request))
+        booking_form = BookingForm(initial=booking_initial(request), customer_user=request.user)
 
     # =====================================================
     # ACTIVE SERVICES
@@ -288,6 +299,7 @@ def booking(request):
 
     context = {
         "booking_form": booking_form,
+        "package_data": package_data(booking_form),
         "services": services,
     }
 
@@ -640,7 +652,7 @@ def available_slots(request):
                 return JsonResponse({"success":False,"message":"Sign in required.","slots":[]},status=403)
             owned = get_object_or_404(Booking,pk=request.GET["booking_id"],customer=request.user)
             exclude_id = owned.pk
-        slots = get_available_slots(appointment_date, duration, exclude_id)
+        slots = get_available_slots(appointment_date, duration, exclude_id, service=service)
 
     except Http404:
         raise

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Bill SW-{{ booking.pk|stringformat:"06d" }} | Sukoon Wellness &amp; Spa</title>
+    <title>{% if invoice %}Invoice SWI-{% else %}Bill SW-{% endif %}{{ booking.pk|stringformat:"06d" }} | Sukoon Wellness &amp; Spa</title>
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
         * { box-sizing: border-box; }
         body { margin: 0; padding: 32px 20px; background: #080807; color: #f5f1e8; font: 14px/1.6 'DM Sans', Arial, sans-serif; }
         .bill-wrapper { max-width: 820px; margin: 0 auto; }
-        .bill-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
+        .bill-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
         .bill-actions a { color: #e4ce9b; text-decoration: none; }
         .bill-actions a:hover { text-decoration: underline; }
         .print-button { min-height: 44px; padding: 12px 20px; background: #c9a96e; color: #16140f; border: 0; border-radius: 6px; font: inherit; font-weight: bold; cursor: pointer; }
@@ -86,16 +86,27 @@
             .bill-brand { gap: 16px; }
             .bill-logo { width: 78px; height: 100px; }
             .brand-name { font-size: 25px; }
+            .invoice-sheet .bill-details { margin: 14px 0; }
+            .invoice-sheet h2 { margin-bottom: 8px; }
+            .invoice-sheet td { padding-top: 9px; padding-bottom: 9px; }
+            .invoice-sheet .total { font-size: 16px; padding: 8px 10px; }
+            .invoice-sheet .bill-note { margin: 8px 0; padding: 8px 10px; }
+            .invoice-sheet .bill-footer { margin-top: 14px; padding-top: 12px; }
+            .invoice-sheet .bill-qr { width: 128px; }
+            .invoice-sheet .bill-qr img { width: 112px; height: 112px; }
+            .invoice-sheet .bill-footer strong { font-size: 19px; }
+            .invoice-sheet .footer-tagline { margin-top: 12px; }
         }
     </style>
 </head>
 <body>
     <main class="bill-wrapper">
         <nav class="bill-actions" aria-label="Bill actions">
-            <a href="{% url 'sukoon_admin:index' %}">&larr; Back to Dashboard</a>
+            {% if user.is_staff %}<a href="{% url 'sukoon_admin:index' %}">&larr; Back to Dashboard</a>{% else %}<a href="{% url 'my_bookings' %}">&larr; My Bookings</a>{% endif %}
+            {% if not invoice and perms.spa.add_invoice %}<a href="{% url 'invoice_new' %}?booking={{ booking.pk }}">Add Services / Record Receipts</a>{% endif %}
             <button class="print-button" type="button" onclick="window.print()">Print / Save PDF</button>
         </nav>
-        <article class="bill-sheet" aria-labelledby="bill-title">
+        <article class="bill-sheet{% if invoice %} invoice-sheet{% endif %}" aria-labelledby="bill-title">
             <header class="bill-header">
                 <div class="bill-brand">
                     <img class="bill-logo" src="{% static 'images/logo.png' %}" alt="Sukoon Wellness & Spa">
@@ -105,8 +116,8 @@
                     </div>
                 </div>
                 <div class="bill-heading">
-                    <h1 id="bill-title">Booking Bill</h1>
-                    <div class="bill-reference">SW-{{ booking.pk|stringformat:"06d" }}</div>
+                    <h1 id="bill-title">{% if invoice %}Invoice{% else %}Booking Bill{% endif %}</h1>
+                    <div class="bill-reference">{% if invoice %}SWI-{% else %}SW-{% endif %}{{ booking.pk|stringformat:"06d" }}</div>
                     <p class="generated">Generated: {{ generated_at|date:"d M Y, g:i A" }}</p>
                 </div>
             </header>
@@ -118,24 +129,29 @@
                     {% if booking.email %}<p class="detail-line"><span class="detail-label">Email:</span> {{ booking.email }}</p>{% endif %}
                 </div>
                 <div>
+                    {% if invoice %}
+                    <h2>Invoice Details</h2><p class="detail-line">Issued: {{ invoice.issue_date|date:"d M Y" }}</p>{% if invoice.booking %}<p class="detail-line">Booking: #{{ invoice.booking_id }}</p>{% endif %}
+                    {% else %}
                     <h2>Appointment</h2>
                     <p class="detail-line"><span class="detail-label">Booking:</span> #{{ booking.pk }}</p>
                     <p class="detail-line"><span class="detail-label">Date:</span> {{ booking.appointment_date|date:"d M Y" }}</p>
                     <p class="detail-line"><span class="detail-label">Time:</span> {{ booking.appointment_time|time:"g:i A" }}{% if booking.end_time %} &ndash; {{ booking.end_time|time:"g:i A" }}{% endif %}</p>
                     <p class="detail-line"><span class="detail-label">Status:</span> {{ booking.get_status_display }}</p>
+                    {% endif %}
                 </div>
             </section>
             <div class="items-scroll">
                 <table aria-label="Booking charges">
-                    <thead><tr><th scope="col">Service</th><th scope="col">Duration</th><th scope="col" class="amount">Amount</th></tr></thead>
-                    <tbody><tr>
+                    <thead><tr><th scope="col">Service</th><th scope="col">Duration</th>{% if invoice %}<th scope="col">Qty</th>{% endif %}<th scope="col" class="amount">Amount</th></tr></thead>
+                    <tbody>{% if invoice %}{% for line in line_items %}<tr><td>{{ line.description }}</td><td>{% if line.duration %}{{ line.duration }} min{% else %}—{% endif %}</td><td>{{ line.quantity }}</td><td class="amount">₹{{ line.total|floatformat:2 }}</td></tr>{% endfor %}{% else %}<tr>
                         <td>{{ service_name }}</td>
                         <td class="duration">{% if duration != None %}{{ duration }} min{% else %}Not recorded{% endif %}</td>
                         <td class="amount">{% if price != None %}₹{{ price|floatformat:2 }}{% else %}Not recorded{% endif %}</td>
-                    </tr></tbody>
+                    </tr>{% endif %}</tbody>
                 </table>
             </div>
             {% if price != None %}
+            {% if invoice %}<div class="total"><span>Subtotal</span><span>₹{{ invoice.subtotal|floatformat:2 }}</span></div>{% endif %}
             {% if booking.discount_amount %}<div class="total"><span>Discount</span><span>₹{{ booking.discount_amount|floatformat:2 }}</span></div>{% endif %}
             <div class="total"><span>Total</span><span>₹{{ booking.net_amount|floatformat:2 }}</span></div>
             <p class="bill-note">Payment: {{ booking.payment_status }}{% if booking.payment_mode %} · {{ booking.get_payment_mode_display }}{% endif %}{% if booking.amount_paid != None %}<br>Amount paid: ₹{{ booking.amount_paid|floatformat:2 }} · Balance due: ₹{{ booking.balance_due|floatformat:2 }}{% endif %}{% if booking.payment_reference %}<br>Reference: {{ booking.payment_reference }}{% endif %}</p>
@@ -145,6 +161,8 @@
             {% else %}
                 <p class="bill-note">Payment details reflect amounts recorded by reception. Please contact our team for any correction.</p>
             {% endif %}
+            {% if invoice %}{% if invoice.payments.all or invoice.opening_paid %}<p class="bill-note">{% for receipt in invoice.payments.all %}{{ receipt.received_at|date:"d M Y" }} · {{ receipt.get_mode_display }} · ₹{{ receipt.amount|floatformat:2 }}{% if receipt.reference %} · {{ receipt.reference }}{% endif %}<br>{% endfor %}{% if invoice.opening_paid %}Previously received (date not recorded): ₹{{ invoice.opening_paid|floatformat:2 }}{% endif %}</p>{% endif %}{% endif %}
+            {% if invoice.notes %}<p class="bill-note">{{ invoice.notes }}</p>{% endif %}
             <footer class="bill-footer">
                 <div>
                     <strong>Thank you for choosing Sukoon.</strong>
