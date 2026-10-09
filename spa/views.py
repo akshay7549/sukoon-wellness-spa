@@ -11,6 +11,7 @@ from django.utils import timezone
 
 from .forms import BookingForm
 from .account_views import booking_initial, remember_guest_booking
+from .services.presentation import add_service_covers
 from .models import (
     Booking,
     Room,
@@ -138,9 +139,9 @@ def home(request):
         )
     )
 
-    featured_services = services.filter(
+    featured_services = add_service_covers(list(services.filter(
         is_featured=True,
-    )
+    )))
 
     context = {
         "services": services,
@@ -175,15 +176,8 @@ def about(request):
 # =========================================================
 
 def services(request):
-    import re
-    from pathlib import Path
-    from django.conf import settings
-    from django.templatetags.static import static
-    normal = lambda value: re.sub(r"[^a-z0-9]", "", value.casefold())
-    images = {normal(p.stem): p.name for p in sorted((settings.BASE_DIR / "static" / "images").glob("*"), key=lambda p: p.suffix == ".webp") if p.is_file()}
-    treatments = list(Service.objects.filter(is_active=True).select_related("category").prefetch_related("options"))
+    treatments = add_service_covers(list(Service.objects.filter(is_active=True).select_related("category").prefetch_related("options")))
     for service in treatments:
-        service.cover_url = service.image.url if service.image else static("images/" + images.get(normal(service.name), "service.jpg"))
         service.bookable = any(o.is_active for o in service.options.all())
     return render(request,"spa/services.html",{"services":treatments})
 

@@ -3528,15 +3528,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
                 <div class="sukoon-service-image">
 
-                    {% if service.image %}
-
                     <img
-                        src="{{ service.image.url }}"
+                        src="{{ service.cover_url }}"
                         alt="{{ service.name }} at Sukoon Wellness & Spa"
                         loading="lazy"
                     >
-
-                    {% endif %}
 
 
                     <div class="sukoon-service-number">
@@ -3654,6 +3650,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
                 <div class="sukoon-service-image">
 
+                    <img src="{% static 'images/SWEDISH MASSAGE.webp' %}" alt="Swedish wellness massage at Sukoon" loading="lazy">
+
                     <div class="sukoon-service-number">
                         01
                     </div>
@@ -3694,6 +3692,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
                 <div class="sukoon-service-image">
 
+                    <img src="{% static 'images/Stress Relief Therapy.webp' %}" alt="Relaxing stress relief treatment at Sukoon" loading="lazy">
+
                     <div class="sukoon-service-number">
                         02
                     </div>
@@ -3732,6 +3732,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             <article class="sukoon-service-card">
 
                 <div class="sukoon-service-image">
+
+                    <img src="{% static 'images/Aroma-Therapy.webp' %}" alt="Aromatherapy massage at Sukoon" loading="lazy">
 
                     <div class="sukoon-service-number">
                         03
@@ -3772,6 +3774,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             <article class="sukoon-service-card">
 
                 <div class="sukoon-service-image">
+
+                    <img src="{% static 'images/Sukoon Premium Therapy.webp' %}" alt="Premium wellness ritual at Sukoon" loading="lazy">
 
                     <div class="sukoon-service-number">
                         04
