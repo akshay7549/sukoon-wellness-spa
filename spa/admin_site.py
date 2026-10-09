@@ -16,6 +16,11 @@ class SukoonAdminSite(AdminSite):
     site_title = "Sukoon Admin"
     index_title = "Sukoon CRM Dashboard"
 
+    def login(self, request, extra_context=None):
+        from .account_views import AccountLoginView
+
+        return AccountLoginView.as_view()(request)
+
     # Main website
     site_url = "/"
 

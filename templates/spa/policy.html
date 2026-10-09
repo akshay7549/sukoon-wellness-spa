@@ -1,0 +1,26 @@
+{% extends "spa/base.html" %}
+{% block title %}{{ title }} | Sukoon Wellness & Spa{% endblock %}
+{% block content %}
+<article style="max-width:850px;margin:auto;padding:150px 24px 80px;line-height:1.8">
+<h1 style="color:#e4ce9b;font-family:Georgia,serif">{{ title }}</h1>
+{% if privacy %}
+<p>Sukoon Wellness &amp; Spa collects the information you provide when you create an account, book an appointment or submit an enquiry: name, contact details, appointment details and your message.</p>
+<h2>How we use your information</h2>
+<p>We use this information to manage appointments, respond to enquiries, maintain booking and payment records, and provide account support. We store password hashes rather than readable account passwords. You can browse our website without creating an account.</p>
+<h2>Messages and third-party services</h2>
+<p>When our email or WhatsApp Business service is enabled, appointment and account messages may be processed by the configured provider. Links to Instagram, Facebook, WhatsApp and Google Maps open services with their own privacy policies. We do not sell customer contact information.</p>
+<h2>Cookies and records</h2>
+<p>We use essential session and security cookies for sign-in and form protection. Booking, enquiry and payment records are retained for customer service and business recordkeeping. Contact reception to request access, corrections, or deletion; some records may need to be retained for business or legal obligations.</p>
+<h2>Your account</h2>
+<p>Keep your password private, sign out on shared devices, and avoid including sensitive health or payment-card details in enquiry messages.</p>
+{% else %}
+<p>You can cancel or reschedule a confirmed appointment from My Bookings until <strong>{{ change_cutoff_hours }} hours before the appointment starts</strong>.</p>
+<p>Rescheduling depends on available therapists and rooms and keeps the originally booked treatment, duration and recorded price. To change treatment, please contact reception or create a new booking.</p>
+<p>Within {{ change_cutoff_hours }} hours of your appointment, contact reception directly. Completed or cancelled appointments cannot be changed online.</p>
+<p>Online cancellation releases your reserved slot. It does not automatically refund any amount already paid. Contact reception to discuss payments or refunds.</p>
+<p>Bookings are confirmed when availability is checked and saved. Payment records on a bill show amounts recorded by reception.</p>
+{% endif %}
+<h2>Contact</h2>
+<p>Sukoon Wellness &amp; Spa<br>Dwarka City Center Mall, 2nd Floor, Majhaulia Road, Gobarsahi, Muzaffarpur, Bihar 842002<br><a href="tel:+919031640551">+91 90316 40551</a></p>
+</article>
+{% endblock %}

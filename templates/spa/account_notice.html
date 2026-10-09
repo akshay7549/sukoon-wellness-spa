@@ -1,0 +1,4 @@
+{% extends "spa/account_base.html" %}
+{% block heading %}{{ notice_title }}{% endblock %}
+{% block intro %}{{ notice }}{% endblock %}
+{% block account_form %}<a class="submit" href="{% url 'login' %}">Sign In</a>{% endblock %}

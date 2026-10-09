@@ -46,16 +46,56 @@ class ServiceCategoryAdmin(admin.ModelAdmin):
 
 
 # =========================================================
+# SERVICE OPTION INLINE
+#
+# Duration + Price are now managed INSIDE Service.
+#
+# Example:
+# Swedish Massage
+#   45 min - ₹1200
+#   60 min - ₹1500
+#   90 min - ₹2000
+# =========================================================
+
+class ServiceOptionInline(admin.TabularInline):
+
+    model = ServiceOption
+
+    extra = 1
+
+    min_num = 0
+
+    fields = (
+        "duration",
+        "price",
+        "is_active",
+    )
+
+    ordering = (
+        "duration",
+    )
+
+    show_change_link = False
+
+    verbose_name = "Duration & Price Option"
+
+    verbose_name_plural = "Duration & Price Options"
+
+
+# =========================================================
 # SERVICE ADMIN
 # =========================================================
 
 class ServiceAdmin(admin.ModelAdmin):
 
+    # -----------------------------------------------------
+    # SERVICE LIST
+    # -----------------------------------------------------
+
     list_display = (
         "name",
         "category",
-        "price",
-        "duration",
+        "duration_options",
         "is_featured",
         "is_active",
     )
@@ -82,39 +122,70 @@ class ServiceAdmin(admin.ModelAdmin):
         "category",
     )
 
+    # -----------------------------------------------------
+    # INLINE OPTIONS
+    # -----------------------------------------------------
+
+    inlines = (
+        ServiceOptionInline,
+    )
+
+    # -----------------------------------------------------
+    # CUSTOM DISPLAY
+    # -----------------------------------------------------
+
+    @admin.display(
+        description="Durations",
+    )
+    def duration_options(self, obj):
+
+        options = obj.options.filter(
+            is_active=True
+        ).order_by("duration")
+
+        if not options.exists():
+            if obj.menu_price is not None:
+                return format_html("₹{} · Reception booking", obj.menu_price)
+            return mark_safe(
+                '<span style="color:#999;">No options</span>'
+            )
+
+        items = []
+
+        for option in options:
+
+            items.append(
+                format_html(
+                    '<span style="'
+                    'display:inline-block;'
+                    'margin:2px 3px 2px 0;'
+                    'padding:4px 8px;'
+                    'border-radius:12px;'
+                    'background:#f5efe3;'
+                    'color:#403a32;'
+                    'font-size:11px;'
+                    'font-weight:600;'
+                    '">'
+                    '{} min · ₹{}'
+                    '</span>',
+                    option.duration,
+                    option.price,
+                )
+            )
+
+        return format_html(
+            "{}",
+            mark_safe("".join(items))
+        )
+
 
 # =========================================================
-# SERVICE OPTION ADMIN
+# NOTE:
+#
+# ServiceOption is intentionally NOT registered separately.
+#
+# Duration + Price are managed through ServiceAdmin inline.
 # =========================================================
-
-class ServiceOptionAdmin(admin.ModelAdmin):
-
-    list_display = (
-        "service",
-        "duration",
-        "price",
-        "is_active",
-    )
-
-    list_filter = (
-        "service",
-        "is_active",
-    )
-
-    search_fields = (
-        "service__name",
-    )
-
-    ordering = (
-        "service",
-        "duration",
-    )
-
-    list_per_page = 25
-
-    autocomplete_fields = (
-        "service",
-    )
 
 
 # =========================================================
@@ -227,6 +298,32 @@ class StaffLeaveAdmin(admin.ModelAdmin):
 # =========================================================
 
 class BookingAdmin(admin.ModelAdmin):
+    from .admin_forms import AdminBookingForm
+    form = AdminBookingForm
+
+    class Media:
+        js = ("js/admin-booking.js",)
+
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        if request.method == "POST":
+            from django.db import transaction
+            with transaction.atomic():
+                list(Staff.objects.select_for_update().order_by("pk"))
+                list(Room.objects.select_for_update().order_by("pk"))
+                return super().changeform_view(request, object_id, form_url, extra_context)
+        return super().changeform_view(request, object_id, form_url, extra_context)
+
+    def save_model(self, request, obj, form, change):
+        from .services.bookings import save_booking
+        saved = save_booking(form)
+        obj.__dict__.update(saved.__dict__)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "customer":
+            from django.contrib.auth import get_user_model
+            kwargs["queryset"] = get_user_model().objects.filter(is_staff=False, is_superuser=False, is_active=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
     # =====================================================
     # LIST DISPLAY
@@ -237,6 +334,7 @@ class BookingAdmin(admin.ModelAdmin):
         "customer_name",
         "customer_phone",
         "service_name",
+        "duration_display",
         "appointment_datetime",
         "staff_name",
         "room_name",
@@ -357,11 +455,14 @@ class BookingAdmin(admin.ModelAdmin):
     def booking_id(self, obj):
 
         try:
+
             url = reverse(
                 "sukoon_admin:spa_booking_change",
                 args=[obj.pk],
             )
+
         except Exception:
+
             url = "#"
 
         return format_html(
@@ -381,11 +482,14 @@ class BookingAdmin(admin.ModelAdmin):
     def customer_name(self, obj):
 
         try:
+
             url = reverse(
                 "sukoon_admin:spa_booking_change",
                 args=[obj.pk],
             )
+
         except Exception:
+
             url = "#"
 
         return format_html(
@@ -427,6 +531,24 @@ class BookingAdmin(admin.ModelAdmin):
             return "—"
 
         return obj.service.name
+
+    # =====================================================
+    # DURATION
+    # =====================================================
+
+    @admin.display(
+        description="Duration",
+        ordering="selected_duration",
+    )
+    def duration_display(self, obj):
+
+        if obj.selected_duration is None:
+            return "—"
+
+        return format_html(
+            "<strong>{} min</strong>",
+            obj.selected_duration,
+        )
 
     # =====================================================
     # APPOINTMENT
@@ -679,6 +801,12 @@ class BookingAdmin(admin.ModelAdmin):
             else "N/A"
         )
 
+        duration = (
+            f"{obj.selected_duration} minutes"
+            if obj.selected_duration
+            else "N/A"
+        )
+
         status = (
             obj.status.title()
             if obj.status
@@ -691,6 +819,7 @@ class BookingAdmin(admin.ModelAdmin):
             f"Your appointment details:\n"
             f"Booking ID: #{obj.id}\n"
             f"Service: {service_name}\n"
+            f"Duration: {duration}\n"
             f"Date: {appointment_date}\n"
             f"Time: {appointment_time}\n"
             f"Status: {status}\n\n"
@@ -847,6 +976,7 @@ class BookingAdmin(admin.ModelAdmin):
             "Customer Information",
             {
                 "fields": (
+                    "customer",
                     "name",
                     "phone",
                     "email",
@@ -859,6 +989,7 @@ class BookingAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "service",
+                    "duration",
                     "selected_duration",
                     "selected_price",
                 )
@@ -914,6 +1045,7 @@ class BookingAdmin(admin.ModelAdmin):
             },
         ),
 
+        ("Payment Details", {"fields": ("discount_amount", "amount_paid", "payment_mode", "payment_reference")}),
         (
             "Timestamps",
             {
@@ -940,10 +1072,19 @@ sukoon_admin_site.register(
     ServiceAdmin,
 )
 
-sukoon_admin_site.register(
-    ServiceOption,
-    ServiceOptionAdmin,
-)
+# IMPORTANT:
+# ServiceOption is NOT registered separately.
+#
+# It is managed inside ServiceAdmin through
+# ServiceOptionInline.
+#
+# DO NOT ADD:
+#
+# sukoon_admin_site.register(
+#     ServiceOption,
+#     ServiceOptionAdmin,
+# )
+
 
 sukoon_admin_site.register(
     Staff,
@@ -964,3 +1105,40 @@ sukoon_admin_site.register(
     Booking,
     BookingAdmin,
 )
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
+from .models import Enquiry, CustomerProfile, Notification
+from django.contrib.admin.utils import model_ngettext
+
+class CustomerUserAdmin(UserAdmin):
+    list_display = ("username", "first_name", "email", "is_active", "is_staff")
+    def has_module_permission(self, request):
+        return request.user.is_superuser
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_superuser
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+class EnquiryAdmin(admin.ModelAdmin):
+    list_display = ("name", "kind", "phone", "city", "status", "created_at")
+    search_fields = ("name", "phone", "email", "city")
+    list_filter = ("kind", "status", "created_at")
+    readonly_fields = ("created_at",)
+    list_per_page = 25
+
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ("channel", "subject", "status", "due_at", "attempts")
+    list_filter = ("channel", "status")
+    readonly_fields = ("booking", "dedupe_key", "channel", "recipient", "subject", "message", "due_at", "status", "attempts", "last_error", "sent_at")
+    def has_add_permission(self, request): return False
+    def has_delete_permission(self, request, obj=None): return False
+
+sukoon_admin_site.register(get_user_model(), CustomerUserAdmin)
+sukoon_admin_site.register(Group)
+sukoon_admin_site.register(Enquiry, EnquiryAdmin)
+sukoon_admin_site.register(Notification, NotificationAdmin)

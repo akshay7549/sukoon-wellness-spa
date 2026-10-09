@@ -1,3 +1,4 @@
+
 {% extends "spa/base.html" %}
 {% load static %}
 
@@ -12,36 +13,40 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 /* =========================================================
    SUKOON WELLNESS & SPA
-   PREMIUM HOME PAGE — V3
-   Luxury Indian Wellness / Editorial / Modern
+   PREMIUM HOME PAGE — V5
+   DARK LUXURY INDIAN WELLNESS
+   Black / Charcoal / Champagne Gold / Ivory
 ========================================================= */
 
 :root {
 
-    --sukoon-black: #080807;
-    --sukoon-black-2: #0d0d0b;
-    --sukoon-black-3: #141411;
-    --sukoon-black-4: #1b1b17;
-
-    --sukoon-cream: #f7f4ed;
-    --sukoon-cream-2: #efebe2;
-    --sukoon-cream-3: #e7e0d4;
-
-    --sukoon-white: #ffffff;
+    --sukoon-black: #070706;
+    --sukoon-black-2: #0b0b09;
+    --sukoon-black-3: #10100e;
+    --sukoon-black-4: #151512;
+    --sukoon-black-5: #1b1a16;
 
     --sukoon-gold: #c9a96e;
     --sukoon-gold-light: #e5cf9b;
     --sukoon-gold-soft: #d7bb83;
     --sukoon-gold-dark: #9c793f;
 
-    --sukoon-text: #3e3932;
-    --sukoon-text-soft: #6d665d;
-    --sukoon-muted: #918a80;
+    --sukoon-ivory: #f5f1e8;
+    --sukoon-ivory-soft: #ddd6ca;
 
-    --sukoon-border-dark: rgba(201,169,110,.18);
-    --sukoon-border-dark-strong: rgba(201,169,110,.35);
+    --sukoon-text: #eee8de;
+    --sukoon-text-soft: #aaa39a;
+    --sukoon-muted: #817b72;
+    --sukoon-muted-dark: #625e57;
 
-    --sukoon-border-light: rgba(64,58,50,.12);
+    --sukoon-border:
+        rgba(201,169,110,.16);
+
+    --sukoon-border-strong:
+        rgba(201,169,110,.34);
+
+    --sukoon-white-border:
+        rgba(255,255,255,.10);
 
     --sukoon-container: 1280px;
 
@@ -52,12 +57,12 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         .75s cubic-bezier(.22,.61,.36,1);
 
     --sukoon-shadow:
-        0 30px 80px rgba(0,0,0,.18);
+        0 30px 80px rgba(0,0,0,.42);
 }
 
 
 /* =========================================================
-   RESET
+   GLOBAL HOME RESET
 ========================================================= */
 
 .home-page {
@@ -66,7 +71,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     overflow: hidden;
 
     background:
-        var(--sukoon-cream);
+        var(--sukoon-black);
 
     color:
         var(--sukoon-text);
@@ -98,6 +103,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 .home-page section {
 
     position: relative;
+
+    isolation: isolate;
 }
 
 
@@ -135,20 +142,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-gold);
 
-    font-size:
-        9px;
+    font-size: 9px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    line-height:
-        1;
+    line-height: 1;
 
-    letter-spacing:
-        4px;
+    letter-spacing: 4px;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 }
 
 
@@ -156,17 +158,14 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     content: "";
 
-    width:
-        30px;
+    width: 30px;
 
-    height:
-        1px;
+    height: 1px;
 
     background:
         currentColor;
 
-    opacity:
-        .9;
+    opacity: .9;
 }
 
 
@@ -184,35 +183,27 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     justify-content: center;
 
-    min-height:
-        54px;
+    min-height: 54px;
 
     padding:
         0 30px;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     border:
         1px solid transparent;
 
-    text-decoration:
-        none;
+    text-decoration: none;
 
-    font-size:
-        9px;
+    font-size: 9px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        2.2px;
+    letter-spacing: 2.2px;
 
-    line-height:
-        1;
+    line-height: 1;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
     transition:
         color var(--sukoon-transition),
@@ -225,39 +216,28 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-btn span {
 
-    position:
-        relative;
+    position: relative;
 
-    z-index:
-        2;
+    z-index: 2;
 }
 
 
 .sukoon-btn::after {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    left:
-        50%;
+    left: 50%;
+    top: 50%;
 
-    top:
-        50%;
+    width: 0;
+    height: 0;
 
-    width:
-        0;
-
-    height:
-        0;
-
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
-        rgba(255,255,255,.10);
+        rgba(255,255,255,.09);
 
     transform:
         translate(-50%, -50%);
@@ -270,11 +250,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-btn:hover::after {
 
-    width:
-        350px;
+    width: 350px;
 
-    height:
-        350px;
+    height: 350px;
 }
 
 
@@ -288,7 +266,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 .sukoon-btn-primary {
 
     background:
-        var(--sukoon-gold);
+        linear-gradient(
+            135deg,
+            var(--sukoon-gold-light),
+            var(--sukoon-gold)
+        );
 
     color:
         #090908;
@@ -297,7 +279,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         var(--sukoon-gold);
 
     box-shadow:
-        0 12px 35px rgba(201,169,110,.12);
+        0 15px 40px
+        rgba(201,169,110,.14);
 }
 
 
@@ -310,7 +293,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         var(--sukoon-gold-light);
 
     box-shadow:
-        0 18px 45px rgba(201,169,110,.22);
+        0 20px 55px
+        rgba(201,169,110,.24);
 }
 
 
@@ -320,13 +304,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         rgba(255,255,255,.025);
 
     color:
-        #ffffff;
+        var(--sukoon-ivory);
 
     border-color:
-        rgba(255,255,255,.30);
+        rgba(255,255,255,.25);
 
     backdrop-filter:
-        blur(8px);
+        blur(10px);
 }
 
 
@@ -339,33 +323,33 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         var(--sukoon-gold);
 
     background:
-        rgba(201,169,110,.08);
+        rgba(201,169,110,.07);
 }
 
 
 .sukoon-btn-dark {
 
     background:
-        var(--sukoon-black);
+        var(--sukoon-gold);
 
     color:
-        var(--sukoon-gold-light);
+        var(--sukoon-black);
 
     border-color:
-        var(--sukoon-black);
+        var(--sukoon-gold);
 }
 
 
 .sukoon-btn-dark:hover {
 
     background:
-        var(--sukoon-gold);
+        var(--sukoon-gold-light);
 
     color:
         var(--sukoon-black);
 
     border-color:
-        var(--sukoon-gold);
+        var(--sukoon-gold-light);
 }
 
 
@@ -375,184 +359,143 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-hero {
 
-    position:
-        relative;
+    position: relative;
 
     min-height:
         min(900px, 94vh);
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     background:
-        #070706;
+        #050504;
 }
 
 
 .sukoon-hero-media {
 
-    position:
-        absolute;
+    position: absolute;
 
-    inset:
-        0;
+    inset: 0;
 
-    z-index:
-        0;
+    z-index: 0;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 }
 
 
 .sukoon-hero-media img {
 
-    width:
-        100%;
+    width: 100%;
 
-    height:
-        100%;
+    height: 100%;
 
-    object-fit:
-        cover;
+    object-fit: cover;
 
-    object-position:
-        center;
+    object-position: center;
 
     transform:
         scale(1.06);
 
     animation:
-        sukoonHeroZoom 16s
-        ease-out forwards;
+        sukoonHeroZoom
+        16s ease-out forwards;
 }
 
 
 @keyframes sukoonHeroZoom {
 
     from {
-        transform:
-            scale(1.12);
+        transform: scale(1.12);
     }
 
     to {
-        transform:
-            scale(1.06);
+        transform: scale(1.06);
     }
 }
 
 
-/* Main cinematic overlay */
-
 .sukoon-hero-overlay {
 
-    position:
-        absolute;
+    position: absolute;
 
-    inset:
-        0;
+    inset: 0;
 
-    z-index:
-        1;
+    z-index: 1;
 
     background:
         linear-gradient(
             90deg,
-            rgba(5,5,4,.96) 0%,
-            rgba(5,5,4,.84) 30%,
-            rgba(5,5,4,.54) 60%,
-            rgba(5,5,4,.45) 100%
+            rgba(4,4,3,.97) 0%,
+            rgba(4,4,3,.86) 28%,
+            rgba(4,4,3,.57) 60%,
+            rgba(4,4,3,.42) 100%
         );
 }
 
 
-/* Atmospheric gold */
-
 .sukoon-hero-overlay::before {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    width:
-        760px;
+    width: 760px;
 
-    height:
-        760px;
+    height: 760px;
 
-    right:
-        -250px;
+    right: -250px;
 
-    top:
-        50%;
+    top: 50%;
 
     transform:
         translateY(-50%);
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
         radial-gradient(
             circle,
-            rgba(201,169,110,.20),
+            rgba(201,169,110,.22),
             rgba(201,169,110,.06) 35%,
             transparent 70%
         );
 
-    pointer-events:
-        none;
+    pointer-events: none;
 }
 
 
-/* Bottom fade */
-
 .sukoon-hero-overlay::after {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    left:
-        0;
+    left: 0;
 
-    right:
-        0;
+    right: 0;
 
-    bottom:
-        0;
+    bottom: 0;
 
-    height:
-        250px;
+    height: 280px;
 
     background:
         linear-gradient(
             to bottom,
             transparent,
-            rgba(5,5,4,.90)
+            rgba(5,5,4,.98)
         );
 }
 
 
-/* Hero content */
-
 .sukoon-hero-content {
 
-    position:
-        relative;
+    position: relative;
 
-    z-index:
-        3;
+    z-index: 3;
 
     width:
         min(
@@ -570,23 +513,17 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-hero-copy {
 
-    max-width:
-        900px;
+    max-width: 900px;
 }
 
 
-/* Hero eyebrow */
-
 .sukoon-hero-eyebrow {
 
-    display:
-        inline-flex;
+    display: inline-flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        14px;
+    gap: 14px;
 
     margin:
         0 0 28px;
@@ -594,45 +531,34 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-gold-light);
 
-    font-size:
-        10px;
+    font-size: 10px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        5px;
+    letter-spacing: 5px;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 }
 
 
 .sukoon-hero-eyebrow::before {
 
-    content:
-        "";
+    content: "";
 
-    width:
-        38px;
+    width: 38px;
 
-    height:
-        1px;
+    height: 1px;
 
     background:
         var(--sukoon-gold);
 }
 
 
-/* Hero title */
-
 .sukoon-hero-title {
 
-    max-width:
-        920px;
+    max-width: 920px;
 
-    margin:
-        0;
+    margin: 0;
 
     color:
         #ffffff;
@@ -643,148 +569,106 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         serif;
 
     font-size:
-        clamp(
-            62px,
-            8vw,
-            112px
-        );
+        clamp(62px, 8vw, 112px);
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        .89;
+    line-height: .89;
 
-    letter-spacing:
-        -5px;
+    letter-spacing: -5px;
 }
 
 
 .sukoon-hero-title span {
 
-    display:
-        inline-block;
+    display: inline-block;
 
     color:
         var(--sukoon-gold-light);
 
-    font-style:
-        italic;
+    font-style: italic;
 }
 
 
-/* Hero description */
-
 .sukoon-hero-description {
 
-    max-width:
-        610px;
+    max-width: 610px;
 
     margin:
         38px 0 0;
 
     color:
-        rgba(240,235,227,.74);
+        rgba(240,235,227,.75);
 
-    font-size:
-        15px;
+    font-size: 15px;
 
-    line-height:
-        1.95;
+    line-height: 1.95;
 }
 
-
-/* Hero actions */
 
 .sukoon-hero-actions {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        12px;
+    gap: 12px;
 
-    flex-wrap:
-        wrap;
+    flex-wrap: wrap;
 
-    margin-top:
-        38px;
+    margin-top: 38px;
 }
 
 
-/* Hero location */
-
 .sukoon-hero-location {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        flex-start;
+    align-items: flex-start;
 
-    gap:
-        12px;
+    gap: 12px;
 
-    max-width:
-        560px;
+    max-width: 560px;
 
-    margin-top:
-        42px;
+    margin-top: 42px;
 
     color:
         rgba(230,224,215,.55);
 
-    font-size:
-        10px;
+    font-size: 10px;
 
-    line-height:
-        1.8;
+    line-height: 1.8;
 }
 
 
 .sukoon-hero-location-icon {
 
-    flex:
-        0 0 auto;
+    flex: 0 0 auto;
 
     color:
         var(--sukoon-gold);
 
-    font-size:
-        14px;
+    font-size: 14px;
 }
 
 
-/* Hero side */
-
 .sukoon-hero-side {
 
-    position:
-        absolute;
+    position: absolute;
 
-    right:
-        35px;
+    right: 35px;
 
-    bottom:
-        42px;
+    bottom: 42px;
 
-    z-index:
-        5;
+    z-index: 5;
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        14px;
+    gap: 14px;
 }
 
 
@@ -793,14 +677,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         rgba(255,255,255,.45);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    font-weight:
-        700;
+    font-weight: 700;
 
-    letter-spacing:
-        3px;
+    letter-spacing: 3px;
 
     writing-mode:
         vertical-rl;
@@ -809,11 +690,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-hero-scroll-line {
 
-    width:
-        1px;
+    width: 1px;
 
-    height:
-        75px;
+    height: 75px;
 
     background:
         linear-gradient(
@@ -831,22 +710,21 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 .sukoon-trust {
 
     background:
-        var(--sukoon-black);
+        var(--sukoon-black-2);
 
     border-top:
         1px solid
-        rgba(201,169,110,.12);
+        var(--sukoon-border);
 
     border-bottom:
         1px solid
-        rgba(201,169,110,.12);
+        var(--sukoon-border);
 }
 
 
 .sukoon-trust-grid {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         repeat(4, 1fr);
@@ -864,74 +742,61 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-trust-item {
 
-    min-height:
-        120px;
+    min-height: 120px;
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    padding:
-        20px;
+    padding: 20px;
 
-    text-align:
-        center;
+    text-align: center;
 }
 
 
-.sukoon-trust-item + .sukoon-trust-item {
+.sukoon-trust-item
++ .sukoon-trust-item {
 
     border-left:
         1px solid
-        rgba(201,169,110,.12);
+        var(--sukoon-border);
 }
 
 
 .sukoon-trust-item strong {
 
     color:
-        #eee8de;
+        var(--sukoon-ivory);
 
-    font-size:
-        13px;
+    font-size: 13px;
 
-    font-weight:
-        600;
+    font-weight: 600;
 }
 
 
 .sukoon-trust-item span {
 
-    margin-top:
-        8px;
+    margin-top: 8px;
 
     color:
-        #746e66;
+        var(--sukoon-muted);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        2px;
+    letter-spacing: 2px;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 }
 
 
 /* =========================================================
-   INTRO
+   INTRO — DARK
 ========================================================= */
 
 .sukoon-intro {
@@ -940,36 +805,69 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         155px 0;
 
     background:
-        var(--sukoon-cream);
+        linear-gradient(
+            180deg,
+            #0c0c0a,
+            #10100e
+        );
+
+    border-bottom:
+        1px solid
+        rgba(201,169,110,.08);
+}
+
+
+.sukoon-intro::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+
+    height: 500px;
+
+    right: -250px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(201,169,110,.07),
+            transparent 70%
+        );
+
+    pointer-events: none;
 }
 
 
 .sukoon-intro-grid {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         1.05fr .95fr;
 
-    gap:
-        110px;
+    gap: 110px;
 
-    align-items:
-        center;
+    align-items: center;
 }
 
 
 .sukoon-intro-title {
 
-    max-width:
-        680px;
+    max-width: 680px;
 
-    margin:
-        0;
+    margin: 0;
 
     color:
-        var(--sukoon-text);
+        var(--sukoon-ivory);
 
     font-family:
         Georgia,
@@ -977,30 +875,22 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         serif;
 
     font-size:
-        clamp(
-            48px,
-            5.5vw,
-            78px
-        );
+        clamp(48px, 5.5vw, 78px);
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        1;
+    line-height: 1;
 
-    letter-spacing:
-        -3px;
+    letter-spacing: -3px;
 }
 
 
 .sukoon-intro-title span {
 
     color:
-        var(--sukoon-gold-dark);
+        var(--sukoon-gold);
 
-    font-style:
-        italic;
+    font-style: italic;
 }
 
 
@@ -1011,14 +901,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     border-left:
         1px solid
-        rgba(159,125,67,.32);
+        var(--sukoon-border-strong);
 }
 
 
 .sukoon-intro-text {
 
-    max-width:
-        590px;
+    max-width: 590px;
 
     margin:
         0 0 30px;
@@ -1026,42 +915,32 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-text-soft);
 
-    font-size:
-        15px;
+    font-size: 15px;
 
-    line-height:
-        2;
+    line-height: 2;
 }
 
 
 .sukoon-text-link {
 
-    display:
-        inline-flex;
+    display: inline-flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        9px;
+    gap: 9px;
 
     color:
-        var(--sukoon-text);
+        var(--sukoon-ivory);
 
-    font-size:
-        9px;
+    font-size: 9px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        2px;
+    letter-spacing: 2px;
 
-    text-decoration:
-        none;
+    text-decoration: none;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
     transition:
         color var(--sukoon-transition),
@@ -1072,10 +951,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 .sukoon-text-link:hover {
 
     color:
-        var(--sukoon-gold-dark);
+        var(--sukoon-gold-light);
 
-    gap:
-        15px;
+    gap: 15px;
 }
 
 
@@ -1085,28 +963,25 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-section-heading {
 
-    max-width:
-        780px;
+    max-width: 780px;
 
     margin:
         0 auto 70px;
 
-    text-align:
-        center;
+    text-align: center;
 }
 
 
-.sukoon-section-heading .sukoon-eyebrow {
+.sukoon-section-heading
+.sukoon-eyebrow {
 
-    justify-content:
-        center;
+    justify-content: center;
 }
 
 
 .sukoon-section-title {
 
-    margin:
-        0;
+    margin: 0;
 
     color:
         inherit;
@@ -1117,20 +992,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         serif;
 
     font-size:
-        clamp(
-            45px,
-            5.4vw,
-            72px
-        );
+        clamp(45px, 5.4vw, 72px);
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        1.02;
+    line-height: 1.02;
 
-    letter-spacing:
-        -2.8px;
+    letter-spacing: -2.8px;
 }
 
 
@@ -1139,15 +1007,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-gold);
 
-    font-style:
-        italic;
+    font-style: italic;
 }
 
 
 .sukoon-section-description {
 
-    max-width:
-        650px;
+    max-width: 650px;
 
     margin:
         24px auto 0;
@@ -1155,11 +1021,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-muted);
 
-    font-size:
-        14px;
+    font-size: 14px;
 
-    line-height:
-        1.9;
+    line-height: 1.9;
 }
 
 
@@ -1173,53 +1037,44 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         155px 0;
 
     background:
-        var(--sukoon-black);
+        #080807;
 }
 
 
 .sukoon-services .sukoon-section-heading {
 
     color:
-        #ffffff;
+        var(--sukoon-ivory);
 }
 
 
 .sukoon-services-grid {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         repeat(4, minmax(0, 1fr));
 
-    gap:
-        18px;
+    gap: 18px;
 }
 
 
-/* Card */
-
 .sukoon-service-card {
 
-    position:
-        relative;
+    position: relative;
 
-    min-height:
-        530px;
+    min-height: 500px;
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     background:
         linear-gradient(
             180deg,
-            #171714,
+            #181815,
             #11110f
         );
 
@@ -1244,61 +1099,49 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     box-shadow:
         0 30px 70px
-        rgba(0,0,0,.38);
+        rgba(0,0,0,.48);
 }
 
 
-/* Image */
-
 .sukoon-service-image {
 
-    position:
-        relative;
+    position: relative;
 
-    height:
-        255px;
+    height: 255px;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     background:
-        #1b1b18;
+        #171714;
 }
 
 
 .sukoon-service-image::after {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    inset:
-        0;
+    inset: 0;
 
     background:
         linear-gradient(
             to top,
-            rgba(8,8,7,.70),
+            rgba(8,8,7,.72),
             transparent 60%
         );
 
-    pointer-events:
-        none;
+    pointer-events: none;
 }
 
 
 .sukoon-service-image img {
 
-    width:
-        100%;
+    width: 100%;
 
-    height:
-        100%;
+    height: 100%;
 
-    object-fit:
-        cover;
+    object-fit: cover;
 
     transition:
         transform .9s
@@ -1314,70 +1157,52 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 }
 
 
-/* Number */
-
 .sukoon-service-number {
 
-    position:
-        absolute;
+    position: absolute;
 
-    top:
-        18px;
+    top: 18px;
 
-    right:
-        18px;
+    right: 18px;
 
-    z-index:
-        3;
+    z-index: 3;
 
-    width:
-        40px;
+    width: 40px;
 
-    height:
-        40px;
+    height: 40px;
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
     color:
         var(--sukoon-gold-light);
 
     background:
-        rgba(8,8,7,.70);
+        rgba(8,8,7,.72);
 
     border:
         1px solid
         rgba(201,169,110,.35);
 
-    font-size:
-        9px;
+    font-size: 9px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
     backdrop-filter:
         blur(10px);
 }
 
 
-/* Content */
-
 .sukoon-service-content {
 
-    flex:
-        1;
+    flex: 1;
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
     padding:
         28px 26px 25px;
@@ -1392,24 +1217,19 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-gold);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        3px;
+    letter-spacing: 3px;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 }
 
 
 .sukoon-service-title {
 
-    margin:
-        0;
+    margin: 0;
 
     color:
         #f4eee5;
@@ -1419,14 +1239,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         "Times New Roman",
         serif;
 
-    font-size:
-        27px;
+    font-size: 27px;
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        1.15;
+    line-height: 1.15;
 }
 
 
@@ -1438,27 +1255,17 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         #8d877e;
 
-    font-size:
-        12px;
+    font-size: 12px;
 
-    line-height:
-        1.85;
+    line-height: 1.85;
 }
 
 
-.sukoon-service-meta {
+.sukoon-service-options {
 
-    display:
-        flex;
+    margin-top: auto;
 
-    gap:
-        30px;
-
-    margin-top:
-        auto;
-
-    padding-top:
-        20px;
+    padding-top: 18px;
 
     border-top:
         1px solid
@@ -1466,82 +1273,93 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 }
 
 
-.sukoon-service-meta-item {
+.sukoon-service-options-label {
 
-    display:
-        flex;
+    display: block;
 
-    flex-direction:
-        column;
-
-    gap:
-        5px;
-}
-
-
-.sukoon-service-meta-item span {
+    margin-bottom: 10px;
 
     color:
         #68635d;
 
-    font-size:
-        7px;
+    font-size: 7px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        1.5px;
+    letter-spacing: 1.5px;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 }
 
 
-.sukoon-service-meta-item strong {
+.sukoon-service-option-list {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+
+.sukoon-service-option {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding:
+        7px 9px;
 
     color:
         #d7cfc4;
 
-    font-size:
-        12px;
+    background:
+        rgba(255,255,255,.035);
 
-    font-weight:
-        500;
+    border:
+        1px solid
+        rgba(201,169,110,.12);
+
+    font-size: 9px;
+
+    line-height: 1;
+}
+
+
+.sukoon-service-option strong {
+
+    margin-left: 5px;
+
+    color:
+        var(--sukoon-gold-light);
+
+    font-weight: 600;
 }
 
 
 .sukoon-service-link {
 
-    display:
-        inline-flex;
+    display: inline-flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        8px;
+    gap: 8px;
 
-    margin-top:
-        22px;
+    margin-top: 22px;
 
     color:
         var(--sukoon-gold);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        2px;
+    letter-spacing: 2px;
 
-    text-decoration:
-        none;
+    text-decoration: none;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 
     transition:
         gap var(--sukoon-transition),
@@ -1551,31 +1369,25 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-service-link:hover {
 
-    gap:
-        14px;
+    gap: 14px;
 
     color:
         var(--sukoon-gold-light);
 }
 
 
-/* Center action */
-
 .sukoon-centered-action {
 
-    display:
-        flex;
+    display: flex;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    margin-top:
-        60px;
+    margin-top: 60px;
 }
 
 
 /* =========================================================
-   ABOUT
+   ABOUT — DARK CHARCOAL
 ========================================================= */
 
 .sukoon-about {
@@ -1584,32 +1396,38 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         155px 0;
 
     background:
-        var(--sukoon-cream-2);
+        linear-gradient(
+            135deg,
+            #11110f,
+            #181714
+        );
+
+    border-top:
+        1px solid
+        rgba(201,169,110,.07);
+
+    border-bottom:
+        1px solid
+        rgba(201,169,110,.07);
 }
 
 
 .sukoon-about-grid {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         1fr 1fr;
 
-    gap:
-        105px;
+    gap: 105px;
 
-    align-items:
-        center;
+    align-items: center;
 }
 
 
-/* Image */
-
 .sukoon-about-image {
 
-    position:
-        relative;
+    position: relative;
 
     padding:
         0 35px 35px 0;
@@ -1618,95 +1436,71 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-about-image::after {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    right:
-        0;
+    right: 0;
 
-    bottom:
-        0;
+    bottom: 0;
 
-    width:
-        78%;
+    width: 78%;
 
-    height:
-        78%;
+    height: 78%;
 
     border:
         1px solid
-        rgba(159,125,67,.32);
+        rgba(201,169,110,.32);
 
-    z-index:
-        0;
+    z-index: 0;
 }
 
 
 .sukoon-about-image > img {
 
-    position:
-        relative;
+    position: relative;
 
-    z-index:
-        1;
+    z-index: 1;
 
-    width:
-        100%;
+    width: 100%;
 
     aspect-ratio:
         4 / 5;
 
-    object-fit:
-        cover;
+    object-fit: cover;
 
     box-shadow:
         0 25px 70px
-        rgba(50,42,30,.10);
+        rgba(0,0,0,.45);
 }
 
 
-/* Badge */
-
 .sukoon-about-badge {
 
-    position:
-        absolute;
+    position: absolute;
 
-    right:
-        3px;
+    right: 3px;
 
-    bottom:
-        52px;
+    bottom: 52px;
 
-    z-index:
-        3;
+    z-index: 3;
 
-    width:
-        190px;
+    width: 190px;
 
-    min-height:
-        112px;
+    min-height: 112px;
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    padding:
-        20px;
+    padding: 20px;
 
     background:
-        var(--sukoon-black);
+        #090908;
 
     border:
         1px solid
@@ -1714,7 +1508,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     box-shadow:
         0 20px 50px
-        rgba(0,0,0,.20);
+        rgba(0,0,0,.45);
 }
 
 
@@ -1728,48 +1522,38 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         "Times New Roman",
         serif;
 
-    font-size:
-        23px;
+    font-size: 23px;
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    letter-spacing:
-        2px;
+    letter-spacing: 2px;
 }
 
 
 .sukoon-about-badge span {
 
-    margin-top:
-        7px;
+    margin-top: 7px;
 
     color:
         #9c958c;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    letter-spacing:
-        1px;
+    letter-spacing: 1px;
 
-    text-align:
-        center;
+    text-align: center;
 }
 
 
-/* Content */
-
 .sukoon-about-content h2 {
 
-    max-width:
-        670px;
+    max-width: 670px;
 
     margin:
         0 0 27px;
 
     color:
-        var(--sukoon-text);
+        var(--sukoon-ivory);
 
     font-family:
         Georgia,
@@ -1777,68 +1561,52 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         serif;
 
     font-size:
-        clamp(
-            46px,
-            5vw,
-            70px
-        );
+        clamp(46px, 5vw, 70px);
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        1.01;
+    line-height: 1.01;
 
-    letter-spacing:
-        -2.5px;
+    letter-spacing: -2.5px;
 }
 
 
 .sukoon-about-content h2 span {
 
     color:
-        var(--sukoon-gold-dark);
+        var(--sukoon-gold);
 
-    font-style:
-        italic;
+    font-style: italic;
 }
 
 
 .sukoon-about-copy {
 
-    max-width:
-        620px;
+    max-width: 620px;
 
     color:
-        #706960;
+        #aaa39a;
 
-    font-size:
-        14px;
+    font-size: 14px;
 
-    line-height:
-        1.95;
+    line-height: 1.95;
 }
 
 
 .sukoon-about-copy + .sukoon-about-copy {
 
-    margin-top:
-        18px;
+    margin-top: 18px;
 }
 
 
-/* Features */
-
 .sukoon-about-features {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         repeat(2, 1fr);
 
-    gap:
-        0 20px;
+    gap: 0 20px;
 
     margin:
         35px 0;
@@ -1847,55 +1615,47 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-about-feature {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        14px;
+    gap: 14px;
 
     padding:
         17px 0;
 
     border-top:
         1px solid
-        rgba(64,58,50,.13);
+        rgba(255,255,255,.09);
 }
 
 
 .sukoon-about-feature-number {
 
     color:
-        var(--sukoon-gold-dark);
+        var(--sukoon-gold);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        2px;
+    letter-spacing: 2px;
 }
 
 
 .sukoon-about-feature span {
 
     color:
-        #5f5951;
+        #c0b9af;
 
-    font-size:
-        11px;
+    font-size: 11px;
 
-    font-weight:
-        600;
+    font-weight: 600;
 }
 
 
 /* =========================================================
-   WHY SUKOON
+   WHY SUKOON — DARK
 ========================================================= */
 
 .sukoon-why {
@@ -1904,43 +1664,42 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         155px 0;
 
     background:
-        var(--sukoon-cream);
+        #0a0a09;
 }
 
 
 .sukoon-why-grid {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         repeat(4, 1fr);
 
-    gap:
-        18px;
+    gap: 18px;
 }
 
 
 .sukoon-why-card {
 
-    position:
-        relative;
+    position: relative;
 
-    min-height:
-        315px;
+    min-height: 315px;
 
     padding:
         38px 30px;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     background:
-        rgba(255,255,255,.82);
+        linear-gradient(
+            145deg,
+            #171714,
+            #10100e
+        );
 
     border:
         1px solid
-        rgba(64,58,50,.10);
+        rgba(201,169,110,.12);
 
     transition:
         transform var(--sukoon-transition),
@@ -1951,23 +1710,17 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-why-card::before {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    left:
-        0;
+    left: 0;
 
-    top:
-        0;
+    top: 0;
 
-    width:
-        0;
+    width: 0;
 
-    height:
-        2px;
+    height: 2px;
 
     background:
         var(--sukoon-gold);
@@ -1979,29 +1732,22 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-why-card::after {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    right:
-        -60px;
+    right: -60px;
 
-    bottom:
-        -70px;
+    bottom: -70px;
 
-    width:
-        150px;
+    width: 150px;
 
-    height:
-        150px;
+    height: 150px;
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
-        rgba(201,169,110,.07);
+        rgba(201,169,110,.06);
 
     transition:
         transform .6s ease;
@@ -2018,14 +1764,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     box-shadow:
         0 25px 55px
-        rgba(60,50,35,.10);
+        rgba(0,0,0,.35);
 }
 
 
 .sukoon-why-card:hover::before {
 
-    width:
-        100%;
+    width: 100%;
 }
 
 
@@ -2038,33 +1783,26 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-why-icon {
 
-    width:
-        52px;
+    width: 52px;
 
-    height:
-        52px;
+    height: 52px;
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    margin-bottom:
-        28px;
+    margin-bottom: 28px;
 
     color:
-        var(--sukoon-gold-dark);
+        var(--sukoon-gold);
 
     border:
         1px solid
-        rgba(159,125,67,.30);
+        rgba(201,169,110,.30);
 
-    font-size:
-        16px;
+    font-size: 16px;
 }
 
 
@@ -2074,34 +1812,29 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         0 0 14px;
 
     color:
-        var(--sukoon-text);
+        var(--sukoon-ivory);
 
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-    font-size:
-        24px;
+    font-size: 24px;
 
-    font-weight:
-        400;
+    font-weight: 400;
 }
 
 
 .sukoon-why-card p {
 
-    margin:
-        0;
+    margin: 0;
 
     color:
-        #777168;
+        #858078;
 
-    font-size:
-        12px;
+    font-size: 12px;
 
-    line-height:
-        1.85;
+    line-height: 1.85;
 }
 
 
@@ -2122,14 +1855,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 .sukoon-gallery .sukoon-section-heading {
 
     color:
-        #ffffff;
+        var(--sukoon-ivory);
 }
 
 
 .sukoon-gallery-grid {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         1.35fr .8fr .8fr;
@@ -2137,21 +1869,22 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     grid-template-rows:
         290px 290px;
 
-    gap:
-        12px;
+    gap: 12px;
 }
 
 
 .sukoon-gallery-item {
 
-    position:
-        relative;
+    position: relative;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     background:
         #171714;
+
+    border:
+        1px solid
+        rgba(201,169,110,.08);
 }
 
 
@@ -2164,24 +1897,20 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-gallery-item::after {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    inset:
-        0;
+    inset: 0;
 
     background:
         linear-gradient(
             to top,
-            rgba(0,0,0,.58),
+            rgba(0,0,0,.65),
             transparent 60%
         );
 
-    opacity:
-        0;
+    opacity: 0;
 
     transition:
         opacity var(--sukoon-transition);
@@ -2190,21 +1919,17 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-gallery-item:hover::after {
 
-    opacity:
-        1;
+    opacity: 1;
 }
 
 
 .sukoon-gallery-item img {
 
-    width:
-        100%;
+    width: 100%;
 
-    height:
-        100%;
+    height: 100%;
 
-    object-fit:
-        cover;
+    object-fit: cover;
 
     transition:
         transform .9s
@@ -2225,50 +1950,45 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-franchise {
 
-    position:
-        relative;
+    position: relative;
 
     padding:
         155px 0;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     background:
         linear-gradient(
-            rgba(7,7,6,.91),
-            rgba(7,7,6,.97)
+            rgba(7,7,6,.93),
+            rgba(7,7,6,.98)
         ),
-        url("{% static 'images/service.jpg' %}")
+        url("{% static 'images/service.webp' %}")
         center / cover no-repeat;
+
+    border-top:
+        1px solid
+        rgba(201,169,110,.08);
 }
 
 
 .sukoon-franchise::before {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    width:
-        650px;
+    width: 650px;
 
-    height:
-        650px;
+    height: 650px;
 
-    left:
-        50%;
+    left: 50%;
 
-    top:
-        50%;
+    top: 50%;
 
     transform:
         translate(-50%, -50%);
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
         radial-gradient(
@@ -2277,18 +1997,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             transparent 68%
         );
 
-    pointer-events:
-        none;
+    pointer-events: none;
 }
 
 
 .sukoon-franchise-content {
 
-    position:
-        relative;
+    position: relative;
 
-    z-index:
-        2;
+    z-index: 2;
 
     width:
         min(
@@ -2306,8 +2023,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-franchise-title {
 
-    margin:
-        0;
+    margin: 0;
 
     color:
         #ffffff;
@@ -2318,20 +2034,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         serif;
 
     font-size:
-        clamp(
-            48px,
-            6vw,
-            80px
-        );
+        clamp(48px, 6vw, 80px);
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        1.01;
+    line-height: 1.01;
 
-    letter-spacing:
-        -2.8px;
+    letter-spacing: -2.8px;
 }
 
 
@@ -2340,15 +2049,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-gold);
 
-    font-style:
-        italic;
+    font-style: italic;
 }
 
 
 .sukoon-franchise-description {
 
-    max-width:
-        700px;
+    max-width: 700px;
 
     margin:
         27px auto 0;
@@ -2356,30 +2063,23 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         #a9a299;
 
-    font-size:
-        14px;
+    font-size: 14px;
 
-    line-height:
-        1.95;
+    line-height: 1.95;
 }
 
 
 .sukoon-franchise-actions {
 
-    display:
-        flex;
+    display: flex;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    gap:
-        12px;
+    gap: 12px;
 
-    flex-wrap:
-        wrap;
+    flex-wrap: wrap;
 
-    margin-top:
-        38px;
+    margin-top: 38px;
 }
 
 
@@ -2389,50 +2089,41 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-booking {
 
-    position:
-        relative;
+    position: relative;
 
     padding:
         155px 0;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
     background:
         linear-gradient(
-            rgba(5,5,4,.91),
-            rgba(5,5,4,.97)
+            rgba(5,5,4,.94),
+            rgba(5,5,4,.98)
         ),
-        url("{% static 'images/service.jpg' %}")
+        url("{% static 'images/service.webp' %}")
         center / cover no-repeat;
 }
 
 
 .sukoon-booking::before {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    width:
-        700px;
+    width: 700px;
 
-    height:
-        700px;
+    height: 700px;
 
-    left:
-        50%;
+    left: 50%;
 
-    top:
-        -300px;
+    top: -300px;
 
     transform:
         translateX(-50%);
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     background:
         radial-gradient(
@@ -2445,11 +2136,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-booking-content {
 
-    position:
-        relative;
+    position: relative;
 
-    z-index:
-        2;
+    z-index: 2;
 
     width:
         min(
@@ -2467,8 +2156,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-booking-title {
 
-    margin:
-        0;
+    margin: 0;
 
     color:
         #ffffff;
@@ -2479,20 +2167,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         serif;
 
     font-size:
-        clamp(
-            50px,
-            6vw,
-            80px
-        );
+        clamp(50px, 6vw, 80px);
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        1.02;
+    line-height: 1.02;
 
-    letter-spacing:
-        -2.8px;
+    letter-spacing: -2.8px;
 }
 
 
@@ -2501,18 +2182,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-gold);
 
-    font-style:
-        italic;
+    font-style: italic;
 }
 
 
 .sukoon-booking-divider {
 
-    width:
-        65px;
+    width: 65px;
 
-    height:
-        1px;
+    height: 1px;
 
     margin:
         29px auto;
@@ -2524,8 +2202,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-booking-description {
 
-    max-width:
-        700px;
+    max-width: 700px;
 
     margin:
         0 auto 42px;
@@ -2533,26 +2210,20 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         #aaa39a;
 
-    font-size:
-        14px;
+    font-size: 14px;
 
-    line-height:
-        1.9;
+    line-height: 1.9;
 }
 
 
-/* Booking details */
-
 .sukoon-booking-details {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
-    max-width:
-        920px;
+    max-width: 920px;
 
     margin:
         0 auto 40px;
@@ -2574,7 +2245,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 }
 
 
-.sukoon-booking-detail + .sukoon-booking-detail {
+.sukoon-booking-detail
++ .sukoon-booking-detail {
 
     border-left:
         1px solid
@@ -2584,61 +2256,47 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-booking-detail span {
 
-    display:
-        block;
+    display: block;
 
-    margin-bottom:
-        10px;
+    margin-bottom: 10px;
 
     color:
         #716b63;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        2px;
+    letter-spacing: 2px;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 }
 
 
 .sukoon-booking-detail strong {
 
-    display:
-        block;
+    display: block;
 
     color:
         #e4ddd2;
 
-    font-size:
-        12px;
+    font-size: 12px;
 
-    font-weight:
-        500;
+    font-weight: 500;
 
-    line-height:
-        1.65;
+    line-height: 1.65;
 }
 
 
 .sukoon-booking-actions {
 
-    display:
-        flex;
+    display: flex;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    gap:
-        12px;
+    gap: 12px;
 
-    flex-wrap:
-        wrap;
+    flex-wrap: wrap;
 }
 
 
@@ -2650,25 +2308,31 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         #625d56;
 
-    font-size:
-        10px;
+    font-size: 10px;
 
-    line-height:
-        1.7;
+    line-height: 1.7;
 }
 
 
 /* =========================================================
-   CONTACT
+   CONTACT — DARK
 ========================================================= */
 
 .sukoon-contact {
 
     padding:
-        145px 0;
+        145px 0 160px;
 
     background:
-        var(--sukoon-cream);
+        linear-gradient(
+            180deg,
+            #11110f,
+            #080807
+        );
+
+    border-top:
+        1px solid
+        rgba(201,169,110,.08);
 }
 
 
@@ -2690,11 +2354,10 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-contact-title {
 
-    margin:
-        0;
+    margin: 0;
 
     color:
-        var(--sukoon-text);
+        var(--sukoon-ivory);
 
     font-family:
         Georgia,
@@ -2702,37 +2365,28 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         serif;
 
     font-size:
-        clamp(
-            48px,
-            6vw,
-            78px
-        );
+        clamp(48px, 6vw, 78px);
 
-    font-weight:
-        400;
+    font-weight: 400;
 
-    line-height:
-        1.03;
+    line-height: 1.03;
 
-    letter-spacing:
-        -2.8px;
+    letter-spacing: -2.8px;
 }
 
 
 .sukoon-contact-title span {
 
     color:
-        var(--sukoon-gold-dark);
+        var(--sukoon-gold);
 
-    font-style:
-        italic;
+    font-style: italic;
 }
 
 
 .sukoon-contact-address {
 
-    max-width:
-        680px;
+    max-width: 680px;
 
     margin:
         27px auto;
@@ -2740,56 +2394,51 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         #777168;
 
-    font-size:
-        14px;
+    font-size: 14px;
 
-    line-height:
-        1.9;
+    line-height: 1.9;
 }
 
 
 .sukoon-contact-actions {
 
-    display:
-        flex;
+    display: flex;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    gap:
-        10px;
+    gap: 10px;
 
-    flex-wrap:
-        wrap;
+    flex-wrap: wrap;
 
-    margin-top:
-        32px;
+    margin-top: 32px;
 }
 
 
-.sukoon-contact-actions .sukoon-btn-outline {
+.sukoon-contact-actions
+.sukoon-btn-outline {
 
     color:
-        var(--sukoon-text);
+        var(--sukoon-ivory);
 
     border-color:
-        rgba(64,58,50,.25);
+        rgba(255,255,255,.18);
 
     background:
-        transparent;
+        rgba(255,255,255,.025);
 }
 
 
-.sukoon-contact-actions .sukoon-btn-outline:hover {
+.sukoon-contact-actions
+.sukoon-btn-outline:hover {
 
     color:
+        var(--sukoon-gold-light);
+
+    background:
+        rgba(201,169,110,.08);
+
+    border-color:
         var(--sukoon-gold);
-
-    background:
-        var(--sukoon-black);
-
-    border-color:
-        var(--sukoon-black);
 }
 
 
@@ -2799,26 +2448,19 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-mobile-cta {
 
-    display:
-        none;
+    display: none;
 
-    position:
-        fixed;
+    position: fixed;
 
-    left:
-        12px;
+    left: 12px;
 
-    right:
-        12px;
+    right: 12px;
 
-    bottom:
-        12px;
+    bottom: 12px;
 
-    z-index:
-        999;
+    z-index: 999;
 
-    padding:
-        8px;
+    padding: 8px;
 
     background:
         rgba(8,8,7,.94);
@@ -2829,7 +2471,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     box-shadow:
         0 15px 45px
-        rgba(0,0,0,.35);
+        rgba(0,0,0,.45);
 
     backdrop-filter:
         blur(15px);
@@ -2838,20 +2480,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
 .sukoon-mobile-cta a {
 
-    width:
-        100%;
+    width: 100%;
 
-    min-height:
-        48px;
+    min-height: 48px;
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
     background:
         var(--sukoon-gold);
@@ -2859,20 +2496,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     color:
         var(--sukoon-black);
 
-    font-size:
-        9px;
+    font-size: 9px;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    letter-spacing:
-        2px;
+    letter-spacing: 2px;
 
-    text-decoration:
-        none;
+    text-decoration: none;
 
-    text-transform:
-        uppercase;
+    text-transform: uppercase;
 }
 
 
@@ -2898,15 +2530,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-about-grid {
 
-        gap:
-            65px;
+        gap: 65px;
     }
 
 
     .sukoon-intro-grid {
 
-        gap:
-            70px;
+        gap: 70px;
     }
 }
 
@@ -2930,8 +2560,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-hero {
 
-        min-height:
-            780px;
+        min-height: 780px;
     }
 
 
@@ -2948,8 +2577,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         grid-template-columns:
             1fr;
 
-        gap:
-            65px;
+        gap: 65px;
     }
 
 
@@ -2958,29 +2586,25 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         padding:
             28px 0 0;
 
-        border-left:
-            none;
+        border-left: none;
 
         border-top:
             1px solid
-            rgba(159,125,67,.30);
+            rgba(201,169,110,.30);
     }
 
 
     .sukoon-about-content {
 
-        order:
-            1;
+        order: 1;
     }
 
 
     .sukoon-about-image {
 
-        order:
-            2;
+        order: 2;
 
-        max-width:
-            650px;
+        max-width: 650px;
     }
 
 
@@ -2999,8 +2623,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         grid-column:
             1 / 3;
 
-        grid-row:
-            1;
+        grid-row: 1;
     }
 
 
@@ -3011,10 +2634,10 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     }
 
 
-    .sukoon-booking-detail + .sukoon-booking-detail {
+    .sukoon-booking-detail
+    + .sukoon-booking-detail {
 
-        border-left:
-            none;
+        border-left: none;
 
         border-top:
             1px solid
@@ -3039,8 +2662,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-hero {
 
-        min-height:
-            730px;
+        min-height: 730px;
 
         align-items:
             flex-end;
@@ -3061,14 +2683,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-hero-overlay::before {
 
-        width:
-            400px;
+        width: 400px;
 
-        height:
-            400px;
+        height: 400px;
 
-        right:
-            -190px;
+        right: -190px;
     }
 
 
@@ -3081,14 +2700,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-hero-eyebrow {
 
-        margin-bottom:
-            22px;
+        margin-bottom: 22px;
 
-        font-size:
-            8px;
+        font-size: 8px;
 
-        letter-spacing:
-            3px;
+        letter-spacing: 3px;
     }
 
 
@@ -3101,24 +2717,19 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 70px
             );
 
-        line-height:
-            .94;
+        line-height: .94;
 
-        letter-spacing:
-            -2.5px;
+        letter-spacing: -2.5px;
     }
 
 
     .sukoon-hero-description {
 
-        margin-top:
-            25px;
+        margin-top: 25px;
 
-        font-size:
-            13px;
+        font-size: 13px;
 
-        line-height:
-            1.8;
+        line-height: 1.8;
     }
 
 
@@ -3130,41 +2741,36 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         align-items:
             stretch;
 
-        margin-top:
-            30px;
+        margin-top: 30px;
     }
 
 
-    .sukoon-hero-actions .sukoon-btn {
+    .sukoon-hero-actions
+    .sukoon-btn {
 
-        width:
-            100%;
+        width: 100%;
     }
 
 
     .sukoon-hero-location {
 
-        margin-top:
-            28px;
+        margin-top: 28px;
 
-        font-size:
-            9px;
+        font-size: 9px;
     }
 
 
     .sukoon-hero-side {
 
-        display:
-            none;
+        display: none;
     }
 
 
-    /* Trust */
+    /* TRUST */
 
     .sukoon-trust-grid {
 
-        width:
-            100%;
+        width: 100%;
 
         grid-template-columns:
             repeat(2, 1fr);
@@ -3173,8 +2779,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-trust-item {
 
-        min-height:
-            94px;
+        min-height: 94px;
 
         padding:
             15px 9px;
@@ -3192,29 +2797,25 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-trust-item:nth-child(3) {
 
-        border-left:
-            none;
+        border-left: none;
     }
 
 
     .sukoon-trust-item strong {
 
-        font-size:
-            10px;
+        font-size: 10px;
     }
 
 
     .sukoon-trust-item span {
 
-        font-size:
-            7px;
+        font-size: 7px;
 
-        letter-spacing:
-            1.2px;
+        letter-spacing: 1.2px;
     }
 
 
-    /* Sections */
+    /* SECTIONS */
 
     .sukoon-intro,
     .sukoon-services,
@@ -3236,7 +2837,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     }
 
 
-    /* Intro */
+    /* INTRO */
 
     .sukoon-intro-title {
 
@@ -3254,15 +2855,13 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-intro-text {
 
-        font-size:
-            13px;
+        font-size: 13px;
 
-        line-height:
-            1.9;
+        line-height: 1.9;
     }
 
 
-    /* Section heading */
+    /* SECTION HEADER */
 
     .sukoon-section-heading {
 
@@ -3287,12 +2886,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-section-description {
 
-        font-size:
-            13px;
+        font-size: 13px;
     }
 
 
-    /* Services */
+    /* SERVICES */
 
     .sukoon-services-grid {
 
@@ -3324,7 +2922,14 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     }
 
 
-    /* About */
+    .sukoon-service-options {
+
+        margin-top:
+            10px;
+    }
+
+
+    /* ABOUT */
 
     .sukoon-about-image {
 
@@ -3346,8 +2951,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-about-copy {
 
-        font-size:
-            13px;
+        font-size: 13px;
     }
 
 
@@ -3360,21 +2964,17 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     .sukoon-about-badge {
 
-        right:
-            -2px;
+        right: -2px;
 
-        bottom:
-            28px;
+        bottom: 28px;
 
-        width:
-            165px;
+        width: 165px;
 
-        min-height:
-            95px;
+        min-height: 95px;
     }
 
 
-    /* Why */
+    /* WHY */
 
     .sukoon-why-grid {
 
@@ -3402,12 +3002,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     }
 
 
-    /* Gallery */
+    /* GALLERY */
 
     .sukoon-gallery-grid {
 
-        width:
-            100%;
+        width: 100%;
 
         grid-template-columns:
             1fr 1fr;
@@ -3415,8 +3014,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         grid-template-rows:
             220px 160px 160px;
 
-        gap:
-            8px;
+        gap: 8px;
     }
 
 
@@ -3441,8 +3039,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     .sukoon-franchise-description,
     .sukoon-booking-description {
 
-        font-size:
-            13px;
+        font-size: 13px;
     }
 
 
@@ -3462,8 +3059,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     .sukoon-booking-actions .sukoon-btn,
     .sukoon-contact-actions .sukoon-btn {
 
-        width:
-            100%;
+        width: 100%;
     }
 
 
@@ -3474,12 +3070,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     }
 
 
-    /* Mobile sticky booking */
+    /* MOBILE STICKY */
 
     .sukoon-mobile-cta {
 
-        display:
-            block;
+        display: block;
     }
 
 
@@ -3656,7 +3251,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     <div class="sukoon-hero-media">
 
         <img
-            src="{% static 'images/Hero.png' %}"
+            src="{% static 'images/Hero.webp' %}"
             alt="Luxury wellness environment at Sukoon Wellness & Spa"
         >
 
@@ -3931,9 +3526,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
             <article class="sukoon-service-card">
 
-                {% if service.image %}
-
                 <div class="sukoon-service-image">
+
+                    {% if service.image %}
 
                     <img
                         src="{{ service.image.url }}"
@@ -3941,6 +3536,8 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                         loading="lazy"
                     >
 
+                    {% endif %}
+
 
                     <div class="sukoon-service-number">
 
@@ -3953,34 +3550,6 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                     </div>
 
                 </div>
-
-                {% else %}
-
-                <div
-                    class="sukoon-service-image"
-                    style="
-                        background:
-                        linear-gradient(
-                            135deg,
-                            #171714,
-                            #28261e
-                        );
-                    "
-                >
-
-                    <div class="sukoon-service-number">
-
-                        {% if forloop.counter < 10 %}
-                            0{{ forloop.counter }}
-                        {% else %}
-                            {{ forloop.counter }}
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-                {% endif %}
 
 
                 <div class="sukoon-service-content">
@@ -4010,62 +3579,67 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                     {% else %}
 
                     <p class="sukoon-service-description">
+
                         A thoughtfully designed wellness
                         experience focused on relaxation,
                         comfort and wellbeing.
+
                     </p>
 
                     {% endif %}
 
 
-                    {% if service.price or service.duration %}
+                    {% with options=service.options.all %}
 
-                    <div class="sukoon-service-meta">
+                        {% if options %}
 
-                        {% if service.price %}
+                        <div class="sukoon-service-options">
 
-                        <div class="sukoon-service-meta-item">
-
-                            <span>
-                                Starting From
+                            <span class="sukoon-service-options-label">
+                                Available Sessions
                             </span>
 
-                            <strong>
-                                ₹{{ service.price|floatformat:0 }}
-                            </strong>
+
+                            <div class="sukoon-service-option-list">
+
+                                {% for option in options %}
+
+                                    {% if option.is_active %}
+
+                                    <span class="sukoon-service-option">
+
+                                        {{ option.duration }} min
+
+                                        <strong>
+                                            ₹{{ option.price|floatformat:0 }}
+                                        </strong>
+
+                                    </span>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </div>
 
                         </div>
 
                         {% endif %}
 
-
-                        {% if service.duration %}
-
-                        <div class="sukoon-service-meta-item">
-
-                            <span>
-                                Duration
-                            </span>
-
-                            <strong>
-                                {{ service.duration }} min
-                            </strong>
-
-                        </div>
-
-                        {% endif %}
-
-                    </div>
-
-                    {% endif %}
+                    {% endwith %}
 
 
                     <a
                         href="{% url 'booking' %}?service={{ service.id }}"
                         class="sukoon-service-link"
                     >
+
                         Book Treatment
-                        <span>→</span>
+
+                        <span>
+                            →
+                        </span>
+
                     </a>
 
                 </div>
@@ -4076,21 +3650,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             {% empty %}
 
 
-            <!-- FALLBACK 01 -->
-
             <article class="sukoon-service-card">
 
-                <div
-                    class="sukoon-service-image"
-                    style="
-                        background:
-                        linear-gradient(
-                            135deg,
-                            #171714,
-                            #28261e
-                        );
-                    "
-                >
+                <div class="sukoon-service-image">
 
                     <div class="sukoon-service-number">
                         01
@@ -4098,7 +3660,6 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
                 </div>
 
-
                 <div class="sukoon-service-content">
 
                     <p class="sukoon-service-label">
@@ -4106,15 +3667,16 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                     </p>
 
                     <h3 class="sukoon-service-title">
-                        Swedish Massage
+                        Wellness Therapy
                     </h3>
 
                     <p class="sukoon-service-description">
-                        A relaxing full-body experience
-                        designed to encourage relaxation
-                        and help release everyday tension.
-                    </p>
 
+                        A thoughtfully designed wellness
+                        experience focused on relaxation,
+                        comfort and wellbeing.
+
+                    </p>
 
                     <a
                         href="{% url 'booking' %}"
@@ -4128,21 +3690,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             </article>
 
 
-            <!-- FALLBACK 02 -->
-
             <article class="sukoon-service-card">
 
-                <div
-                    class="sukoon-service-image"
-                    style="
-                        background:
-                        linear-gradient(
-                            135deg,
-                            #171714,
-                            #28261e
-                        );
-                    "
-                >
+                <div class="sukoon-service-image">
 
                     <div class="sukoon-service-number">
                         02
@@ -4150,7 +3700,6 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
                 </div>
 
-
                 <div class="sukoon-service-content">
 
                     <p class="sukoon-service-label">
@@ -4158,15 +3707,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                     </p>
 
                     <h3 class="sukoon-service-title">
-                        Deep Tissue Massage
+                        Relaxation Therapy
                     </h3>
 
                     <p class="sukoon-service-description">
-                        A focused massage experience for
-                        areas that feel tight, tired or
-                        overworked.
-                    </p>
 
+                        A calming experience created
+                        to help you slow down and relax.
+
+                    </p>
 
                     <a
                         href="{% url 'booking' %}"
@@ -4180,28 +3729,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             </article>
 
 
-            <!-- FALLBACK 03 -->
-
             <article class="sukoon-service-card">
 
-                <div
-                    class="sukoon-service-image"
-                    style="
-                        background:
-                        linear-gradient(
-                            135deg,
-                            #171714,
-                            #28261e
-                        );
-                    "
-                >
+                <div class="sukoon-service-image">
 
                     <div class="sukoon-service-number">
                         03
                     </div>
 
                 </div>
-
 
                 <div class="sukoon-service-content">
 
@@ -4214,11 +3750,12 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                     </h3>
 
                     <p class="sukoon-service-description">
+
                         A calming wellness experience
                         combining relaxing massage
                         techniques with aromatic oils.
-                    </p>
 
+                    </p>
 
                     <a
                         href="{% url 'booking' %}"
@@ -4232,28 +3769,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             </article>
 
 
-            <!-- FALLBACK 04 -->
-
             <article class="sukoon-service-card">
 
-                <div
-                    class="sukoon-service-image"
-                    style="
-                        background:
-                        linear-gradient(
-                            135deg,
-                            #171714,
-                            #28261e
-                        );
-                    "
-                >
+                <div class="sukoon-service-image">
 
                     <div class="sukoon-service-number">
                         04
                     </div>
 
                 </div>
-
 
                 <div class="sukoon-service-content">
 
@@ -4262,15 +3786,15 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                     </p>
 
                     <h3 class="sukoon-service-title">
-                        Couple Massage
+                        Wellness Ritual
                     </h3>
 
                     <p class="sukoon-service-description">
-                        A shared wellness experience
-                        designed for two, with time to
-                        relax together.
-                    </p>
 
+                        A peaceful wellness experience
+                        designed around your comfort.
+
+                    </p>
 
                     <a
                         href="{% url 'booking' %}"
@@ -4282,7 +3806,6 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 </div>
 
             </article>
-
 
             {% endfor %}
 
@@ -4295,9 +3818,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 href="{% url 'services' %}"
                 class="sukoon-btn sukoon-btn-outline"
             >
+
                 <span>
                     View All Treatments
                 </span>
+
             </a>
 
         </div>
@@ -4318,11 +3843,10 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
         <div class="sukoon-about-grid">
 
-
             <div class="sukoon-about-image">
 
                 <img
-                    src="{% static 'images/gallery-5.jpg' %}"
+                    src="{% static 'images/gallery-5.webp' %}"
                     alt="Sukoon Wellness & Spa reception"
                     loading="lazy"
                 >
@@ -4443,9 +3967,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                     href="{% url 'about' %}"
                     class="sukoon-btn sukoon-btn-dark"
                 >
+
                     <span>
                         Learn More About Us
                     </span>
+
                 </a>
 
             </div>
@@ -4499,9 +4025,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 </h3>
 
                 <p>
+
                     A welcoming environment designed
                     to help you slow down, relax and
                     enjoy your time.
+
                 </p>
 
             </article>
@@ -4518,9 +4046,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 </h3>
 
                 <p>
+
                     A service experience focused on
                     comfort, privacy and personal
                     preference.
+
                 </p>
 
             </article>
@@ -4537,9 +4067,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 </h3>
 
                 <p>
+
                     Cleanliness and comfort are important
                     parts of creating a welcoming spa
                     experience.
+
                 </p>
 
             </article>
@@ -4556,8 +4088,10 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 </h3>
 
                 <p>
+
                     Located inside Dwarka City Center
                     Mall, Muzaffarpur.
+
                 </p>
 
             </article>
@@ -4608,11 +4142,10 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
         <div class="sukoon-gallery-grid">
 
-
             <div class="sukoon-gallery-item large">
 
                 <img
-                    src="{% static 'images/gallery-1.jpg' %}"
+                    src="{% static 'images/gallery-1.webp' %}"
                     alt="Sukoon Wellness & Spa lounge"
                     loading="lazy"
                 >
@@ -4623,7 +4156,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             <div class="sukoon-gallery-item">
 
                 <img
-                    src="{% static 'images/gallery-5.jpg' %}"
+                    src="{% static 'images/gallery-5.webp' %}"
                     alt="Sukoon Wellness & Spa reception"
                     loading="lazy"
                 >
@@ -4634,7 +4167,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             <div class="sukoon-gallery-item">
 
                 <img
-                    src="{% static 'images/gallery-10.jpg' %}"
+                    src="{% static 'images/gallery-10.webp' %}"
                     alt="Sukoon Wellness & Spa treatment room"
                     loading="lazy"
                 >
@@ -4645,7 +4178,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             <div class="sukoon-gallery-item">
 
                 <img
-                    src="{% static 'images/gallery-10.jpg' %}"
+                    src="{% static 'images/gallery-14.webp' %}"
                     alt="Sukoon Wellness & Spa relaxation area"
                     loading="lazy"
                 >
@@ -4656,7 +4189,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
             <div class="sukoon-gallery-item">
 
                 <img
-                    src="{% static 'images/gallery-15.jpg' %}"
+                    src="{% static 'images/gallery-10.webp' %}"
                     alt="Sukoon Wellness & Spa interior"
                     loading="lazy"
                 >
@@ -4672,9 +4205,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 href="{% url 'gallery' %}"
                 class="sukoon-btn sukoon-btn-outline"
             >
+
                 <span>
                     Explore Full Gallery
                 </span>
+
             </a>
 
         </div>
@@ -4725,9 +4260,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 href="{% url 'franchise' %}"
                 class="sukoon-btn sukoon-btn-primary"
             >
+
                 <span>
                     Explore Franchise
                 </span>
+
             </a>
 
 
@@ -4735,9 +4272,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 href="{% url 'franchise' %}#franchise-enquiry"
                 class="sukoon-btn sukoon-btn-outline"
             >
+
                 <span>
                     Become a Partner
                 </span>
+
             </a>
 
         </div>
@@ -4795,10 +4334,12 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 </span>
 
                 <strong>
+
                     Dwarka City Center Mall,
                     2nd Floor, Majhaulia Road,
                     Gobarsahi, Muzaffarpur,
                     Bihar 842002
+
                 </strong>
 
             </div>
@@ -4838,9 +4379,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 href="{% url 'booking' %}"
                 class="sukoon-btn sukoon-btn-primary"
             >
+
                 <span>
                     Book an Appointment
                 </span>
+
             </a>
 
 
@@ -4850,16 +4393,20 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 rel="noopener noreferrer"
                 class="sukoon-btn sukoon-btn-outline"
             >
+
                 <span>
                     Chat on WhatsApp
                 </span>
+
             </a>
 
         </div>
 
 
         <p class="sukoon-booking-note">
+
             Appointments are subject to available slots.
+
         </p>
 
     </div>
@@ -4907,9 +4454,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 href="{% url 'booking' %}"
                 class="sukoon-btn sukoon-btn-dark"
             >
+
                 <span>
                     Book Appointment
                 </span>
+
             </a>
 
 
@@ -4917,9 +4466,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 href="tel:+919031640551"
                 class="sukoon-btn sukoon-btn-outline"
             >
+
                 <span>
                     Call 9031640551
                 </span>
+
             </a>
 
 
@@ -4929,9 +4480,11 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
                 rel="noopener noreferrer"
                 class="sukoon-btn sukoon-btn-outline"
             >
+
                 <span>
                     WhatsApp
                 </span>
+
             </a>
 
         </div>
@@ -4958,7 +4511,6 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 </div>
 
 {% endblock %}
-
 
 
 {% block extra_js %}

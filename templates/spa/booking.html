@@ -1,3 +1,4 @@
+
 {% extends "spa/base.html" %}
 {% load static %}
 
@@ -5,1244 +6,885 @@
 Book Your Session | Sukoon Wellness & Spa
 {% endblock %}
 
-
 {% block extra_css %}
 
 <style>
+/* =========================================================
+   SUKOON WELLNESS & SPA
+   PREMIUM BOOKING EXPERIENCE
+   Black / Ivory / Gold
+========================================================= */
+
+:root {
+    --booking-black: #0a0a09;
+    --booking-black-soft: #11110f;
+    --booking-card: #151512;
+    --booking-card-light: #1b1a16;
+
+    --booking-gold: #c9a96e;
+    --booking-gold-light: #e5cb98;
+    --booking-gold-dark: #a9894f;
+
+    --booking-ivory: #f8f5ee;
+    --booking-muted: #a9a49a;
+    --booking-border: rgba(201, 169, 110, 0.20);
+
+    --booking-success: #91b58b;
+    --booking-danger: #d98282;
+}
 
 /* =========================================================
-   SUKOON BOOKING PAGE
+   PAGE
 ========================================================= */
 
 .booking-page {
     min-height: 100vh;
-    background: #080808;
-    color: #f5efe4;
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.booking-hero {
-    min-height: 52vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            rgba(0,0,0,.48),
-            rgba(0,0,0,.82)
-        ),
-        url("{% static 'images/Balinese-Therapy.jpg' %}")
-        center / cover no-repeat;
-}
-
-.booking-hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-
     background:
         radial-gradient(
-            circle at center,
-            rgba(201,169,110,.12),
-            transparent 48%
-        );
+            circle at 15% 10%,
+            rgba(201, 169, 110, 0.08),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(201, 169, 110, 0.05),
+            transparent 30%
+        ),
+        var(--booking-black);
 
-    pointer-events: none;
+    color: var(--booking-ivory);
+    padding: 70px 20px 100px;
 }
 
-.booking-hero-content {
-    position: relative;
-    z-index: 1;
+/* =========================================================
+   HEADER
+========================================================= */
 
-    width: min(900px, 90%);
-    padding: 120px 0 80px;
+.booking-header {
+    max-width: 1100px;
+    margin: 0 auto 45px;
+    text-align: center;
 }
 
 .booking-eyebrow {
-    color: #c9a96e;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    color: var(--booking-gold);
     font-size: 11px;
     font-weight: 700;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    letter-spacing: 5px;
-    margin-bottom: 22px;
+
+    margin-bottom: 16px;
 }
 
-.booking-hero h1 {
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+.booking-eyebrow::before,
+.booking-eyebrow::after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--booking-gold);
+    opacity: 0.7;
+}
 
-    font-size: clamp(48px, 7vw, 82px);
+.booking-header h1 {
+    margin: 0;
+
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(38px, 5vw, 64px);
     font-weight: 500;
     line-height: 1.05;
-
-    margin: 0 0 25px;
-    color: #ffffff;
+    letter-spacing: -1px;
 }
 
-.booking-hero h1 span {
-    color: #c9a96e;
+.booking-header h1 span {
+    color: var(--booking-gold-light);
 }
 
-.booking-line {
-    width: 75px;
-    height: 1px;
-    background: #c9a96e;
-    margin: 0 auto 24px;
-}
+.booking-header p {
+    max-width: 620px;
+    margin: 18px auto 0;
 
-.booking-hero p {
-    max-width: 680px;
-    margin: auto;
-
-    color: #d2cbc0;
+    color: var(--booking-muted);
     font-size: 15px;
     line-height: 1.8;
 }
 
-
 /* =========================================================
-   MAIN
+   PROGRESS
 ========================================================= */
 
-.booking-section {
-    padding: 100px 20px 120px;
+.booking-progress {
+    max-width: 900px;
+    margin: 0 auto 42px;
 
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            rgba(201,169,110,.07),
-            transparent 40%
-        ),
-        #090909;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.booking-container {
-    width: min(1500px, 96%);
-    max-width: 1500px;
-    margin: 0 auto;
+.progress-item {
+    display: flex;
+    align-items: center;
+    color: #77736b;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
+.progress-number {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+
+    margin-right: 8px;
+
+    font-size: 11px;
+}
+
+.progress-item.active {
+    color: var(--booking-gold-light);
+}
+
+.progress-item.active .progress-number {
+    border-color: var(--booking-gold);
+    background: rgba(201,169,110,0.08);
+    color: var(--booking-gold-light);
+}
+
+.progress-line {
+    width: 55px;
+    height: 1px;
+
+    margin: 0 12px;
+
+    background: rgba(255,255,255,0.10);
+}
 
 /* =========================================================
    MAIN GRID
 ========================================================= */
 
-.booking-grid {
+.booking-container {
+    max-width: 1180px;
+    margin: 0 auto;
+
     display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.75fr);
+    gap: 28px;
 
-    grid-template-columns:
-        .82fr 1.18fr;
-
-    gap: 42px;
-
-    align-items: stretch;
+    align-items: start;
 }
-
-
-/* =========================================================
-   LEFT INFORMATION
-========================================================= */
-
-.booking-info {
-    position: relative;
-    overflow: hidden;
-
-    padding: 50px 42px;
-
-    border:
-        1px solid
-        rgba(201,169,110,.28);
-
-    background:
-        linear-gradient(
-            rgba(7,7,7,.80),
-            rgba(7,7,7,.93)
-        ),
-        url("{% static 'images/service.jpg' %}")
-        center / cover no-repeat;
-
-    box-shadow:
-        0 25px 70px
-        rgba(0,0,0,.35);
-}
-
-.booking-info::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    background:
-        radial-gradient(
-            circle at 85% 10%,
-            rgba(201,169,110,.14),
-            transparent 32%
-        );
-
-    pointer-events: none;
-}
-
-.booking-info > * {
-    position: relative;
-    z-index: 1;
-}
-
-.booking-info-label {
-    color: #c9a96e;
-
-    font-size: 10px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-    letter-spacing: 3px;
-
-    margin-bottom: 18px;
-}
-
-.booking-info h2 {
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:
-        clamp(36px, 4vw, 52px);
-
-    font-weight: 500;
-    line-height: 1.12;
-
-    margin: 0 0 22px;
-
-    color: #ffffff;
-}
-
-.booking-info h2 span {
-    color: #c9a96e;
-}
-
-.booking-info > p {
-    color: #bdb5aa;
-
-    font-size: 14px;
-    line-height: 1.9;
-
-    margin: 0 0 32px;
-}
-
-
-/* =========================================================
-   BENEFITS
-========================================================= */
-
-.booking-benefits {
-    border-top:
-        1px solid
-        rgba(201,169,110,.18);
-}
-
-.booking-benefit {
-    display: flex;
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 19px 0;
-
-    border-bottom:
-        1px solid
-        rgba(201,169,110,.14);
-}
-
-.booking-benefit-icon {
-    width: 34px;
-    height: 34px;
-
-    flex: 0 0 34px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border:
-        1px solid
-        rgba(201,169,110,.45);
-
-    color: #c9a96e;
-
-    font-size: 14px;
-}
-
-.booking-benefit span {
-    color: #e8e1d6;
-
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   ASSISTANCE
-========================================================= */
-
-.booking-assistance {
-    margin-top: 35px;
-
-    padding: 22px;
-
-    border:
-        1px solid
-        rgba(201,169,110,.25);
-
-    background:
-        rgba(255,255,255,.025);
-}
-
-.booking-assistance small {
-    display: block;
-
-    color: #8f887e;
-
-    font-size: 9px;
-
-    text-transform: uppercase;
-    letter-spacing: 2px;
-
-    margin-bottom: 10px;
-}
-
-.booking-assistance a {
-    display: block;
-
-    color: #c9a96e;
-
-    text-decoration: none;
-
-    font-size: 14px;
-    line-height: 1.9;
-}
-
-.booking-assistance a:hover {
-    color: #ffffff;
-}
-
 
 /* =========================================================
    FORM CARD
 ========================================================= */
 
-.form-card {
-    position: relative;
-    overflow: hidden;
-
-    padding: 48px;
-
-    color: #f5efe4;
-
-    border:
-        1px solid
-        rgba(201,169,110,.38);
-
+.booking-card {
     background:
         linear-gradient(
-            rgba(8,8,8,.68),
-            rgba(8,8,8,.90)
-        ),
-        url("{% static 'images/gallery-10.jpg' %}")
-        center / cover no-repeat;
-
-    box-shadow:
-        0 25px 75px
-        rgba(0,0,0,.45);
-}
-
-.form-card::before {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background:
-        radial-gradient(
-            circle at 85% 8%,
-            rgba(201,169,110,.16),
-            transparent 35%
+            145deg,
+            rgba(255,255,255,0.035),
+            rgba(255,255,255,0.012)
         );
 
-    pointer-events: none;
+    border: 1px solid var(--booking-border);
+    border-radius: 22px;
+
+    padding: clamp(24px, 4vw, 42px);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.30);
 }
 
-.form-card > * {
-    position: relative;
-    z-index: 2;
+.section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+
+    margin-bottom: 25px;
 }
 
+.section-number {
+    flex: 0 0 auto;
 
-/* =========================================================
-   HEADING
-========================================================= */
+    width: 32px;
+    height: 32px;
 
-.form-heading {
-    margin-bottom: 32px;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-.form-heading-label {
-    color: #c9a96e;
+    border: 1px solid var(--booking-border);
+    border-radius: 50%;
 
-    font-size: 10px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-    letter-spacing: 3px;
-
-    margin-bottom: 12px;
-}
-
-.form-heading h2 {
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    color: #ffffff;
-
-    font-size:
-        clamp(32px, 4vw, 44px);
-
-    font-weight: 500;
-
-    line-height: 1.15;
-
-    margin: 0 0 14px;
-}
-
-.form-heading p {
-    color: #d3ccc1;
-
-    font-size: 13px;
-
-    line-height: 1.8;
-
-    margin: 0;
-}
-
-
-/* =========================================================
-   DJANGO MESSAGE
-========================================================= */
-
-.booking-message {
-    padding: 13px 15px;
-
-    margin-bottom: 20px;
-
-    border:
-        1px solid
-        #c9a96e;
-
-    background:
-        rgba(201,169,110,.09);
-
-    color: #ead8b7;
-
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-
-/* =========================================================
-   DJANGO ERRORS
-========================================================= */
-
-.form-errors {
-    margin-bottom: 22px;
-
-    padding: 15px 17px;
-
-    border:
-        1px solid
-        rgba(210,80,80,.65);
-
-    background:
-        rgba(150,30,30,.12);
-
-    color: #f0b7b7;
-
-    font-size: 13px;
-
-    line-height: 1.7;
-}
-
-.field-error {
-    margin-top: 7px;
-
-    color: #e7a4a4;
-
+    color: var(--booking-gold);
     font-size: 11px;
 }
 
+.section-heading h2 {
+    margin: 0;
+
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.section-heading p {
+    margin: 5px 0 0;
+
+    color: var(--booking-muted);
+    font-size: 13px;
+}
 
 /* =========================================================
    FORM
 ========================================================= */
 
 .booking-form {
-    width: 100% !important;
-    display: block !important;
-    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.form-section {
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.form-section:last-of-type {
+    padding-bottom: 0;
+    border-bottom: 0;
 }
 
 .form-grid {
-    width: 100% !important;
-
-    display: grid !important;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 20px;
-
-    align-items: start;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
 }
 
 .form-group {
-    width: 100% !important;
-
-    min-width: 0;
-
-    margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .form-group.full {
-    grid-column: 1 / -1 !important;
+    grid-column: 1 / -1;
 }
-
-
-/* =========================================================
-   LABEL
-========================================================= */
 
 .form-group label {
-    display: block;
-
-    margin-bottom: 9px;
-
-    color: #eadfcf;
-
-    font-size: 10px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-    letter-spacing: 1.7px;
+    color: #d8d1c4;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
 }
 
-.form-group label .required {
-    color: #c9a96e;
-}
+.form-control,
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+    width: 100%;
+    box-sizing: border-box;
 
+    min-height: 52px;
 
-/* =========================================================
-   INPUT / SELECT / TEXTAREA
-========================================================= */
+    padding: 13px 15px;
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    display: block !important;
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 11px;
 
-    width: 100% !important;
+    background: rgba(255,255,255,0.035);
+    color: var(--booking-ivory);
 
-    max-width: 100% !important;
-
-    box-sizing: border-box !important;
-
-    padding: 14px 15px;
-
-    border:
-        1px solid
-        #d8cfc0 !important;
+    font-family: inherit;
+    font-size: 14px;
 
     outline: none;
 
-    background:
-        #fffdf9 !important;
-
-    color:
-        #29241d !important;
-
-    font-family: inherit;
-
-    font-size: 14px;
-
-    border-radius: 0;
-
     transition:
-        border-color .3s ease,
-        box-shadow .3s ease,
-        background .3s ease;
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-
-/* =========================================================
-   INPUT HEIGHT
-========================================================= */
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="tel"],
-.form-group input[type="date"],
-.form-group input[type="time"],
-.form-group select {
-
-    height: 52px !important;
-    min-height: 52px !important;
-}
-
-
-/* =========================================================
-   DISABLED SELECT
-========================================================= */
-
-.form-group select:disabled {
-    cursor: not-allowed;
-
-    opacity: .65;
-
-    background: #e9e5de !important;
-
-    color: #6f695f !important;
-}
-
-
-/* =========================================================
-   DATE / TIME
-========================================================= */
-
-.form-group input[type="date"],
-.form-group input[type="time"] {
-    cursor: pointer;
-
-    color: #29241d !important;
-
-    background: #fffdf9 !important;
-}
-
-
-/* =========================================================
-   SELECT
-========================================================= */
-
-.form-group select {
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   TEXTAREA
-========================================================= */
-
-.form-group textarea {
-    min-height: 135px;
-
+.booking-form textarea {
+    min-height: 120px;
     resize: vertical;
-
-    line-height: 1.6;
 }
 
-
-/* =========================================================
-   PLACEHOLDER
-========================================================= */
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: #8f887f;
-
-    opacity: 1;
+.booking-form input::placeholder,
+.booking-form textarea::placeholder {
+    color: #77736b;
 }
 
+.booking-form select option {
+    background: #171613;
+    color: #fff;
+}
 
-/* =========================================================
-   FOCUS
-========================================================= */
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-
-    border-color:
-        #c9a96e !important;
-
-    background:
-        #ffffff !important;
+.form-control:focus,
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+    border-color: rgba(201,169,110,0.65);
+    background: rgba(201,169,110,0.035);
 
     box-shadow:
-        0 0 0 3px
-        rgba(201,169,110,.13);
+        0 0 0 3px rgba(201,169,110,0.07);
 }
 
-
 /* =========================================================
-   BOOKING OPTIONS
+   PRICE
 ========================================================= */
 
-.booking-options {
-    grid-column: 1 / -1;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 20px;
-}
-
-
-/* =========================================================
-   PRICE BOX
-========================================================= */
-
-.booking-price-box {
+.price-display {
     min-height: 52px;
 
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
     padding: 0 15px;
 
-    box-sizing: border-box;
-
-    border:
-        1px solid
-        rgba(201,169,110,.45);
+    border: 1px solid var(--booking-border);
+    border-radius: 11px;
 
     background:
-        rgba(201,169,110,.07);
+        linear-gradient(
+            135deg,
+            rgba(201,169,110,0.09),
+            rgba(201,169,110,0.025)
+        );
 }
 
-.booking-price-label {
-    color: #a9a095;
-
-    font-size: 10px;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1.5px;
+.price-label {
+    color: var(--booking-muted);
+    font-size: 12px;
 }
 
-.booking-price {
-    color: #c9a96e;
-
+.price-value {
+    color: var(--booking-gold-light);
     font-size: 18px;
-
     font-weight: 700;
 }
-
 
 /* =========================================================
    AVAILABILITY
 ========================================================= */
 
-.availability-section {
-    grid-column: 1 / -1;
-
-    margin-top: 3px;
-
-    padding-top: 25px;
-
-    border-top:
-        1px solid
-        rgba(201,169,110,.18);
+.availability-box {
+    margin-top: 20px;
 }
 
-.availability-heading {
+.availability-header {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
-    gap: 15px;
-
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
-.availability-title {
-    color: #ffffff;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size: 22px;
+.availability-header span:first-child {
+    color: #d8d1c4;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .availability-status {
-    color: #9e968b;
-
+    color: var(--booking-muted);
     font-size: 11px;
 }
 
-
-/* =========================================================
-   SLOT CONTAINER
-========================================================= */
-
-.slot-container {
+.slot-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 10px;
-
-    max-height: 280px;
-
-    overflow-y: auto;
-
-    padding-right: 4px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
 }
 
-
-/* =========================================================
-   SLOT BUTTON
-========================================================= */
-
 .slot-button {
-    min-height: 60px;
+    min-height: 44px;
 
-    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 9px;
 
-    border:
-        1px solid
-        rgba(201,169,110,.30);
-
-    background:
-        rgba(255,255,255,.035);
-
-    color: #e8dfd2;
+    background: rgba(255,255,255,0.025);
+    color: #ddd7cb;
 
     cursor: pointer;
 
-    text-align: center;
+    font-family: inherit;
+    font-size: 12px;
 
     transition:
-        .25s ease;
+        all 0.18s ease;
 }
 
 .slot-button:hover {
-    border-color:
-        #c9a96e;
-
-    background:
-        rgba(201,169,110,.08);
-
-    color:
-        #ffffff;
+    border-color: rgba(201,169,110,0.55);
+    color: var(--booking-gold-light);
+    transform: translateY(-1px);
 }
 
 .slot-button.selected {
-    border-color:
-        #c9a96e;
+    border-color: var(--booking-gold);
 
     background:
-        #c9a96e;
+        linear-gradient(
+            135deg,
+            rgba(201,169,110,0.22),
+            rgba(201,169,110,0.07)
+        );
 
-    color:
-        #090909;
-
+    color: #fff;
     box-shadow:
-        0 8px 25px
-        rgba(201,169,110,.12);
+        0 8px 22px rgba(0,0,0,0.20);
 }
 
-.slot-time {
-    display: block;
-
-    font-size: 13px;
-
-    font-weight: 700;
+.slot-button.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 
-.slot-status {
-    display: block;
-
-    margin-top: 4px;
-
-    font-size: 9px;
-
-    opacity: .72;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-}
-
-
-/* =========================================================
-   HIDDEN TIME INPUT
-========================================================= */
-
-.hidden-time-input {
-    position: absolute;
-
-    width: 1px !important;
-    height: 1px !important;
-
-    opacity: 0;
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   AVAILABILITY EMPTY
-========================================================= */
-
-.availability-empty {
+.slot-empty {
     grid-column: 1 / -1;
 
-    padding: 25px 15px;
+    padding: 24px 15px;
 
-    border:
-        1px dashed
-        rgba(201,169,110,.25);
-
-    color: #969087;
+    border: 1px dashed rgba(255,255,255,0.10);
+    border-radius: 10px;
 
     text-align: center;
 
+    color: #77736b;
     font-size: 12px;
-
-    line-height: 1.7;
 }
-
 
 /* =========================================================
-   LOADER
+   PRIVACY / INFO
 ========================================================= */
 
-.availability-loading {
-    display: none;
+.booking-note {
+    display: flex;
+    gap: 10px;
 
-    padding: 20px;
+    padding: 14px 15px;
 
-    color: #c9a96e;
+    border: 1px solid rgba(201,169,110,0.14);
+    border-radius: 10px;
 
-    text-align: center;
+    background: rgba(201,169,110,0.035);
 
-    font-size: 12px;
-
-    letter-spacing: 1px;
-}
-
-.availability-loading.active {
-    display: block;
-}
-
-
-/* =========================================================
-   PRIVACY
-========================================================= */
-
-.privacy-note {
-    grid-column: 1 / -1 !important;
-
-    width: 100%;
-
-    margin-top: 4px;
-
-    color: #aaa39a;
-
+    color: var(--booking-muted);
     font-size: 11px;
-
-    line-height: 1.7;
+    line-height: 1.65;
 }
 
-.privacy-note strong {
-    color: #c9a96e;
+.booking-note-icon {
+    flex: 0 0 auto;
+    color: var(--booking-gold);
 }
-
 
 /* =========================================================
    SUBMIT
 ========================================================= */
 
 .booking-submit {
-    grid-column: 1 / -1 !important;
+    width: 100%;
+    min-height: 58px;
 
-    width: 100% !important;
-
-    min-height: 56px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 4px;
-
-    border:
-        1px solid
-        #c9a96e;
-
-    background:
-        #c9a96e;
-
-    color:
-        #0a0a0a;
-
-    cursor: pointer;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    text-transform: uppercase;
-
-    letter-spacing: 2px;
-
-    transition: .3s ease;
-}
-
-.booking-submit:hover {
-    background: transparent;
-
-    color: #c9a96e;
-
-    box-shadow:
-        0 0 25px
-        rgba(201,169,110,.12);
-}
-
-.booking-submit:disabled {
-    opacity: .45;
-
-    cursor: not-allowed;
-
-    box-shadow: none;
-}
-
-
-/* =========================================================
-   BOTTOM CTA
-========================================================= */
-
-.booking-bottom {
-    margin-top: 60px;
-
-    text-align: center;
-
-    padding: 55px 20px;
-
-    border:
-        1px solid
-        rgba(201,169,110,.18);
+    border: 1px solid var(--booking-gold);
+    border-radius: 12px;
 
     background:
         linear-gradient(
-            rgba(201,169,110,.04),
-            transparent
+            135deg,
+            #c9a96e,
+            #b69256
+        );
+
+    color: #111;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.25);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.booking-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.35);
+}
+
+.booking-submit:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.submit-hint {
+    margin-top: 10px;
+
+    text-align: center;
+
+    color: #77736b;
+    font-size: 10px;
+}
+
+/* =========================================================
+   SUMMARY CARD
+========================================================= */
+
+.booking-summary {
+    position: sticky;
+    top: 30px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #151512,
+            #0e0e0c
+        );
+
+    border: 1px solid var(--booking-border);
+    border-radius: 22px;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.32);
+}
+
+.summary-top {
+    position: relative;
+
+    min-height: 175px;
+
+    padding: 28px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.90),
+            rgba(0,0,0,0.20)
+        ),
+        url("{% static 'spa/images/massage-therapist.jpg' %}")
+        center / cover no-repeat;
+}
+
+.summary-top::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(201,169,110,0.16),
+            transparent 50%
         );
 }
 
-.booking-bottom-label {
-    color: #c9a96e;
+.summary-top-content {
+    position: relative;
+    z-index: 1;
+}
 
-    font-size: 10px;
+.summary-eyebrow {
+    color: var(--booking-gold-light);
 
+    font-size: 9px;
     font-weight: 700;
-
+    letter-spacing: 2px;
     text-transform: uppercase;
 
-    letter-spacing: 3px;
-
-    margin-bottom: 14px;
+    margin-bottom: 8px;
 }
 
-.booking-bottom h2 {
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+.summary-top h2 {
+    margin: 0;
 
-    color: #ffffff;
-
-    font-size:
-        clamp(32px, 5vw, 50px);
-
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 28px;
     font-weight: 500;
-
-    margin: 0 0 15px;
 }
 
-.booking-bottom h2 span {
-    color: #c9a96e;
+.summary-content {
+    padding: 27px;
 }
 
-.booking-bottom p {
-    max-width: 650px;
+.summary-empty {
+    padding: 12px 0 5px;
 
-    margin: 0 auto;
-
-    color: #9f988d;
-
-    font-size: 14px;
-
-    line-height: 1.8;
+    color: #77736b;
+    font-size: 13px;
+    line-height: 1.7;
 }
 
+.summary-service {
+    margin-bottom: 25px;
+}
+
+.summary-service-label {
+    color: #77736b;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+
+    margin-bottom: 7px;
+}
+
+.summary-service-name {
+    color: var(--booking-gold-light);
+
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.summary-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.summary-row:last-child {
+    border-bottom: 0;
+}
+
+.summary-row-label {
+    color: #77736b;
+    font-size: 11px;
+}
+
+.summary-row-value {
+    color: #e7e0d3;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-align: right;
+}
+
+.summary-price {
+    margin-top: 18px;
+    padding-top: 18px;
+
+    border-top: 1px solid var(--booking-border);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-price span:first-child {
+    color: var(--booking-muted);
+    font-size: 12px;
+}
+
+.summary-price-value {
+    color: var(--booking-gold-light);
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.summary-footer {
+    padding: 17px 27px;
+
+    border-top: 1px solid rgba(255,255,255,0.07);
+
+    color: #77736b;
+    font-size: 10px;
+    line-height: 1.7;
+    text-align: center;
+}
 
 /* =========================================================
-   TABLET
+   FORM ERRORS
 ========================================================= */
 
-@media (max-width: 1000px) {
+.field-error {
+    color: var(--booking-danger);
+    font-size: 11px;
+}
 
-    .booking-grid {
+.form-errors {
+    padding: 15px;
+
+    border: 1px solid rgba(217,130,130,0.25);
+    border-radius: 10px;
+
+    background: rgba(217,130,130,0.05);
+
+    color: #d98282;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 44px;
+
+    color: var(--booking-muted);
+    font-size: 11px;
+}
+
+.loading-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--booking-gold);
+
+    animation: bookingPulse 1s infinite ease-in-out;
+}
+
+@keyframes bookingPulse {
+    0%, 100% {
+        opacity: 0.25;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .booking-container {
         grid-template-columns: 1fr;
-
-        gap: 30px;
     }
 
-    .booking-info {
-        padding: 45px 38px;
+    .booking-summary {
+        position: static;
+        order: -1;
     }
 
-    .form-card {
-        padding: 40px;
+    .summary-top {
+        min-height: 150px;
     }
 }
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media (max-width: 650px) {
 
-    .booking-hero {
-        min-height: 48vh;
+    .booking-page {
+        padding: 45px 14px 70px;
     }
 
-    .booking-hero-content {
-        padding: 100px 0 65px;
+    .booking-header {
+        margin-bottom: 30px;
     }
 
-    .booking-hero h1 {
-        font-size: 44px;
+    .booking-header h1 {
+        font-size: 40px;
     }
 
-    .booking-hero p {
-        font-size: 13px;
+    .booking-progress {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 5px;
     }
 
-    .booking-section {
-        padding: 65px 15px 80px;
+    .progress-item {
+        font-size: 9px;
     }
 
-    .booking-container {
-        width: 96%;
+    .progress-line {
+        width: 25px;
+        margin: 0 7px;
     }
 
-    .booking-info {
-        padding: 35px 25px;
-    }
-
-    .booking-info h2 {
-        font-size: 35px;
-    }
-
-    .form-card {
-        padding: 30px 20px;
-    }
-
-    .form-heading h2 {
-        font-size: 32px;
+    .booking-card {
+        padding: 22px 17px;
+        border-radius: 17px;
     }
 
     .form-grid {
-        grid-template-columns: 1fr !important;
-        gap: 0 !important;
-    }
-
-    .form-group,
-    .form-group.full,
-    .privacy-note,
-    .booking-submit,
-    .availability-section,
-    .booking-options {
-        grid-column: auto !important;
-    }
-
-    .form-group {
-        margin-bottom: 18px;
-    }
-
-    .booking-options {
-        display: block;
-    }
-
-    .booking-price-box {
-        margin-bottom: 18px;
-    }
-
-    .slot-container {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-    .availability-heading {
-        align-items: flex-start;
-
-        flex-direction: column;
-    }
-
-    .booking-submit {
-        width: 100% !important;
-    }
-
-    .booking-bottom {
-        margin-top: 35px;
-
-        padding: 40px 20px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL
-========================================================= */
-
-@media (max-width: 400px) {
-
-    .booking-hero h1 {
-        font-size: 38px;
-    }
-
-    .booking-info {
-        padding: 30px 20px;
-    }
-
-    .form-card {
-        padding: 25px 16px;
-    }
-
-    .slot-container {
         grid-template-columns: 1fr;
     }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .slot-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .booking-summary {
+        border-radius: 17px;
+    }
+
+    .summary-content {
+        padding: 22px;
+    }
+
+    .summary-top {
+        padding: 22px;
+    }
 }
 
+@media (max-width: 420px) {
+
+    .slot-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .progress-item span:not(.progress-number) {
+        display: none;
+    }
+}
 </style>
 
 {% endblock %}
@@ -1250,556 +892,599 @@ Book Your Session | Sukoon Wellness & Spa
 
 {% block content %}
 
-<div class="booking-page">
+<main class="booking-page">
 
     <!-- =====================================================
-         HERO
-    ===================================================== -->
+         HEADER
+    ====================================================== -->
 
-    <section class="booking-hero">
+    <header class="booking-header">
 
-        <div class="booking-hero-content">
-
-            <div class="booking-eyebrow">
-                Sukoon Wellness & Spa
-            </div>
-
-            <h1>
-                Reserve Your <span>Sukoon</span>
-            </h1>
-
-            <div class="booking-line"></div>
-
-            <p>
-                Choose your wellness experience, select your preferred
-                duration and date, and view available appointment times
-                before sending your request.
-            </p>
-
+        <div class="booking-eyebrow">
+            Your Wellness Journey
         </div>
 
-    </section>
+        <h1>
+            Book Your <span>Experience</span>
+        </h1>
+
+        <p>
+            Choose your treatment, select a preferred time,
+            and reserve your private wellness experience at Sukoon.
+        </p>
+
+    </header>
 
 
     <!-- =====================================================
-         MAIN BOOKING
-    ===================================================== -->
+         PROGRESS
+    ====================================================== -->
 
-    <section class="booking-section">
+    <div class="booking-progress">
 
-        <div class="booking-container">
+        <div class="progress-item active">
+            <span class="progress-number">01</span>
+            <span>Treatment</span>
+        </div>
 
-            <div class="booking-grid">
+        <div class="progress-line"></div>
 
+        <div class="progress-item active">
+            <span class="progress-number">02</span>
+            <span>Duration</span>
+        </div>
 
-                <!-- =================================================
-                     LEFT INFORMATION
-                ================================================= -->
+        <div class="progress-line"></div>
 
-                <div class="booking-info">
+        <div class="progress-item active">
+            <span class="progress-number">03</span>
+            <span>Time</span>
+        </div>
 
-                    <div class="booking-info-label">
-                        A Moment Made For You
-                    </div>
+        <div class="progress-line"></div>
 
-                    <h2>
-                        Make Time
-                        <br>
-                        For <span>Wellness</span>
-                    </h2>
+        <div class="progress-item">
+            <span class="progress-number">04</span>
+            <span>Confirm</span>
+        </div>
 
-                    <p>
-                        Your time at Sukoon begins with a simple choice —
-                        making time for yourself. Choose your therapy,
-                        duration and preferred schedule, and let our team
-                        prepare a peaceful experience for your visit.
-                    </p>
-
-
-                    <div class="booking-benefits">
-
-                        <div class="booking-benefit">
-                            <div class="booking-benefit-icon">✦</div>
-
-                            <span>
-                                Carefully selected wellness therapies
-                            </span>
-                        </div>
-
-                        <div class="booking-benefit">
-                            <div class="booking-benefit-icon">✦</div>
-
-                            <span>
-                                Calm, comfortable and thoughtfully designed surroundings
-                            </span>
-                        </div>
-
-                        <div class="booking-benefit">
-                            <div class="booking-benefit-icon">✦</div>
-
-                            <span>
-                                Appointments available from 10 AM – 10 PM
-                            </span>
-                        </div>
-
-                        <div class="booking-benefit">
-                            <div class="booking-benefit-icon">✦</div>
-
-                            <span>
-                                Live appointment availability
-                            </span>
-                        </div>
-
-                        <div class="booking-benefit">
-                            <div class="booking-benefit-icon">✦</div>
-
-                            <span>
-                                Personal confirmation from our team
-                            </span>
-                        </div>
-
-                    </div>
+    </div>
 
 
-                    <div class="booking-assistance">
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
 
-                        <small>
-                            Need Help With Your Booking?
-                        </small>
+    <div class="booking-container">
 
-                        <a href="tel:+919031640551">
-                            +91 90316 40551
-                        </a>
 
-                        <a href="tel:+919031640552">
-                            +91 90316 40552
-                        </a>
+        <!-- =================================================
+             BOOKING FORM
+        ================================================== -->
 
-                    </div>
+        <section class="booking-card">
+
+            {% if booking_form.non_field_errors %}
+
+                <div class="form-errors">
+
+                    {% for error in booking_form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
 
                 </div>
 
+            {% endif %}
 
-                <!-- =================================================
-                     FORM CARD
-                ================================================= -->
 
-                <div class="form-card">
+            <form
+                method="post"
+                id="bookingForm"
+                class="booking-form"
+                novalidate
+            >
 
-                    <div class="form-heading">
+                {% csrf_token %}
 
-                        <div class="form-heading-label">
-                            Appointment Request
+
+                <!-- =========================================
+                     PERSONAL DETAILS
+                ========================================== -->
+
+                <div class="form-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-number">
+                            01
                         </div>
 
-                        <h2>
-                            Plan Your Visit
-                        </h2>
+                        <div>
+                            <h2>Your Details</h2>
 
-                        <p>
-                            Select your therapy and duration first.
-                            Available appointment slots will then be
-                            calculated automatically.
-                        </p>
+                            <p>
+                                Tell us who we are preparing the experience for.
+                            </p>
+                        </div>
 
                     </div>
 
 
-                    <!-- =================================================
-                         DJANGO MESSAGES
-                    ================================================= -->
+                    <div class="form-grid">
 
-                    {% if messages %}
+                        <div class="form-group">
 
-                        {% for message in messages %}
+                            <label for="{{ booking_form.name.id_for_label }}">
+                                Full Name
+                            </label>
 
-                            <div class="booking-message">
-                                {{ message }}
-                            </div>
+                            {{ booking_form.name }}
 
-                        {% endfor %}
-
-                    {% endif %}
-
-
-                    <!-- =================================================
-                         FORM ERRORS
-                    ================================================= -->
-
-                    {% if booking_form.non_field_errors %}
-
-                        <div class="form-errors">
-
-                            {% for error in booking_form.non_field_errors %}
-
-                                <div>
+                            {% for error in booking_form.name.errors %}
+                                <div class="field-error">
                                     {{ error }}
                                 </div>
-
                             {% endfor %}
 
                         </div>
 
-                    {% endif %}
 
+                        <div class="form-group">
 
-                    <form
-                        method="POST"
-                        action="{% url 'booking' %}"
-                        class="booking-form"
-                        id="bookingForm"
-                    >
+                            <label for="{{ booking_form.phone.id_for_label }}">
+                                Phone Number
+                            </label>
 
-                        {% csrf_token %}
+                            {{ booking_form.phone }}
 
-
-                        <div class="form-grid">
-
-
-                            <!-- =================================================
-                                 NAME
-                            ================================================= -->
-
-                            <div class="form-group">
-
-                                <label for="id_name">
-                                    Full Name
-                                    <span class="required">*</span>
-                                </label>
-
-                                {{ booking_form.name }}
-
-                                {% if booking_form.name.errors %}
-                                    {% for error in booking_form.name.errors %}
-                                        <div class="field-error">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 PHONE
-                            ================================================= -->
-
-                            <div class="form-group">
-
-                                <label for="id_phone">
-                                    Phone Number
-                                    <span class="required">*</span>
-                                </label>
-
-                                {{ booking_form.phone }}
-
-                                {% if booking_form.phone.errors %}
-                                    {% for error in booking_form.phone.errors %}
-                                        <div class="field-error">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 EMAIL
-                            ================================================= -->
-
-                            <div class="form-group">
-
-                                <label for="id_email">
-                                    Email Address
-                                </label>
-
-                                {{ booking_form.email }}
-
-                                {% if booking_form.email.errors %}
-                                    {% for error in booking_form.email.errors %}
-                                        <div class="field-error">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 SERVICE
-                            ================================================= -->
-
-                            <div class="form-group">
-
-                                <label for="id_service">
-
-                                    Select Therapy
-
-                                    <span class="required">*</span>
-
-                                </label>
-
-                                {{ booking_form.service }}
-
-                                {% if booking_form.service.errors %}
-                                    {% for error in booking_form.service.errors %}
-                                        <div class="field-error">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 DURATION
-                            ================================================= -->
-
-                            <div class="form-group">
-
-                                <label for="id_duration">
-
-                                    Duration
-
-                                    <span class="required">*</span>
-
-                                </label>
-
-                                {{ booking_form.duration }}
-
-                                {% if booking_form.duration.errors %}
-                                    {% for error in booking_form.duration.errors %}
-                                        <div class="field-error">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 PRICE
-                            ================================================= -->
-
-                            <div class="form-group">
-
-                                <label>
-                                    Session Price
-                                </label>
-
-                                <div class="booking-price-box">
-
-                                    <span class="booking-price-label">
-                                        Selected Rate
-                                    </span>
-
-                                    <span
-                                        class="booking-price"
-                                        id="bookingPrice"
-                                    >
-                                        ₹0
-                                    </span>
-
+                            {% for error in booking_form.phone.errors %}
+                                <div class="field-error">
+                                    {{ error }}
                                 </div>
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 DATE
-                            ================================================= -->
-
-                            <div class="form-group">
-
-                                <label for="id_appointment_date">
-
-                                    Appointment Date
-
-                                    <span class="required">*</span>
-
-                                </label>
-
-                                {{ booking_form.appointment_date }}
-
-                                {% if booking_form.appointment_date.errors %}
-                                    {% for error in booking_form.appointment_date.errors %}
-                                        <div class="field-error">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 SELECTED TIME
-                            ================================================= -->
-
-                            <div class="form-group">
-
-                                <label for="id_appointment_time">
-
-                                    Selected Time
-
-                                    <span class="required">*</span>
-
-                                </label>
-
-                                {{ booking_form.appointment_time }}
-
-                                {% if booking_form.appointment_time.errors %}
-                                    {% for error in booking_form.appointment_time.errors %}
-                                        <div class="field-error">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 AVAILABLE SLOTS
-                            ================================================= -->
-
-                            <div class="availability-section">
-
-                                <div class="availability-heading">
-
-                                    <div class="availability-title">
-                                        Available Times
-                                    </div>
-
-                                    <div
-                                        class="availability-status"
-                                        id="availabilityStatus"
-                                    >
-                                        Select service, duration and date
-                                    </div>
-
-                                </div>
-
-
-                                <div
-                                    class="availability-loading"
-                                    id="availabilityLoading"
-                                >
-                                    Checking available appointments...
-                                </div>
-
-
-                                <div
-                                    class="slot-container"
-                                    id="slotContainer"
-                                >
-
-                                    <div class="availability-empty">
-
-                                        Select a service, duration and
-                                        appointment date to view available
-                                        time slots.
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 MESSAGE
-                            ================================================= -->
-
-                            <div class="form-group full">
-
-                                <label for="id_message">
-                                    Special Request / Message
-                                </label>
-
-                                {{ booking_form.message }}
-
-                                {% if booking_form.message.errors %}
-                                    {% for error in booking_form.message.errors %}
-                                        <div class="field-error">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 PRIVACY
-                            ================================================= -->
-
-                            <div class="privacy-note">
-
-                                By submitting this form, your appointment
-                                request will be created as
-                                <strong>Pending</strong>.
-                                Availability will be checked again on the
-                                server before your appointment is created.
-
-                            </div>
-
-
-                            <!-- =================================================
-                                 SUBMIT
-                            ================================================= -->
-
-                            <button
-                                type="submit"
-                                class="booking-submit"
-                                id="bookingSubmit"
-                                disabled
-                            >
-                                Request My Appointment
-                            </button>
-
+                            {% endfor %}
 
                         </div>
 
-                    </form>
+
+                        <div class="form-group full">
+
+                            <label for="{{ booking_form.email.id_for_label }}">
+                                Email Address
+                            </label>
+
+                            {{ booking_form.email }}
+
+                            {% for error in booking_form.email.errors %}
+                                <div class="field-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     TREATMENT
+                ========================================== -->
+
+                <div class="form-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-number">
+                            02
+                        </div>
+
+                        <div>
+                            <h2>Select Your Treatment</h2>
+
+                            <p>
+                                Choose the experience that feels right for you.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+
+                            <label for="{{ booking_form.service.id_for_label }}">
+                                Treatment
+                            </label>
+
+                            {{ booking_form.service }}
+
+                            {% for error in booking_form.service.errors %}
+                                <div class="field-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="{{ booking_form.duration.id_for_label }}">
+                                Duration
+                            </label>
+
+                            {{ booking_form.duration }}
+
+                            {% for error in booking_form.duration.errors %}
+                                <div class="field-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Treatment Price
+                            </label>
+
+                            <div class="price-display">
+
+                                <span class="price-label">
+                                    Selected experience
+                                </span>
+
+                                <span
+                                    class="price-value"
+                                    id="bookingPrice"
+                                >
+                                    ₹0.00
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     DATE & TIME
+                ========================================== -->
+
+                <div class="form-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-number">
+                            03
+                        </div>
+
+                        <div>
+                            <h2>Choose Your Time</h2>
+
+                            <p>
+                                Select a date and one of the available appointment slots.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+
+                            <label for="{{ booking_form.appointment_date.id_for_label }}">
+                                Appointment Date
+                            </label>
+
+                            {{ booking_form.appointment_date }}
+
+                            {% for error in booking_form.appointment_date.errors %}
+                                <div class="field-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Available Time
+                            </label>
+
+                            <div class="availability-box">
+
+                                <div class="availability-header">
+
+                                    <span>
+                                        Select a time slot
+                                    </span>
+
+                                    <span
+                                        class="availability-status"
+                                        id="availabilityStatus"
+                                        aria-live="polite"
+                                    >
+                                        Choose treatment, duration and date
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    id="slotContainer"
+                                    class="slot-grid"
+                                >
+
+                                    <div class="slot-empty">
+                                        Available appointment times will appear here.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div style="display:none;">
+                                {{ booking_form.appointment_time }}
+                            </div>
+
+
+                            {% for error in booking_form.appointment_time.errors %}
+                                <div class="field-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     MESSAGE
+                ========================================== -->
+
+                <div class="form-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-number">
+                            04
+                        </div>
+
+                        <div>
+                            <h2>Anything We Should Know?</h2>
+
+                            <p>
+                                Share any preferences or special requests.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="{{ booking_form.message.id_for_label }}">
+                            Message
+                            <span style="color:#77736b;font-weight:400;">
+                                (Optional)
+                            </span>
+                        </label>
+
+                        {{ booking_form.message }}
+
+                        {% for error in booking_form.message.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     CONFIRMATION NOTE
+                ========================================== -->
+
+                <div class="booking-note">
+
+                    <div class="booking-note-icon">
+                        ✦
+                    </div>
+
+                    <div>
+                        Your appointment will be
+                        <strong style="color:#d8c08d;">
+                            confirmed automatically
+                        </strong>
+                        after availability is successfully validated.
+                        No payment is required to complete this booking.
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     SUBMIT
+                ========================================== -->
+
+                <div>
+
+                    <button
+                        type="submit"
+                        id="submitBooking"
+                        class="booking-submit"
+                        disabled
+                    >
+                        Confirm My Appointment
+                    </button>
+
+                    <div class="submit-hint">
+                        Your selected slot will be validated again before confirmation.
+                    </div>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =================================================
+             LIVE SUMMARY
+        ================================================== -->
+
+        <aside class="booking-summary">
+
+            <div class="summary-top">
+
+                <div class="summary-top-content">
+
+                    <div class="summary-eyebrow">
+                        Your Experience
+                    </div>
+
+                    <h2>
+                        Booking Summary
+                    </h2>
 
                 </div>
 
             </div>
 
 
-            <!-- =====================================================
-                 BOTTOM CTA
-            ===================================================== -->
+            <div class="summary-content">
 
-            <div class="booking-bottom">
-
-                <div class="booking-bottom-label">
-                    Your Time. Your Wellness.
+                <div
+                    class="summary-empty"
+                    id="summaryEmpty"
+                >
+                    Select your treatment, duration, date and
+                    time to see your appointment summary.
                 </div>
 
-                <h2>
-                    Make Space For
-                    <span>Sukoon.</span>
-                </h2>
 
-                <p>
-                    Step away from the everyday and give yourself time
-                    to slow down, relax and enjoy a thoughtfully prepared
-                    wellness experience at Sukoon Wellness & Spa.
-                </p>
+                <div
+                    id="summaryDetails"
+                    style="display:none;"
+                >
+
+                    <div class="summary-service">
+
+                        <div class="summary-service-label">
+                            Treatment
+                        </div>
+
+                        <div
+                            class="summary-service-name"
+                            id="summaryService"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-details">
+
+                        <div class="summary-row">
+
+                            <span class="summary-row-label">
+                                Duration
+                            </span>
+
+                            <span
+                                class="summary-row-value"
+                                id="summaryDuration"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span class="summary-row-label">
+                                Date
+                            </span>
+
+                            <span
+                                class="summary-row-value"
+                                id="summaryDate"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span class="summary-row-label">
+                                Time
+                            </span>
+
+                            <span
+                                class="summary-row-value"
+                                id="summaryTime"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-price">
+
+                        <span>
+                            Treatment Price
+                        </span>
+
+                        <span
+                            class="summary-price-value"
+                            id="summaryPrice"
+                        >
+                            ₹0.00
+                        </span>
+
+                    </div>
+
+                </div>
 
             </div>
 
-        </div>
 
-    </section>
+            <div class="summary-footer">
 
-</div>
+                Secure booking · No payment required ·
+                Availability validated before confirmation
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
 
 {% endblock %}
 
@@ -1807,1081 +1492,1045 @@ Book Your Session | Sukoon Wellness & Spa
 {% block extra_js %}
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
 
-        /* =====================================================
-           ELEMENTS
-        ===================================================== */
+    const form = document.getElementById("bookingForm");
 
-        const form =
-            document.getElementById("bookingForm");
+    const serviceSelect =
+        document.getElementById("id_service");
 
-        const serviceSelect =
-            document.getElementById("id_service");
+    const durationSelect =
+        document.getElementById("id_duration");
 
-        const durationSelect =
-            document.getElementById("id_duration");
+    const dateInput =
+        document.getElementById("id_appointment_date");
 
-        const dateInput =
-            document.getElementById("id_appointment_date");
+    const timeInput =
+        document.getElementById("id_appointment_time");
 
-        const timeInput =
-            document.getElementById("id_appointment_time");
+    const priceElement =
+        document.getElementById("bookingPrice");
 
-        const priceElement =
-            document.getElementById("bookingPrice");
+    const slotContainer =
+        document.getElementById("slotContainer");
 
-        const slotContainer =
-            document.getElementById("slotContainer");
+    const availabilityStatus =
+        document.getElementById("availabilityStatus");
 
-        const availabilityStatus =
-            document.getElementById("availabilityStatus");
+    const submitButton =
+        document.getElementById("submitBooking");
 
-        const loadingElement =
-            document.getElementById("availabilityLoading");
+    const summaryEmpty =
+        document.getElementById("summaryEmpty");
 
-        const submitButton =
-            document.getElementById("bookingSubmit");
+    const summaryDetails =
+        document.getElementById("summaryDetails");
+
+    const summaryService =
+        document.getElementById("summaryService");
+
+    const summaryDuration =
+        document.getElementById("summaryDuration");
+
+    const summaryDate =
+        document.getElementById("summaryDate");
+
+    const summaryTime =
+        document.getElementById("summaryTime");
+
+    const summaryPrice =
+        document.getElementById("summaryPrice");
 
 
-        /* =====================================================
-           SAFETY CHECK
-        ===================================================== */
+    /* =====================================================
+       SERVICE DATA
+       ONLY ACTIVE ServiceOptions
+       NO service.price / service.duration FALLBACK
+    ====================================================== */
 
-        if (
-            !form ||
-            !serviceSelect ||
-            !durationSelect ||
-            !dateInput ||
-            !timeInput
-        ) {
-            console.error(
-                "Booking form elements not found."
-            );
+    const serviceData = {
+
+        {% for service in services %}
+
+        "{{ service.id }}": {
+
+            name: "{{ service.name|escapejs }}",
+
+            options: {
+
+                {% for option in service.options.all %}
+
+                    {% if option.is_active %}
+
+                    "{{ option.duration }}": "{{ option.price }}",
+
+                    {% endif %}
+
+                {% endfor %}
+
+            }
+
+        },
+
+        {% endfor %}
+
+    };
+
+
+    /* =====================================================
+       DATE MINIMUM
+    ====================================================== */
+
+    if (dateInput) {
+
+        const today = new Date();
+
+        const year =
+            today.getFullYear();
+
+        const month =
+            String(today.getMonth() + 1).padStart(2, "0");
+
+        const day =
+            String(today.getDate()).padStart(2, "0");
+
+        dateInput.min =
+            `${year}-${month}-${day}`;
+    }
+
+
+    /* =====================================================
+       FORMAT PRICE
+    ====================================================== */
+
+    function formatPrice(value) {
+
+        const number =
+            Number(value || 0);
+
+        return "₹" + number.toLocaleString(
+            "en-IN",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+    }
+
+
+    /* =====================================================
+       UPDATE SUMMARY VISIBILITY
+    ====================================================== */
+
+    function updateSummary() {
+
+        const serviceId =
+            serviceSelect?.value;
+
+        const duration =
+            durationSelect?.value;
+
+        const date =
+            dateInput?.value;
+
+        const time =
+            timeInput?.value;
+
+        if (!serviceId) {
+
+            summaryEmpty.style.display = "block";
+            summaryDetails.style.display = "none";
 
             return;
         }
 
 
-        /* =====================================================
-           TODAY
-        ===================================================== */
+        const service =
+            serviceData[serviceId];
 
-        function getTodayString() {
+        if (!service) {
 
-            const now = new Date();
+            summaryEmpty.style.display = "block";
+            summaryDetails.style.display = "none";
 
-            const year =
-                now.getFullYear();
-
-            const month =
-                String(
-                    now.getMonth() + 1
-                ).padStart(2, "0");
-
-            const day =
-                String(
-                    now.getDate()
-                ).padStart(2, "0");
-
-            return `${year}-${month}-${day}`;
+            return;
         }
 
 
-        const todayString =
-            getTodayString();
+        summaryEmpty.style.display = "none";
+        summaryDetails.style.display = "block";
 
 
-        dateInput.min =
-            todayString;
+        summaryService.textContent =
+            service.name || "Selected Treatment";
 
 
-        /* =====================================================
-           SERVICE DATA
-        ===================================================== */
+        summaryDuration.textContent =
+            duration
+                ? `${duration} minutes`
+                : "Select duration";
 
-        const serviceData = {
 
-            {% for service in services %}
+        if (date) {
 
-                "{{ service.id }}": {
+            const selectedDate =
+                new Date(date + "T00:00:00");
 
-                    name:
-                        "{{ service.name|escapejs }}",
+            summaryDate.textContent =
+                selectedDate.toLocaleDateString(
+                    "en-IN",
+                    {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric"
+                    }
+                );
 
-                    default_duration:
-                        {{ service.duration|default:0 }},
+        } else {
 
-                    default_price:
-                        "{{ service.price }}",
+            summaryDate.textContent =
+                "Select date";
+        }
 
-                    options: {
 
-                        {% for option in service.options.all %}
+        if (time) {
 
-                            {% if option.is_active %}
+            const selectedSlot =
+                document.querySelector(
+                    `.slot-button[data-time="${time}"]`
+                );
 
-                                "{{ option.duration }}":
-                                    "{{ option.price }}",
+            summaryTime.textContent =
+                selectedSlot
+                    ? selectedSlot.dataset.display
+                    : time;
 
-                            {% endif %}
+        } else {
 
-                        {% endfor %}
+            summaryTime.textContent =
+                "Select time";
+        }
 
+
+        const price =
+            service.options?.[duration];
+
+        summaryPrice.textContent =
+            formatPrice(price);
+
+    }
+
+
+    /* =====================================================
+       LOAD DURATIONS
+    ====================================================== */
+
+    function loadDurations(restoreExisting = false) {
+
+        if (!durationSelect) {
+            return;
+        }
+
+
+        const serviceId =
+            serviceSelect?.value;
+
+
+        const existingDuration =
+            restoreExisting
+                ? durationSelect.value
+                : "";
+
+
+        durationSelect.innerHTML = "";
+
+
+        if (!serviceId || !serviceData[serviceId]) {
+
+            durationSelect.disabled = true;
+
+            const option =
+                document.createElement("option");
+
+            option.value = "";
+            option.textContent =
+                "Select treatment first";
+
+            durationSelect.appendChild(option);
+
+            updatePrice();
+            updateSummary();
+
+            return;
+        }
+
+
+        const service =
+            serviceData[serviceId];
+
+
+        const durations =
+            Object.keys(service.options || {})
+                .sort(
+                    (a, b) =>
+                        Number(a) - Number(b)
+                );
+
+
+        if (!durations.length) {
+
+            durationSelect.disabled = true;
+
+            const option =
+                document.createElement("option");
+
+            option.value = "";
+            option.textContent =
+                "No duration available";
+
+            durationSelect.appendChild(option);
+
+            priceElement.textContent =
+                "₹0.00";
+
+            updateSummary();
+
+            return;
+        }
+
+
+        durationSelect.disabled = false;
+
+
+        const placeholder =
+            document.createElement("option");
+
+        placeholder.value = "";
+        placeholder.textContent =
+            "Select duration";
+
+        durationSelect.appendChild(
+            placeholder
+        );
+
+
+        durations.forEach(function (duration) {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                duration;
+
+            option.textContent =
+                `${duration} minutes — ${formatPrice(
+                    service.options[duration]
+                )}`;
+
+            durationSelect.appendChild(
+                option
+            );
+
+        });
+
+
+        if (
+            existingDuration &&
+            durations.includes(
+                String(existingDuration)
+            )
+        ) {
+
+            durationSelect.value =
+                String(existingDuration);
+        }
+
+
+        updatePrice();
+        updateSummary();
+
+    }
+
+
+    /* =====================================================
+       UPDATE PRICE
+    ====================================================== */
+
+    function updatePrice() {
+
+        const serviceId =
+            serviceSelect?.value;
+
+        const duration =
+            durationSelect?.value;
+
+
+        if (
+            !serviceId ||
+            !duration ||
+            !serviceData[serviceId]
+        ) {
+
+            priceElement.textContent =
+                "₹0.00";
+
+            updateSummary();
+
+            return;
+        }
+
+
+        const price =
+            serviceData[
+                serviceId
+            ].options?.[duration];
+
+
+        if (
+            price === undefined ||
+            price === null
+        ) {
+
+            priceElement.textContent =
+                "₹0.00";
+
+        } else {
+
+            priceElement.textContent =
+                formatPrice(price);
+        }
+
+
+        updateSummary();
+
+    }
+
+
+    /* =====================================================
+       CLEAR SLOTS
+    ====================================================== */
+
+    function clearSlots(message) {
+
+        slotContainer.innerHTML = "";
+
+
+        const empty =
+            document.createElement("div");
+
+        empty.className =
+            "slot-empty";
+
+        empty.textContent =
+            message;
+
+        slotContainer.appendChild(
+            empty
+        );
+
+
+        if (timeInput) {
+            timeInput.value = "";
+        }
+
+
+        summaryTime.textContent =
+            "Select time";
+
+
+        validateForm();
+
+    }
+
+
+    /* =====================================================
+       LOAD AVAILABLE SLOTS
+    ====================================================== */
+
+    let availabilityRequest = 0;
+    async function loadAvailableSlots() {
+        const requestId = ++availabilityRequest;
+
+        const serviceId =
+            serviceSelect?.value;
+
+        const duration =
+            durationSelect?.value;
+
+        const date =
+            dateInput?.value;
+
+
+        if (
+            !serviceId ||
+            !duration ||
+            !date
+        ) {
+
+            clearSlots(
+                "Choose treatment, duration and date first."
+            );
+
+            availabilityStatus.textContent =
+                "Select booking details";
+
+            return;
+        }
+
+
+        clearSlots("Loading available times...");
+
+
+        slotContainer.innerHTML = `
+            <div class="loading-state" style="grid-column:1/-1;">
+                <span class="loading-dot"></span>
+                Checking availability...
+            </div>
+        `;
+
+
+        availabilityStatus.textContent =
+            "Checking availability";
+
+
+        try {
+
+            const url =
+                "{% url 'available_slots' %}" +
+                `?service=${encodeURIComponent(serviceId)}` +
+                `&duration=${encodeURIComponent(duration)}` +
+                `&date=${encodeURIComponent(date)}`{% if rescheduling %} + "&booking_id={{ reschedule_booking_id }}"{% endif %};
+
+
+            const response =
+                await fetch(
+                    url,
+                    {
+                        headers: {
+                            "X-Requested-With":
+                                "XMLHttpRequest"
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+            if (requestId !== availabilityRequest) return;
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load availability."
+                );
+            }
+
+
+            renderSlots(
+                data.slots || []
+            );
+
+
+            /*
+             * If backend returns the current
+             * ServiceOption price, use it for display.
+             * The server remains the source of truth.
+             */
+
+            if (
+                data.price !== undefined &&
+                data.price !== null
+            ) {
+
+                priceElement.textContent =
+                    formatPrice(data.price);
+
+                summaryPrice.textContent =
+                    formatPrice(data.price);
+            }
+
+
+        } catch (error) {
+            if (requestId !== availabilityRequest) return;
+
+            console.error(
+                "Availability error:",
+                error
+            );
+
+
+            slotContainer.innerHTML = `
+                <div class="slot-empty">
+                    ${escapeHtml(
+                        error.message ||
+                        "Unable to load available times."
+                    )}
+                </div>
+            `;
+
+
+            availabilityStatus.textContent =
+                "Unable to check availability";
+
+
+            if (timeInput) {
+                timeInput.value = "";
+            }
+
+
+            validateForm();
+
+        }
+
+    }
+
+
+    /* =====================================================
+       RENDER SLOTS
+    ====================================================== */
+
+    function renderSlots(slots) {
+
+        slotContainer.innerHTML = "";
+
+
+        if (!slots.length) {
+
+            const empty =
+                document.createElement("div");
+
+            empty.className =
+                "slot-empty";
+
+            empty.textContent =
+                "No available appointment times for this date.";
+
+            slotContainer.appendChild(
+                empty
+            );
+
+
+            availabilityStatus.textContent =
+                "No slots available";
+
+            validateForm();
+
+            return;
+        }
+
+
+        availabilityStatus.textContent =
+            `${slots.length} slot${
+                slots.length === 1 ? "" : "s"
+            } available`;
+
+
+        slots.forEach(function (slot) {
+
+            const button =
+                document.createElement("button");
+
+            button.type =
+                "button";
+
+            button.className =
+                "slot-button";
+
+            button.dataset.time =
+                slot.start;
+
+            button.dataset.display =
+                slot.display;
+
+
+            button.textContent =
+                slot.display;
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    document
+                        .querySelectorAll(
+                            ".slot-button"
+                        )
+                        .forEach(
+                            function (item) {
+                                item.classList.remove(
+                                    "selected"
+                                );
+                            }
+                        );
+
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+
+                    if (timeInput) {
+                        timeInput.value =
+                            slot.start;
                     }
 
-                },
 
-            {% endfor %}
-
-        };
+                    summaryTime.textContent =
+                        slot.display;
 
 
-        /* =====================================================
-           URL SERVICE
-        ===================================================== */
+                    validateForm();
+
+                }
+            );
+
+
+            slotContainer.appendChild(
+                button
+            );
+
+        });
+
+
+        updateSummary();
+        validateForm();
+
+    }
+
+
+    /* =====================================================
+       FORM VALIDATION
+    ====================================================== */
+
+    function validateForm() {
+
+        const serviceSelected =
+            Boolean(serviceSelect?.value);
+
+        const durationSelected =
+            Boolean(durationSelect?.value);
+
+        const dateSelected =
+            Boolean(dateInput?.value);
+
+        const timeSelected =
+            Boolean(timeInput?.value);
+
+
+        submitButton.disabled =
+            !(
+                serviceSelected &&
+                durationSelected &&
+                dateSelected &&
+                timeSelected
+            );
+
+
+        updateSummary();
+
+    }
+
+
+    /* =====================================================
+       SERVICE CHANGE
+    ====================================================== */
+
+    if (serviceSelect) {
+
+        serviceSelect.addEventListener(
+            "change",
+            function () {
+
+                if (timeInput) {
+                    timeInput.value = "";
+                }
+
+
+                loadDurations(false);
+
+
+                clearSlots(
+                    "Choose a date to see available times."
+                );
+
+
+                availabilityStatus.textContent =
+                    "Select date";
+
+
+                updatePrice();
+                validateForm();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       DURATION CHANGE
+    ====================================================== */
+
+    if (durationSelect) {
+
+        durationSelect.addEventListener(
+            "change",
+            function () {
+
+                if (timeInput) {
+                    timeInput.value = "";
+                }
+
+
+                updatePrice();
+                validateForm();
+
+
+                if (
+                    serviceSelect?.value &&
+                    durationSelect?.value &&
+                    dateInput?.value
+                ) {
+
+                    loadAvailableSlots();
+
+                } else {
+
+                    clearSlots(
+                        "Choose treatment, duration and date first."
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       DATE CHANGE
+    ====================================================== */
+
+    if (dateInput) {
+
+        dateInput.addEventListener(
+            "change",
+            function () {
+
+                if (timeInput) {
+                    timeInput.value = "";
+                }
+
+
+                if (
+                    serviceSelect?.value &&
+                    durationSelect?.value &&
+                    dateInput?.value
+                ) {
+
+                    loadAvailableSlots();
+
+                } else {
+
+                    clearSlots(
+                        "Choose treatment, duration and date first."
+                    );
+
+                }
+
+
+                validateForm();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       SUBMIT PROTECTION
+    ====================================================== */
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            const selectedTime =
+                timeInput?.value;
+
+
+            const selectedSlot =
+                selectedTime
+                    ? document.querySelector(
+                        `.slot-button[data-time="${selectedTime}"]`
+                    )
+                    : null;
+
+
+            /*
+             * Do not allow manually entered /
+             * stale time values.
+             */
+
+            if (!selectedSlot) {
+
+                event.preventDefault();
+
+
+                alert(
+                    "Please select an available appointment time."
+                );
+
+
+                return;
+            }
+
+
+            /*
+             * Backend will perform the final
+             * availability validation.
+             */
+
+            submitButton.disabled =
+                true;
+
+            submitButton.textContent =
+                "Confirming Appointment...";
+
+        }
+    );
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ====================================================== */
+
+    function escapeHtml(value) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            value;
+
+        return div.innerHTML;
+
+    }
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ====================================================== */
+
+    const existingService =
+        serviceSelect?.value || "";
+
+    const existingDuration =
+        durationSelect?.value || "";
+
+
+    if (serviceSelect) {
+
+        /*
+         * If URL contains ?service=ID
+         * select it automatically.
+         */
 
         const params =
             new URLSearchParams(
                 window.location.search
             );
 
-        const urlService =
+        const serviceFromUrl =
             params.get("service");
 
 
         if (
-            urlService &&
-            serviceData[urlService]
+            serviceFromUrl &&
+            serviceData[serviceFromUrl]
         ) {
 
             serviceSelect.value =
-                urlService;
-
+                serviceFromUrl;
         }
 
-
-        /* =====================================================
-           CLEAR SELECTION
-        ===================================================== */
-
-        function clearAvailability() {
-
-            timeInput.value = "";
-
-            submitButton.disabled = true;
-
-            slotContainer.innerHTML = `
-                <div class="availability-empty">
-                    Select a service, duration and
-                    appointment date to view available
-                    time slots.
-                </div>
-            `;
-
-            availabilityStatus.textContent =
-                "Select service, duration and date";
-
-        }
-
-
-        /* =====================================================
-           LOAD DURATIONS
-        ===================================================== */
-
-        function loadDurations(
-            preserveValue = false
-        ) {
-
-            const oldValue =
-                durationSelect.value;
-
-
-            durationSelect.innerHTML = "";
-
-
-            const serviceId =
-                serviceSelect.value;
-
-
-            if (!serviceId) {
-
-                durationSelect.disabled =
-                    true;
-
-                durationSelect.innerHTML = `
-                    <option value="">
-                        Select service first
-                    </option>
-                `;
-
-                priceElement.textContent =
-                    "₹0";
-
-                clearAvailability();
-
-                return;
-
-            }
-
-
-            const service =
-                serviceData[serviceId];
-
-
-            if (!service) {
-
-                durationSelect.disabled =
-                    false;
-
-                durationSelect.innerHTML = `
-                    <option value="">
-                        Service unavailable
-                    </option>
-                `;
-
-                priceElement.textContent =
-                    "₹0";
-
-                clearAvailability();
-
-                return;
-
-            }
-
-
-            const options =
-                service.options || {};
-
-
-            const durationValues =
-                Object.keys(options);
-
-
-            durationSelect.disabled =
-                false;
-
-
-            durationSelect.innerHTML = `
-                <option value="">
-                    Select duration
-                </option>
-            `;
-
-
-            /* =================================================
-               SERVICE OPTIONS EXIST
-            ================================================= */
-
-            if (
-                durationValues.length > 0
-            ) {
-
-                durationValues
-                    .sort(
-                        (a, b) =>
-                            Number(a) - Number(b)
-                    )
-                    .forEach(
-                        function (duration) {
-
-                            const option =
-                                document.createElement(
-                                    "option"
-                                );
-
-                            option.value =
-                                duration;
-
-                            option.textContent =
-                                `${duration} minutes — ₹${Number(
-                                    options[duration]
-                                ).toLocaleString("en-IN")}`;
-
-                            durationSelect.appendChild(
-                                option
-                            );
-
-                        }
-                    );
-
-            }
-
-
-            /* =================================================
-               FALLBACK SERVICE DURATION
-            ================================================= */
-
-            else if (
-                service.default_duration
-            ) {
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-                option.value =
-                    service.default_duration;
-
-                option.textContent =
-                    `${service.default_duration} minutes — ₹${Number(
-                        service.default_price
-                    ).toLocaleString("en-IN")}`;
-
-                durationSelect.appendChild(
-                    option
-                );
-
-            }
-
-
-            /* =================================================
-               RESTORE VALUE
-            ================================================= */
-
-            if (
-                preserveValue &&
-                oldValue
-            ) {
-
-                const exists =
-                    Array.from(
-                        durationSelect.options
-                    ).some(
-                        option =>
-                            option.value === oldValue
-                    );
-
-                if (exists) {
-
-                    durationSelect.value =
-                        oldValue;
-
-                }
-
-            }
-
-        }
-
-
-        /* =====================================================
-           UPDATE PRICE
-        ===================================================== */
-
-        function updatePrice() {
-
-            const serviceId =
-                serviceSelect.value;
-
-            const duration =
-                durationSelect.value;
-
-
-            if (
-                !serviceId ||
-                !duration
-            ) {
-
-                priceElement.textContent =
-                    "₹0";
-
-                return;
-
-            }
-
-
-            const service =
-                serviceData[serviceId];
-
-
-            if (!service) {
-
-                priceElement.textContent =
-                    "₹0";
-
-                return;
-
-            }
-
-
-            let price = null;
-
-
-            if (
-                service.options &&
-                service.options[duration]
-            ) {
-
-                price =
-                    service.options[duration];
-
-            }
-
-            else {
-
-                price =
-                    service.default_price;
-
-            }
-
-
-            if (price) {
-
-                priceElement.textContent =
-                    `₹${Number(
-                        price
-                    ).toLocaleString("en-IN")}`;
-
-            }
-
-            else {
-
-                priceElement.textContent =
-                    "₹0";
-
-            }
-
-        }
-
-
-        /* =====================================================
-           LOAD AVAILABLE SLOTS
-        ===================================================== */
-
-        async function loadAvailableSlots() {
-
-            const serviceId =
-                serviceSelect.value;
-
-            const duration =
-                durationSelect.value;
-
-            const selectedDate =
-                dateInput.value;
-
-
-            timeInput.value = "";
-
-            submitButton.disabled =
-                true;
-
-
-            if (
-                !serviceId ||
-                !duration ||
-                !selectedDate
-            ) {
-
-                clearAvailability();
-
-                return;
-
-            }
-
-
-            /* =================================================
-               PAST DATE
-            ================================================= */
-
-            if (
-                selectedDate < todayString
-            ) {
-
-                dateInput.value = "";
-
-                slotContainer.innerHTML = `
-                    <div class="availability-empty">
-                        Please select today or a future date.
-                    </div>
-                `;
-
-                availabilityStatus.textContent =
-                    "Invalid date";
-
-                return;
-
-            }
-
-
-            /* =================================================
-               LOADING
-            ================================================= */
-
-            loadingElement.classList.add(
-                "active"
+    }
+
+
+    /*
+     * Load ServiceOptions.
+     */
+
+    loadDurations(
+        Boolean(existingDuration)
+    );
+
+
+    /*
+     * Restore duration after
+     * options have been generated.
+     */
+
+    if (
+        existingDuration &&
+        durationSelect
+    ) {
+
+        const matchingOption =
+            Array.from(
+                durationSelect.options
+            ).find(
+                option =>
+                    option.value ===
+                    String(existingDuration)
             );
 
 
-            slotContainer.innerHTML =
-                "";
+        if (matchingOption) {
 
-
-            availabilityStatus.textContent =
-                "Checking availability...";
-
-
-            try {
-
-                const url =
-                    `{% url 'available_slots' %}` +
-                    `?service=${encodeURIComponent(
-                        serviceId
-                    )}` +
-                    `&duration=${encodeURIComponent(
-                        duration
-                    )}` +
-                    `&date=${encodeURIComponent(
-                        selectedDate
-                    )}`;
-
-
-                const response =
-                    await fetch(
-                        url,
-                        {
-                            method: "GET",
-
-                            headers: {
-                                "X-Requested-With":
-                                    "XMLHttpRequest"
-                            },
-
-                            cache: "no-store"
-                        }
-                    );
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Availability request failed."
-                    );
-
-                }
-
-
-                const data =
-                    await response.json();
-
-
-                if (
-                    !data.success
-                ) {
-
-                    throw new Error(
-                        data.message ||
-                        "Unable to load availability."
-                    );
-
-                }
-
-
-                renderSlots(
-                    data.slots || []
-                );
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Availability error:",
-                    error
-                );
-
-
-                slotContainer.innerHTML = `
-                    <div class="availability-empty">
-                        Unable to check availability right now.
-                        Please try again.
-                    </div>
-                `;
-
-                availabilityStatus.textContent =
-                    "Availability check failed";
-
-            }
-
-            finally {
-
-                loadingElement.classList.remove(
-                    "active"
-                );
-
-            }
-
-        }
-
-
-        /* =====================================================
-           RENDER SLOTS
-        ===================================================== */
-
-        function renderSlots(
-            slots
-        ) {
-
-            slotContainer.innerHTML =
-                "";
-
-
-            if (
-                !slots ||
-                slots.length === 0
-            ) {
-
-                slotContainer.innerHTML = `
-                    <div class="availability-empty">
-                        No appointment times are currently
-                        available for this date and duration.
-                        Please try another date.
-                    </div>
-                `;
-
-                availabilityStatus.textContent =
-                    "No slots available";
-
-                return;
-
-            }
-
-
-            availabilityStatus.textContent =
-                `${slots.length} available time${
-                    slots.length === 1
-                        ? ""
-                        : "s"
-                }`;
-
-
-            slots.forEach(
-                function (slot) {
-
-                    const button =
-                        document.createElement(
-                            "button"
-                        );
-
-
-                    button.type =
-                        "button";
-
-                    button.className =
-                        "slot-button";
-
-                    button.dataset.time =
-                        slot.start;
-
-
-                    button.innerHTML = `
-                        <span class="slot-time">
-                            ${slot.display}
-                        </span>
-
-                        <span class="slot-status">
-                            Available
-                        </span>
-                    `;
-
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            document
-                                .querySelectorAll(
-                                    ".slot-button"
-                                )
-                                .forEach(
-                                    function (
-                                        item
-                                    ) {
-
-                                        item.classList.remove(
-                                            "selected"
-                                        );
-
-                                    }
-                                );
-
-
-                            this.classList.add(
-                                "selected"
-                            );
-
-
-                            timeInput.value =
-                                slot.start;
-
-
-                            submitButton.disabled =
-                                false;
-
-                        }
-                    );
-
-
-                    slotContainer.appendChild(
-                        button
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =====================================================
-           SERVICE CHANGE
-        ===================================================== */
-
-        serviceSelect.addEventListener(
-            "change",
-            function () {
-
-                loadDurations();
-
-                updatePrice();
-
-            }
-        );
-
-
-        /* =====================================================
-           DURATION CHANGE
-        ===================================================== */
-
-        durationSelect.addEventListener(
-            "change",
-            function () {
-
-                updatePrice();
-
-                loadAvailableSlots();
-
-            }
-        );
-
-
-        /* =====================================================
-           DATE CHANGE
-        ===================================================== */
-
-        dateInput.addEventListener(
-            "change",
-            function () {
-
-                if (
-                    this.value &&
-                    this.value < todayString
-                ) {
-
-                    this.value = "";
-
-                    alert(
-                        "Please select today or a future date."
-                    );
-
-                    clearAvailability();
-
-                    return;
-
-                }
-
-
-                loadAvailableSlots();
-
-            }
-        );
-
-
-        /* =====================================================
-           TIME INPUT MANUAL CHANGE
-        ===================================================== */
-
-        timeInput.addEventListener(
-            "change",
-            function () {
-
-                const selectedTime =
-                    this.value;
-
-
-                if (!selectedTime) {
-
-                    submitButton.disabled =
-                        true;
-
-                    return;
-
-                }
-
-
-                const matchingSlot =
-                    Array.from(
-                        document.querySelectorAll(
-                            ".slot-button"
-                        )
-                    ).find(
-                        button =>
-                            button.dataset.time ===
-                            selectedTime
-                    );
-
-
-                document
-                    .querySelectorAll(
-                        ".slot-button"
-                    )
-                    .forEach(
-                        function (button) {
-
-                            button.classList.remove(
-                                "selected"
-                            );
-
-                        }
-                    );
-
-
-                if (matchingSlot) {
-
-                    matchingSlot.classList.add(
-                        "selected"
-                    );
-
-                    submitButton.disabled =
-                        false;
-
-                }
-
-                else {
-
-                    /*
-                     * Do not allow a manually entered time
-                     * that is not one of the currently available
-                     * slots.
-                     */
-
-                    this.value = "";
-
-                    submitButton.disabled =
-                        true;
-
-                    alert(
-                        "Please select one of the available appointment slots."
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =====================================================
-           FORM SUBMIT
-        ===================================================== */
-
-        form.addEventListener(
-            "submit",
-            function (event) {
-
-                if (
-                    !serviceSelect.value
-                ) {
-
-                    event.preventDefault();
-
-                    alert(
-                        "Please select a service."
-                    );
-
-                    serviceSelect.focus();
-
-                    return;
-
-                }
-
-
-                if (
-                    !durationSelect.value
-                ) {
-
-                    event.preventDefault();
-
-                    alert(
-                        "Please select a duration."
-                    );
-
-                    durationSelect.focus();
-
-                    return;
-
-                }
-
-
-                if (
-                    !dateInput.value
-                ) {
-
-                    event.preventDefault();
-
-                    alert(
-                        "Please select an appointment date."
-                    );
-
-                    dateInput.focus();
-
-                    return;
-
-                }
-
-
-                if (
-                    dateInput.value < todayString
-                ) {
-
-                    event.preventDefault();
-
-                    alert(
-                        "Please select today or a future date."
-                    );
-
-                    dateInput.focus();
-
-                    return;
-
-                }
-
-
-                if (
-                    !timeInput.value
-                ) {
-
-                    event.preventDefault();
-
-                    alert(
-                        "Please select an available appointment time."
-                    );
-
-                    return;
-
-                }
-
-
-                /*
-                 * Make sure selected time is one of
-                 * the slots currently shown.
-                 */
-
-                const selectedSlot =
-                    Array.from(
-                        document.querySelectorAll(
-                            ".slot-button"
-                        )
-                    ).find(
-                        button =>
-                            button.dataset.time ===
-                            timeInput.value
-                    );
-
-
-                if (!selectedSlot) {
-
-                    event.preventDefault();
-
-                    alert(
-                        "The selected appointment time is no longer available. Please choose another slot."
-                    );
-
-                    loadAvailableSlots();
-
-                    return;
-
-                }
-
-
-                /*
-                 * Prevent double submission.
-                 */
-
-                submitButton.disabled =
-                    true;
-
-                submitButton.textContent =
-                    "Submitting Request...";
-
-            }
-        );
-
-
-        /* =====================================================
-           INITIAL LOAD
-        ===================================================== */
-
-        const existingDuration =
-            durationSelect.value;
-
-
-        loadDurations(
-            false
-        );
-
-
-        /*
-         * Restore duration if Django returned
-         * the form after a validation error.
-         */
-
-        if (
-            existingDuration
-        ) {
-
-            const exists =
-                Array.from(
-                    durationSelect.options
-                ).some(
-                    option =>
-                        option.value ===
-                        existingDuration
-                );
-
-
-            if (exists) {
-
-                durationSelect.value =
-                    existingDuration;
-
-            }
-
-        }
-
-
-        updatePrice();
-
-
-        /*
-         * If service/date/duration already exist,
-         * automatically check availability.
-         */
-
-        if (
-            serviceSelect.value &&
-            durationSelect.value &&
-            dateInput.value
-        ) {
-
-            loadAvailableSlots();
+            durationSelect.value =
+                String(existingDuration);
 
         }
 
     }
-);
 
+
+    updatePrice();
+
+
+    /*
+     * If form was returned after
+     * validation error, reload slots.
+     */
+
+    if (
+        serviceSelect?.value &&
+        durationSelect?.value &&
+        dateInput?.value
+    ) {
+
+        loadAvailableSlots();
+
+    } else {
+
+        clearSlots(
+            "Choose treatment, duration and date first."
+        );
+
+    }
+
+
+    validateForm();
+
+});
 </script>
 
 {% endblock %}

@@ -1,497 +1,97 @@
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
+from django.utils import timezone
+from ..models import Booking, Staff, StaffLeave, Room
 
-from django.db.models import Q
-
-from ..models import (
-    Booking,
-    Staff,
-    StaffLeave,
-    Room,
-)
-
-
-# =========================================================
-# BUSINESS HOURS
-# =========================================================
-
-BUSINESS_START = 10 * 60       # 10:00 AM
-BUSINESS_END = 22 * 60         # 10:00 PM
-
-# Slot checking interval
-# 15 means system checks:
-# 10:00, 10:15, 10:30, 10:45...
+BUSINESS_START = 10 * 60
+BUSINESS_END = 22 * 60
 SLOT_INTERVAL = 15
 
-
-# =========================================================
-# TIME → MINUTES
-# =========================================================
-
 def time_to_minutes(value):
-    """
-    Convert Python time object into minutes from midnight.
-    """
-
     return value.hour * 60 + value.minute
 
-
-# =========================================================
-# MINUTES → TIME
-# =========================================================
-
 def minutes_to_time(minutes):
-    """
-    Convert minutes from midnight into a Python time object.
-    """
+    if not 0 <= minutes < 24 * 60:
+        raise ValueError("Appointment must end on the same day.")
+    return time(minutes // 60, minutes % 60)
 
-    hours = minutes // 60
-    mins = minutes % 60
+def calculate_end_time(start_time, duration):
+    if not duration or duration <= 0:
+        raise ValueError("Duration must be positive.")
+    return minutes_to_time(time_to_minutes(start_time) + duration)
 
-    return datetime.strptime(
-        f"{hours:02d}:{mins:02d}",
-        "%H:%M"
-    ).time()
+def is_within_business_hours(start_time, end_time):
+    return BUSINESS_START <= time_to_minutes(start_time) < time_to_minutes(end_time) <= BUSINESS_END
 
+def appointment_is_past(appointment_date, start_time):
+    appointment = timezone.make_aware(datetime.combine(appointment_date, start_time))
+    return appointment <= timezone.now()
 
-# =========================================================
-# CALCULATE END TIME
-# =========================================================
+def is_staff_on_leave(staff, appointment_date):
+    return StaffLeave.objects.filter(staff=staff, leave_date=appointment_date).exists()
 
-def calculate_end_time(
-    start_time,
-    duration
-):
-    """
-    Calculate booking end time from start time
-    and service duration.
-    """
-
-    start_minutes = time_to_minutes(
-        start_time
-    )
-
-    end_minutes = (
-        start_minutes + duration
-    )
-
-    return minutes_to_time(
-        end_minutes
-    )
-
-
-# =========================================================
-# CHECK BUSINESS HOURS
-# =========================================================
-
-def is_within_business_hours(
-    start_time,
-    end_time
-):
-    """
-    Check whether the complete booking
-    fits inside spa business hours.
-    """
-
-    start_minutes = time_to_minutes(
-        start_time
-    )
-
-    end_minutes = time_to_minutes(
-        end_time
-    )
-
-    return (
-        start_minutes >= BUSINESS_START
-        and
-        end_minutes <= BUSINESS_END
-    )
-
-
-# =========================================================
-# STAFF LEAVE CHECK
-# =========================================================
-
-def is_staff_on_leave(
-    staff,
-    appointment_date
-):
-    """
-    Check whether staff member is on leave
-    on the selected date.
-    """
-
-    return StaffLeave.objects.filter(
-        staff=staff,
-        leave_date=appointment_date
-    ).exists()
-
-
-# =========================================================
-# STAFF BOOKING OVERLAP
-# =========================================================
-
-def is_staff_booked(
-    staff,
-    appointment_date,
-    start_time,
-    end_time,
-    exclude_booking_id=None
-):
-    """
-    Check whether staff already has a booking
-    overlapping the requested time.
-    """
-
-    bookings = Booking.objects.filter(
-        staff=staff,
-        appointment_date=appointment_date,
-        status__in=[
-            "pending",
-            "confirmed",
-        ]
-    )
-
+def day_resources(appointment_date, exclude_booking_id=None):
+    leaves = set(StaffLeave.objects.filter(leave_date=appointment_date).values_list("staff_id", flat=True))
+    staff = [s for s in Staff.objects.filter(is_active=True).order_by("pk") if s.pk not in leaves]
+    rooms = list(Room.objects.filter(is_active=True).order_by("pk"))
+    bookings = Booking.objects.filter(appointment_date=appointment_date, status__in=["pending", "confirmed"])
     if exclude_booking_id:
-        bookings = bookings.exclude(
-            id=exclude_booking_id
-        )
+        bookings = bookings.exclude(pk=exclude_booking_id)
+    intervals = []
+    for b in bookings:
+        start = time_to_minutes(b.appointment_time)
+        # Unknown legacy end times reserve the remainder of the day conservatively.
+        end = time_to_minutes(b.end_time) if b.end_time else min(BUSINESS_END, start + b.selected_duration) if b.selected_duration else BUSINESS_END
+        intervals.append((b.staff_id, b.room_id, start, end))
+    return staff, rooms, intervals
 
-    # Existing booking:
-    #
-    # existing_start < requested_end
-    # AND
-    # existing_end > requested_start
+def free_resources(resources, start_time, end_time):
+    staff, rooms, intervals = resources
+    start, end = time_to_minutes(start_time), time_to_minutes(end_time)
+    overlaps = [i for i in intervals if i[2] < end and i[3] > start]
+    busy_staff = {i[0] for i in overlaps}
+    busy_rooms = {i[1] for i in overlaps}
+    return [s for s in staff if s.pk not in busy_staff], [r for r in rooms if r.pk not in busy_rooms]
 
-    return bookings.filter(
-        Q(
-            appointment_time__lt=end_time
-        ),
-        Q(
-            end_time__gt=start_time
-        )
-    ).exists()
+def is_staff_booked(staff, appointment_date, start_time, end_time, exclude_booking_id=None):
+    resources = day_resources(appointment_date, exclude_booking_id)
+    start, end = time_to_minutes(start_time), time_to_minutes(end_time)
+    return any(i[0] == staff.pk and i[2] < end and i[3] > start for i in resources[2])
 
+def is_room_booked(room, appointment_date, start_time, end_time, exclude_booking_id=None):
+    resources = day_resources(appointment_date, exclude_booking_id)
+    start, end = time_to_minutes(start_time), time_to_minutes(end_time)
+    return any(i[1] == room.pk and i[2] < end and i[3] > start for i in resources[2])
 
-# =========================================================
-# ROOM BOOKING OVERLAP
-# =========================================================
+def get_available_staff(appointment_date, start_time, end_time, exclude_booking_id=None):
+    return free_resources(day_resources(appointment_date, exclude_booking_id), start_time, end_time)[0]
 
-def is_room_booked(
-    room,
-    appointment_date,
-    start_time,
-    end_time,
-    exclude_booking_id=None
-):
-    """
-    Check whether room already has a booking
-    overlapping the requested time.
-    """
+def get_available_rooms(appointment_date, start_time, end_time, exclude_booking_id=None):
+    return free_resources(day_resources(appointment_date, exclude_booking_id), start_time, end_time)[1]
 
-    bookings = Booking.objects.filter(
-        room=room,
-        appointment_date=appointment_date,
-        status__in=[
-            "pending",
-            "confirmed",
-        ]
-    )
+def check_slot_availability(appointment_date, start_time, duration, exclude_booking_id=None):
+    end_time = calculate_end_time(start_time, duration)
+    valid = is_within_business_hours(start_time, end_time) and not appointment_is_past(appointment_date, start_time)
+    staff, rooms = free_resources(day_resources(appointment_date, exclude_booking_id), start_time, end_time) if valid else ([], [])
+    available = valid and bool(staff and rooms)
+    return {"available": available, "reason": None if available else "Time is past, outside business hours, or unavailable.",
+            "start_time": start_time, "end_time": end_time, "staff": staff, "rooms": rooms}
 
-    if exclude_booking_id:
-        bookings = bookings.exclude(
-            id=exclude_booking_id
-        )
-
-    return bookings.filter(
-        Q(
-            appointment_time__lt=end_time
-        ),
-        Q(
-            end_time__gt=start_time
-        )
-    ).exists()
-
-
-# =========================================================
-# AVAILABLE STAFF
-# =========================================================
-
-def get_available_staff(
-    appointment_date,
-    start_time,
-    end_time,
-    exclude_booking_id=None
-):
-    """
-    Return all staff members who are available
-    for the complete booking duration.
-    """
-
-    staff_members = Staff.objects.filter(
-        is_active=True
-    ).order_by("name")
-
-    available_staff = []
-
-    for staff in staff_members:
-
-        # Staff leave check
-        if is_staff_on_leave(
-            staff,
-            appointment_date
-        ):
-            continue
-
-        # Existing booking check
-        if is_staff_booked(
-            staff,
-            appointment_date,
-            start_time,
-            end_time,
-            exclude_booking_id
-        ):
-            continue
-
-        available_staff.append(
-            staff
-        )
-
-    return available_staff
-
-
-# =========================================================
-# AVAILABLE ROOMS
-# =========================================================
-
-def get_available_rooms(
-    appointment_date,
-    start_time,
-    end_time,
-    exclude_booking_id=None
-):
-    """
-    Return all rooms available for
-    the complete booking duration.
-    """
-
-    rooms = Room.objects.filter(
-        is_active=True
-    ).order_by("name")
-
-    available_rooms = []
-
-    for room in rooms:
-
-        if is_room_booked(
-            room,
-            appointment_date,
-            start_time,
-            end_time,
-            exclude_booking_id
-        ):
-            continue
-
-        available_rooms.append(
-            room
-        )
-
-    return available_rooms
-
-
-# =========================================================
-# CHECK COMPLETE SLOT
-# =========================================================
-
-def check_slot_availability(
-    appointment_date,
-    start_time,
-    duration,
-    exclude_booking_id=None
-):
-    """
-    Check whether a complete slot is available.
-
-    Returns:
-        {
-            "available": True/False,
-            "start_time": ...,
-            "end_time": ...,
-            "staff": [...],
-            "rooms": [...]
-        }
-    """
-
-    # Calculate end time
-    end_time = calculate_end_time(
-        start_time,
-        duration
-    )
-
-    # Business hour check
-    if not is_within_business_hours(
-        start_time,
-        end_time
-    ):
-        return {
-            "available": False,
-            "reason": "Outside business hours",
-            "start_time": start_time,
-            "end_time": end_time,
-            "staff": [],
-            "rooms": [],
-        }
-
-    # Get available staff
-    available_staff = get_available_staff(
-        appointment_date,
-        start_time,
-        end_time,
-        exclude_booking_id
-    )
-
-    # Get available rooms
-    available_rooms = get_available_rooms(
-        appointment_date,
-        start_time,
-        end_time,
-        exclude_booking_id
-    )
-
-    # Both resources required
-    available = (
-        len(available_staff) > 0
-        and
-        len(available_rooms) > 0
-    )
-
-    return {
-        "available": available,
-        "reason": (
-            None
-            if available
-            else "No staff or room available"
-        ),
-        "start_time": start_time,
-        "end_time": end_time,
-        "staff": available_staff,
-        "rooms": available_rooms,
-    }
-
-
-# =========================================================
-# GENERATE AVAILABLE SLOTS
-# =========================================================
-
-def get_available_slots(
-    appointment_date,
-    duration
-):
-    """
-    Generate all available booking slots
-    for a particular date and service duration.
-    """
-
+def get_available_slots(appointment_date, duration, exclude_booking_id=None):
+    if not duration or duration <= 0 or appointment_date < timezone.localdate():
+        return []
+    resources = day_resources(appointment_date, exclude_booking_id)
+    now = timezone.localtime()
+    minimum = BUSINESS_START
+    if appointment_date == now.date():
+        minimum = max(minimum, (time_to_minutes(now.time()) // SLOT_INTERVAL + 1) * SLOT_INTERVAL)
     slots = []
-
-    current_minutes = BUSINESS_START
-
-    while current_minutes < BUSINESS_END:
-
-        start_time = minutes_to_time(
-            current_minutes
-        )
-
-        end_minutes = (
-            current_minutes + duration
-        )
-
-        # Service cannot finish after closing
-        if end_minutes > BUSINESS_END:
-            break
-
-        end_time = minutes_to_time(
-            end_minutes
-        )
-
-        availability = check_slot_availability(
-            appointment_date,
-            start_time,
-            duration
-        )
-
-        if availability["available"]:
-
-            slots.append({
-                "start_time": start_time,
-                "end_time": end_time,
-                "staff": availability["staff"],
-                "rooms": availability["rooms"],
-            })
-
-        current_minutes += SLOT_INTERVAL
-
+    for minute in range(minimum, BUSINESS_END - duration + 1, SLOT_INTERVAL):
+        start, end = minutes_to_time(minute), minutes_to_time(minute + duration)
+        staff, rooms = free_resources(resources, start, end)
+        if staff and rooms:
+            slots.append({"start_time": start, "end_time": end, "staff": staff, "rooms": rooms})
     return slots
 
-
-# =========================================================
-# NEXT AVAILABLE SLOT
-# =========================================================
-
-def get_next_available_slot(
-    appointment_date,
-    duration,
-    from_time=None
-):
-    """
-    Find the first available slot after
-    the specified time.
-    """
-
-    if from_time:
-        current_minutes = time_to_minutes(
-            from_time
-        )
-
-        # Round to next 15-minute interval
-        remainder = (
-            current_minutes % SLOT_INTERVAL
-        )
-
-        if remainder:
-            current_minutes += (
-                SLOT_INTERVAL - remainder
-            )
-    else:
-        current_minutes = BUSINESS_START
-
-    while current_minutes < BUSINESS_END:
-
-        start_time = minutes_to_time(
-            current_minutes
-        )
-
-        end_minutes = (
-            current_minutes + duration
-        )
-
-        if end_minutes > BUSINESS_END:
-            break
-
-        availability = check_slot_availability(
-            appointment_date,
-            start_time,
-            duration
-        )
-
-        if availability["available"]:
-
-            return {
-                "start_time": start_time,
-                "end_time": availability["end_time"],
-                "staff": availability["staff"],
-                "rooms": availability["rooms"],
-            }
-
-        current_minutes += SLOT_INTERVAL
-
-    return None
+def get_next_available_slot(appointment_date, duration, from_time=None):
+    return next((s for s in get_available_slots(appointment_date, duration)
+                 if from_time is None or s["start_time"] >= from_time), None)

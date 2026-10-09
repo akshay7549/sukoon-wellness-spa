@@ -4255,7 +4255,7 @@ p {
             rgba(5,5,4,.92),
             rgba(5,5,4,.62)
         ),
-        url("/static/images/service.jpg")
+        url("/static/images/service.webp")
         center / cover no-repeat;
 }
 

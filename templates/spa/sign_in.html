@@ -1,0 +1,21 @@
+{% extends "spa/account_base.html" %}
+
+{% block account_form %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% for field in form %}
+        <div class="field">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+        </div>
+    {% endfor %}
+    <button class="submit" type="submit">Sign In</button>
+</form>
+{% endblock %}
+
+{% block account_note %}
+<a href="{% url 'password_reset' %}">Forgot password?</a><br><br>
+New to Sukoon? <a href="{% url 'register' %}">Create an account</a>
+{% endblock %}

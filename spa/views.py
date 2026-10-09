@@ -1,12 +1,16 @@
+
 from datetime import datetime
 
+import logging
 from django.contrib import messages
 from django.db import transaction
-from django.http import JsonResponse
+from django.db.models import Q
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
 from .forms import BookingForm
+from .account_views import booking_initial, remember_guest_booking
 from .models import (
     Booking,
     Room,
@@ -52,39 +56,41 @@ def home(request):
     """
     Main Sukoon Wellness & Spa homepage.
 
-    The homepage also supports booking POST requests if
-    the home page booking form is submitted.
+    The homepage also supports booking POST requests.
 
     Booking rules:
         - No payment required
         - No admin approval required
-        - Booking is immediately confirmed when resources
-          are successfully allocated
+        - Booking is immediately confirmed
+        - Staff and room are automatically assigned
     """
 
     if request.method == "POST":
 
-        booking_form = BookingForm(request.POST)
+        booking_form = BookingForm(
+            request.POST
+        )
 
         if booking_form.is_valid():
 
             try:
 
                 booking_obj = create_booking_with_resources(
-                    booking_form
+                    booking_form,
+                    customer=request.user if request.user.is_authenticated else None,
                 )
 
-            except BookingUnavailableError:
+                remember_guest_booking(request, booking_obj)
+
+            except BookingUnavailableError as exc:
 
                 booking_form.add_error(
                     None,
-                    (
-                        "Selected date and time is not available. "
-                        "Please choose another slot."
-                    ),
+                    str(exc),
                 )
 
             except Exception:
+                logging.getLogger(__name__).exception("Booking creation failed")
 
                 booking_form.add_error(
                     None,
@@ -94,16 +100,26 @@ def home(request):
                     ),
                 )
 
-            else:
+        else:
 
-                return redirect(
-                    "booking_success",
-                    booking_id=booking_obj.id,
-                )
+            # Form validation errors are already attached
+            # to the form.
+
+            pass
+
+        if (
+            booking_form.is_valid()
+            and "booking_obj" in locals()
+        ):
+
+            return redirect(
+                "booking_success",
+                booking_id=booking_obj.id,
+            )
 
     else:
 
-        booking_form = BookingForm()
+        booking_form = BookingForm(initial=booking_initial(request))
 
     # =====================================================
     # ACTIVE SERVICES
@@ -111,13 +127,19 @@ def home(request):
 
     services = (
         Service.objects
-        .filter(is_active=True)
-        .select_related("category")
-        .prefetch_related("options")
+        .filter(
+            is_active=True, options__is_active=True,
+        ).distinct()
+        .select_related(
+            "category",
+        )
+        .prefetch_related(
+            "options",
+        )
     )
 
     featured_services = services.filter(
-        is_featured=True
+        is_featured=True,
     )
 
     context = {
@@ -153,26 +175,17 @@ def about(request):
 # =========================================================
 
 def services(request):
-    """
-    Display all active spa services.
-    """
-
-    services_list = (
-        Service.objects
-        .filter(is_active=True)
-        .select_related("category")
-        .prefetch_related("options")
-    )
-
-    context = {
-        "services": services_list,
-    }
-
-    return render(
-        request,
-        "spa/services.html",
-        context,
-    )
+    import re
+    from pathlib import Path
+    from django.conf import settings
+    from django.templatetags.static import static
+    normal = lambda value: re.sub(r"[^a-z0-9]", "", value.casefold())
+    images = {normal(p.stem): p.name for p in sorted((settings.BASE_DIR / "static" / "images").glob("*"), key=lambda p: p.suffix == ".webp") if p.is_file()}
+    treatments = list(Service.objects.filter(is_active=True).select_related("category").prefetch_related("options"))
+    for service in treatments:
+        service.cover_url = service.image.url if service.image else static("images/" + images.get(normal(service.name), "service.jpg"))
+        service.bookable = any(o.is_active for o in service.options.all())
+    return render(request,"spa/services.html",{"services":treatments})
 
 
 # =========================================================
@@ -191,6 +204,14 @@ def gallery(request):
 
 
 # =========================================================
+# FRANCHISE PAGE
+# =========================================================
+
+def franchise(request):
+    return enquiry_page(request, "franchise")
+
+
+# =========================================================
 # BOOKING PAGE
 # =========================================================
 
@@ -204,31 +225,36 @@ def booking(request):
     There is:
         - No payment
         - No admin approval
+        - Automatic staff assignment
+        - Automatic room assignment
     """
 
     if request.method == "POST":
 
-        booking_form = BookingForm(request.POST)
+        booking_form = BookingForm(
+            request.POST
+        )
 
         if booking_form.is_valid():
 
             try:
 
                 booking_obj = create_booking_with_resources(
-                    booking_form
+                    booking_form,
+                    customer=request.user if request.user.is_authenticated else None,
                 )
 
-            except BookingUnavailableError:
+                remember_guest_booking(request, booking_obj)
+
+            except BookingUnavailableError as exc:
 
                 booking_form.add_error(
                     None,
-                    (
-                        "Selected date and time is not available. "
-                        "Please choose another slot."
-                    ),
+                    str(exc),
                 )
 
             except Exception:
+                logging.getLogger(__name__).exception("Booking creation failed")
 
                 booking_form.add_error(
                     None,
@@ -247,7 +273,7 @@ def booking(request):
 
     else:
 
-        booking_form = BookingForm()
+        booking_form = BookingForm(initial=booking_initial(request))
 
     # =====================================================
     # ACTIVE SERVICES
@@ -255,9 +281,15 @@ def booking(request):
 
     services = (
         Service.objects
-        .filter(is_active=True)
-        .select_related("category")
-        .prefetch_related("options")
+        .filter(
+            is_active=True, options__is_active=True,
+        ).distinct()
+        .select_related(
+            "category",
+        )
+        .prefetch_related(
+            "options",
+        )
     )
 
     context = {
@@ -281,12 +313,19 @@ def booking_success(request, booking_id):
     Display confirmed booking details.
     """
 
-    booking_obj = get_object_or_404(
-        Booking.objects.select_related(
+    bookings = Booking.objects.select_related(
             "service",
             "staff",
             "room",
-        ),
+        )
+    if not (request.user.is_authenticated and request.user.is_staff and request.user.has_perm("spa.view_booking")):
+        owned = Q(pk__in=request.session.get("guest_booking_ids", []), customer__isnull=True)
+        if request.user.is_authenticated:
+            owned |= Q(customer=request.user)
+        bookings = bookings.filter(owned)
+
+    booking_obj = get_object_or_404(
+        bookings,
         id=booking_id,
     )
 
@@ -305,424 +344,34 @@ def booking_success(request, booking_id):
 # CREATE BOOKING WITH STAFF + ROOM
 # =========================================================
 
-@transaction.atomic
-def create_booking_with_resources(form):
-    """
-    Final server-side booking validation and creation.
-
-    Customer selects:
-        - Service
-        - Duration
-        - Date
-        - Time
-
-    System automatically assigns:
-        - Staff
-        - Room
-
-    Booking flow:
-
-        Customer
-            ↓
-        Form validation
-            ↓
-        Service validation
-            ↓
-        Duration validation
-            ↓
-        Date validation
-            ↓
-        Calculate end time
-            ↓
-        Find available staff
-            ↓
-        Find available room
-            ↓
-        Final availability check
-            ↓
-        Create booking
-            ↓
-        STATUS = CONFIRMED
-
-    Payment is NOT involved.
-    Admin approval is NOT involved.
-    """
-
-    cleaned_data = form.cleaned_data
-
-    service = cleaned_data.get("service")
-    appointment_date = cleaned_data.get("appointment_date")
-    appointment_time = cleaned_data.get("appointment_time")
-    duration = cleaned_data.get("duration")
-
-    # =====================================================
-    # BASIC VALIDATION
-    # =====================================================
-
-    if not service:
-        raise BookingUnavailableError(
-            "Service is required."
-        )
-
-    if not appointment_date:
-        raise BookingUnavailableError(
-            "Appointment date is required."
-        )
-
-    if not appointment_time:
-        raise BookingUnavailableError(
-            "Appointment time is required."
-        )
-
-    if not duration or duration <= 0:
-        raise BookingUnavailableError(
-            "Invalid duration."
-        )
-
-    # =====================================================
-    # PREVENT PAST DATE
-    # =====================================================
-
-    today = timezone.localdate()
-
-    if appointment_date < today:
-
-        raise BookingUnavailableError(
-            "Past dates are not available."
-        )
-
-    # =====================================================
-    # VALIDATE SERVICE
-    # =====================================================
-
-    service = (
-        Service.objects
-        .select_for_update()
-        .filter(
-            id=service.id,
-            is_active=True,
-        )
-        .first()
-    )
-
-    if not service:
-
-        raise BookingUnavailableError(
-            "Selected service is not available."
-        )
-
-    # =====================================================
-    # VALIDATE SERVICE DURATION
-    # =====================================================
-
-    active_options = list(
-        ServiceOption.objects
-        .filter(
-            service=service,
-            is_active=True,
-        )
-        .order_by("duration")
-    )
-
-    if active_options:
-
-        valid_durations = {
-            option.duration
-            for option in active_options
-        }
-
-        if duration not in valid_durations:
-
-            raise BookingUnavailableError(
-                "Selected duration is not available "
-                "for this service."
-            )
-
-        selected_option = next(
-            option
-            for option in active_options
-            if option.duration == duration
-        )
-
-        selected_price = selected_option.price
-
-    else:
-
-        # =================================================
-        # SERVICE WITHOUT OPTIONS
-        # =================================================
-
-        if duration != service.duration:
-
-            raise BookingUnavailableError(
-                "Invalid service duration."
-            )
-
-        selected_price = service.price
-
-    # =====================================================
-    # CALCULATE END TIME
-    # =====================================================
-
+def create_booking_with_resources(form, customer=None):
+    from django.core.exceptions import ValidationError
+    from .services.bookings import save_booking
     try:
-
-        end_time = calculate_end_time(
-            appointment_time,
-            duration,
-        )
-
-    except Exception:
-
-        raise BookingUnavailableError(
-            "Invalid appointment time or duration."
-        )
-
-    # =====================================================
-    # FIND AVAILABLE STAFF
-    # =====================================================
-
-    staff_members = (
-        Staff.objects
-        .select_for_update()
-        .filter(
-            is_active=True,
-        )
-        .order_by("id")
-    )
-
-    selected_staff = None
-
-    for staff in staff_members:
-
-        # -------------------------------------------------
-        # STAFF LEAVE
-        # -------------------------------------------------
-
-        if is_staff_on_leave(
-            staff,
-            appointment_date,
-        ):
-            continue
-
-        # -------------------------------------------------
-        # STAFF BOOKING
-        # -------------------------------------------------
-
-        if is_staff_booked(
-            staff,
-            appointment_date,
-            appointment_time,
-            end_time,
-        ):
-            continue
-
-        selected_staff = staff
-
-        break
-
-    # =====================================================
-    # NO STAFF AVAILABLE
-    # =====================================================
-
-    if not selected_staff:
-
-        raise BookingUnavailableError(
-            "No staff member is available for "
-            "the selected time."
-        )
-
-    # =====================================================
-    # FIND AVAILABLE ROOM
-    # =====================================================
-
-    rooms = (
-        Room.objects
-        .select_for_update()
-        .filter(
-            is_active=True,
-        )
-        .order_by("id")
-    )
-
-    selected_room = None
-
-    for room in rooms:
-
-        if is_room_booked(
-            room,
-            appointment_date,
-            appointment_time,
-            end_time,
-        ):
-            continue
-
-        selected_room = room
-
-        break
-
-    # =====================================================
-    # NO ROOM AVAILABLE
-    # =====================================================
-
-    if not selected_room:
-
-        raise BookingUnavailableError(
-            "No room is available for "
-            "the selected time."
-        )
-
-    # =====================================================
-    # FINAL STAFF CHECK
-    # =====================================================
-    # Protect against a slot becoming unavailable while
-    # the booking transaction is being completed.
-
-    if is_staff_booked(
-        selected_staff,
-        appointment_date,
-        appointment_time,
-        end_time,
-    ):
-
-        raise BookingUnavailableError(
-            "Selected staff is no longer available."
-        )
-
-    # =====================================================
-    # FINAL ROOM CHECK
-    # =====================================================
-
-    if is_room_booked(
-        selected_room,
-        appointment_date,
-        appointment_time,
-        end_time,
-    ):
-
-        raise BookingUnavailableError(
-            "Selected room is no longer available."
-        )
-
-    # =====================================================
-    # CREATE BOOKING
-    # =====================================================
-
-    booking = form.save(
-        commit=False
-    )
-
-    booking.service = service
-
-    booking.selected_duration = duration
-
-    booking.selected_price = selected_price
-
-    booking.appointment_date = appointment_date
-
-    booking.appointment_time = appointment_time
-
-    booking.end_time = end_time
-
-    booking.staff = selected_staff
-
-    booking.room = selected_room
-
-    # =====================================================
-    # IMMEDIATE CONFIRMATION
-    # =====================================================
-    #
-    # No payment.
-    # No admin approval.
-    #
-    # Staff + room availability has already been verified.
-
-    booking.status = "confirmed"
-
-    # =====================================================
-    # SAVE
-    # =====================================================
-
-    booking.save()
-
-    return booking
+        return save_booking(form, customer)
+    except ValidationError as exc:
+        raise BookingUnavailableError(" ".join(exc.messages)) from exc
 
 
 # =========================================================
 # CONTACT PAGE
 # =========================================================
 
+def enquiry_page(request, kind):
+    from .enquiry_forms import EnquiryForm
+    form = EnquiryForm(request.POST if request.method == "POST" else None, kind=kind)
+    if request.method == "POST" and form.is_valid():
+        enquiry = form.save(commit=False)
+        enquiry.kind = kind
+        enquiry.save()
+        from .notifications import queue_enquiry_notification
+        queue_enquiry_notification(enquiry)
+        messages.success(request, "Thank you! Your enquiry has been saved. Our reception team will follow up.")
+        return redirect(kind)
+    return render(request, f"spa/{kind}.html", {"enquiry_form": form})
+
 def contact(request):
-    """
-    Contact form page.
-
-    Currently stores no database record.
-    It validates the submitted form and displays
-    a success message.
-    """
-
-    if request.method == "POST":
-
-        name = request.POST.get(
-            "name",
-            "",
-        ).strip()
-
-        phone = request.POST.get(
-            "phone",
-            "",
-        ).strip()
-
-        email = request.POST.get(
-            "email",
-            "",
-        ).strip()
-
-        subject = request.POST.get(
-            "subject",
-            "",
-        ).strip()
-
-        message = request.POST.get(
-            "message",
-            "",
-        ).strip()
-
-        # =================================================
-        # REQUIRED FIELD VALIDATION
-        # =================================================
-
-        if not name or not phone or not subject or not message:
-
-            messages.error(
-                request,
-                "Please fill in all required fields.",
-            )
-
-            return redirect(
-                "contact"
-            )
-
-        # =================================================
-        # SUCCESS
-        # =================================================
-
-        messages.success(
-            request,
-            (
-                f"Thank you {name}! "
-                "Your message has been received. "
-                "Our team will contact you shortly."
-            ),
-        )
-
-        return redirect(
-            "contact"
-        )
-
-    return render(
-        request,
-        "spa/contact.html",
-    )
+    return enquiry_page(request, "contact")
 
 
 # =========================================================
@@ -748,7 +397,8 @@ def available_slots(request):
         &date=2026-10-04
         &duration=60
 
-    Customer receives only availability information.
+    The API validates that the duration belongs to the
+    selected service.
 
     Staff names and room names are NEVER exposed.
     """
@@ -790,7 +440,10 @@ def available_slots(request):
             service_id
         )
 
-    except (TypeError, ValueError):
+    except (
+        TypeError,
+        ValueError,
+    ):
 
         return JsonResponse(
             {
@@ -819,7 +472,9 @@ def available_slots(request):
         return JsonResponse(
             {
                 "success": False,
-                "message": "Selected service is not available.",
+                "message": (
+                    "Selected service is not available."
+                ),
                 "slots": [],
             },
             status=404,
@@ -851,7 +506,10 @@ def available_slots(request):
             "%Y-%m-%d",
         ).date()
 
-    except (TypeError, ValueError):
+    except (
+        TypeError,
+        ValueError,
+    ):
 
         return JsonResponse(
             {
@@ -876,44 +534,62 @@ def available_slots(request):
         return JsonResponse(
             {
                 "success": False,
-                "message": "Past dates are not available.",
+                "message": (
+                    "Past dates are not available."
+                ),
                 "slots": [],
             },
             status=400,
         )
 
     # =====================================================
-    # DURATION
+    # DURATION IS REQUIRED
+    #
+    # There is NO fallback to Service.duration.
     # =====================================================
 
-    if duration_value:
+    if not duration_value:
 
-        try:
+        return JsonResponse(
+            {
+                "success": False,
+                "message": (
+                    "Duration is required."
+                ),
+                "slots": [],
+            },
+            status=400,
+        )
 
-            duration = int(
-                duration_value
-            )
+    # =====================================================
+    # DURATION PARSING
+    # =====================================================
 
-        except (TypeError, ValueError):
+    try:
 
-            return JsonResponse(
-                {
-                    "success": False,
-                    "message": "Invalid duration.",
-                    "slots": [],
-                },
-                status=400,
-            )
+        duration = int(
+            duration_value
+        )
 
-    else:
+    except (
+        TypeError,
+        ValueError,
+    ):
 
-        duration = service.duration
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Invalid duration.",
+                "slots": [],
+            },
+            status=400,
+        )
 
     # =====================================================
     # BASIC DURATION VALIDATION
     # =====================================================
 
-    if not duration or duration <= 0:
+    if duration <= 0:
 
         return JsonResponse(
             {
@@ -927,51 +603,34 @@ def available_slots(request):
         )
 
     # =====================================================
-    # VALIDATE SERVICE DURATION
+    # VALIDATE SERVICE OPTION
+    #
+    # ServiceOption is the single source of truth.
     # =====================================================
 
-    active_options = list(
+    selected_option = (
         ServiceOption.objects
         .filter(
             service=service,
+            duration=duration,
             is_active=True,
         )
-        .values_list(
-            "duration",
-            flat=True,
-        )
+        .first()
     )
 
-    if active_options:
+    if not selected_option:
 
-        if duration not in active_options:
-
-            return JsonResponse(
-                {
-                    "success": False,
-                    "message": (
-                        "Selected duration is not "
-                        "available for this service."
-                    ),
-                    "slots": [],
-                },
-                status=400,
-            )
-
-    else:
-
-        if duration != service.duration:
-
-            return JsonResponse(
-                {
-                    "success": False,
-                    "message": (
-                        "Invalid service duration."
-                    ),
-                    "slots": [],
-                },
-                status=400,
-            )
+        return JsonResponse(
+            {
+                "success": False,
+                "message": (
+                    "Selected duration is not "
+                    "available for this service."
+                ),
+                "slots": [],
+            },
+            status=400,
+        )
 
     # =====================================================
     # GET AVAILABLE SLOTS
@@ -979,12 +638,20 @@ def available_slots(request):
 
     try:
 
-        slots = get_available_slots(
-            appointment_date,
-            duration,
-        )
+        exclude_id = None
+        if request.GET.get("booking_id"):
+            if not request.GET["booking_id"].isdigit() or len(request.GET["booking_id"]) > 18:
+                return JsonResponse({"success":False,"message":"Invalid booking.","slots":[]},status=400)
+            if not request.user.is_authenticated:
+                return JsonResponse({"success":False,"message":"Sign in required.","slots":[]},status=403)
+            owned = get_object_or_404(Booking,pk=request.GET["booking_id"],customer=request.user)
+            exclude_id = owned.pk
+        slots = get_available_slots(appointment_date, duration, exclude_id)
 
+    except Http404:
+        raise
     except Exception:
+        logging.getLogger(__name__).exception("Availability calculation failed")
 
         return JsonResponse(
             {
@@ -1005,9 +672,17 @@ def available_slots(request):
 
     for slot in slots:
 
-        start_time = slot["start_time"]
+        start_time = slot.get(
+            "start_time"
+        )
 
-        end_time = slot["end_time"]
+        end_time = slot.get(
+            "end_time"
+        )
+
+        if not start_time or not end_time:
+
+            continue
 
         response_slots.append(
             {
@@ -1025,9 +700,9 @@ def available_slots(request):
                     f"{end_time.strftime('%I:%M %p')}"
                 ),
 
-                # -------------------------------------------------
+                # -----------------------------------------
                 # ONLY COUNTS ARE RETURNED.
-                # -------------------------------------------------
+                # -----------------------------------------
 
                 "available_staff": len(
                     slot.get(
@@ -1045,19 +720,7 @@ def available_slots(request):
             }
         )
 
-def franchise(request):
-    """
-    Sukoon Wellness & Spa franchise page.
-    """
-
-    return render(
-        request,
-        "spa/franchise.html",
-    )    
-
-
-
-# =====================================================
+    # =====================================================
     # API RESPONSE
     # =====================================================
 
@@ -1067,7 +730,11 @@ def franchise(request):
 
             "service": service.name,
 
-            "duration": duration,
+            "duration": selected_option.duration,
+
+            "price": str(
+                selected_option.price
+            ),
 
             "date": date_value,
 
@@ -1081,3 +748,12 @@ def franchise(request):
             "slots": response_slots,
         }
     )
+
+
+def service_options(request):
+    value = request.GET.get("service", "")
+    if not value.isdigit() or len(value)>18:
+        return JsonResponse({"options": [], "message": "Select a treatment."}, status=400)
+    service = get_object_or_404(Service, pk=value, is_active=True)
+    options = service.options.filter(is_active=True).order_by("duration").values("duration", "price")
+    return JsonResponse({"options":[{"duration":o["duration"],"price":str(o["price"])} for o in options]})

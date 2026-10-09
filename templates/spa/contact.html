@@ -42,7 +42,7 @@ Contact | Sukoon Wellness & Spa
             rgba(0, 0, 0, 0.48),
             rgba(0, 0, 0, 0.68)
         ),
-        url("{% static 'images/gallery-1.jpg' %}")
+        url("{% static 'images/gallery-1.webp' %}")
         center / cover no-repeat;
 }
 
@@ -152,7 +152,7 @@ Contact | Sukoon Wellness & Spa
             rgba(5, 5, 5, 0.48),
             rgba(5, 5, 5, 0.62)
         ),
-        url("{% static 'images/gallery-4.jpg' %}")
+        url("{% static 'images/gallery-4.webp' %}")
         center / cover no-repeat;
 
     border: 1px solid rgba(201,169,110,.38);
@@ -1261,6 +1261,7 @@ Contact | Sukoon Wellness & Spa
 
 
                         <div class="contact-form-grid">
+{% if enquiry_form.errors %}<div role="alert" style="grid-column:1/-1;color:#efb2a7">{{ enquiry_form.errors }}</div>{% endif %}
 
 
                             <!-- NAME -->
@@ -1274,11 +1275,11 @@ Contact | Sukoon Wellness & Spa
                                 <input
                                     type="text"
                                     id="contact_name"
-                                    name="name"
+                                    name="name" maxlength="100"
                                     placeholder="Enter your name"
                                     autocomplete="name"
                                     required
-                                >
+                                 value="{{ enquiry_form.name.value|default_if_none:'' }}">
 
                             </div>
 
@@ -1294,12 +1295,12 @@ Contact | Sukoon Wellness & Spa
                                 <input
                                     type="tel"
                                     id="contact_phone"
-                                    name="phone"
+                                    name="phone" pattern="[6-9][0-9]{9}" inputmode="numeric"
                                     placeholder="Enter your phone number"
                                     autocomplete="tel"
                                     maxlength="15"
                                     required
-                                >
+                                 value="{{ enquiry_form.phone.value|default_if_none:'' }}">
 
                             </div>
 
@@ -1318,7 +1319,7 @@ Contact | Sukoon Wellness & Spa
                                     name="email"
                                     placeholder="Enter your email"
                                     autocomplete="email"
-                                >
+                                 value="{{ enquiry_form.email.value|default_if_none:'' }}">
 
                             </div>
 
@@ -1337,7 +1338,7 @@ Contact | Sukoon Wellness & Spa
                                     name="subject"
                                     placeholder="How can we help?"
                                     required
-                                >
+                                 value="{{ enquiry_form.subject.value|default_if_none:'' }}">
 
                             </div>
 
@@ -1352,10 +1353,10 @@ Contact | Sukoon Wellness & Spa
 
                                 <textarea
                                     id="contact_message"
-                                    name="message"
+                                    name="message" maxlength="5000"
                                     placeholder="Write your message..."
                                     required
-                                ></textarea>
+                                >{{ enquiry_form.message.value|default_if_none:"" }}</textarea>
 
                             </div>
 

@@ -1,185 +1,1116 @@
-{% extends "spa/base.html" %}
 
+{% extends "spa/base.html" %}
+{% load static %}
+
+{% block meta_robots %}noindex, nofollow{% endblock %}
 {% block title %}
 Booking Confirmed | Sukoon Wellness & Spa
 {% endblock %}
 
 
+{% block extra_css %}
+
+<style>
+/* =========================================================
+   SUKOON WELLNESS & SPA
+   PREMIUM BOOKING CONFIRMATION
+   Black / Ivory / Muted Gold
+========================================================= */
+
+.booking-success-page {
+    min-height: 100vh;
+    padding: 70px 20px 100px;
+
+    color: #f5efe4;
+
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(201,169,110,0.08),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(201,169,110,0.05),
+            transparent 30%
+        ),
+        #080808;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.success-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   SUCCESS INTRO
+========================================================= */
+
+.success-intro {
+    margin-bottom: 42px;
+    text-align: center;
+}
+
+.success-icon {
+    width: 78px;
+    height: 78px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 22px;
+
+    border: 1px solid #c9a96e;
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(201,169,110,0.12),
+            rgba(201,169,110,0.025)
+        );
+
+    box-shadow:
+        0 0 0 8px rgba(201,169,110,0.025),
+        0 20px 55px rgba(0,0,0,0.35);
+}
+
+.success-icon svg {
+    width: 37px;
+    height: 37px;
+    color: #c9a96e;
+}
+
+.success-eyebrow {
+    margin-bottom: 12px;
+
+    color: #c9a96e;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.success-intro h1 {
+    margin: 0;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: clamp(40px, 6vw, 62px);
+    font-weight: 500;
+
+    line-height: 1.05;
+    letter-spacing: -1px;
+}
+
+.success-intro h1 span {
+    color: #e2c992;
+}
+
+.success-intro p {
+    max-width: 600px;
+
+    margin: 18px auto 0;
+
+    color: #aaa297;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MAIN CONFIRMATION CARD
+========================================================= */
+
+.confirmation-card {
+    overflow: hidden;
+
+    border: 1px solid rgba(201,169,110,0.20);
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.035),
+            rgba(255,255,255,0.012)
+        );
+
+    box-shadow:
+        0 35px 90px rgba(0,0,0,0.35);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.confirmation-header {
+    padding: 27px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.booking-id-label {
+    margin-bottom: 5px;
+
+    color: #777168;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.booking-id {
+    color: #e2c992;
+
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.confirmed-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 8px 15px;
+
+    border: 1px solid rgba(139,196,139,0.30);
+    border-radius: 999px;
+
+    background: rgba(24,48,24,0.75);
+
+    color: #9bd49b;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.confirmed-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #9bd49b;
+
+    box-shadow:
+        0 0 10px rgba(155,212,155,0.45);
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.confirmation-section {
+    padding: 32px 30px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.confirmation-section:last-child {
+    border-bottom: 0;
+}
+
+.section-label {
+    margin-bottom: 19px;
+
+    color: #777168;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   APPOINTMENT GRID
+========================================================= */
+
+.appointment-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+.detail-card {
+    min-height: 120px;
+
+    padding: 20px;
+
+    border: 1px solid rgba(255,255,255,0.075);
+    border-radius: 14px;
+
+    background: #0d0d0c;
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.detail-card:hover {
+    border-color: rgba(201,169,110,0.28);
+
+    transform: translateY(-2px);
+}
+
+.detail-icon {
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 14px;
+
+    border: 1px solid rgba(201,169,110,0.28);
+    border-radius: 50%;
+}
+
+.detail-icon svg {
+    width: 16px;
+    height: 16px;
+
+    color: #c9a96e;
+}
+
+.detail-label {
+    margin-bottom: 5px;
+
+    color: #777168;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    color: #f5efe4;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    line-height: 1.45;
+}
+
+.detail-value.gold {
+    color: #e2c992;
+}
+
+
+/* =========================================================
+   TREATMENT
+========================================================= */
+
+.treatment-card {
+    padding: 24px;
+
+    border: 1px solid rgba(201,169,110,0.18);
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(201,169,110,0.075),
+            rgba(201,169,110,0.018)
+        );
+}
+
+.treatment-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.treatment-label {
+    margin-bottom: 7px;
+
+    color: #777168;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.treatment-name {
+    color: #f5efe4;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 25px;
+    font-weight: 500;
+
+    line-height: 1.25;
+}
+
+.treatment-price {
+    flex-shrink: 0;
+
+    text-align: right;
+}
+
+.treatment-price-label {
+    margin-bottom: 5px;
+
+    color: #777168;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.treatment-price-value {
+    color: #e2c992;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.treatment-divider {
+    height: 1px;
+
+    margin: 22px 0;
+
+    background: rgba(255,255,255,0.08);
+}
+
+.treatment-duration {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.treatment-duration-label {
+    color: #777168;
+
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.treatment-duration-value {
+    color: #d5cec2;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   GUEST DETAILS
+========================================================= */
+
+.guest-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+.guest-card {
+    padding: 19px;
+
+    border: 1px solid rgba(255,255,255,0.075);
+    border-radius: 13px;
+
+    background: #0d0d0c;
+}
+
+.guest-card-label {
+    margin-bottom: 7px;
+
+    color: #777168;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.guest-card-value {
+    color: #f5efe4;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   STATUS ROW
+========================================================= */
+
+.status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 17px 19px;
+
+    border: 1px solid rgba(139,196,139,0.18);
+    border-radius: 12px;
+
+    background: rgba(24,48,24,0.25);
+}
+
+.status-label {
+    color: #777168;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.status-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #9bd49b;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   IMPORTANT NOTE
+========================================================= */
+
+.reference-note {
+    margin-top: 18px;
+
+    padding: 18px 20px;
+
+    border: 1px solid rgba(201,169,110,0.14);
+    border-radius: 12px;
+
+    background: rgba(201,169,110,0.035);
+
+    text-align: center;
+}
+
+.reference-note p {
+    margin: 0;
+
+    color: #aaa297;
+
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.reference-note strong {
+    color: #c9a96e;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.success-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+
+    margin-top: 27px;
+}
+
+.success-button {
+    min-height: 49px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 25px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.success-button:hover {
+    transform: translateY(-2px);
+}
+
+.success-button.primary {
+    border: 1px solid #c9a96e;
+
+    background: #c9a96e;
+
+    color: #080808;
+}
+
+.success-button.primary:hover {
+    background: #e0c38a;
+    border-color: #e0c38a;
+}
+
+.success-button.secondary {
+    border: 1px solid #c9a96e;
+
+    background: transparent;
+
+    color: #c9a96e;
+}
+
+.success-button.secondary:hover {
+    background: #c9a96e;
+    color: #080808;
+}
+
+
+/* =========================================================
+   FOOTER MESSAGE
+========================================================= */
+
+.success-footer {
+    margin-top: 27px;
+
+    text-align: center;
+}
+
+.success-footer p {
+    margin: 0;
+
+    color: #716b62;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .booking-success-page {
+        padding: 48px 14px 75px;
+    }
+
+    .success-intro {
+        margin-bottom: 32px;
+    }
+
+    .success-intro h1 {
+        font-size: 42px;
+    }
+
+    .confirmation-card {
+        border-radius: 18px;
+    }
+
+    .confirmation-header {
+        padding: 22px 20px;
+    }
+
+    .confirmation-section {
+        padding: 25px 20px;
+    }
+
+    .appointment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .guest-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .treatment-top {
+        flex-direction: column;
+    }
+
+    .treatment-price {
+        text-align: left;
+    }
+
+    .success-actions {
+        flex-direction: column;
+    }
+
+    .success-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .confirmation-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .success-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .success-intro h1 {
+        font-size: 38px;
+    }
+}
+</style>
+
+{% endblock %}
+
+
 {% block content %}
 
-<section class="min-h-screen flex items-center justify-center px-6 py-24 bg-[#080808] text-[#f5efe4]">
+<section class="booking-success-page">
 
-    <div class="w-full max-w-2xl text-center">
-
-        <!-- SUCCESS ICON -->
-
-        <div class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full border border-[#c9a96e]">
-
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-10 w-10 text-[#c9a96e]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="1.5"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M5 13l4 4L19 7"
-                />
-            </svg>
-
-        </div>
+    <div class="success-container">
 
 
-        <!-- HEADING -->
+        <!-- =====================================================
+             SUCCESS INTRO
+        ====================================================== -->
 
-        <p class="mb-3 text-sm uppercase tracking-[0.35em] text-[#c9a96e]">
-            Sukoon Wellness & Spa
-        </p>
+        <header class="success-intro">
 
-        <h1 class="mb-5 font-serif text-4xl md:text-5xl">
-            Booking Confirmed
-        </h1>
+            <div class="success-icon">
 
-        <p class="mx-auto mb-10 max-w-xl text-base leading-7 text-[#c8c0b4]">
-            Your appointment has been successfully confirmed.
-            We look forward to welcoming you to Sukoon Wellness & Spa.
-        </p>
-
-
-        <!-- BOOKING CARD -->
-
-        <div class="mx-auto mb-10 max-w-lg rounded-2xl border border-[#2b2823] bg-[#11110f] p-7 text-left">
-
-            <div class="mb-6 flex items-center justify-between border-b border-[#2b2823] pb-5">
-
-                <span class="text-sm text-[#aaa297]">
-                    Booking ID
-                </span>
-
-                <strong class="text-lg text-[#c9a96e]">
-                    #{{ booking.id }}
-                </strong>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M5 13l4 4L19 7"
+                    />
+                </svg>
 
             </div>
 
 
-            <!-- CUSTOMER -->
+            <div class="success-eyebrow">
+                Sukoon Wellness & Spa
+            </div>
 
-            <div class="mb-5">
 
-                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
-                    Customer
-                </p>
+            <h1>
+                Booking <span>Confirmed</span>
+            </h1>
 
-                <p class="text-base text-[#f5efe4]">
-                    {{ booking.name }}
-                </p>
+
+            <p>
+                Your wellness experience has been successfully reserved.
+                We look forward to welcoming you to Sukoon Wellness & Spa.
+            </p>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONFIRMATION CARD
+        ====================================================== -->
+
+        <div class="confirmation-card">
+
+
+            <!-- =================================================
+                 BOOKING HEADER
+            ================================================== -->
+
+            <div class="confirmation-header">
+
+                <div>
+
+                    <div class="booking-id-label">
+                        Booking ID
+                    </div>
+
+                    <div class="booking-id">
+                        #{{ booking.id }}
+                    </div>
+
+                </div>
+
+
+                <div class="confirmed-badge">
+
+                    <span class="confirmed-dot"></span>
+
+                    Confirmed
+
+                </div>
 
             </div>
 
 
-            <!-- SERVICE -->
 
-            <div class="mb-5">
+            <!-- =================================================
+                 APPOINTMENT
+            ================================================== -->
 
-                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
-                    Service
-                </p>
+            <div class="confirmation-section">
 
-                <p class="text-base text-[#f5efe4]">
-                    {{ booking.service.name }}
-                </p>
+                <div class="section-label">
+                    Appointment
+                </div>
+
+
+                <div class="appointment-grid">
+
+
+                    <!-- DATE -->
+
+                    <div class="detail-card">
+
+                        <div class="detail-icon">
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                            </svg>
+
+                        </div>
+
+
+                        <div class="detail-label">
+                            Appointment Date
+                        </div>
+
+
+                        <div class="detail-value">
+                            {{ booking.appointment_date|date:"d M Y" }}
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- TIME -->
+
+                    <div class="detail-card">
+
+                        <div class="detail-icon">
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            >
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="9"
+                                />
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 7v5l3 2"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="detail-label">
+                            Appointment Time
+                        </div>
+
+
+                        <div class="detail-value">
+
+                            {{ booking.appointment_time|time:"h:i A" }}
+
+                            {% if booking.end_time %}
+
+                                <span style="color:#666158;padding:0 4px;">
+                                    –
+                                </span>
+
+                                {{ booking.end_time|time:"h:i A" }}
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
 
-            <!-- DATE -->
 
-            <div class="mb-5">
+            <!-- =================================================
+                 TREATMENT DETAILS
+            ================================================== -->
 
-                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
-                    Date
-                </p>
+            <div class="confirmation-section">
 
-                <p class="text-base text-[#f5efe4]">
-                    {{ booking.appointment_date|date:"d M Y" }}
-                </p>
-
-            </div>
+                <div class="section-label">
+                    Treatment Details
+                </div>
 
 
-            <!-- TIME -->
+                <div class="treatment-card">
 
-            <div class="mb-5">
+                    <div class="treatment-top">
 
-                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
-                    Time
-                </p>
 
-                <p class="text-base text-[#f5efe4]">
-                    {{ booking.appointment_time|time:"h:i A" }}
+                        <!-- TREATMENT -->
 
-                    {% if booking.end_time %}
-                        – {{ booking.end_time|time:"h:i A" }}
+                        <div>
+
+                            <div class="treatment-label">
+                                Treatment
+                            </div>
+
+                            <div class="treatment-name">
+                                {{ booking.service.name }}
+                            </div>
+
+                        </div>
+
+
+                        <!-- PRICE -->
+
+                        {% if booking.selected_price is not None %}
+
+                        <div class="treatment-price">
+
+                            <div class="treatment-price-label">
+                                Treatment Price
+                            </div>
+
+                            <div class="treatment-price-value">
+                                ₹{{ booking.selected_price|floatformat:2 }}
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- DURATION -->
+
+                    {% if booking.selected_duration %}
+
+                    <div class="treatment-divider"></div>
+
+                    <div class="treatment-duration">
+
+                        <span class="treatment-duration-label">
+                            Duration
+                        </span>
+
+                        <span class="treatment-duration-value">
+                            {{ booking.selected_duration }} minutes
+                        </span>
+
+                    </div>
+
                     {% endif %}
-                </p>
+
+                </div>
 
             </div>
 
 
-            <!-- STAFF -->
 
-            {% if booking.staff %}
+            <!-- =================================================
+                 GUEST & RESOURCES
+            ================================================== -->
 
-            <div class="mb-5">
+            <div class="confirmation-section">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'my_bookings' %}" class="success-button secondary">View My Bookings</a>
+                {% else %}
+                    <p>Create an account to save this booking and view your appointments.</p>
+                    <div class="success-actions">
+                        <a href="{% url 'register' %}" class="success-button primary">Create Account</a>
+                        <a href="{% url 'login' %}" class="success-button secondary">Sign In</a>
+                    </div>
+                {% endif %}
+            </div>
 
-                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
-                    Therapist
-                </p>
+            <div class="confirmation-section">
 
-                <p class="text-base text-[#f5efe4]">
-                    {{ booking.staff.name }}
-                </p>
+                <div class="section-label">
+                    Guest & Appointment Details
+                </div>
+
+
+                <div class="guest-grid">
+
+
+                    <!-- GUEST -->
+
+                    <div class="guest-card">
+
+                        <div class="guest-card-label">
+                            Guest
+                        </div>
+
+                        <div class="guest-card-value">
+                            {{ booking.name }}
+                        </div>
+
+                    </div>
+
+
+                    <!-- THERAPIST -->
+
+                    {% if booking.staff %}
+
+                    <div class="guest-card">
+
+                        <div class="guest-card-label">
+                            Therapist
+                        </div>
+
+                        <div class="guest-card-value">
+                            {{ booking.staff.name }}
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- ROOM -->
+
+                    {% if booking.room %}
+
+                    <div class="guest-card">
+
+                        <div class="guest-card-label">
+                            Room
+                        </div>
+
+                        <div class="guest-card-value">
+                            {{ booking.room.name }}
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
 
             </div>
 
-            {% endif %}
 
 
-            <!-- ROOM -->
+            <!-- =================================================
+                 BOOKING STATUS
+            ================================================== -->
 
-            {% if booking.room %}
+            <div class="confirmation-section">
 
-            <div class="mb-5">
-
-                <p class="mb-1 text-xs uppercase tracking-wider text-[#8f897f]">
-                    Room
-                </p>
-
-                <p class="text-base text-[#f5efe4]">
-                    {{ booking.room.name }}
-                </p>
-
-            </div>
-
-            {% endif %}
+                <div class="section-label">
+                    Booking Status
+                </div>
 
 
-            <!-- STATUS -->
+                <div class="status-row">
 
-            <div class="border-t border-[#2b2823] pt-5">
-
-                <div class="flex items-center justify-between">
-
-                    <span class="text-sm text-[#aaa297]">
-                        Status
+                    <span class="status-label">
+                        Current Status
                     </span>
 
-                    <span class="rounded-full bg-[#d4edda] px-4 py-1.5 text-xs font-semibold text-[#155724]">
-                        Confirmed
+
+                    <span class="status-value">
+
+                        <span class="confirmed-dot"></span>
+
+                        {% if booking.status %}
+                            {{ booking.get_status_display }}
+                        {% else %}
+                            Confirmed
+                        {% endif %}
+
                     </span>
 
                 </div>
@@ -189,36 +1120,66 @@ Booking Confirmed | Sukoon Wellness & Spa
         </div>
 
 
-        <!-- MESSAGE -->
 
-        <p class="mb-8 text-sm leading-6 text-[#aaa297]">
-            Please keep your booking ID
-            <strong class="text-[#c9a96e]">
-                #{{ booking.id }}
-            </strong>
-            for your reference.
-        </p>
+        <!-- =====================================================
+             REFERENCE NOTE
+        ====================================================== -->
+
+        <div class="reference-note">
+
+            <p>
+
+                Please keep your booking ID
+
+                <strong>
+                    #{{ booking.id }}
+                </strong>
+
+                for your reference.
+
+            </p>
+
+        </div>
 
 
-        <!-- BUTTONS -->
 
-        <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <!-- =====================================================
+             ACTIONS
+        ====================================================== -->
+
+        <div class="success-actions">
 
             <a
                 href="{% url 'home' %}"
-                class="inline-flex items-center justify-center rounded-full border border-[#c9a96e] px-7 py-3 text-sm font-medium text-[#c9a96e] transition hover:bg-[#c9a96e] hover:text-[#080808]"
+                class="success-button secondary"
             >
                 Back to Home
             </a>
 
+
             <a
                 href="{% url 'booking' %}"
-                class="inline-flex items-center justify-center rounded-full bg-[#c9a96e] px-7 py-3 text-sm font-medium text-[#080808] transition hover:bg-[#e0c38a]"
+                class="success-button primary"
             >
                 Book Another Session
             </a>
 
         </div>
+
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <div class="success-footer">
+
+            <p>
+                We look forward to welcoming you
+            </p>
+
+        </div>
+
 
     </div>
 

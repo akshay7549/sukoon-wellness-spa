@@ -1,0 +1,33 @@
+{
+  "source": "Sukoon Salon_Rate Card.pdf",
+  "prices_include_applicable_taxes": true,
+  "services": [
+    {"name": "SWEDISH MASSAGE", "category": "MASSAGE THERAPIES - I", "options": [[45,1499],[60,1999],[90,2499]]},
+    {"name": "AROMA THERAPY", "category": "MASSAGE THERAPIES - I", "options": [[45,1499],[60,1999],[90,2499]]},
+    {"name": "BALINESE MASSAGE", "category": "MASSAGE THERAPIES - I", "options": [[45,1699],[60,2199],[90,2799]]},
+    {"name": "DEEP TISSUE MASSAGE", "category": "MASSAGE THERAPIES - I", "options": [[45,1799],[60,2499],[90,2999]]},
+    {"name": "THAI DRY THERAPY", "category": "MASSAGE THERAPIES - I", "options": [[45,1599],[60,2099],[90,2599]]},
+    {"name": "SPORTS MASSAGE", "category": "MASSAGE THERAPIES - II", "options": [[45,2199],[60,2699],[90,3199]]},
+    {"name": "PAIN RELIEF THERAPY", "category": "MASSAGE THERAPIES - II", "options": [[45,1699],[60,2199],[90,2699]]},
+    {"name": "STRESS RELIEF THERAPY", "category": "MASSAGE THERAPIES - II", "options": [[60,2299]]},
+    {"name": "POTLI THERAPY", "category": "MASSAGE THERAPIES - II", "options": [[45,1699],[60,2199],[90,2699]]},
+    {"name": "STONE THERAPY", "category": "MASSAGE THERAPIES - II", "options": [[45,1599],[60,2099],[90,2499]]},
+    {"name": "BAMBOO THERAPY", "category": "MASSAGE THERAPIES - III", "options": [[45,1599],[60,2099],[90,2499]]},
+    {"name": "FOOT REFLEXOLOGY", "category": "MASSAGE THERAPIES - III", "options": [[45,1499],[60,1999],[90,2499]]},
+    {"name": "LOMI LOMI MASSAGE", "category": "MASSAGE THERAPIES - III", "options": [[45,1799],[60,2399],[90,2999]]},
+    {"name": "ICE THERAPY", "category": "MASSAGE THERAPIES - III", "options": [[45,1499],[60,1899]]},
+    {"name": "JACUZZI THERAPY", "category": "MASSAGE THERAPIES - III", "options": [[45,2999],[60,3499],[90,4499]]},
+    {"name": "COUPLE MASSAGE", "category": "MASSAGE THERAPIES - IV", "options": [[60,3999],[90,4999]]},
+    {"name": "RED BULL THERAPY", "category": "MASSAGE THERAPIES - IV", "options": [[45,1699],[60,2199],[90,2699]]},
+    {"name": "SUKOON PREMIUM THERAPY", "category": "MASSAGE THERAPIES - IV", "options": [[45,3999],[60,4999],[90,5999]]},
+    {"name": "FULL BODY SCRUBBING & POLISHING", "category": "BODY CARE", "menu_price": 1999},
+    {"name": "FACE SCRUB", "category": "BODY CARE", "menu_price": 499},
+    {"name": "FULL HAND SCRUB", "category": "BODY CARE", "menu_price": 699},
+    {"name": "SILVER PACKAGE", "category": "WELLNESS THERAPY PACKAGES", "menu_price": 5000, "description": "3 therapies: Aroma Therapy × 1; Balinese Massage (or Swedish Massage) × 1; Deep Tissue Massage × 1."},
+    {"name": "SILVER PLUS PACKAGE", "category": "WELLNESS THERAPY PACKAGES", "menu_price": 5000, "description": "4 therapies: Aroma Therapy × 2; Swedish Massage × 1; Balinese Massage × 1."},
+    {"name": "GOLD PACKAGE", "category": "WELLNESS THERAPY PACKAGES", "menu_price": 7000, "description": "5 therapies: Deep Tissue Massage × 2; Aroma Therapy × 1; Swedish Massage × 1; Balinese Massage × 1."},
+    {"name": "GOLD PLUS PACKAGE", "category": "WELLNESS THERAPY PACKAGES", "menu_price": 7000, "description": "6 therapies: Aroma Therapy × 2; Swedish Massage × 2; Balinese Massage × 1; Deep Tissue Massage × 1."},
+    {"name": "PLATINUM PACKAGE", "category": "WELLNESS THERAPY PACKAGES", "menu_price": 10000, "description": "8 therapies: Aroma Therapy × 2; Deep Tissue Massage × 2; Balinese Massage × 1; Swedish Massage × 3."},
+    {"name": "PLATINUM PLUS PACKAGE", "category": "WELLNESS THERAPY PACKAGES", "menu_price": 10000, "description": "9 therapies: Aroma Therapy × 2; Swedish Massage × 2; Balinese Massage × 2; Deep Tissue Massage × 2; Thai Dry Therapy × 1."}
+  ]
+}

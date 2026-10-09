@@ -1,14 +1,20 @@
+from django.contrib.auth.decorators import permission_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
+from django.views.decorators.cache import never_cache
 
 from .models import Booking
+from .connect_views import ADDRESS, connect_qr_data_uri, connect_url
 
 
 # =========================================================
 # BOOKING BILL / RECEIPT
 # =========================================================
 
-@staff_member_required
+@never_cache
+@staff_member_required(login_url="sukoon_admin:login")
+@permission_required("spa.view_booking", raise_exception=True)
 def booking_bill(request, booking_id):
     """
     Display a printable booking bill/receipt.
@@ -34,9 +40,9 @@ def booking_bill(request, booking_id):
     # SERVICE
     # =====================================================
 
-    service_name = "Service"
+    service_name = booking.service_name_snapshot or "Service"
 
-    if booking.service:
+    if not booking.service_name_snapshot and booking.service:
         service_name = booking.service.name
 
     # =====================================================
@@ -44,9 +50,6 @@ def booking_bill(request, booking_id):
     # =====================================================
 
     duration = booking.selected_duration
-
-    if duration is None and booking.service:
-        duration = booking.service.duration
 
     # =====================================================
     # PRICE
@@ -57,9 +60,6 @@ def booking_bill(request, booking_id):
     #
 
     price = booking.selected_price
-
-    if price is None and booking.service:
-        price = booking.service.price
 
     # =====================================================
     # BOOKING STATUS
@@ -81,6 +81,10 @@ def booking_bill(request, booking_id):
         "price": price,
 
         "booking_status": booking_status,
+        "generated_at": timezone.now(),
+        "business_address": ADDRESS,
+        "connect_url": connect_url(),
+        "qr_code": connect_qr_data_uri(),
     }
 
     # =====================================================

@@ -105,7 +105,7 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
             rgba(4,4,3,.88) 42%,
             rgba(4,4,3,.48) 100%
         ),
-        url("{% static 'images/service.jpg' %}")
+        url("{% static 'images/service.webp' %}")
         center / cover no-repeat;
 }
 
@@ -1412,7 +1412,7 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
             rgba(5,5,4,.92),
             rgba(5,5,4,.97)
         ),
-        url("{% static 'images/Hero.png' %}")
+        url("{% static 'images/Hero.webp' %}")
         center / cover no-repeat;
 
     overflow: hidden;
@@ -2909,7 +2909,7 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
 
             <!-- FORM -->
 
-            <div class="enquiry-form">
+            <div class="enquiry-form">{% if messages %}{% for message in messages %}<p role="status">{{ message }}</p>{% endfor %}{% endif %}
 
                 <form
                     method="post"
@@ -2920,6 +2920,7 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
 
 
                     <div class="form-grid">
+{% if enquiry_form.errors %}<div role="alert" style="grid-column:1/-1;color:#efb2a7">{{ enquiry_form.errors }}</div>{% endif %}
 
 
                         <div class="form-group">
@@ -2931,11 +2932,11 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
                             <input
                                 type="text"
                                 id="franchise_name"
-                                name="name"
+                                name="name" maxlength="100"
                                 placeholder="Your full name"
                                 autocomplete="name"
                                 required
-                            >
+                             value="{{ enquiry_form.name.value|default_if_none:'' }}">
 
                         </div>
 
@@ -2950,11 +2951,11 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
                             <input
                                 type="tel"
                                 id="franchise_phone"
-                                name="phone"
+                                name="phone" pattern="[6-9][0-9]{9}" inputmode="numeric"
                                 placeholder="+91 XXXXX XXXXX"
                                 autocomplete="tel"
                                 required
-                            >
+                             value="{{ enquiry_form.phone.value|default_if_none:'' }}">
 
                         </div>
 
@@ -2973,7 +2974,7 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
                                 placeholder="you@example.com"
                                 autocomplete="email"
                                 required
-                            >
+                             value="{{ enquiry_form.email.value|default_if_none:'' }}">
 
                         </div>
 
@@ -2992,7 +2993,7 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
                                 placeholder="Preferred city"
                                 autocomplete="address-level2"
                                 required
-                            >
+                             value="{{ enquiry_form.city.value|default_if_none:'' }}">
 
                         </div>
 
@@ -3014,19 +3015,19 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
                                     Select investment range
                                 </option>
 
-                                <option value="25-35">
+                                <option value="25-35" {% if enquiry_form.investment_range.value == "25-35" %}selected{% endif %}>
                                     ₹25–35 Lakhs
                                 </option>
 
-                                <option value="35-50">
+                                <option value="35-50" {% if enquiry_form.investment_range.value == "35-50" %}selected{% endif %}>
                                     ₹35–50 Lakhs
                                 </option>
 
-                                <option value="50-75">
+                                <option value="50-75" {% if enquiry_form.investment_range.value == "50-75" %}selected{% endif %}>
                                     ₹50–75 Lakhs
                                 </option>
 
-                                <option value="75+">
+                                <option value="75+" {% if enquiry_form.investment_range.value == "75+" %}selected{% endif %}>
                                     ₹75 Lakhs+
                                 </option>
 
@@ -3052,15 +3053,15 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
                                     Select model
                                 </option>
 
-                                <option value="FOFO">
+                                <option value="FOFO" {% if enquiry_form.franchise_model.value == "FOFO" %}selected{% endif %}>
                                     FOFO
                                 </option>
 
-                                <option value="FOCO">
+                                <option value="FOCO" {% if enquiry_form.franchise_model.value == "FOCO" %}selected{% endif %}>
                                     FOCO
                                 </option>
 
-                                <option value="HOTEL_RESORT">
+                                <option value="HOTEL_RESORT" {% if enquiry_form.franchise_model.value == "HOTEL_RESORT" %}selected{% endif %}>
                                     Hotel & Resort Spa
                                 </option>
 
@@ -3078,9 +3079,9 @@ Sukoon Wellness & Spa Franchise | Bring Sukoon to Your City
 
                             <textarea
                                 id="franchise_message"
-                                name="message"
+                                name="message" maxlength="5000"
                                 placeholder="Tell us about your location, experience or franchise plans..."
-                            ></textarea>
+                            >{{ enquiry_form.message.value|default_if_none:"" }}</textarea>
 
                         </div>
 

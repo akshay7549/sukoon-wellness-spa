@@ -1,3 +1,4 @@
+
 from django import forms
 from django.core.validators import RegexValidator
 from django.utils import timezone
@@ -75,6 +76,15 @@ class BookingForm(forms.ModelForm):
 
     # =====================================================
     # DURATION
+    #
+    # Duration is loaded from ServiceOption.
+    #
+    # Example:
+    #
+    # 45 minutes — ₹1200
+    # 60 minutes — ₹1500
+    # 90 minutes — ₹2000
+    #
     # =====================================================
 
     duration = forms.TypedChoiceField(
@@ -121,6 +131,7 @@ class BookingForm(forms.ModelForm):
                 "type": "time",
                 "class": "booking-time-input",
                 "id": "id_appointment_time",
+                "aria-label": "Selected appointment time",
                 "step": "900",
             },
         ),
@@ -180,7 +191,7 @@ class BookingForm(forms.ModelForm):
 
         self.fields["service"].queryset = (
             Service.objects
-            .filter(is_active=True)
+            .filter(is_active=True, options__is_active=True).distinct()
             .order_by("name")
         )
 
@@ -193,10 +204,14 @@ class BookingForm(forms.ModelForm):
         ]
 
         # -------------------------------------------------
-        # GET SELECTED SERVICE
+        # FIND SELECTED SERVICE
         # -------------------------------------------------
 
         service_id = None
+
+        # -------------------------------------------------
+        # BOUND FORM
+        # -------------------------------------------------
 
         if self.is_bound:
 
@@ -208,11 +223,16 @@ class BookingForm(forms.ModelForm):
 
         if not service_id:
 
-            initial_service = self.initial.get("service")
+            initial_service = self.initial.get(
+                "service"
+            )
 
             if initial_service:
 
-                if isinstance(initial_service, Service):
+                if isinstance(
+                    initial_service,
+                    Service,
+                ):
 
                     service_id = initial_service.id
 
@@ -221,7 +241,7 @@ class BookingForm(forms.ModelForm):
                     service_id = initial_service
 
         # -------------------------------------------------
-        # EXISTING INSTANCE SERVICE
+        # EXISTING BOOKING
         # -------------------------------------------------
 
         if not service_id and self.instance:
@@ -237,7 +257,7 @@ class BookingForm(forms.ModelForm):
                 service_id = instance_service.id
 
         # -------------------------------------------------
-        # LOAD DURATION CHOICES
+        # LOAD SERVICE OPTIONS
         # -------------------------------------------------
 
         if service_id:
@@ -288,6 +308,8 @@ class BookingForm(forms.ModelForm):
 
     # =====================================================
     # SET DURATION CHOICES
+    #
+    # ONLY ServiceOption is used.
     # =====================================================
 
     def set_duration_choices(self, service):
@@ -305,41 +327,30 @@ class BookingForm(forms.ModelForm):
             .order_by("duration")
         )
 
-        options = list(options)
-
-        # -------------------------------------------------
-        # SERVICE OPTIONS AVAILABLE
-        # -------------------------------------------------
-
-        if options:
-
-            for option in options:
-
-                choices.append(
-                    (
-                        option.duration,
-                        (
-                            f"{option.duration} minutes"
-                            f" — ₹{option.price:,.0f}"
-                        ),
-                    )
-                )
-
-        # -------------------------------------------------
-        # FALLBACK SERVICE DURATION
-        # -------------------------------------------------
-
-        elif service.duration:
+        for option in options:
 
             choices.append(
                 (
-                    service.duration,
+                    option.duration,
                     (
-                        f"{service.duration} minutes"
-                        f" — ₹{service.price:,.0f}"
+                        f"{option.duration} minutes"
+                        f" — ₹{option.price:,.0f}"
                     ),
                 )
             )
+
+        # -------------------------------------------------
+        # NO OPTIONS
+        # -------------------------------------------------
+
+        if len(choices) == 1:
+
+            choices = [
+                (
+                    "",
+                    "No duration available",
+                )
+            ]
 
         self.fields[
             "duration"
@@ -405,6 +416,26 @@ class BookingForm(forms.ModelForm):
                 "This service is currently unavailable."
             )
 
+        # -------------------------------------------------
+        # SERVICE MUST HAVE AT LEAST ONE ACTIVE OPTION
+        # -------------------------------------------------
+
+        has_options = (
+            ServiceOption.objects
+            .filter(
+                service=service,
+                is_active=True,
+            )
+            .exists()
+        )
+
+        if not has_options:
+
+            raise forms.ValidationError(
+                "No duration is currently available "
+                "for this service."
+            )
+
         return service
 
     # =====================================================
@@ -423,6 +454,9 @@ class BookingForm(forms.ModelForm):
 
         today = timezone.localdate()
 
+        if self.instance.pk and appointment_date == self.instance.appointment_date:
+            return appointment_date
+
         if appointment_date < today:
 
             raise forms.ValidationError(
@@ -433,6 +467,12 @@ class BookingForm(forms.ModelForm):
 
     # =====================================================
     # CLEAN DURATION
+    #
+    # SECURITY:
+    # Never trust the duration sent by the browser.
+    #
+    # Verify that the selected duration belongs to
+    # the selected service and is active.
     # =====================================================
 
     def clean_duration(self):
@@ -455,10 +495,6 @@ class BookingForm(forms.ModelForm):
                 "Please select a session duration."
             )
 
-        # -------------------------------------------------
-        # MATCH ACTIVE SERVICE OPTION
-        # -------------------------------------------------
-
         option_exists = (
             ServiceOption.objects
             .filter(
@@ -469,37 +505,14 @@ class BookingForm(forms.ModelForm):
             .exists()
         )
 
-        if option_exists:
+        if not option_exists:
 
-            return duration
-
-        # -------------------------------------------------
-        # CHECK WHETHER SERVICE HAS OPTIONS
-        # -------------------------------------------------
-
-        has_options = (
-            ServiceOption.objects
-            .filter(
-                service=service,
-                is_active=True,
+            raise forms.ValidationError(
+                "Selected duration is not available "
+                "for this service."
             )
-            .exists()
-        )
 
-        # -------------------------------------------------
-        # FALLBACK
-        # -------------------------------------------------
-
-        if not has_options:
-
-            if duration == service.duration:
-
-                return duration
-
-        raise forms.ValidationError(
-            "Selected duration is not available "
-            "for this service."
-        )
+        return duration
 
     # =====================================================
     # CLEAN TIME
@@ -594,6 +607,11 @@ class BookingForm(forms.ModelForm):
             is_within_business_hours,
         )
 
+        from .services.availability import appointment_is_past
+        unchanged = self.instance.pk and appointment_date == self.instance.appointment_date and appointment_time == self.instance.appointment_time
+        if not unchanged and appointment_is_past(appointment_date, appointment_time):
+            raise forms.ValidationError("Please choose a future appointment time.")
+
         # -------------------------------------------------
         # CALCULATE END TIME
         # -------------------------------------------------
@@ -636,13 +654,48 @@ class BookingForm(forms.ModelForm):
             "_calculated_end_time"
         ] = end_time
 
+        # -------------------------------------------------
+        # GET OPTION
+        #
+        # Store the validated option internally so that
+        # save() uses the exact same database record.
+        # -------------------------------------------------
+
+        option = (
+            ServiceOption.objects
+            .filter(
+                service=service,
+                duration=duration,
+                is_active=True,
+            )
+            .first()
+        )
+
+        if not option:
+
+            raise forms.ValidationError(
+                "Selected service duration is no longer available."
+            )
+
+        cleaned_data[
+            "_selected_option"
+        ] = option
+
         return cleaned_data
 
     # =====================================================
-    # GET SELECTED PRICE
+    # GET SELECTED OPTION
     # =====================================================
 
-    def get_selected_price(self):
+    def get_selected_option(self):
+
+        option = self.cleaned_data.get(
+            "_selected_option"
+        )
+
+        if option:
+
+            return option
 
         service = self.cleaned_data.get(
             "service"
@@ -652,35 +705,35 @@ class BookingForm(forms.ModelForm):
             "duration"
         )
 
-        if not service:
+        if not service or not duration:
 
             return None
 
-        # -------------------------------------------------
-        # FIND SERVICE OPTION
-        # -------------------------------------------------
-
-        if duration:
-
-            option = (
-                ServiceOption.objects
-                .filter(
-                    service=service,
-                    duration=duration,
-                    is_active=True,
-                )
-                .first()
+        return (
+            ServiceOption.objects
+            .filter(
+                service=service,
+                duration=duration,
+                is_active=True,
             )
+            .first()
+        )
 
-            if option:
+    # =====================================================
+    # GET SELECTED PRICE
+    #
+    # Price ALWAYS comes from ServiceOption.
+    # =====================================================
 
-                return option.price
+    def get_selected_price(self):
 
-        # -------------------------------------------------
-        # FALLBACK
-        # -------------------------------------------------
+        option = self.get_selected_option()
 
-        return service.price
+        if not option:
+
+            return None
+
+        return option.price
 
     # =====================================================
     # GET END TIME
@@ -739,16 +792,13 @@ class BookingForm(forms.ModelForm):
         # SELECTED DURATION
         # -------------------------------------------------
 
-        if service:
-
-            if not duration:
-
-                duration = service.duration
-
-            booking.selected_duration = duration
+        booking.selected_duration = duration
 
         # -------------------------------------------------
         # SELECTED PRICE
+        #
+        # NEVER take price from frontend.
+        # Get it directly from ServiceOption.
         # -------------------------------------------------
 
         booking.selected_price = (
@@ -764,12 +814,16 @@ class BookingForm(forms.ModelForm):
         )
 
         # -------------------------------------------------
-        # DEFAULT STATUS
+        # AUTO CONFIRM
+        #
+        # No payment.
+        # No admin approval.
+        #
+        # Availability/resource assignment should be
+        # handled by views.py/service layer.
         # -------------------------------------------------
 
-        if not booking.status:
-
-            booking.status = "pending"
+        booking.status = "confirmed"
 
         # -------------------------------------------------
         # STAFF + ROOM

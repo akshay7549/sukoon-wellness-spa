@@ -1,0 +1,24 @@
+{% extends "spa/account_base.html" %}
+
+{% block title %}Create Account{% endblock %}
+{% block heading %}Create Account{% endblock %}
+{% block intro %}Join Sukoon to keep your appointments and booking details in one place.{% endblock %}
+
+{% block account_form %}
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="field">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+            {% if field.help_text %}<div class="helptext">{{ field.help_text|safe }}</div>{% endif %}
+        </div>
+    {% endfor %}
+    <button class="submit" type="submit">Create Account</button>
+</form>
+{% endblock %}
+
+{% block account_note %}
+Already have an account? <a href="{% url 'login' %}">Sign In</a>
+{% endblock %}

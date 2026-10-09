@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -18,7 +19,7 @@
 
     <meta
         name="theme-color"
-        content="#0b0b0a"
+        content="#080807"
     >
 
     <meta
@@ -29,6 +30,11 @@
     <meta
         name="author"
         content="Sukoon Wellness & Spa"
+    >
+
+    <meta
+        name="color-scheme"
+        content="dark"
     >
 
 
@@ -59,8 +65,7 @@
          CANONICAL
     ===================================================== -->
 
-    {% block canonical %}
-    {% endblock %}
+    {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
 
     <!-- =====================================================
@@ -89,7 +94,7 @@
 
     <meta
         property="og:image"
-        content="{% static 'images/Hero.png' %}"
+        content="{{ public_site_url }}{% static 'images/Hero.webp' %}"
     >
 
     <meta
@@ -99,7 +104,7 @@
 
 
     <!-- =====================================================
-         TWITTER / SOCIAL
+         TWITTER
     ===================================================== -->
 
     <meta
@@ -119,7 +124,7 @@
 
     <meta
         name="twitter:image"
-        content="{% static 'images/Hero.png' %}"
+        content="{{ public_site_url }}{% static 'images/Hero.webp' %}"
     >
 
 
@@ -135,7 +140,7 @@
 
 
     <!-- =====================================================
-         PRECONNECT
+         GOOGLE FONTS
     ===================================================== -->
 
     <link
@@ -148,11 +153,6 @@
         href="https://fonts.gstatic.com"
         crossorigin
     >
-
-
-    <!-- =====================================================
-         GOOGLE FONTS
-    ===================================================== -->
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
@@ -171,7 +171,7 @@
 
 
     <!-- =====================================================
-         PAGE-SPECIFIC CSS
+         PAGE CSS
     ===================================================== -->
 
     {% block extra_css %}
@@ -188,7 +188,8 @@
         "@type": "BeautySalon",
         "name": "Sukoon Wellness & Spa",
         "description": "Premium wellness treatments and relaxation experiences at Sukoon Wellness & Spa in Muzaffarpur.",
-        "image": "{% static 'images/Hero.png' %}",
+        "image": "{{ public_site_url }}{% static 'images/Hero.webp' %}",
+        "url": "{{ public_site_url }}",
         "telephone": "+91 90316 40551",
         "address": {
             "@type": "PostalAddress",
@@ -207,7 +208,6 @@
 
 <body>
 
-
 <!-- =====================================================
      SKIP LINK
 ===================================================== -->
@@ -220,7 +220,6 @@
 </a>
 
 
-
 <!-- =====================================================
      HEADER
 ===================================================== -->
@@ -229,6 +228,8 @@
     class="site-header"
     id="site-header"
 >
+
+    <div class="header-glow"></div>
 
     <div class="nav-container">
 
@@ -240,7 +241,7 @@
         <a
             href="{% url 'home' %}"
             class="site-logo"
-            aria-label="Sukoon Wellness & Spa - Home"
+            aria-label="Sukoon Wellness & Spa Home"
         >
 
             <img
@@ -251,9 +252,8 @@
         </a>
 
 
-
         <!-- =================================================
-             DESKTOP NAVIGATION
+             DESKTOP NAV
         ================================================= -->
 
         <nav
@@ -265,59 +265,66 @@
                 href="{% url 'home' %}"
                 class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
             >
+                <span>01</span>
                 Home
             </a>
-
 
             <a
                 href="{% url 'about' %}"
                 class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"
             >
+                <span>02</span>
                 About
             </a>
-
 
             <a
                 href="{% url 'services' %}"
                 class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}"
             >
+                <span>03</span>
                 Treatments
             </a>
-
 
             <a
                 href="{% url 'gallery' %}"
                 class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
             >
+                <span>04</span>
                 Gallery
             </a>
-
 
             <a
                 href="{% url 'booking' %}"
                 class="{% if request.resolver_match.url_name == 'booking' %}active{% endif %}"
             >
+                <span>05</span>
                 Booking
             </a>
-
 
             <a
                 href="{% url 'franchise' %}"
                 class="{% if request.resolver_match.url_name == 'franchise' %}active{% endif %}"
             >
+                <span>06</span>
                 Franchise
             </a>
-
 
             <a
                 href="{% url 'contact' %}"
                 class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
             >
+                <span>07</span>
                 Contact
             </a>
 
-        </nav>
+            <a
+                href="{% if user.is_authenticated %}{% if user.is_staff %}{% url 'sukoon_admin:index' %}{% else %}{% url 'my_bookings' %}{% endif %}{% else %}{% url 'login' %}{% endif %}"
+                class="nav-sign-in"
+            >
+                {% if user.is_authenticated %}{% if user.is_staff %}Dashboard{% else %}My Bookings{% endif %}{% else %}Sign In{% endif %}
+            </a>
 
+        </nav>
 
 
         <!-- =================================================
@@ -331,19 +338,19 @@
                 class="nav-call"
                 aria-label="Call Sukoon Wellness and Spa"
             >
-                Call Us
+                <span class="call-icon">+</span>
+                <span>Call</span>
             </a>
-
 
             <a
                 href="{% url 'booking' %}"
                 class="nav-book"
             >
-                Book Appointment
+                <span>Book Appointment</span>
+                <span class="arrow">↗</span>
             </a>
 
         </div>
-
 
 
         <!-- =================================================
@@ -368,9 +375,8 @@
     </div>
 
 
-
     <!-- =====================================================
-         MOBILE NAVIGATION
+         MOBILE MENU
     ===================================================== -->
 
     <div
@@ -379,100 +385,128 @@
         aria-hidden="true"
     >
 
-        <nav
-            class="mobile-nav"
-            aria-label="Mobile navigation"
-        >
+        <div class="mobile-menu-inner">
 
-            <a
-                href="{% url 'home' %}"
-                class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+            <div class="mobile-menu-label">
+                <span>Navigation</span>
+                <span>SUkoon / Wellness</span>
+            </div>
+
+            <nav
+                class="mobile-nav"
+                aria-label="Mobile navigation"
             >
-                Home
-            </a>
+
+                <a
+                    href="{% url 'home' %}"
+                    class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                >
+                    <span class="mobile-number">01</span>
+                    <span>Home</span>
+                    <span class="mobile-arrow">↗</span>
+                </a>
+
+                <a
+                    href="{% url 'about' %}"
+                    class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+                >
+                    <span class="mobile-number">02</span>
+                    <span>About</span>
+                    <span class="mobile-arrow">↗</span>
+                </a>
+
+                <a
+                    href="{% url 'services' %}"
+                    class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}"
+                >
+                    <span class="mobile-number">03</span>
+                    <span>Treatments</span>
+                    <span class="mobile-arrow">↗</span>
+                </a>
+
+                <a
+                    href="{% url 'gallery' %}"
+                    class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
+                >
+                    <span class="mobile-number">04</span>
+                    <span>Gallery</span>
+                    <span class="mobile-arrow">↗</span>
+                </a>
+
+                <a
+                    href="{% url 'booking' %}"
+                    class="{% if request.resolver_match.url_name == 'booking' %}active{% endif %}"
+                >
+                    <span class="mobile-number">05</span>
+                    <span>Booking</span>
+                    <span class="mobile-arrow">↗</span>
+                </a>
+
+                <a
+                    href="{% url 'franchise' %}"
+                    class="{% if request.resolver_match.url_name == 'franchise' %}active{% endif %}"
+                >
+                    <span class="mobile-number">06</span>
+                    <span>Franchise</span>
+                    <span class="mobile-arrow">↗</span>
+                </a>
+
+                <a
+                    href="{% url 'contact' %}"
+                    class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+                >
+                    <span class="mobile-number">07</span>
+                    <span>Contact</span>
+                    <span class="mobile-arrow">↗</span>
+                </a>
+
+                <a href="{% if user.is_authenticated %}{% if user.is_staff %}{% url 'sukoon_admin:index' %}{% else %}{% url 'my_bookings' %}{% endif %}{% else %}{% url 'login' %}{% endif %}" class="mobile-sign-in">
+                    <span class="mobile-number">08</span>
+                    <span>{% if user.is_authenticated %}{% if user.is_staff %}Dashboard{% else %}My Bookings{% endif %}{% else %}Sign In{% endif %}</span>
+                    <span class="mobile-arrow">↗</span>
+                </a>
+
+            </nav>
 
 
-            <a
-                href="{% url 'about' %}"
-                class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"
-            >
-                About
-            </a>
+            <div class="mobile-menu-actions">
 
+                <a
+                    href="tel:+919031640551"
+                    class="mobile-call"
+                >
+                    <span>Call Us</span>
+                    <strong>+91 90316 40551</strong>
+                </a>
 
-            <a
-                href="{% url 'services' %}"
-                class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}"
-            >
-                Treatments
-            </a>
+                <a
+                    href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mobile-whatsapp"
+                >
+                    Chat on WhatsApp
+                    <span>↗</span>
+                </a>
 
+            </div>
 
-            <a
-                href="{% url 'gallery' %}"
-                class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
-            >
-                Gallery
-            </a>
-
-
-            <a
-                href="{% url 'booking' %}"
-                class="{% if request.resolver_match.url_name == 'booking' %}active{% endif %}"
-            >
-                Booking
-            </a>
-
-
-            <a
-                href="{% url 'franchise' %}"
-                class="{% if request.resolver_match.url_name == 'franchise' %}active{% endif %}"
-            >
-                Franchise
-            </a>
-
-
-            <a
-                href="{% url 'contact' %}"
-                class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
-            >
-                Contact
-            </a>
-
-
-            <div class="mobile-menu-divider"></div>
-
-
-            <a
-                href="tel:+919031640551"
-                class="mobile-call"
-            >
-                Call +91 90316 40551
-            </a>
-
-
-            <a
-                href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mobile-whatsapp"
-            >
-                Chat on WhatsApp
-            </a>
-
-        </nav>
+        </div>
 
     </div>
 
 </header>
 
 
-
 <!-- =====================================================
      MAIN CONTENT
 ===================================================== -->
 
-<main id="main-content">
+<main
+    id="main-content"
+    class="site-main"
+>
+{% if messages and request.resolver_match.url_name != 'contact' and request.resolver_match.url_name != 'franchise' %}<div style="position:relative;padding:110px 24px 18px;max-width:1050px;margin:auto" role="status">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>{% endif %}
 
     {% block content %}
     {% endblock %}
@@ -480,12 +514,13 @@
 </main>
 
 
-
 <!-- =====================================================
      FOOTER
 ===================================================== -->
 
 <footer class="site-footer">
+
+    <div class="footer-top-line"></div>
 
     <div class="footer-container">
 
@@ -509,22 +544,24 @@
 
             </a>
 
+            <div class="footer-eyebrow">
+                WELLNESS · RESTORATION · SUKOON
+            </div>
 
             <p>
                 A calm and welcoming space for relaxation,
                 wellness and personal care in Muzaffarpur.
             </p>
 
-
             <a
                 href="{% url 'booking' %}"
                 class="footer-cta"
             >
-                Book an Appointment →
+                <span>Book an Appointment</span>
+                <span>↗</span>
             </a>
 
         </div>
-
 
 
         <!-- =================================================
@@ -533,40 +570,33 @@
 
         <div class="footer-column">
 
-            <h3>
-                Explore
-            </h3>
+            <div class="footer-index">
+                01 / Explore
+            </div>
 
+            <h3>
+                Discover
+            </h3>
 
             <a href="{% url 'home' %}">
                 Home
             </a>
 
-
             <a href="{% url 'about' %}">
                 About
             </a>
-
 
             <a href="{% url 'services' %}">
                 Treatments
             </a>
 
-
             <a href="{% url 'gallery' %}">
                 Gallery
             </a>
 
-
             <a href="{% url 'franchise' %}">
                 Franchise
             </a>
-
-
-            <a href="{% url 'booking' %}">
-                Book Appointment
-            </a>
-
 
             <a href="{% url 'contact' %}">
                 Contact
@@ -575,24 +605,23 @@
         </div>
 
 
-
         <!-- =================================================
              CONTACT
         ================================================= -->
 
         <div class="footer-column">
 
+            <div class="footer-index">
+                02 / Contact
+            </div>
+
             <h3>
-                Contact
+                Connect
             </h3>
 
-
-            <a
-                href="tel:+919031640551"
-            >
+            <a href="tel:+919031640551">
                 +91 90316 40551
             </a>
-
 
             <a
                 href="https://wa.me/919031640551?text=Hello%20Sukoon%20Wellness%20%26%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
@@ -601,7 +630,6 @@
             >
                 WhatsApp
             </a>
-
 
             <p>
                 Dwarka City Center Mall,<br>
@@ -613,37 +641,41 @@
         </div>
 
 
-
         <!-- =================================================
-             OPENING HOURS
+             HOURS
         ================================================= -->
 
         <div class="footer-column">
+
+            <div class="footer-index">
+                03 / Visit
+            </div>
 
             <h3>
                 Opening Hours
             </h3>
 
+            <div class="hours-card">
 
-            <p>
-                Monday – Sunday<br>
+                <span>
+                    Monday — Sunday
+                </span>
 
                 <strong>
-                    10:00 AM – 10:00 PM
+                    10:00 AM — 10:00 PM
                 </strong>
-            </p>
 
+            </div>
 
             <p class="footer-note">
-                Book your preferred treatment and
-                receive confirmation after successful
-                availability validation.
+                Take a moment for yourself.
+                Choose your preferred treatment
+                and schedule your visit.
             </p>
 
         </div>
 
     </div>
-
 
 
     <!-- =====================================================
@@ -660,8 +692,16 @@
                 All rights reserved.
             </p>
 
+            <div class="footer-bottom-center">
+                <span class="footer-dot"></span>
+                <span>MUZAFFARPUR · BIHAR</span>
+            </div>
 
             <div class="footer-bottom-links">
+
+                <a href="{% if user.is_authenticated %}{% url 'my_bookings' %}{% else %}{% url 'login' %}{% endif %}">{% if user.is_authenticated %}My Bookings{% else %}Sign In{% endif %}</a>
+
+                <span>•</span>
 
                 <a href="{% url 'home' %}">
                     Privacy
@@ -679,8 +719,9 @@
 
     </div>
 
-</footer>
-
+<div style="padding:16px 24px;text-align:center;color:#b8a783;font-size:12px">
+<a href="{% url 'privacy' %}">Privacy Policy</a> &nbsp; · &nbsp; <a href="{% url 'cancellation_policy' %}">Cancellation Policy</a>
+</div></footer>
 
 
 <!-- =====================================================
@@ -694,11 +735,16 @@
     rel="noopener noreferrer"
     aria-label="Chat with Sukoon Wellness and Spa on WhatsApp"
 >
-    <span>
+
+    <span class="whatsapp-icon">
+        W
+    </span>
+
+    <span class="whatsapp-text">
         WhatsApp
     </span>
-</a>
 
+</a>
 
 
 <!-- =====================================================
@@ -711,42 +757,95 @@
     id="back-to-top"
     aria-label="Back to top"
 >
-    ↑
+    <span>↑</span>
 </button>
 
 
-
 <!-- =====================================================
-     BASE PAGE CSS
+     PREMIUM BASE CSS
 ===================================================== -->
 
 <style>
 
+/* =========================================================
+   SUKOON WELLNESS & SPA
+   PREMIUM GLOBAL DESIGN SYSTEM
+========================================================= */
+
 :root {
 
-    --gold: #c9a45c;
-    --gold-light: #e2c987;
+    --sukoon-black:
+        #070706;
 
-    --bg: #0b0b0a;
-    --bg-soft: #11110f;
+    --sukoon-black-soft:
+        #0b0b0a;
 
-    --white: #ffffff;
-    --text: #eeeeea;
-    --muted: #a8a8a0;
+    --sukoon-black-card:
+        #11110f;
 
-    --border:
-        rgba(201, 164, 92, 0.20);
+    --sukoon-black-card-2:
+        #151512;
+
+    --sukoon-gold:
+        #c9a96e;
+
+    --sukoon-gold-light:
+        #e1c995;
+
+    --sukoon-gold-soft:
+        #b8955b;
+
+    --sukoon-ivory:
+        #f5f1e8;
+
+    --sukoon-white:
+        #ffffff;
+
+    --sukoon-text:
+        #ded9cf;
+
+    --sukoon-muted:
+        #918c82;
+
+    --sukoon-border:
+        rgba(201,169,110,.18);
+
+    --sukoon-border-soft:
+        rgba(255,255,255,.07);
+
+    --header-height:
+        78px;
 
 }
 
 
-/* =====================================================
-   GLOBAL
-===================================================== */
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+
+    box-sizing:
+        border-box;
+
+}
+
 
 html {
 
-    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+
+    background:
+        var(--sukoon-black);
+
+    color-scheme:
+        dark;
+
+    scroll-behavior:
+        smooth;
 
 }
 
@@ -754,40 +853,63 @@ html {
 body {
 
     margin: 0;
+    padding: 0;
+
+    min-height:
+        100vh;
 
     background:
-        var(--bg);
+        var(--sukoon-black);
 
     color:
-        var(--text);
+        var(--sukoon-text);
 
     font-family:
         "DM Sans",
         Arial,
         sans-serif;
 
+    overflow-x:
+        hidden;
+
 }
 
 
 body.menu-open {
 
-    overflow: hidden;
+    overflow:
+        hidden;
 
 }
 
 
-*,
-*::before,
-*::after {
+main,
+.site-main {
 
-    box-sizing: border-box;
+    min-height:
+        60vh;
+
+    background:
+        var(--sukoon-black);
 
 }
 
 
 img {
 
-    max-width: 100%;
+    max-width:
+        100%;
+
+}
+
+
+button,
+input,
+textarea,
+select {
+
+    font-family:
+        inherit;
 
 }
 
@@ -801,165 +923,318 @@ a {
 }
 
 
+a {
 
-/* =====================================================
-   ACCESSIBILITY
-===================================================== */
+    color:
+        inherit;
+
+}
+
+
+::selection {
+
+    background:
+        var(--sukoon-gold);
+
+    color:
+        #080807;
+
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+:focus-visible {
+
+    outline:
+        2px solid
+        var(--sukoon-gold);
+
+    outline-offset:
+        4px;
+
+}
+
+
+/* =========================================================
+   SKIP LINK
+========================================================= */
 
 .skip-link {
 
-    position: fixed;
+    position:
+        fixed;
 
-    top: -100px;
-    left: 20px;
+    top:
+        -100px;
 
-    z-index: 9999;
+    left:
+        20px;
 
-    padding: 12px 18px;
+    z-index:
+        99999;
+
+    padding:
+        12px 18px;
 
     background:
-        var(--gold);
+        var(--sukoon-gold);
 
     color:
-        #000;
+        #070706;
 
-    text-decoration: none;
+    font-size:
+        12px;
 
-    font-weight: 700;
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+    letter-spacing:
+        .5px;
+
+    transition:
+        top .2s ease;
 
 }
 
 
 .skip-link:focus {
 
-    top: 20px;
+    top:
+        20px;
 
 }
 
 
-
-/* =====================================================
+/* =========================================================
    HEADER
-===================================================== */
+========================================================= */
 
 .site-header {
 
-    position: fixed;
+    position:
+        fixed;
 
-    top: 0;
-    left: 0;
-    right: 0;
+    top:
+        0;
 
-    z-index: 1000;
+    left:
+        0;
 
-    width: 100%;
+    right:
+        0;
+
+    z-index:
+        5000;
+
+    width:
+        100%;
 
     background:
-        rgba(7, 7, 6, .94);
+        rgba(7,7,6,.86);
 
     border-bottom:
         1px solid
-        rgba(201, 164, 92, .14);
+        rgba(201,169,110,.12);
 
     backdrop-filter:
-        blur(14px);
+        blur(20px)
+        saturate(120%);
 
     -webkit-backdrop-filter:
-        blur(14px);
+        blur(20px)
+        saturate(120%);
+
+}
+
+
+.header-glow {
+
+    position:
+        absolute;
+
+    top:
+        -80px;
+
+    left:
+        50%;
+
+    width:
+        400px;
+
+    height:
+        150px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(201,169,110,.10),
+            transparent 70%
+        );
+
+    pointer-events:
+        none;
 
 }
 
 
 .nav-container {
 
+    position:
+        relative;
+
+    z-index:
+        2;
+
     width:
         min(
-            calc(100% - 40px),
-            1320px
+            calc(100% - 48px),
+            1380px
         );
 
-    min-height: 76px;
+    min-height:
+        var(--header-height);
 
-    margin: 0 auto;
+    margin:
+        0 auto;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    gap: 28px;
+    gap:
+        28px;
 
 }
 
 
-
-/* =====================================================
+/* =========================================================
    LOGO
-===================================================== */
+========================================================= */
 
 .site-logo {
 
-    display: inline-flex;
+    display:
+        inline-flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
+
+    text-decoration:
+        none;
 
 }
 
 
 .site-logo img {
 
-    display: block;
+    display:
+        block;
 
-    width: auto;
+    width:
+        auto;
 
-    max-width: 155px;
+    max-width:
+        158px;
 
-    max-height: 54px;
+    max-height:
+        55px;
 
-    object-fit: contain;
+    object-fit:
+        contain;
+
+    transition:
+        transform .3s ease,
+        opacity .3s ease;
 
 }
 
 
+.site-logo:hover img {
 
-/* =====================================================
+    transform:
+        scale(1.025);
+
+    opacity:
+        .92;
+
+}
+
+
+/* =========================================================
    DESKTOP NAVIGATION
-===================================================== */
+========================================================= */
 
 .desktop-nav {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 27px;
+    gap:
+        23px;
 
-    margin-left: auto;
+    margin-left:
+        auto;
 
 }
 
 
 .desktop-nav a {
 
-    position: relative;
+    position:
+        relative;
 
-    padding: 28px 0;
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        6px;
+
+    height:
+        var(--header-height);
 
     color:
-        rgba(255,255,255,.78);
+        rgba(245,241,232,.67);
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 12px;
+    font-size:
+        11px;
 
-    font-weight: 600;
+    font-weight:
+        600;
 
-    letter-spacing: .7px;
+    letter-spacing:
+        .65px;
+
+    white-space:
+        nowrap;
 
     transition:
         color .25s ease;
@@ -967,23 +1242,55 @@ a {
 }
 
 
-.desktop-nav a::after {
+.desktop-nav a span {
 
-    content: "";
+    color:
+        rgba(201,169,110,.40);
 
-    position: absolute;
+    font-size:
+        7px;
 
-    left: 0;
-    bottom: 20px;
+    letter-spacing:
+        0;
 
-    width: 0;
-    height: 1px;
+    opacity:
+        0;
 
-    background:
-        var(--gold);
+    transform:
+        translateY(3px);
 
     transition:
-        width .25s ease;
+        opacity .25s ease,
+        transform .25s ease;
+
+}
+
+
+.desktop-nav a::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    bottom:
+        20px;
+
+    width:
+        0;
+
+    height:
+        1px;
+
+    background:
+        var(--sukoon-gold);
+
+    transition:
+        width .28s ease;
 
 }
 
@@ -992,7 +1299,19 @@ a {
 .desktop-nav a.active {
 
     color:
-        var(--gold-light);
+        var(--sukoon-gold-light);
+
+}
+
+
+.desktop-nav a:hover span,
+.desktop-nav a.active span {
+
+    opacity:
+        1;
+
+    transform:
+        translateY(0);
 
 }
 
@@ -1000,72 +1319,166 @@ a {
 .desktop-nav a:hover::after,
 .desktop-nav a.active::after {
 
-    width: 100%;
+    width:
+        100%;
 
 }
 
 
-
-/* =====================================================
+/* =========================================================
    NAV ACTIONS
-===================================================== */
+========================================================= */
+
+.desktop-nav a.nav-sign-in {
+    height: 40px;
+    padding: 0 15px;
+    border: 1px solid var(--sukoon-gold);
+    border-radius: 4px;
+    color: var(--sukoon-gold-light);
+    background: rgba(201,169,110,.08);
+    transition: background .25s ease, color .25s ease;
+}
+
+.desktop-nav a.nav-sign-in::after {
+    display: none;
+}
+
+.desktop-nav a.nav-sign-in:hover {
+    background: var(--sukoon-gold);
+    color: #080807;
+}
+
+.nav-sign-in:focus-visible,
+.mobile-sign-in:focus-visible {
+    outline: 2px solid var(--sukoon-gold-light);
+    outline-offset: 4px;
+}
 
 .nav-actions {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 9px;
+    gap:
+        10px;
 
 }
 
 
 .nav-call {
 
-    padding: 11px 13px;
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        6px;
+
+    padding:
+        10px 10px;
 
     color:
-        var(--gold-light);
+        var(--sukoon-gold-light);
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 11px;
+    font-size:
+        10px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    letter-spacing: 1px;
+    letter-spacing:
+        1px;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+.call-icon {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    width:
+        18px;
+
+    height:
+        18px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.35);
+
+    border-radius:
+        50%;
+
+    font-size:
+        12px;
 
 }
 
 
 .nav-book {
 
-    display: inline-flex;
+    position:
+        relative;
 
-    align-items: center;
+    display:
+        inline-flex;
 
-    justify-content: center;
+    align-items:
+        center;
 
-    min-height: 42px;
+    justify-content:
+        center;
 
-    padding: 0 18px;
+    gap:
+        12px;
+
+    min-height:
+        44px;
+
+    padding:
+        0 18px;
+
+    overflow:
+        hidden;
 
     background:
-        var(--gold);
+        var(--sukoon-gold);
 
     color:
-        #090909;
+        #090908;
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 10px;
+    font-size:
+        9px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    letter-spacing: 1.2px;
+    letter-spacing:
+        1.2px;
 
-    text-transform: uppercase;
+    text-transform:
+        uppercase;
 
     transition:
         background .25s ease,
@@ -1074,10 +1487,33 @@ a {
 }
 
 
+.nav-book::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    background:
+        rgba(255,255,255,.20);
+
+    transform:
+        translateX(-110%);
+
+    transition:
+        transform .4s ease;
+
+}
+
+
 .nav-book:hover {
 
     background:
-        var(--gold-light);
+        var(--sukoon-gold-light);
 
     transform:
         translateY(-1px);
@@ -1085,47 +1521,87 @@ a {
 }
 
 
+.nav-book:hover::before {
 
-/* =====================================================
-   MOBILE MENU BUTTON
-===================================================== */
+    transform:
+        translateX(110%);
+
+}
+
+
+.nav-book span {
+
+    position:
+        relative;
+
+    z-index:
+        1;
+
+}
+
+
+.nav-book .arrow {
+
+    font-size:
+        15px;
+
+}
+
+
+/* =========================================================
+   MOBILE BUTTON
+========================================================= */
 
 .mobile-menu-btn {
 
-    display: none;
+    display:
+        none;
 
-    width: 44px;
-    height: 44px;
+    position:
+        relative;
 
-    padding: 9px;
+    width:
+        46px;
+
+    height:
+        46px;
+
+    padding:
+        10px;
 
     border:
         1px solid
-        rgba(201,164,92,.30);
+        rgba(201,169,110,.25);
 
     background:
-        transparent;
+        rgba(255,255,255,.025);
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
 }
 
 
 .mobile-menu-btn span {
 
-    display: block;
+    display:
+        block;
 
-    width: 22px;
-    height: 1px;
+    width:
+        21px;
 
-    margin: 5px auto;
+    height:
+        1px;
+
+    margin:
+        5px auto;
 
     background:
-        var(--gold-light);
+        var(--sukoon-gold-light);
 
     transition:
-        transform .25s ease,
-        opacity .25s ease;
+        transform .3s ease,
+        opacity .2s ease;
 
 }
 
@@ -1141,7 +1617,8 @@ a {
 
 .mobile-menu-btn.open span:nth-child(2) {
 
-    opacity: 0;
+    opacity:
+        0;
 
 }
 
@@ -1155,64 +1632,184 @@ a {
 }
 
 
-
-/* =====================================================
+/* =========================================================
    MOBILE MENU
-===================================================== */
+========================================================= */
 
 .mobile-menu {
 
-    display: none;
+    display:
+        none;
 
-    width: 100%;
+    width:
+        100%;
+
+    max-height:
+        calc(100vh - var(--header-height));
+
+    overflow-y:
+        auto;
 
     background:
         rgba(7,7,6,.98);
 
     border-top:
         1px solid
-        rgba(201,164,92,.12);
+        rgba(201,169,110,.12);
 
 }
 
 
 .mobile-menu.open {
 
-    display: block;
+    display:
+        block;
+
+    animation:
+        mobileMenuIn .25s ease both;
+
+}
+
+
+@keyframes mobileMenuIn {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(-8px);
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+.mobile-menu-inner {
+
+    width:
+        min(
+            calc(100% - 32px),
+            700px
+        );
+
+    margin:
+        0 auto;
+
+    padding:
+        20px 0 28px;
+
+}
+
+
+.mobile-menu-label {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    padding:
+        0 4px 15px;
+
+    color:
+        #706c64;
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1.8px;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+.mobile-menu-label span:last-child {
+
+    color:
+        rgba(201,169,110,.55);
 
 }
 
 
 .mobile-nav {
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
-
-    padding:
-        12px 20px 25px;
+    flex-direction:
+        column;
 
 }
 
 
 .mobile-nav a {
 
-    padding:
-        15px 5px;
+    display:
+        grid;
+
+    grid-template-columns:
+        42px
+        1fr
+        25px;
+
+    align-items:
+        center;
+
+    min-height:
+        58px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
 
     color:
-        rgba(255,255,255,.85);
+        rgba(245,241,232,.82);
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 14px;
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size:
+        22px;
+
+    transition:
+        color .25s ease,
+        padding .25s ease;
+
+}
+
+
+.mobile-nav a:last-child {
 
     border-bottom:
         1px solid
         rgba(255,255,255,.06);
-
-    transition:
-        color .2s ease;
 
 }
 
@@ -1220,139 +1817,483 @@ a {
 .mobile-nav a:hover,
 .mobile-nav a.active {
 
+    padding-left:
+        8px;
+
     color:
-        var(--gold-light);
+        var(--sukoon-gold-light);
 
 }
 
 
-.mobile-menu-divider {
+.mobile-number {
 
-    height: 12px;
+    color:
+        rgba(201,169,110,.40);
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1px;
+
+}
+
+
+.mobile-arrow {
+
+    color:
+        rgba(201,169,110,.55);
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size:
+        16px;
+
+}
+
+
+.mobile-menu-actions {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        10px;
+
+    margin-top:
+        18px;
+
+}
+
+
+.mobile-call,
+.mobile-whatsapp {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        52px;
+
+    padding:
+        10px;
+
+    text-decoration:
+        none;
 
 }
 
 
 .mobile-call {
 
+    flex-direction:
+        column;
+
+    align-items:
+        flex-start;
+
+    padding-left:
+        15px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.18);
+
+    background:
+        rgba(255,255,255,.025);
+
+}
+
+
+.mobile-call span {
+
     color:
-        var(--gold-light) !important;
+        #777269;
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1.2px;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+.mobile-call strong {
+
+    margin-top:
+        4px;
+
+    color:
+        var(--sukoon-gold-light);
+
+    font-size:
+        12px;
+
+    font-weight:
+        600;
 
 }
 
 
 .mobile-whatsapp {
 
-    margin-top: 10px;
+    justify-content:
+        space-between;
 
     padding:
-        14px 18px !important;
-
-    text-align: center;
+        0 16px;
 
     background:
-        var(--gold);
+        var(--sukoon-gold);
 
     color:
-        #090909 !important;
+        #080807;
 
-    border: none !important;
+    font-size:
+        10px;
 
-    font-weight: 800;
+    font-weight:
+        800;
+
+    letter-spacing:
+        .8px;
+
+    text-transform:
+        uppercase;
 
 }
 
 
+.mobile-whatsapp span {
 
-/* =====================================================
+    font-size:
+        17px;
+
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.site-main {
+
+    position:
+        relative;
+
+    padding-top:
+        0;
+
+    background:
+        var(--sukoon-black);
+
+}
+
+
+/*
+   Pages with full-width hero can start behind
+   the fixed header. Normal content remains
+   visually separated through page-specific spacing.
+*/
+
+
+.site-main > * {
+
+    position:
+        relative;
+
+}
+
+
+/* =========================================================
    FOOTER
-===================================================== */
+========================================================= */
 
 .site-footer {
 
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
     background:
-        #070706;
+        #060605;
 
     color:
-        var(--text);
+        var(--sukoon-text);
 
     border-top:
         1px solid
-        rgba(201,164,92,.14);
+        rgba(201,169,110,.13);
+
+}
+
+
+.site-footer::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        -160px;
+
+    left:
+        50%;
+
+    width:
+        600px;
+
+    height:
+        300px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(201,169,110,.065),
+            transparent 70%
+        );
+
+    pointer-events:
+        none;
+
+}
+
+
+.footer-top-line {
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        50%;
+
+    width:
+        90px;
+
+    height:
+        1px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        var(--sukoon-gold);
 
 }
 
 
 .footer-container {
 
+    position:
+        relative;
+
+    z-index:
+        2;
+
     width:
         min(
-            calc(100% - 40px),
-            1180px
+            calc(100% - 48px),
+            1240px
         );
 
-    margin: 0 auto;
+    margin:
+        0 auto;
 
     padding:
-        75px 0 60px;
+        90px 0 65px;
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
-        1.5fr
+        1.45fr
         1fr
-        1.2fr
+        1.25fr
         1fr;
 
-    gap: 55px;
+    gap:
+        55px;
 
 }
 
 
 .footer-brand img {
 
-    display: block;
+    display:
+        block;
 
-    width: auto;
+    width:
+        auto;
 
-    max-width: 160px;
+    max-width:
+        165px;
 
-    max-height: 60px;
+    max-height:
+        60px;
 
-    margin-bottom: 22px;
+    margin-bottom:
+        24px;
+
+}
+
+
+.footer-eyebrow {
+
+    margin-bottom:
+        15px;
+
+    color:
+        var(--sukoon-gold);
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1.8px;
 
 }
 
 
 .footer-brand p {
 
-    max-width: 340px;
+    max-width:
+        340px;
 
     margin:
-        0 0 20px;
+        0 0 25px;
 
     color:
-        var(--muted);
+        var(--sukoon-muted);
 
-    font-size: 13px;
+    font-size:
+        12px;
 
-    line-height: 1.8;
+    line-height:
+        1.9;
 
 }
 
 
 .footer-cta {
 
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        14px;
+
+    padding:
+        11px 0;
+
     color:
-        var(--gold-light);
+        var(--sukoon-gold-light);
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 11px;
+    font-size:
+        10px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    letter-spacing: 1px;
+    letter-spacing:
+        1px;
+
+    text-transform:
+        uppercase;
+
+    border-bottom:
+        1px solid
+        rgba(201,169,110,.30);
+
+    transition:
+        gap .25s ease,
+        color .25s ease;
+
+}
+
+
+.footer-cta:hover {
+
+    gap:
+        20px;
+
+    color:
+        var(--sukoon-white);
+
+}
+
+
+.footer-column {
+
+    position:
+        relative;
+
+}
+
+
+.footer-index {
+
+    margin-bottom:
+        13px;
+
+    color:
+        rgba(201,169,110,.50);
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1.6px;
+
+    text-transform:
+        uppercase;
 
 }
 
@@ -1360,40 +2301,48 @@ a {
 .footer-column h3 {
 
     margin:
-        0 0 20px;
+        0 0 23px;
 
     color:
-        #ffffff;
+        var(--sukoon-ivory);
 
     font-family:
         "Playfair Display",
         Georgia,
         serif;
 
-    font-size: 20px;
+    font-size:
+        21px;
 
-    font-weight: 500;
+    font-weight:
+        500;
 
 }
 
 
 .footer-column a {
 
-    display: block;
+    display:
+        block;
 
-    width: fit-content;
+    width:
+        fit-content;
 
-    margin-bottom: 11px;
+    margin-bottom:
+        12px;
 
     color:
-        var(--muted);
+        #888279;
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 13px;
+    font-size:
+        12px;
 
     transition:
-        color .25s ease;
+        color .25s ease,
+        transform .25s ease;
 
 }
 
@@ -1401,7 +2350,10 @@ a {
 .footer-column a:hover {
 
     color:
-        var(--gold-light);
+        var(--sukoon-gold-light);
+
+    transform:
+        translateX(3px);
 
 }
 
@@ -1409,49 +2361,110 @@ a {
 .footer-column p {
 
     margin:
-        5px 0 15px;
+        12px 0 15px;
 
     color:
-        var(--muted);
+        #817c73;
 
-    font-size: 13px;
+    font-size:
+        11px;
 
-    line-height: 1.8;
+    line-height:
+        1.9;
 
 }
 
 
-.footer-column strong {
+.hours-card {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        8px;
+
+    padding:
+        17px;
+
+    margin-bottom:
+        20px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.16);
+
+    background:
+        rgba(255,255,255,.025);
+
+}
+
+
+.hours-card span {
 
     color:
-        #ddd7cd;
+        #777269;
 
-    font-weight: 600;
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1.2px;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+.hours-card strong {
+
+    color:
+        var(--sukoon-gold-light);
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
 
 }
 
 
 .footer-note {
 
+    max-width:
+        260px;
+
     color:
-        #77736b !important;
+        #656159 !important;
 
     font-size:
-        11px !important;
+        10px !important;
 
 }
 
 
-
-/* =====================================================
+/* =========================================================
    FOOTER BOTTOM
-===================================================== */
+========================================================= */
 
 .footer-bottom {
 
+    position:
+        relative;
+
+    z-index:
+        2;
+
     border-top:
         1px solid
-        rgba(255,255,255,.07);
+        rgba(255,255,255,.06);
 
 }
 
@@ -1460,44 +2473,106 @@ a {
 
     width:
         min(
-            calc(100% - 40px),
-            1180px
+            calc(100% - 48px),
+            1240px
         );
 
-    min-height: 70px;
+    min-height:
+        72px;
 
-    margin: 0 auto;
+    margin:
+        0 auto;
 
-    display: flex;
+    display:
+        grid;
 
-    align-items: center;
+    grid-template-columns:
+        1fr
+        auto
+        1fr;
 
-    justify-content: space-between;
+    align-items:
+        center;
 
-    gap: 20px;
+    gap:
+        25px;
 
 }
 
 
 .footer-bottom p {
 
-    margin: 0;
+    margin:
+        0;
 
     color:
-        #68655f;
+        #5f5c56;
 
-    font-size: 11px;
+    font-size:
+        9px;
+
+    letter-spacing:
+        .2px;
+
+}
+
+
+.footer-bottom-center {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    color:
+        #625e57;
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1.2px;
+
+}
+
+
+.footer-dot {
+
+    width:
+        4px;
+
+    height:
+        4px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--sukoon-gold);
 
 }
 
 
 .footer-bottom-links {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 10px;
+    justify-content:
+        flex-end;
+
+    gap:
+        10px;
 
 }
 
@@ -1505,11 +2580,16 @@ a {
 .footer-bottom-links a {
 
     color:
-        #77736b;
+        #69655e;
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 11px;
+    font-size:
+        9px;
+
+    transition:
+        color .2s ease;
 
 }
 
@@ -1517,7 +2597,7 @@ a {
 .footer-bottom-links a:hover {
 
     color:
-        var(--gold-light);
+        var(--sukoon-gold-light);
 
 }
 
@@ -1525,63 +2605,70 @@ a {
 .footer-bottom-links span {
 
     color:
-        #4d4a45;
+        #403e39;
 
 }
 
 
-
-/* =====================================================
+/* =========================================================
    FLOATING WHATSAPP
-===================================================== */
+========================================================= */
 
 .floating-whatsapp {
 
-    position: fixed;
+    position:
+        fixed;
 
-    right: 22px;
-    bottom: 22px;
+    right:
+        22px;
 
-    z-index: 900;
+    bottom:
+        22px;
 
-    display: flex;
+    z-index:
+        4000;
 
-    align-items: center;
+    display:
+        flex;
 
-    justify-content: center;
+    align-items:
+        center;
 
-    min-width: 54px;
-    height: 54px;
+    gap:
+        8px;
+
+    min-height:
+        52px;
 
     padding:
-        0 17px;
+        0 17px 0 10px;
 
     border:
         1px solid
-        rgba(201,164,92,.55);
+        rgba(201,169,110,.40);
 
-    border-radius: 30px;
+    border-radius:
+        28px;
 
     background:
-        #10100e;
+        rgba(15,15,13,.94);
 
     color:
-        var(--gold-light);
+        var(--sukoon-gold-light);
 
-    text-decoration: none;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: 1px;
+    text-decoration:
+        none;
 
     box-shadow:
-        0 10px 35px
-        rgba(0,0,0,.35);
+        0 12px 40px
+        rgba(0,0,0,.40);
+
+    backdrop-filter:
+        blur(12px);
 
     transition:
         transform .25s ease,
+        border-color .25s ease,
         background .25s ease;
 
 }
@@ -1590,63 +2677,143 @@ a {
 .floating-whatsapp:hover {
 
     transform:
-        translateY(-3px);
+        translateY(-4px);
+
+    border-color:
+        rgba(201,169,110,.75);
 
     background:
-        #191914;
+        #171713;
 
 }
 
 
+.whatsapp-icon {
 
-/* =====================================================
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    width:
+        32px;
+
+    height:
+        32px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--sukoon-gold);
+
+    color:
+        #090908;
+
+    font-size:
+        10px;
+
+    font-weight:
+        900;
+
+}
+
+
+.whatsapp-text {
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1px;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+/* =========================================================
    BACK TO TOP
-===================================================== */
+========================================================= */
 
 .back-to-top {
 
-    position: fixed;
+    position:
+        fixed;
 
-    right: 22px;
-    bottom: 90px;
+    right:
+        22px;
 
-    z-index: 899;
+    bottom:
+        88px;
 
-    width: 42px;
-    height: 42px;
+    z-index:
+        3999;
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
 
     border:
         1px solid
-        rgba(201,164,92,.25);
+        rgba(201,169,110,.25);
 
     background:
-        rgba(10,10,9,.92);
+        rgba(9,9,8,.92);
 
     color:
-        var(--gold-light);
+        var(--sukoon-gold-light);
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    opacity: 0;
+    opacity:
+        0;
 
-    visibility: hidden;
+    visibility:
+        hidden;
 
     transform:
-        translateY(10px);
+        translateY(12px);
+
+    backdrop-filter:
+        blur(10px);
 
     transition:
         opacity .25s ease,
         visibility .25s ease,
-        transform .25s ease;
+        transform .25s ease,
+        background .25s ease;
 
 }
 
 
 .back-to-top.show {
 
-    opacity: 1;
+    opacity:
+        1;
 
-    visibility: visible;
+    visibility:
+        visible;
 
     transform:
         translateY(0);
@@ -1657,58 +2824,116 @@ a {
 .back-to-top:hover {
 
     background:
-        rgba(201,164,92,.10);
+        rgba(201,169,110,.10);
 
 }
 
 
+.back-to-top span {
 
-/* =====================================================
-   RESPONSIVE — TABLET
-===================================================== */
+    font-size:
+        17px;
 
-@media (max-width: 1100px) {
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1200px) {
 
     .desktop-nav {
 
-        gap: 18px;
+        gap:
+            16px;
+
+    }
+
+
+    .desktop-nav a {
+
+        font-size:
+            10px;
 
     }
 
 
     .nav-actions {
 
-        display: none;
+        gap:
+            4px;
+
+    }
+
+
+    .nav-call {
+
+        display:
+            none;
+
+    }
+
+
+    .footer-container {
+
+        gap:
+            38px;
 
     }
 
 }
 
 
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
 
-/* =====================================================
-   RESPONSIVE — MOBILE NAV
-===================================================== */
+@media (max-width: 980px) {
 
-@media (max-width: 900px) {
+    :root {
 
-    .desktop-nav {
+        --header-height:
+            68px;
 
-        display: none;
+    }
+
+
+    .desktop-nav,
+    .nav-actions {
+
+        display:
+            none;
 
     }
 
 
     .mobile-menu-btn {
 
-        display: block;
+        display:
+            block;
 
     }
 
 
     .nav-container {
 
-        min-height: 68px;
+        width:
+            min(
+                calc(100% - 32px),
+                900px
+            );
+
+    }
+
+
+    .site-logo img {
+
+        max-width:
+            145px;
+
+        max-height:
+            50px;
 
     }
 
@@ -1718,21 +2943,79 @@ a {
         grid-template-columns:
             repeat(2, 1fr);
 
-        gap: 40px;
+        gap:
+            45px 35px;
+
+    }
+
+
+    .footer-brand {
+
+        grid-column:
+            1 / -1;
+
+    }
+
+
+    .footer-bottom-container {
+
+        grid-template-columns:
+            1fr
+            auto;
+
+        padding:
+            18px 0;
+
+    }
+
+
+    .footer-bottom-center {
+
+        display:
+            none;
 
     }
 
 }
 
 
+/* =========================================================
+   MOBILE
+========================================================= */
 
-/* =====================================================
-   RESPONSIVE — SMALL MOBILE
-===================================================== */
+@media (max-width: 640px) {
 
-@media (max-width: 600px) {
+    :root {
+
+        --header-height:
+            64px;
+
+    }
+
 
     .nav-container {
+
+        width:
+            calc(100% - 28px);
+
+        min-height:
+            64px;
+
+    }
+
+
+    .site-logo img {
+
+        max-width:
+            132px;
+
+        max-height:
+            46px;
+
+    }
+
+
+    .mobile-menu-inner {
 
         width:
             calc(100% - 30px);
@@ -1740,11 +3023,21 @@ a {
     }
 
 
-    .site-logo img {
+    .mobile-menu-actions {
 
-        max-width: 135px;
+        grid-template-columns:
+            1fr;
 
-        max-height: 48px;
+    }
+
+
+    .mobile-nav a {
+
+        min-height:
+            55px;
+
+        font-size:
+            20px;
 
     }
 
@@ -1758,9 +3051,18 @@ a {
             1fr;
 
         padding:
-            55px 0 40px;
+            65px 0 45px;
 
-        gap: 35px;
+        gap:
+            38px;
+
+    }
+
+
+    .footer-brand {
+
+        grid-column:
+            auto;
 
     }
 
@@ -1770,46 +3072,128 @@ a {
         width:
             calc(100% - 30px);
 
-        padding:
-            18px 0;
+        grid-template-columns:
+            1fr;
 
-        flex-direction: column;
+        gap:
+            13px;
 
-        align-items: flex-start;
+    }
+
+
+    .footer-bottom-links {
+
+        justify-content:
+            flex-start;
 
     }
 
 
     .floating-whatsapp {
 
-        right: 15px;
+        right:
+            14px;
 
-        bottom: 15px;
+        bottom:
+            14px;
+
+        min-height:
+            48px;
+
+        padding:
+            0 14px 0 8px;
+
+    }
+
+
+    .whatsapp-icon {
+
+        width:
+            30px;
+
+        height:
+            30px;
+
+    }
+
+
+    .whatsapp-text {
+
+        font-size:
+            8px;
 
     }
 
 
     .back-to-top {
 
-        right: 15px;
+        right:
+            14px;
 
-        bottom: 82px;
+        bottom:
+            75px;
+
+        width:
+            38px;
+
+        height:
+            38px;
 
     }
 
 }
 
 
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
 
-/* =====================================================
+@media (max-width: 390px) {
+
+    .site-logo img {
+
+        max-width:
+            118px;
+
+    }
+
+
+    .mobile-menu-label {
+
+        font-size:
+            7px;
+
+    }
+
+
+    .mobile-nav a {
+
+        font-size:
+            19px;
+
+    }
+
+
+    .footer-brand p {
+
+        font-size:
+            11px;
+
+    }
+
+}
+
+
+/* =========================================================
    REDUCED MOTION
-===================================================== */
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
     html {
 
-        scroll-behavior: auto;
+        scroll-behavior:
+            auto;
 
     }
 
@@ -1818,21 +3202,20 @@ a {
     *::before,
     *::after {
 
-        transition-duration:
-            .01ms !important;
-
         animation-duration:
             .01ms !important;
 
         animation-iteration-count:
             1 !important;
 
+        transition-duration:
+            .01ms !important;
+
     }
 
 }
 
 </style>
-
 
 
 <!-- =====================================================
@@ -1844,7 +3227,6 @@ a {
 document.addEventListener(
     "DOMContentLoaded",
     function () {
-
 
         /* =================================================
            MOBILE MENU
@@ -1863,7 +3245,10 @@ document.addEventListener(
 
         function closeMobileMenu() {
 
-            if (!menuButton || !mobileMenu) {
+            if (
+                !menuButton ||
+                !mobileMenu
+            ) {
                 return;
             }
 
@@ -1893,44 +3278,65 @@ document.addEventListener(
         }
 
 
-        if (menuButton && mobileMenu) {
+        function openMobileMenu() {
+
+            if (
+                !menuButton ||
+                !mobileMenu
+            ) {
+                return;
+            }
+
+
+            mobileMenu.classList.add(
+                "open"
+            );
+
+            menuButton.classList.add(
+                "open"
+            );
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+            mobileMenu.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            document.body.classList.add(
+                "menu-open"
+            );
+
+        }
+
+
+        if (
+            menuButton &&
+            mobileMenu
+        ) {
 
             menuButton.addEventListener(
                 "click",
                 function () {
 
                     const isOpen =
-                        mobileMenu.classList.toggle(
+                        menuButton.classList.contains(
                             "open"
                         );
 
 
-                    menuButton.classList.toggle(
-                        "open",
-                        isOpen
-                    );
+                    if (isOpen) {
 
+                        closeMobileMenu();
 
-                    menuButton.setAttribute(
-                        "aria-expanded",
-                        isOpen
-                            ? "true"
-                            : "false"
-                    );
+                    } else {
 
+                        openMobileMenu();
 
-                    mobileMenu.setAttribute(
-                        "aria-hidden",
-                        isOpen
-                            ? "false"
-                            : "true"
-                    );
-
-
-                    document.body.classList.toggle(
-                        "menu-open",
-                        isOpen
-                    );
+                    }
 
                 }
             );
@@ -1956,9 +3362,8 @@ document.addEventListener(
         }
 
 
-
         /* =================================================
-           CLOSE MENU ON ESCAPE
+           ESCAPE KEY
         ================================================= */
 
         document.addEventListener(
@@ -1977,7 +3382,6 @@ document.addEventListener(
         );
 
 
-
         /* =================================================
            BACK TO TOP
         ================================================= */
@@ -1990,27 +3394,33 @@ document.addEventListener(
 
         if (backToTop) {
 
+            function updateBackToTop() {
+
+                if (
+                    window.scrollY > 500
+                ) {
+
+                    backToTop.classList.add(
+                        "show"
+                    );
+
+                } else {
+
+                    backToTop.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+
+
+            updateBackToTop();
+
+
             window.addEventListener(
                 "scroll",
-                function () {
-
-                    if (
-                        window.scrollY > 500
-                    ) {
-
-                        backToTop.classList.add(
-                            "show"
-                        );
-
-                    } else {
-
-                        backToTop.classList.remove(
-                            "show"
-                        );
-
-                    }
-
-                },
+                updateBackToTop,
                 {
                     passive: true
                 }
@@ -2023,9 +3433,11 @@ document.addEventListener(
 
                     window.scrollTo({
 
-                        top: 0,
+                        top:
+                            0,
 
-                        behavior: "smooth"
+                        behavior:
+                            "smooth"
 
                     });
 
@@ -2035,9 +3447,8 @@ document.addEventListener(
         }
 
 
-
         /* =================================================
-           CLOSE MOBILE MENU ON RESIZE
+           RESIZE
         ================================================= */
 
         window.addEventListener(
@@ -2045,7 +3456,7 @@ document.addEventListener(
             function () {
 
                 if (
-                    window.innerWidth > 900
+                    window.innerWidth > 980
                 ) {
 
                     closeMobileMenu();
@@ -2056,11 +3467,56 @@ document.addEventListener(
         );
 
 
+        /* =================================================
+           HEADER SCROLL STATE
+        ================================================= */
+
+        const header =
+            document.getElementById(
+                "site-header"
+            );
+
+
+        if (header) {
+
+            function updateHeader() {
+
+                if (
+                    window.scrollY > 30
+                ) {
+
+                    header.classList.add(
+                        "scrolled"
+                    );
+
+                } else {
+
+                    header.classList.remove(
+                        "scrolled"
+                    );
+
+                }
+
+            }
+
+
+            updateHeader();
+
+
+            window.addEventListener(
+                "scroll",
+                updateHeader,
+                {
+                    passive: true
+                }
+            );
+
+        }
+
     }
 );
 
 </script>
-
 
 
 <!-- =====================================================

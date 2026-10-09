@@ -1,4 +1,9 @@
+
+from django.conf import settings
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 
 
 # =========================================================
@@ -57,19 +62,17 @@ class Service(models.Model):
         blank=True
     )
 
+    menu_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(0)],
+        help_text="Menu rate without a fixed duration, for body care or multi-session packages. Online appointments require a duration option below.",
+    )
+
     description = models.TextField(
         blank=True
-    )
-
-    # Service's default/base price
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2
-    )
-
-    # Default duration in minutes
-    duration = models.PositiveIntegerField(
-        help_text="Duration in minutes"
     )
 
     image = models.ImageField(
@@ -102,7 +105,19 @@ class Service(models.Model):
 
 
 # =========================================================
-# SERVICE DURATION / PRICE OPTIONS
+# SERVICE OPTIONS
+#
+# ONE SERVICE CAN HAVE MULTIPLE DURATIONS / PRICES
+#
+# Example:
+#
+# Swedish Massage
+# ├── 45 min → ₹1200
+# ├── 60 min → ₹1500
+# └── 90 min → ₹2000
+#
+# ServiceOption is now the ONLY source for
+# duration and price.
 # =========================================================
 
 class ServiceOption(models.Model):
@@ -114,12 +129,15 @@ class ServiceOption(models.Model):
     )
 
     duration = models.PositiveIntegerField(
+        validators=[MinValueValidator(1)],
         help_text="Duration in minutes"
     )
 
     price = models.DecimalField(
         max_digits=10,
-        decimal_places=2
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        help_text="Price for this duration"
     )
 
     is_active = models.BooleanField(
@@ -136,8 +154,13 @@ class ServiceOption(models.Model):
             models.UniqueConstraint(
                 fields=["service", "duration"],
                 name="unique_service_duration"
-            )
+            ),
+            models.CheckConstraint(condition=models.Q(duration__gt=0), name="option_positive_duration"),
+            models.CheckConstraint(condition=models.Q(price__gte=0), name="option_nonnegative_price")
         ]
+
+        verbose_name = "Service Option"
+        verbose_name_plural = "Service Options"
 
     def __str__(self):
         return (
@@ -226,6 +249,7 @@ class StaffLeave(models.Model):
     )
 
     class Meta:
+
         constraints = [
             models.UniqueConstraint(
                 fields=["staff", "leave_date"],
@@ -250,17 +274,17 @@ class StaffLeave(models.Model):
 
 class Booking(models.Model):
 
+    customer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="bookings",
+    )
+
     # =====================================================
     # BOOKING STATUS
     # =====================================================
-    #
-    # Booking is created only after availability validation.
-    #
-    # Therefore:
-    # confirmed = newly created booking
-    # completed = appointment completed
-    # cancelled = appointment cancelled
-    #
 
     STATUS_CHOICES = [
         ("confirmed", "Confirmed"),
@@ -298,7 +322,12 @@ class Booking(models.Model):
     )
 
     # =====================================================
-    # SELECTED SERVICE OPTION
+    # SELECTED SERVICE DURATION
+    #
+    # The selected duration must come from ServiceOption.
+    #
+    # Example:
+    # 45 / 60 / 90 minutes
     # =====================================================
 
     selected_duration = models.PositiveIntegerField(
@@ -307,12 +336,18 @@ class Booking(models.Model):
         help_text="Selected service duration in minutes"
     )
 
+    # =====================================================
+    # SELECTED SERVICE PRICE
+    #
+    # The selected price must come from ServiceOption.
+    # =====================================================
+
     selected_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         null=True,
         blank=True,
-        help_text="Price of the selected service"
+        help_text="Price of the selected service option"
     )
 
     # =====================================================
@@ -373,6 +408,43 @@ class Booking(models.Model):
         default="confirmed"
     )
 
+    service_name_snapshot = models.CharField(max_length=150, blank=True)
+    discount_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, validators=[MinValueValidator(0)])
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=None, validators=[MinValueValidator(0)], help_text="Leave blank if payment has not been recorded; enter 0 for known unpaid bookings.")
+    payment_mode = models.CharField(max_length=12, blank=True, choices=[("cash", "Cash"), ("upi", "UPI"), ("card", "Card"), ("other", "Other")])
+    payment_reference = models.CharField(max_length=100, blank=True)
+
+    @property
+    def net_amount(self):
+        return None if self.selected_price is None else self.selected_price - self.discount_amount
+
+    @property
+    def balance_due(self):
+        return None if self.net_amount is None or self.amount_paid is None else self.net_amount - self.amount_paid
+
+    @property
+    def payment_status(self):
+        if self.net_amount is None or self.amount_paid is None:
+            return "Not recorded"
+        if self.amount_paid >= self.net_amount:
+            return "Paid"
+        return "Part paid" if self.amount_paid else "Unpaid"
+
+    def clean(self):
+        super().clean()
+        errors = {}
+        if self.selected_price is not None:
+            if self.discount_amount > self.selected_price:
+                errors["discount_amount"] = "Discount cannot exceed the service price."
+            if self.amount_paid is not None and self.amount_paid > self.selected_price - self.discount_amount:
+                errors["amount_paid"] = "Payment cannot exceed the total after discount."
+        elif self.discount_amount or self.amount_paid:
+            errors["amount_paid"] = "Record a service price before payment or discount."
+        if self.amount_paid and not self.payment_mode:
+            errors["payment_mode"] = "Choose a payment mode."
+        if errors:
+            raise ValidationError(errors)
+
     # =====================================================
     # WHATSAPP NOTIFICATION TRACKING
     # =====================================================
@@ -406,9 +478,10 @@ class Booking(models.Model):
     # =====================================================
 
     class Meta:
-        ordering = [
-            "-created_at"
-        ]
+        ordering = ["-created_at"]
+        indexes = [models.Index(fields=["appointment_date", "status"], name="booking_day_status"), models.Index(fields=["customer", "appointment_date"], name="booking_customer_day")]
+        constraints = [models.CheckConstraint(condition=models.Q(discount_amount__gte=0), name="booking_discount_nonnegative"), models.CheckConstraint(condition=models.Q(amount_paid__gte=0), name="booking_paid_nonnegative")]
+        permissions = [("view_business_analytics", "Can view full business analytics")]
 
     # =====================================================
     # STRING REPRESENTATION
@@ -422,9 +495,61 @@ class Booking(models.Model):
             else "No Service"
         )
 
+        duration = (
+            f"{self.selected_duration} min"
+            if self.selected_duration
+            else "No Duration"
+        )
+
         return (
             f"{self.name} - "
             f"{service_name} - "
+            f"{duration} - "
             f"{self.appointment_date} "
             f"{self.appointment_time}"
         )
+
+class CustomerProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="customer_profile")
+    email_address = models.EmailField(unique=True, null=True, blank=True)
+    email_verified = models.BooleanField(default=False)
+    def __str__(self):
+        return self.user.get_username()
+
+class Enquiry(models.Model):
+    kind = models.CharField(max_length=12, choices=[("contact", "Contact"), ("franchise", "Franchise")])
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    email = models.EmailField(blank=True)
+    subject = models.CharField(max_length=150, blank=True)
+    message = models.TextField()
+    city = models.CharField(max_length=100, blank=True)
+    investment_range = models.CharField(max_length=20, blank=True)
+    franchise_model = models.CharField(max_length=20, blank=True)
+    status = models.CharField(max_length=15, choices=[("new", "New"), ("contacted", "Contacted"), ("closed", "Closed")], default="new")
+    staff_notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ["-created_at"]
+    def __str__(self):
+        return f"{self.get_kind_display()}: {self.name}"
+
+class RateLimitBucket(models.Model):
+    key = models.CharField(max_length=64, unique=True)
+    attempts = models.PositiveIntegerField(default=0)
+    expires_at = models.DateTimeField(db_index=True)
+
+class Notification(models.Model):
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True, blank=True)
+    dedupe_key = models.CharField(max_length=200, unique=True)
+    channel = models.CharField(max_length=12, choices=[("email", "Email"), ("whatsapp", "WhatsApp")])
+    recipient = models.CharField(max_length=254)
+    subject = models.CharField(max_length=200, blank=True)
+    message = models.TextField()
+    due_at = models.DateTimeField(db_index=True)
+    status = models.CharField(max_length=15, choices=[("pending", "Pending"), ("processing", "Processing"), ("sent", "Sent"), ("failed", "Failed"), ("cancelled", "Cancelled")], default="pending")
+    attempts = models.PositiveIntegerField(default=0)
+    last_error = models.CharField(max_length=200, blank=True)
+    sent_at = models.DateTimeField(null=True, blank=True)
+    class Meta:
+        ordering = ["-due_at"]
