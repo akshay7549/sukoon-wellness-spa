@@ -806,10 +806,18 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
     background:
         linear-gradient(
-            180deg,
-            #0c0c0a,
-            #10100e
-        );
+            90deg,
+            rgba(8,8,7,.78) 0%,
+            rgba(8,8,7,.68) 50%,
+            rgba(8,8,7,.84) 100%
+        ),
+        url("{% static 'images/Bamboo Therapy.webp' %}");
+
+    background-size: cover;
+
+    background-position: center 55%;
+
+    background-color: #10100e;
 
     border-bottom:
         1px solid
@@ -891,31 +899,6 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         var(--sukoon-gold);
 
     font-style: italic;
-}
-
-
-.sukoon-intro-heading {
-
-    padding:
-        clamp(24px, 3vw, 42px);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(8,8,7,.78),
-            rgba(8,8,7,.68)
-        ),
-        url("{% static 'images/about-sukoon-bg.webp' %}");
-
-    background-size: cover;
-
-    background-position: center;
-
-    background-color: #10100e;
-
-    border-radius: 14px;
-
-    border: 1px solid var(--sukoon-border-strong);
 }
 
 
@@ -3453,7 +3436,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 
         <div class="sukoon-intro-grid">
 
-            <div class="sukoon-intro-heading">
+            <div>
 
                 <p class="sukoon-eyebrow">
                     THE SUKOON EXPERIENCE
