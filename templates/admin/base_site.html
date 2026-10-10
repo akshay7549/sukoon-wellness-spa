@@ -1,0 +1,5 @@
+{% extends 'admin/base.html' %}{% load static %}
+{% block title %}{{ title }} | Sukoon Workspace{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/admin-model-premium.css' %}">{% endblock %}
+{% block branding %}<a class="model-brand" href="{% url 'sukoon_admin:index' %}"><img src="{% static 'images/logo.png' %}" alt="Sukoon"><span>Sukoon<small>BUSINESS WORKSPACE</small></span></a>{% endblock %}
+{% block nav-global %}{% endblock %}
