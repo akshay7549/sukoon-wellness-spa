@@ -150,10 +150,20 @@ class PackageCredit(models.Model):
 
 
 class CustomerRecord(models.Model):
+    account = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="crm_contacts")
+    account_verified_at = models.DateTimeField(null=True, blank=True)
+    account_verified_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="verified_crm_contacts")
+    account_verification_note = models.CharField(max_length=1000, blank=True)
     phone = models.CharField(max_length=15, unique=True)
     name = models.CharField(max_length=100, blank=True)
     preferences = models.TextField(blank=True, help_text="Reception-only preferences. Keep notes relevant to the service.")
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        permissions = [("link_customer_account", "Can link verified guest records to a customer account")]
+
+    def __str__(self):
+        return f"{self.name or 'Customer'} · {self.phone}"
 
 
 class PackageRedemption(models.Model):

@@ -523,6 +523,15 @@ class CustomerProfile(models.Model):
         return self.user.get_username()
 
 class Enquiry(models.Model):
+    STAGES = [("new", "New"), ("contacted", "Contacted"), ("interested", "Interested"), ("booked", "Booking Confirmed"), ("converted", "Converted"), ("lost", "Lost"), ("closed", "Closed (legacy)")]
+    SOURCES = [("website", "Website"), ("phone", "Phone"), ("whatsapp", "WhatsApp"), ("instagram", "Instagram"), ("facebook", "Facebook"), ("walkin", "Walk-in"), ("other", "Other")]
+    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="assigned_enquiries")
+    contact = models.ForeignKey("CustomerRecord", on_delete=models.SET_NULL, null=True, blank=True, related_name="enquiries")
+    linked_booking = models.ForeignKey("Booking", on_delete=models.SET_NULL, null=True, blank=True, related_name="enquiries")
+    next_task = models.ForeignKey("FollowUpTask", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    source = models.CharField(max_length=15, choices=SOURCES, default="website")
+    lost_reason = models.CharField(max_length=500, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
     kind = models.CharField(max_length=12, choices=[("contact", "Contact"), ("franchise", "Franchise")])
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
@@ -532,7 +541,7 @@ class Enquiry(models.Model):
     city = models.CharField(max_length=100, blank=True)
     investment_range = models.CharField(max_length=20, blank=True)
     franchise_model = models.CharField(max_length=20, blank=True)
-    status = models.CharField(max_length=15, choices=[("new", "New"), ("contacted", "Contacted"), ("closed", "Closed")], default="new")
+    status = models.CharField(max_length=15, choices=STAGES, default="new", db_index=True)
     staff_notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
@@ -562,3 +571,4 @@ class Notification(models.Model):
 
 
 from .business_models import Invoice, InvoiceLine, InvoicePayment, PackageComponent, PackageEnrollment, PackageCredit, CustomerRecord, PackageRedemption
+from .crm_models import FollowUpTask, CRMActivity

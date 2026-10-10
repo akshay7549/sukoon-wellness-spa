@@ -3,6 +3,7 @@ from urllib.parse import quote
 
 from django.contrib import admin, messages
 from django.urls import reverse
+from django.shortcuts import redirect
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
@@ -1095,11 +1096,17 @@ class CustomerUserAdmin(UserAdmin):
         return request.user.is_superuser
 
 class EnquiryAdmin(admin.ModelAdmin):
-    list_display = ("name", "kind", "phone", "city", "status", "created_at")
+    list_display = ("name", "kind", "phone", "status", "assigned_to", "source", "created_at")
     search_fields = ("name", "phone", "email", "city")
     list_filter = ("kind", "status", "created_at")
     readonly_fields = ("created_at",)
     list_per_page = 25
+
+    def change_view(self, request, object_id, form_url="", extra_context=None):
+        return redirect("crm_lead_edit", lead_id=object_id)
+
+    def add_view(self, request, form_url="", extra_context=None):
+        return redirect("crm_lead_new")
 
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ("channel", "subject", "status", "due_at", "attempts")
@@ -1129,8 +1136,23 @@ class PackageEnrollmentAdmin(admin.ModelAdmin):
 
 
 class CustomerRecordAdmin(admin.ModelAdmin):
-    list_display = ("name", "phone", "updated_at")
+    from .crm_forms import CRMContactForm
+    form = CRMContactForm
+    list_display = ("name", "phone", "crm_profile", "updated_at")
     search_fields = ("name", "phone")
+    readonly_fields = ("account", "account_verified_at", "account_verified_by", "account_verification_note")
+
+    def get_readonly_fields(self, request, obj=None):
+        return self.readonly_fields + (("phone",) if obj else ())
+
+    @admin.display(description="Customer 360")
+    def crm_profile(self, obj):
+        return format_html('<a href="{}">Open profile</a>', reverse("crm_customer_detail", args=[obj.phone]))
+
+    def response_add(self, request, obj, post_url_continue=None):
+        if "_addanother" in request.POST or "_continue" in request.POST:
+            return super().response_add(request, obj, post_url_continue)
+        return redirect("crm_customer_detail", phone=obj.phone)
 
 
 sukoon_admin_site.register(PackageEnrollment, PackageEnrollmentAdmin)

@@ -1,0 +1,1 @@
+<nav class="crm-pagination" aria-label="Pages">{% if page.has_previous %}<a href="?{{ page_query }}&amp;page={{ page.previous_page_number }}">← Previous</a>{% endif %}<span>{{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ page_query }}&amp;page={{ page.next_page_number }}">Next →</a>{% endif %}</nav>
