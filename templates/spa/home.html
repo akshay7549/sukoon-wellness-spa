@@ -897,7 +897,23 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
 .sukoon-intro-content {
 
     padding:
-        5px 0 5px 30px;
+        clamp(24px, 3vw, 42px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(8,8,7,.78),
+            rgba(8,8,7,.68)
+        ),
+        url("{% static 'images/about-sukoon-bg.webp' %}");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-color: #10100e;
+
+    border-radius: 0 14px 14px 0;
 
     border-left:
         1px solid
@@ -913,7 +929,7 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
         0 0 30px;
 
     color:
-        var(--sukoon-text-soft);
+        #eee9df;
 
     font-size: 15px;
 
@@ -2584,7 +2600,9 @@ Sukoon Wellness & Spa | Relax, Rejuvenate & Find Your Sukoon
     .sukoon-intro-content {
 
         padding:
-            28px 0 0;
+            28px 22px;
+
+        border-radius: 14px;
 
         border-left: none;
 
