@@ -14,7 +14,7 @@ from .services.bookings import save_booking
 
 def can_change(booking):
     start = timezone.make_aware(datetime.combine(booking.appointment_date, booking.appointment_time))
-    return booking.status == "confirmed" and start > timezone.now() + timedelta(hours=settings.CUSTOMER_CHANGE_CUTOFF_HOURS)
+    return booking.status == "confirmed" and booking.reception_stage == "expected" and start > timezone.now() + timedelta(hours=settings.CUSTOMER_CHANGE_CUTOFF_HOURS)
 
 @never_cache
 @login_required

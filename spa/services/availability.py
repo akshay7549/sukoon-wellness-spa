@@ -1,5 +1,6 @@
 from datetime import datetime, time, timedelta
 from django.utils import timezone
+from django.db.models import Q
 from ..models import Booking, Staff, StaffLeave, Room
 
 BUSINESS_START = 10 * 60
@@ -33,7 +34,10 @@ def day_resources(appointment_date, exclude_booking_id=None):
     leaves = set(StaffLeave.objects.filter(leave_date=appointment_date).values_list("staff_id", flat=True))
     staff = [s for s in Staff.objects.filter(is_active=True).order_by("pk") if s.pk not in leaves]
     rooms = list(Room.objects.filter(is_active=True).order_by("pk"))
-    bookings = Booking.objects.filter(appointment_date=appointment_date, status__in=["pending", "confirmed"])
+    selection = Q(appointment_date=appointment_date, status__in=["pending", "confirmed", "completed"])
+    if appointment_date == timezone.localdate():
+        selection |= Q(appointment_date__lt=appointment_date, status="confirmed", reception_stage="in_service")
+    bookings = Booking.objects.filter(selection).select_related("room")
     if exclude_booking_id:
         bookings = bookings.exclude(pk=exclude_booking_id)
     intervals = []
@@ -41,9 +45,21 @@ def day_resources(appointment_date, exclude_booking_id=None):
         start = time_to_minutes(b.appointment_time)
         # Unknown legacy end times reserve the remainder of the day conservatively.
         end = time_to_minutes(b.end_time) if b.end_time else min(BUSINESS_END, start + b.selected_duration) if b.selected_duration else BUSINESS_END
-        intervals.append((b.staff_id, b.room_id, start, end))
-        if b.secondary_staff_id:
-            intervals.append((b.secondary_staff_id, b.room_id, start, end))
+        if b.appointment_date < appointment_date:
+            start = BUSINESS_START
+            end = time_to_minutes(timezone.localtime().time()) + SLOT_INTERVAL
+        if b.status != "completed":
+            if b.reception_stage == "in_service" and appointment_date == timezone.localdate():
+                end = max(end, time_to_minutes(timezone.localtime().time()) + SLOT_INTERVAL)
+            intervals.append((b.staff_id, None, start, end))
+            if b.secondary_staff_id:
+                intervals.append((b.secondary_staff_id, None, start, end))
+        if b.room_id and (b.status != "completed" or b.room.cleanup_minutes):
+            room_start = end if b.status == "completed" else start
+            intervals.append((None, b.room_id, room_start, end + b.room.cleanup_minutes))
+    for room in rooms:
+        if room.cleaning_until and timezone.localtime(room.cleaning_until).date() == appointment_date:
+            intervals.append((None, room.pk, BUSINESS_START, time_to_minutes(timezone.localtime(room.cleaning_until).time())))
     return staff, rooms, intervals
 
 def free_resources(resources, start_time, end_time):
@@ -51,7 +67,7 @@ def free_resources(resources, start_time, end_time):
     start, end = time_to_minutes(start_time), time_to_minutes(end_time)
     overlaps = [i for i in intervals if i[2] < end and i[3] > start]
     busy_staff = {i[0] for i in overlaps}
-    busy_rooms = {i[1] for i in overlaps}
+    busy_rooms = {r.pk for r in rooms if any(i[1] == r.pk and i[2] < end + r.cleanup_minutes and i[3] > start for i in intervals)}
     return [s for s in staff if s.pk not in busy_staff], [r for r in rooms if r.pk not in busy_rooms]
 
 def is_staff_booked(staff, appointment_date, start_time, end_time, exclude_booking_id=None):
@@ -62,7 +78,7 @@ def is_staff_booked(staff, appointment_date, start_time, end_time, exclude_booki
 def is_room_booked(room, appointment_date, start_time, end_time, exclude_booking_id=None):
     resources = day_resources(appointment_date, exclude_booking_id)
     start, end = time_to_minutes(start_time), time_to_minutes(end_time)
-    return any(i[1] == room.pk and i[2] < end and i[3] > start for i in resources[2])
+    return any(i[1] == room.pk and i[2] < end + room.cleanup_minutes and i[3] > start for i in resources[2])
 
 def get_available_staff(appointment_date, start_time, end_time, exclude_booking_id=None):
     return free_resources(day_resources(appointment_date, exclude_booking_id), start_time, end_time)[0]

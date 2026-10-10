@@ -38,8 +38,8 @@ def save_lead(form, actor):
         lead.tasks.filter(status="pending").update(status="cancelled", updated_at=timezone.now())
         lead.next_task = None
     lead.save(update_fields=["next_task"])
-    old_label = original.get_status_display() if original else "New enquiry"
-    body = f"{old_label} → {lead.get_status_display()}. Owner: {lead.assigned_to.get_username()}."
+    old_label = original.stage_label if original else "New enquiry"
+    body = f"{old_label} → {lead.stage_label}. Owner: {lead.assigned_to.get_username()}."
     if lead.status == "lost":
         body += f" Reason: {lead.lost_reason}"
     activity(contact, actor, body, "stage", lead)

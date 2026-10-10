@@ -31,7 +31,7 @@
         </nav>
         <div class="sidebar-heading">Manage your spa</div>
         <nav class="sidebar-nav">
-            <a href="{% url 'appointment_calendar' %}">Daily Calendar</a><a href="{% url 'invoice_list' %}">Multi-service Invoices</a>{% if perms.spa.view_customerrecord %}<a href="{% url 'crm_customers' %}">Customer 360 &amp; Packages</a>{% endif %}{% if perms.spa.view_followuptask %}<a href="{% url 'crm_tasks' %}">Follow-up Task Centre</a>{% endif %}{% if perms.spa.view_business_analytics %}<a href="{% url 'collections' %}">Payments &amp; Pending Dues</a>{% endif %}
+            <a href="{% url 'appointment_calendar' %}">Daily Calendar</a>{% if perms.spa.view_booking %}<a href="{% url 'reception_day_board' %}">Reception Day Board</a>{% endif %}{% if perms.spa.view_waitlistentry %}<a href="{% url 'reception_waitlist' %}">Waitlist</a>{% endif %}{% if perms.spa.view_loyaltywallet %}<a href="{% url 'loyalty_rewards' %}">Loyalty &amp; Referrals</a>{% endif %}<a href="{% url 'invoice_list' %}">Multi-service Invoices</a>{% if perms.spa.view_customerrecord %}<a href="{% url 'crm_customers' %}">Customer 360 &amp; Packages</a>{% endif %}{% if perms.spa.view_followuptask %}<a href="{% url 'crm_tasks' %}">Follow-up Task Centre</a>{% endif %}{% if perms.spa.view_business_analytics %}<a href="{% url 'collections' %}">Payments &amp; Pending Dues</a>{% endif %}
             <a href="{% url 'sukoon_admin:spa_booking_changelist' %}"><span class="nav-icon" aria-hidden="true">▤</span> All Bookings <span class="external-arrow">↗</span></a>
             <a href="{% url 'sukoon_admin:spa_service_changelist' %}"><span class="nav-icon" aria-hidden="true">✦</span> Treatments &amp; Prices</a>
             <a href="{% url 'sukoon_admin:spa_servicecategory_changelist' %}"><span class="nav-icon" aria-hidden="true">⊞</span> Service Categories</a>
@@ -39,7 +39,7 @@
             <a href="{% url 'sukoon_admin:spa_room_changelist' %}"><span class="nav-icon" aria-hidden="true">▣</span> Rooms</a>
             <a href="{% url 'sukoon_admin:spa_staffleave_changelist' %}"><span class="nav-icon" aria-hidden="true">◷</span> Staff Leave</a>
         </nav>
-        <div class="sidebar-heading">Enquiries &amp; Accounts</div><nav class="sidebar-nav">{% if perms.spa.view_enquiry %}<a href="{% url 'crm_pipeline' %}">Lead Pipeline <span class="nav-count">{{ new_enquiries }}</span></a>{% endif %}{% if user.is_superuser %}<a href="{% url 'sukoon_admin:auth_user_changelist' %}">Accounts &amp; Roles</a><a href="{% url 'sukoon_admin:auth_group_changelist' %}">Staff Permissions</a>{% endif %}</nav><div class="sidebar-heading">Website</div>
+        <div class="sidebar-heading">Enquiries &amp; Accounts</div><nav class="sidebar-nav">{% if perms.spa.view_enquiry %}<a href="{% url 'crm_pipeline' %}">Lead Pipeline <span class="nav-count">{{ new_enquiries }}</span></a><a href="{% url 'crm_pipeline' %}?kind=franchise">Franchise Pipeline</a>{% endif %}{% if user.is_superuser %}<a href="{% url 'sukoon_admin:auth_user_changelist' %}">Accounts &amp; Roles</a><a href="{% url 'sukoon_admin:auth_group_changelist' %}">Staff Permissions</a>{% endif %}</nav><div class="sidebar-heading">Website</div>
         <nav class="sidebar-nav">
             <a href="{% url 'home' %}" target="_blank" rel="noopener"><span class="nav-icon" aria-hidden="true">↗</span> View Website</a>
             <a href="{% url 'connect' %}" target="_blank" rel="noopener"><span class="nav-icon" aria-hidden="true">▦</span> Reception QR &amp; Links</a>

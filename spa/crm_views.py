@@ -41,12 +41,10 @@ def pipeline(request):
         leads = leads.filter(Q(name__icontains=query) | Q(phone__icontains=query) | Q(email__icontains=query) | Q(subject__icontains=query))
     leads = assign_filter(leads, owner, request.user)
     counts = dict(leads.values("status").annotate(n=Count("pk")).values_list("status", "n"))
-    stages = list(Enquiry.STAGES)
-    if kind == "franchise":
-        stages = [(k, "Meeting Scheduled" if k == "booked" else "Won" if k == "converted" else v) for k, v in stages]
+    stages = Enquiry.FRANCHISE_STAGES if kind == "franchise" else Enquiry.CONTACT_STAGES
     columns = []
     for stage, label in stages:
-        if stage == "closed" and not counts.get(stage): continue
+        if kind == "contact" and stage == "closed" and not counts.get(stage): continue
         params = request.GET.copy(); params["view"] = "list"; params["stage"] = stage; params.pop("page", None)
         columns.append({"key": stage, "label": label, "count": counts.get(stage, 0), "leads": list(leads.filter(status=stage).order_by("created_at")[:25]), "all_query": params.urlencode()})
     stage = request.GET.get("stage", "")
@@ -87,7 +85,8 @@ def lead_edit(request, lead_id=None):
     initial = {} if lead_id else {"assigned_to": request.user.pk, "source": "phone", "kind": "contact"}
     if not lead_id and request.GET.get("kind") == "franchise": initial["kind"] = "franchise"
     suggested = request.GET.get("stage")
-    if suggested in dict(Enquiry.STAGES) and suggested != "closed": initial["status"] = suggested
+    kind = lead.kind or initial.get("kind", "contact")
+    if suggested in dict(Enquiry.FRANCHISE_STAGES if kind == "franchise" else Enquiry.CONTACT_STAGES) and (suggested != "closed" or kind == "franchise"): initial["status"] = suggested
     form = LeadForm(request.POST if request.method == "POST" else None, instance=lead, initial=initial)
     if request.method == "POST" and form.is_valid():
         if not all(request.user.has_perm(p) for p in ["spa.add_followuptask", "spa.change_followuptask"]): raise PermissionDenied

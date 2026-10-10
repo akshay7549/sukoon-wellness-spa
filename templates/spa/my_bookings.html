@@ -39,7 +39,7 @@
             <p>Welcome, {{ user.first_name|default:user.username }}. Your appointments are all here.</p>
         </div>
         <div class="account-actions">
-            <a class="account-button primary" href="{% url 'booking' %}">Book Appointment</a>
+            <a class="account-button" href="{% url 'my_rewards' %}">My Rewards</a><a class="account-button primary" href="{% url 'booking' %}">Book Appointment</a>
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button class="account-button" type="submit">Sign Out</button>

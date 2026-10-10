@@ -4,7 +4,7 @@ from django.utils import timezone
 from .models import Enquiry, FollowUpTask, CustomerRecord, Booking
 from .forms import BookingForm
 
-OPEN_STAGES = {"new", "contacted", "interested", "booked"}
+OPEN_STAGES = {"new", "contacted", "interested", "booked", "qualification", "meeting", "proposal", "agreement"}
 DATE_WIDGET = forms.DateTimeInput(format="%Y-%m-%dT%H:%M", attrs={"type": "datetime-local"})
 
 
@@ -22,7 +22,7 @@ class LeadForm(forms.ModelForm):
 
     class Meta:
         model = Enquiry
-        fields = ["name", "phone", "email", "kind", "source", "subject", "message", "city", "status", "assigned_to", "linked_booking", "lost_reason", "staff_notes"]
+        fields = ["name", "phone", "email", "kind", "source", "subject", "message", "city", "investment_range", "franchise_model", "status", "assigned_to", "linked_booking", "lost_reason", "staff_notes"]
         widgets = {"message": forms.Textarea(attrs={"rows": 3}), "staff_notes": forms.Textarea(attrs={"rows": 3})}
 
     def __init__(self, *args, **kwargs):
@@ -38,13 +38,14 @@ class LeadForm(forms.ModelForm):
             if task and task.status == "pending":
                 self.fields["next_action"].initial = task.title
                 self.fields["next_follow_up"].initial = timezone.localtime(task.due_at).replace(second=0, microsecond=0)
-        if self.instance.status != "closed":
-            self.fields["status"].choices = [(k, v) for k, v in Enquiry.STAGES if k != "closed"]
+        kind = self.instance.kind or self.data.get("kind") or self.initial.get("kind", "contact")
+        self.fields["status"].choices = Enquiry.FRANCHISE_STAGES if kind == "franchise" else [(k, v) for k, v in Enquiry.CONTACT_STAGES if k != "closed" or self.instance.status == "closed"]
         phone = self.instance.phone or (self.data.get("phone", "") if self.is_bound else "")
         self.fields["linked_booking"].queryset = Booking.objects.filter(phone=phone).order_by("-appointment_date") if phone else Booking.objects.none()
         self.fields["linked_booking"].help_text = "For customer leads, Booking Confirmed needs a matching active booking; Converted needs a completed visit."
-        if self.instance.kind == "franchise" or self.initial.get("kind") == "franchise" or self.data.get("kind") == "franchise":
-            self.fields["status"].choices = [(k, "Meeting Scheduled" if k == "booked" else "Won" if k == "converted" else v) for k, v in self.fields["status"].choices]
+        if kind != "franchise":
+            self.fields.pop("investment_range")
+            self.fields.pop("franchise_model")
 
     def clean(self):
         data = super().clean()

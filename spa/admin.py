@@ -240,11 +240,12 @@ class StaffAdmin(admin.ModelAdmin):
 # =========================================================
 
 class RoomAdmin(admin.ModelAdmin):
-    list_editable = ("is_couple_room",)
+    list_editable = ("is_couple_room", "cleanup_minutes")
 
     list_display = (
         "name",
         "is_couple_room",
+        "cleanup_minutes",
         "is_active",
         "created_at",
     )

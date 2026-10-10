@@ -15,6 +15,9 @@ def save_booking(form, customer=None):
     service = Service.objects.select_for_update().filter(pk=data["service"].pk).first()
     duration = data["duration"]
     same_option = original and original.service_id == service.pk and original.selected_duration == duration
+    if original and original.status == "confirmed" and original.reception_stage in ("checked_in", "in_service"):
+        if not same_option or data["appointment_date"] != original.appointment_date or data["appointment_time"] != original.appointment_time or any(data.get(field, getattr(original, field)) != getattr(original, field) for field in ("staff", "secondary_staff", "room")):
+            raise ValidationError("Checked-in visits cannot be rescheduled or reassigned. Update their stage from the Day Board.")
     if original and hasattr(original,"package_redemption"):
         if not same_option or data.get("status") != "completed" or data.get("package_credit") != original.package_credit or data["appointment_date"]!=original.appointment_date or data["appointment_time"]!=original.appointment_time:
             raise ValidationError("A redeemed package visit cannot be rescheduled, cancelled or moved to another package.")
@@ -81,9 +84,15 @@ def save_booking(form, customer=None):
     booking.package_credit = credit
     booking.appointment_date, booking.appointment_time, booking.end_time = day, start, end
     booking.staff, booking.room, booking.status = selected_staff, selected_room, status
+    if original and original.status != "confirmed" and status == "confirmed":
+        booking.reception_stage = "expected"
+        booking.checked_in_at = booking.service_started_at = None
     booking.secondary_staff = secondary_staff if service.staff_required == 2 else None
     booking.full_clean(exclude=["service"], validate_unique=False)
     booking.save()
+    if original and original.status == "confirmed" and status != "confirmed":
+        from .reception import finish_room
+        finish_room(booking)
     if booking.package_credit_id and booking.status=="completed":
         PackageRedemption.objects.get_or_create(booking=booking,defaults={"credit_id":booking.package_credit_id})
     form.instance = booking
@@ -112,6 +121,8 @@ def transition_booking(booking_id, status):
         raise ValidationError("Future appointments cannot be marked completed.")
     booking.status = status
     booking.save(update_fields=["status", "updated_at"])
+    from .reception import finish_room
+    finish_room(booking)
     if booking.package_credit_id and status=="completed":
         PackageRedemption.objects.get_or_create(booking=booking,defaults={"credit_id":booking.package_credit_id})
     from ..notifications import queue_booking_notifications

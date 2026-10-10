@@ -211,6 +211,8 @@ class Staff(models.Model):
 # =========================================================
 
 class Room(models.Model):
+    cleanup_minutes = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(120)], help_text="Cleaning time reserved after each appointment (0–120 minutes).")
+    cleaning_until = models.DateTimeField(null=True, blank=True, editable=False)
     is_couple_room = models.BooleanField(default=False, help_text="Room suitable for two simultaneous massage appointments.")
 
     name = models.CharField(
@@ -277,6 +279,17 @@ class StaffLeave(models.Model):
 # =========================================================
 
 class Booking(models.Model):
+    reception_stage = models.CharField(max_length=12, default="expected", choices=[("expected", "Expected"), ("checked_in", "Checked-in"), ("in_service", "In Service"), ("no_show", "No-show")])
+    checked_in_at = models.DateTimeField(null=True, blank=True, editable=False)
+    service_started_at = models.DateTimeField(null=True, blank=True, editable=False)
+
+    @property
+    def day_stage(self):
+        return "no_show" if self.reception_stage == "no_show" else self.status if self.status != "confirmed" else self.reception_stage
+
+    @property
+    def day_stage_label(self):
+        return dict(self.STATUS_CHOICES).get(self.day_stage, dict(self._meta.get_field("reception_stage").choices).get(self.day_stage, self.day_stage))
     secondary_staff = models.ForeignKey("Staff", on_delete=models.SET_NULL, null=True, blank=True, related_name="secondary_bookings")
     package_credit = models.ForeignKey("PackageCredit", on_delete=models.PROTECT, null=True, blank=True, related_name="bookings")
 
@@ -523,7 +536,13 @@ class CustomerProfile(models.Model):
         return self.user.get_username()
 
 class Enquiry(models.Model):
-    STAGES = [("new", "New"), ("contacted", "Contacted"), ("interested", "Interested"), ("booked", "Booking Confirmed"), ("converted", "Converted"), ("lost", "Lost"), ("closed", "Closed (legacy)")]
+    CONTACT_STAGES = [("new", "New"), ("contacted", "Contacted"), ("interested", "Interested"), ("booked", "Booking Confirmed"), ("converted", "Converted"), ("lost", "Lost"), ("closed", "Closed (legacy)")]
+    FRANCHISE_STAGES = [("new", "New Enquiry"), ("qualification", "Qualification Call"), ("meeting", "Meeting / Site Visit"), ("proposal", "Proposal"), ("agreement", "Agreement"), ("closed", "Closed")]
+    STAGES = CONTACT_STAGES + FRANCHISE_STAGES[1:-1]
+
+    @property
+    def stage_label(self):
+        return dict(self.FRANCHISE_STAGES if self.kind == "franchise" else self.CONTACT_STAGES).get(self.status, self.get_status_display())
     SOURCES = [("website", "Website"), ("phone", "Phone"), ("whatsapp", "WhatsApp"), ("instagram", "Instagram"), ("facebook", "Facebook"), ("walkin", "Walk-in"), ("other", "Other")]
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="assigned_enquiries")
     contact = models.ForeignKey("CustomerRecord", on_delete=models.SET_NULL, null=True, blank=True, related_name="enquiries")
@@ -572,3 +591,5 @@ class Notification(models.Model):
 
 from .business_models import Invoice, InvoiceLine, InvoicePayment, PackageComponent, PackageEnrollment, PackageCredit, CustomerRecord, PackageRedemption
 from .crm_models import FollowUpTask, CRMActivity
+from .reception_models import WaitlistEntry, ReceptionEvent
+from .loyalty_models import LoyaltyPolicy, LoyaltyWallet, LoyaltyAward, LoyaltySpend, Referral

@@ -1,8 +1,18 @@
 from django.urls import path
 from . import business_views as views
 from . import crm_views as crm
+from . import reception_views as reception, loyalty_views as loyalty
 
 urlpatterns = [
+    path("day-board/", reception.day_board, name="reception_day_board"),
+    path("waitlist/", reception.waitlist, name="reception_waitlist"),
+    path("waitlist/new/", reception.waitlist_new, name="reception_waitlist_new"),
+    path("waitlist/<int:entry_id>/", reception.waitlist_book, name="reception_waitlist_book"),
+    path("rewards/", loyalty.rewards, name="loyalty_rewards"),
+    path("rewards/policy/", loyalty.rewards_policy, name="loyalty_policy"),
+    path("rewards/<int:contact_id>/", loyalty.wallet_detail, name="loyalty_wallet"),
+    path("referrals/", loyalty.referrals, name="loyalty_referrals"),
+    path("referrals/<int:referral_id>/", loyalty.referral_review, name="loyalty_referral_review"),
     path("pipeline/", crm.pipeline, name="crm_pipeline"),
     path("pipeline/new/", crm.lead_edit, name="crm_lead_new"),
     path("pipeline/booking-options/", crm.booking_options, name="crm_booking_options"),
